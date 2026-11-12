@@ -243,7 +243,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112033124";
+const BUILD="20261112043929";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -449,7 +449,7 @@ const sRing=()=>{beep(620,.18,.05,"square");beep(780,.18,.05,"square",.22)};
 function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}catch(e){}[0,.22,.44].forEach(d=>beep(140,.08,.05,"sawtooth",d));["#phone","#ptab"].forEach(q=>{const e=$(q);if(!e)return;e.classList.remove("vib");void e.offsetWidth;e.classList.add("vib");setTimeout(()=>e.classList.remove("vib"),700)})}
 
 /* ===== 데이터 ===== */
-const SN=["힘","행운","민첩","지능","공격력","손재주"];
+const SN=["힘","행운","민첩","지능","공격력","손재주"],SHOW=[0,1,2,3,5];/* 4번(공격력)은 폐지 · 공격력은 힘에 비례 */
 const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=6;
 const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
@@ -468,7 +468,7 @@ const WXP={clear:"M12 8.2a3.8 3.8 0 1 0 0 7.6a3.8 3.8 0 1 0 0-7.6zM12 2.5v2.5M12
  lunar:"M15 3.5A8.5 8.5 0 1 0 20.5 15A7 7 0 0 1 15 3.5zM9 9h.01M11 14h.01",
  rainfog:"M7 11h10a3.5 3.5 0 0 0 .3-7A5 5 0 0 0 7.6 4.8A3.1 3.1 0 0 0 7 11zM9 13.5l-.8 2.2M13 13.5l-.8 2.2M3 18.5c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 5 0s2 1.4 3 0M5 22c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 4 0"};
 const wxIco=k=>svgI(WXP[k]||WXP.clear);
-const ROLE={tank:{n:"탱커",base:[2,1,1,1,1,1],d:"힘 중심 · 공격을 받아낸다",key:0},dealer:{n:"딜러",base:[1,1,1,1,2,1],d:"공격력 중심 · 화력 담당",key:4},healer:{n:"힐러",base:[1,1,1,2,1,1],d:"지능 중심 · 아군을 치유",key:3}};
+const ROLE={tank:{n:"탱커",base:[3,1,1,1,0,1],d:"힘 중심 · 공격을 받아낸다",key:0},dealer:{n:"딜러",base:[2,1,2,1,0,1],d:"힘·민첩 중심 · 화력 담당",key:0},healer:{n:"힐러",base:[1,1,1,3,0,1],d:"지능 중심 · 아군을 치유",key:3}};
 const ATTR=["빛","어둠","물","불","번개","땅","풀"],ACOL={빛:"#e8c547",어둠:"#9b7ccf",물:"#4da3e8",불:"#ee6a3a",번개:"#e0d848",땅:"#b88b4a",풀:"#58b56a"};
 const BEAT={불:["풀"],풀:["땅"],땅:["번개"],번개:["물"],물:["불"],빛:["어둠"],어둠:["빛"]};
 const GR=["S","A","B","C","D","E","F"],GW=[3,10,28,65,120,110,90],GM={S:2,A:1.6,B:1.35,C:1.2,D:1.1,E:1.05,F:1},GB={S:40,A:25,B:15,C:8,D:4,E:2,F:0};
@@ -487,7 +487,7 @@ const AICO={빛:"M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.6 2.6M16.1 16.
 /* 부상·질병 (물리적 증상만 치료 가능) · nat=자연 회복 시간(ms) · cl=치료소 진료비 */
 const AIL={bleed:{n:"열상",d:"출혈 · HP 자연 회복 멈춤 · 최대 HP -10% · 오래 두면 감염될 수 있음",cure:"지혈 붕대 · 치료소 봉합",cl:3000},
  sprain:{n:"염좌",d:"민첩 -30%",cure:"압박 붕대 · 1시간 뒤 자연 회복",nat:36e5,cl:3000},
- fracture:{n:"골절",d:"힘 -40% · 민첩 -30% · 공격력 -20%",cure:"부목 고정 · 도수정복 · 치료소 깁스",cl:8000},
+ fracture:{n:"골절",d:"힘 -40% (공격력도 함께 하락) · 민첩 -30%",cure:"부목 고정 · 도수정복 · 치료소 깁스",cl:8000},
  pain:{n:"극심한 통증",d:"행운 -40%",cure:"진통제 · 1시간 뒤 사라짐",nat:36e5,cl:2500},
  burn:{n:"화상",d:"최대 HP -12% · HP 회복 절반",cure:"화상 연고 · 1시간 30분 뒤 자연 회복",nat:54e5,cl:4000},
  conc:{n:"뇌진탕",d:"명중률 -12% · 지능 -30%",cure:"45분 휴식 · 치료소 진찰",nat:27e5,cl:3000},
@@ -588,14 +588,14 @@ const TABS=[["map","지도"],["bag","가방"],["eq","장비"],["guild","길드"]
 /* ===== 장비 등급 · 드랍 ===== */
 const RAR=[{n:"일반",c:"#e8e8e8"},{n:"고급",c:"#4da3ff"},{n:"희귀",c:"#b86bff"},{n:"전설",c:"#f2c14e"}];
 const GEARS=Object.keys(IT).filter(k=>IT[k].slot&&!IT[k].cr),MAXGEAR=30;
-const OPTK=[["atk","추가 공격"],["def","추가 방어"],["hp","최대 HP"],["mp","최대 MP"],["s0","힘"],["s1","행운"],["s2","민첩"],["s3","지능"],["s4","공격력"],["s5","손재주"]];
+const OPTK=[["atk","추가 공격"],["def","추가 방어"],["hp","최대 HP"],["mp","최대 MP"],["s0","힘"],["s1","행운"],["s2","민첩"],["s3","지능"],["s4","추가 공격(구)"],["s5","손재주"]];
 const optName=k=>(OPTK.find(x=>x[0]===k)||[k,k])[1];
 /* 행운·손재주 비례 배율 (드랍률·수확률 공통) */
 const luckF=c=>1+((c&&c.s?es(c,1)+es(c,5):0))*.02;
 function rollRar(lv,hard){const t=tier(lv),f=luckF(me),hb=hard?1.1:1;return pickW([[0,100],[1,8*t*f],[2,.8*Math.pow(t,1.6)*f*hb],[3,.05*Math.pow(t,2.4)*f*hb]])}
 function mkGear(lv,r,fid){const id=fid||GEARS[ri(GEARS.length)],b=IT[id],sc=(1+lv/15)*(1+.2*r),g={gid:Date.now().toString(36)+ri(1e9).toString(36),id,r,lv,dur:100,up:0,opts:{}};
  if(b.atk)g.atk=Math.round(b.atk*sc);if(b.def)g.def=Math.round(b.def*sc);
- const pool=OPTK.map(x=>x[0]).sort(()=>rf()-.5);
+ const pool=OPTK.map(x=>x[0]).filter(k=>k!=="s4").sort(()=>rf()-.5);
  for(let i=0;i<r;i++){const k=pool[i];g.opts[k]=k==="atk"||k==="def"?Math.ceil((1+lv*.3)*(1+r*.3)):k==="hp"?Math.round((10+lv*3)*(1+r*.3)):k==="mp"?Math.round((5+lv*1.5)*(1+r*.3)):1+Math.floor(lv/20)+(r>=2?1:0)}
  return g}
 function maybeDrop(base,lv,hard){return rf()<Math.min(.9,base*(RF()?1.2:1)*luckF(me))?mkGear(lv,rollRar(lv,hard)):null}
@@ -622,7 +622,7 @@ function odState(c){const now=Date.now(),o=(c&&c.od)||{},perm=o.perm||[],tmp=o.t
 /* 부상·질병·약물과다 효과 합산 */
 function eff(c){const now=Date.now(),on=k=>ailOn(c,k),pk=(c&&c.pk||0)>now,hf=x=>pk?x/2:x;let hp=1,mp=1,miss=0,cdm=1,vul=0,hreg=1,ereg=1;const st=[1,1,1,1,1,1];
  if(on("bleed")){hp-=.10;hreg=0}if(on("sprain"))st[2]-=hf(.3);
- if(on("fracture")){const f=c.ail.fracture.sp?.5:1;st[0]-=hf(.4*f);st[2]-=hf(.3*f);st[4]-=hf(.2*f)}
+ if(on("fracture")){const f=c.ail.fracture.sp?.5:1;st[0]-=hf(.4*f);st[2]-=hf(.3*f)}
  if(on("pain"))st[1]-=hf(.4);if(on("burn")){hp-=.12;hreg=Math.min(hreg,.5)}if(on("conc")){miss+=.12;st[3]-=.3}
  if(on("poison")){hp-=.08;hreg=0}if(on("infect")){hp-=.15;ereg*=.5}if(on("cold")){ereg*=.7;mp-=.1}
  odState(c).forEach(({k})=>{if(k==="환통")hp-=.06;else if(k==="환청")mp-=.1;else if(k==="환시")miss+=.06;else if(k==="이명")cdm+=.1;else vul+=.06});
@@ -632,7 +632,7 @@ const ssum=c=>c.s.reduce((a,b)=>a+b,0);
 const maxHp=c=>Math.max(1,Math.round(((60+c.lv*10+es(c,0)*6)*gdef(c)+eqStat(c,"hp"))*(c.ail||c.od?eff(c).hp:1))),maxMp=c=>Math.round((30+es(c,3)*5+c.lv*2+eqStat(c,"mp"))*(c.ail||c.od?eff(c).mp:1));
 const mpMult=c=>{let t=0;for(let i=0;i<6;i++)t+=es(c,i);return Math.max(.5,Math.min(1.25,1.25-(es(c,3)/t)*1.5))};
 const mpCost=(c,sk)=>Math.max(1,Math.ceil(sk.mp*mpMult(c)));
-const pw=c=>Math.round((es(c,4)*3+es(c,0)*2+c.lv*2+eqStat(c,"atk"))*gmul(c));
+const pw=c=>Math.round((es(c,0)*5+c.lv*2+eqStat(c,"atk")+eqStat(c,"s4")*3)*gmul(c));/* 공격력 = 힘×5 (+ 예전 장비의 공격력 옵션) */
 const hl=c=>Math.round((es(c,3)*3+c.lv*2+8)*gmul(c));
 const df=c=>Math.round((es(c,0)*1.2+c.lv*.5+eqStat(c,"def"))*gdef(c));
 const conRate=c=>c.quar?100/1800:.4/60;
@@ -703,13 +703,14 @@ function rCreate(v){
  const ag=h("div",{c:"attrs"}),fixA=resetDoc?resetDoc.attr:null;ATTR.forEach(a=>{const on=(fixA||cr.attr)===a;ag.append(h("button",{disabled:!!fixA&&!on,style:"color:"+ACOL[a]+";"+(on?"border-color:"+ACOL[a]+";background:"+ACOL[a]+"22":""),onclick:()=>{if(fixA)return;cr.attr=a;cr.ok=false;render(true)}},svgI(AICO[a]),a))});
  v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"속성"}),h("span",{c:"xs mt",t:fixA?"이전 각성 속성 유지":"직접 고르기"})),ag,h("p",{c:"xs mt",style:"margin:8px 0 0",t:"상성: 불→풀→땅→번개→물→불 · 빛↔어둠 (유리하면 피해 ×1.3)"})));
  const sc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯 배분"}),h("span",{c:"gold sm",t:"남은 포인트 "+left+" · 총합 "+(base.reduce((a,b)=>a+b,0)+used)+"/15"})));
- SN.forEach((n,i)=>sc.append(h("div",{c:"stat"},h("span",{c:"n",t:n,style:i===ROLE[cr.role].key?"color:var(--ac2);font-weight:700":""}),mbar((base[i]+cr.pts[i])/10),
+ SHOW.forEach(i=>{const n=SN[i];sc.append(h("div",{c:"stat"},h("span",{c:"n",t:n,style:i===ROLE[cr.role].key?"color:var(--ac2);font-weight:700":""}),mbar((base[i]+cr.pts[i])/10),
   h("button",{t:"−",disabled:cr.pts[i]===0,onclick:()=>{cr.pts[i]--;cr.ok=false;render(true)}}),h("b",{t:base[i]+cr.pts[i]}),
-  h("button",{t:"+",disabled:left===0,onclick:()=>{cr.pts[i]++;cr.ok=false;render(true)}}))));
+  h("button",{t:"+",disabled:left===0,onclick:()=>{cr.pts[i]++;cr.ok=false;render(true)}})))});
  v.append(sc);
- const ready=cr.name.trim().length>=2&&left===0&&(!!resetDoc||!!cr.attr);
+ const miss=[cr.name.trim().length<2?"이름(2자 이상)":null,!resetDoc&&!cr.attr?"속성 고르기":null,left>0?"스탯 "+left+"포인트 더 배분":null].filter(Boolean),ready=!miss.length;
  v.append(h("div",{c:"card"},h("h3",{t:"각성"}),h("p",{c:"mt sm",t:resetDoc?"이전 각성 결과가 그대로 유지됩니다: "+resetDoc.attr+" 속성 · "+resetDoc.grade+"등급":"속성은 위에서 고른 대로, 등급(F~S)은 각성 순간 무작위로 정해집니다."}),
-  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{if(!ready)return toast("이름, 속성, 스탯 배분을 완료하세요");if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full",{disabled:!ready})));
+  miss.length?h("p",{c:"sm gold",style:"margin:0 0 8px",t:"남은 준비: "+miss.join(" · ")}):null,
+  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{if(!ready)return toast("먼저 해 주세요: "+miss.join(" · "));if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full")));
 }
 function newNum(){const used=new Set(Object.values(chars).map(c=>c.num));let n;do{n=String(1000000+ri(9000000))}while(used.has(n));return n}
 async function doCreate(){
@@ -717,13 +718,14 @@ async function doCreate(){
  if(Object.values(chars).some(c=>c.name===name))return toast("이미 사용 중인 이름입니다");
  const s0=await db.doc("chars/"+uid).get(),rd=s0.exists?s0.data():null;if(rd&&!rd.reset)return toast("이미 캐릭터가 있습니다");
  const s=ROLE[cr.role].base.map((b,i)=>b+cr.pts[i]);
- const c={name,role:cr.role,s,sp:0,sv:2,gear:[],attr:rd?rd.attr:(cr.attr||ATTR[ri(7)]),grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
+ const c={name,role:cr.role,s,sp:0,sv:3,gear:[],attr:rd?rd.attr:(cr.attr||ATTR[ri(7)]),grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
  c.hp=maxHp(c);c.en=MAXEN;c.mp=maxMp(c);await db.doc("chars/"+uid).set(c);toast("각성: "+c.attr+" 속성 "+c.grade+"등급! 내 번호 "+fnum(c.num));tab="me";
 }
 let migr=false;
 function migrate(){if(!me||migr)return;const p={};
  if(me.s.length<6){const s=[...me.s];while(s.length<6)s.push(1);p.s=s}
- if(me.sv!==2){const s0=p.s||me.s,allow=15+me.lv-1;if(s0.reduce((a,b)=>a+b,0)+(me.sp||0)!==allow||s0.some(x=>x>STATMAX)){p.s=ROLE[me.role].base.slice();p.sp=allow-7;setTimeout(()=>toast("스탯 체계가 바뀌어 포인트를 돌려드렸어요. 장비 탭에서 다시 분배하세요."),800)}else if(me.sp===undefined)p.sp=0;p.sv=2}
+ if(!me.sv||me.sv<2){const s0=p.s||me.s,allow=15+me.lv-1;if(s0.reduce((a,b)=>a+b,0)+(me.sp||0)!==allow||s0.some(x=>x>STATMAX)){p.s=ROLE[me.role].base.slice();p.sp=allow-7;setTimeout(()=>toast("스탯 체계가 바뀌어 포인트를 돌려드렸어요. 장비 탭에서 다시 분배하세요."),800)}else if(me.sp===undefined)p.sp=0;p.sv=2}
+ if((p.sv||me.sv)===2){const s=(p.s||me.s).slice(),x=s[4]||0;if(x){s[4]=0;p.s=s;p.sp=(p.sp!=null?p.sp:(me.sp||0))+x;setTimeout(()=>toast("공격력 스탯이 사라지고 힘에 합쳐졌어요. 공격력 포인트 "+x+"개를 돌려드렸어요 (장비 탭)."),900)}p.sv=3}
  if(!me.num)p.num=newNum();if(me.bank===undefined)p.bank=0;if(!me.memos)p.memos=[];if(!me.blog)p.blog=[];
  const e=me.eq||{};if("w" in e||"a" in e||Object.values(e).some(x=>typeof x==="string")){const ne={};if(e.w)ne.main={id:e.w,dur:100,up:0};if(e.a)ne.body={id:e.a,dur:100,up:0};p.eq=ne}
  if(!me.spot)p.spot=defSpot(me.loc);if(me.en>MAXEN)p.en=MAXEN;
@@ -1189,7 +1191,7 @@ async function sendMsg(){const i=$("#msg"),t=i.value.trim();if(!t)return;await p
 /* ===== 내 정보 (정보 · 장비 · 프로필) ===== */
 function readPhoto(f){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const x=c.getContext("2d"),s=Math.min(im.width,im.height);x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,96,96);res(c.toDataURL("image/jpeg",.7))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(f)})}
 let spBusy=false;
-async function addStat(i){if(spBusy||!((me.sp||0)>0)||(me.s[i]||0)>=capOf(me.lv))return;spBusy=true;try{const s=[...me.s];while(s.length<6)s.push(1);s[i]++;await upd({s,sp:me.sp-1})}finally{spBusy=false}}
+async function addStat(i){if(i===4)return;if(spBusy||!((me.sp||0)>0)||(me.s[i]||0)>=capOf(me.lv))return;spBusy=true;try{const s=[...me.s];while(s.length<6)s.push(1);s[i]++;await upd({s,sp:me.sp-1})}finally{spBusy=false}}
 function eqSummary(){const e=me.eq||{},rows=SLOTS.filter(([s])=>e[s]&&e[s].id),c=h("div",{c:"card"},h("h3",{t:"착용 장비와 효과"}));
  if(!rows.length)c.append(h("p",{c:"sm mt",t:"착용 중인 장비가 없습니다. 하단 장비 탭에서 장착하세요."}));
  rows.forEach(([s,n])=>{const q=e[s];c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r||0].c,t:n+" · ["+RAR[q.r||0].n+"] "+gName(q)}),h("div",{c:"xs "+(q.dur>0?"mt":"bad"),t:(gDesc(q)||"옵션 없음")+" · 내구 "+q.dur+"%"+(q.dur>0?"":" (효과 없음)")}))))});
@@ -1215,7 +1217,7 @@ async function doReset(){if(inB())return toast("전투 중에는 초기화할 �
  cr={name:"",role:"tank",pts:[0,0,0,0,0,0],ok:false};resetArm=false;hidePhone();closeAsk();tab="map";msub="info";toast("캐릭터를 초기화했습니다. 처음부터 다시 만들어 주세요.")}
 function statCards(v){
  const cp=capOf(me.lv),sp=me.sp||0,st=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯"}),h("span",{c:"sm "+(sp?"gold":"mt"),t:"포인트 "+sp})));
- SN.forEach((n,i)=>{const val=me.s[i]||0;st.append(h("div",{c:"stat",style:"margin:4px 0"},h("span",{c:"n sm",t:n,style:i===ROLE[me.role].key?"color:var(--ac2);font-weight:700":""}),mbar(val/cp),h("b",{t:val}),eqStat(me,"s"+i)?h("span",{c:"xs ok",t:"+"+eqStat(me,"s"+i)}):null,
+ SHOW.forEach(i=>{const n=SN[i],val=me.s[i]||0;st.append(h("div",{c:"stat",style:"margin:4px 0"},h("span",{c:"n sm",t:n,style:i===ROLE[me.role].key?"color:var(--ac2);font-weight:700":""}),mbar(val/cp),h("b",{t:val}),eqStat(me,"s"+i)?h("span",{c:"xs ok",t:"+"+eqStat(me,"s"+i)}):null,
   sp>0?h("button",{t:"+",disabled:val>=cp,onclick:()=>wrap(()=>addStat(i))}):null))});
  st.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"레벨업마다 1포인트 · 100레벨까지 총 "+(15+MAXLV-1)+"포인트 · 스탯 하나당 최대 "+STATMAX+" · 행운+손재주가 높을수록 드랍률·수확률 ×"+luckF(me).toFixed(2)}));
  v.append(h("div",{c:"card"},h("div",{c:"sm mt",t:me.lv>=MAXLV?"최고 레벨 달성":"Lv"+me.lv+" · 경험치 "+me.exp+" / "+me.lv*60+" (전투 경험치 ×"+EXPX+")"}),h("div",{c:"thin"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(me.lv*60)*100)+"%;background:var(--gold)"})),
