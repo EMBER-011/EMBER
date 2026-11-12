@@ -105,11 +105,12 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .eqs b{display:block;font-size:11px;color:var(--ac2)}.eqs span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.eqs.empty span{color:var(--mt)}
 /* phone */
 #ptab{position:fixed;left:0;top:33%;width:40px;height:66px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
+#ptab{touch-action:none;user-select:none;-webkit-user-select:none}#ptab.free{border-left:1px solid var(--bd);border-radius:12px;width:44px;height:60px;box-shadow:0 2px 10px rgba(0,0,0,.35)}#ptab.drag{opacity:.75;cursor:grabbing}#ptab.free.sl{border-left:0;border-radius:0 12px 12px 0;width:40px;height:66px;box-shadow:none}#ptab.free.sr{border-left:1px solid var(--bd);border-right:0;border-radius:12px 0 0 12px;width:40px;height:66px;box-shadow:none}#ptab.snap{transition:left .18s ease-out,top .18s ease-out}
 #ptab svg{width:27px;height:27px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 #ptab.act,#ptab.act:hover{background:rgba(var(--acr),.2)}
 #pdot{position:absolute;top:7px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--ac);display:none}
 #ptab.ring{animation:rg .5s ease-in-out infinite alternate}@keyframes rg{to{background:rgba(var(--acr),.45)}}
-#phone{position:fixed;left:46px;top:50%;transform:translateY(-50%);width:196px;background:var(--phb);border:1px solid var(--bd);border-radius:24px 24px 18px 18px;padding:10px 10px 12px;z-index:8;display:none;box-shadow:0 0 0 3px var(--bg),0 0 18px rgba(var(--acr),.25)}
+#phone{position:fixed;left:46px;top:12px;width:196px;background:var(--phb);border:1px solid var(--bd);border-radius:24px 24px 18px 18px;padding:10px 10px 12px;z-index:8;display:none;box-shadow:0 0 0 3px var(--bg),0 0 18px rgba(var(--acr),.25)}
 #phone .spk{width:46px;height:5px;border:1px solid var(--ln);border-radius:3px;margin:0 auto 4px}
 #phone .brand{text-align:center;font-size:9px;letter-spacing:.3em;color:var(--mt);margin-bottom:6px}
 #phone .scr{background:var(--scr);border:1px solid var(--bd);border-radius:4px;height:222px;display:flex;flex-direction:column;overflow:hidden}
@@ -153,7 +154,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .plcd .lch{flex:1;font-size:11px;color:var(--mt)}.plcd .lcur{width:8px;height:3px;background:var(--tx);margin:0 0 -18px 2px;animation:lcb 1s steps(1) infinite;flex:none}
 @keyframes lcb{50%{opacity:0}}
 @media (min-width:900px){#top,#notice,#view,#nav{width:100%;max-width:880px;margin-left:auto;margin-right:auto}#nav{border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
- .map{height:auto;width:100%}#ptab{left:max(0px,calc(50% - 480px))}#phone{left:max(46px,calc(50% - 434px))}#ask{right:max(14px,calc(50% - 426px))}}
+ .map{height:auto;width:100%}#ptab{left:max(0px,calc(50% - 480px))}#ask{right:max(14px,calc(50% - 426px))}}
 :root:is([data-th="sand"],[data-th="mist"],[data-th="sage"]) :is(#noise,#crack .gl,#crack .band){mix-blend-mode:multiply}
 .pcbar{display:flex;justify-content:space-between;align-items:center;gap:4px;width:100%;flex:none;padding:3px 6px;border:0;border-bottom:1px solid var(--ln);border-radius:0;background:rgba(var(--acr),.14);color:var(--okc);font-size:10px;font-weight:700;text-align:left}
 .pcbar span:last-child{color:var(--mt);font-weight:400;flex:none}
@@ -211,7 +212,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 #pfeed .pl.o{display:flex;gap:5px;align-items:flex-start}#pfeed .pl.o .pc{flex:1;min-width:0}
 .pcall{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;flex:none}.pcall .av{width:58px;height:58px;font-size:22px}.pcall b{font-size:14px}.pcall span{font-size:11px;color:var(--mt)}
 .pcall.sm{flex-direction:row;gap:6px;padding:0 0 4px}.pcall.sm .av{width:24px;height:24px;font-size:10px}.pcall.sm b{font-size:12px}
-@keyframes vb{0%,14%,28%,42%,56%,70%,100%{transform:translate(0,-50%)}4%,32%,60%{transform:translate(-1.6px,-50%)}9%,37%,65%{transform:translate(1.6px,-50%)}}
+@keyframes vb{0%,14%,28%,42%,56%,70%,100%{transform:translate(0,0)}4%,32%,60%{transform:translate(-1.6px,0)}9%,37%,65%{transform:translate(1.6px,0)}}
 @keyframes vb2{0%,14%,28%,42%,56%,70%,100%{transform:translate(0,0)}4%,32%,60%{transform:translate(-1.6px,0)}9%,37%,65%{transform:translate(1.6px,0)}}
 #phone.vib{animation:vb .66s linear}#ptab.vib{animation:vb2 .66s linear}
 .cseg{display:flex;gap:6px;margin-bottom:8px}.cseg button{flex:1;padding:7px 8px;font-size:13px;border-radius:8px}
@@ -257,7 +258,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112083344";
+const BUILD="20261112085648";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -659,7 +660,7 @@ const mpCost=(c,sk)=>Math.max(1,Math.ceil(sk.mp*mpMult(c)));
 const pw=c=>Math.round((es(c,0)*5+c.lv*2+eqStat(c,"atk")+eqStat(c,"s4")*3)*gmul(c));/* 공격력 = 힘×5 (+ 예전 장비의 공격력 옵션) */
 const hl=c=>Math.round((es(c,3)*3+c.lv*2+8)*gmul(c));
 const df=c=>Math.round((es(c,0)*1.2+c.lv*.5+eqStat(c,"def"))*gdef(c));
-const conRate=c=>c.quar?100/1800:.4/60;
+const conRate=c=>c.quar?100/1800:0; /* 오염도는 저절로 줄지 않음 · 격리실 치료로만 감소 */
 function cur(c){const dt=Math.max(0,(Date.now()-(c.ts||Date.now()))/1000),con0=c.con||0,e=c.ail||c.od?eff(c):{hreg:1,ereg:1};
  return{hp:Math.min(maxHp(c),c.hp+dt/(con0>=50?20:10)*e.hreg),en:Math.min(MAXEN,(c.en==null?MAXEN:c.en)+dt/6*e.ereg),mp:Math.min(maxMp(c),(c.mp==null?maxMp(c):c.mp)+dt/3),con:Math.max(0,con0-dt*conRate(c))}}
 const inB=()=>!!(battle&&battle.st==="on"&&battle.mem&&battle.mem[uid]);
@@ -696,7 +697,25 @@ const nav=$("#nav");TABS.forEach(([k,n])=>nav.append(h("button",{"data-k":k,oncl
 let topMin=false;try{topMin=localStorage.getItem("af_topmin")==="1"}catch(e){}
 function applyTop(){$("#top").classList.toggle("min",topMin);$("#tgl").setAttribute("aria-label",topMin?"상태창 열기":"상태창 접기")}applyTop();
 $("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
-$("#ptab").onclick=()=>{phoneOn?closePhone():openPhone()};
+/* 휴대폰 아이콘: 끌어서 아무 데나 옮기기 · 위치는 이 기기에 저장 · 휴대폰은 아이콘 옆에 열림 */
+let ptPos=null;try{ptPos=JSON.parse(localStorage.getItem("af_ptab")||"null")}catch(e){}
+function applyPtab(){const t=$("#ptab");if(!t)return;if(!ptPos||typeof ptPos.x!=="number"){t.classList.remove("free");t.style.left=t.style.top="";return}
+ t.classList.add("free");t.classList.toggle("sl",ptPos.side==="l");t.classList.toggle("sr",ptPos.side==="r");const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;
+ t.style.left=(ptPos.side==="l"?0:ptPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,ptPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,ptPos.y*H)))+"px"}
+function placePhone(){const P=$("#phone"),t=$("#ptab");if(!P||!t||P.style.display!=="block")return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw=P.offsetWidth,phh=P.offsetHeight;
+ let x=r.right+6;if(x+pw>W-4){x=r.left-6-pw;if(x<4)x=Math.max(4,Math.min(W-pw-4,r.left+r.width/2-pw/2))}
+ const y=Math.max(4,Math.min(H-phh-4,r.top+r.height/2-phh/2));P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
+function resetPtab(){ptPos=null;try{localStorage.removeItem("af_ptab")}catch(e){}applyPtab();placePhone()}
+(()=>{const t=$("#ptab");let st=null,moved=false,dEnd=0;
+ t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
+ t.addEventListener("pointermove",e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;
+  if(!moved){moved=true;t.classList.add("drag")}ptPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyPtab();placePhone()});
+ const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();/* 화면 가장자리 근처에 놓으면 찰싹 붙음 */
+  const r=t.getBoundingClientRect(),W=innerWidth;if(r.left<40||r.right>W-40){ptPos.side=r.left+r.width/2<W/2?"l":"r";t.classList.add("snap");applyPtab();placePhone();setTimeout(()=>{t.classList.remove("snap");placePhone()},200)}
+  try{localStorage.setItem("af_ptab",JSON.stringify(ptPos))}catch(_){}}st=null};
+ t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);
+ t.addEventListener("click",()=>{if(Date.now()-dEnd<250)return;phoneOn?closePhone():openPhone()});
+ addEventListener("resize",()=>{applyPtab();placePhone()});applyPtab()})();
 $("#pop").onclick=e=>{if(e.target.id==="pop")closePop()};
 function openPop(...k){const b=$("#popb");b.textContent="";ap(b,k);$("#pop").style.display="flex"}
 function closePop(){$("#pop").style.display="none"}
@@ -939,13 +958,15 @@ function facility(sp){
  else if(sp==="market"){box.append(wal);const t=subs("market",[["shop","상점"],["ex","거래소"],["mine","내 판매"]]);
   if(t==="shop")Object.entries(MARKET).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d||"제작 재료"})),h("span",{c:"sm gold",t:p}),btn("1개",()=>buy(id,p),"sm"),btn("5개",()=>buy(id,p,5),"sm"))));
   else if(t==="ex"){const L=market.filter(m=>m.seller!==uid);box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"거래 수수료 5%는 판매자에게서 차감됩니다."}));if(!L.length)box.append(h("p",{c:"sm mt",t:"등록된 매물이 없습니다."}));
-   L.forEach(m=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(IT[m.item]?IT[m.item].n:m.item)+" ×"+m.qty}),h("div",{c:"xs mt",t:"판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(m.price)}),btn("구매",()=>buyListing(m),"sm"))))}
+   L.forEach(m=>{const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
+    box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(IT[m.item]?IT[m.item].n:m.item)+" · 남은 "+m.qty+"개"}),h("div",{c:"xs mt",t:"개당 "+won(u)+" 환 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")}),tot),n,btn("구매",()=>buyListing(m,+n.value),"sm")))})}
   else{const own=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&!IT[k].bound);
-   if(own.length){const sel=h("select",{},own.map(([k,n])=>h("option",{value:k,t:IT[k].n+" (보유 "+n+")"}))),q=h("input",{type:"number",min:1,value:1,placeholder:"수량"}),pr=h("input",{type:"number",min:1,placeholder:"총 가격 (환)"});
-    box.append(h("div",{c:"sm",style:"margin-bottom:4px",t:"판매 등록"}),sel,h("div",{c:"row",style:"margin:6px 0"},q,pr),btn("등록",()=>listItem(sel.value,+q.value,+pr.value),"pri full"))}
+   if(own.length){const sel=h("select",{},own.map(([k,n])=>h("option",{value:k,t:IT[k].n+" (보유 "+n+")"}))),q=h("input",{type:"number",min:1,value:1,placeholder:"수량"}),pr=h("input",{type:"number",min:1,placeholder:"1개당 가격 (환)"}),pv=h("div",{c:"xs mt",style:"margin:-2px 0 6px",t:"1개당 가격을 정하면, 사는 사람이 원하는 개수만큼 사 가요."});
+    const upv=()=>{const a=Math.floor(+q.value)||0,b=Math.floor(+pr.value)||0;pv.textContent=a>0&&b>0?"전부 팔리면 총 "+won(a*b)+" 환 · 수수료 5% 빼고 "+won(Math.floor(a*b*.95))+" 환 수령":"1개당 가격을 정하면, 사는 사람이 원하는 개수만큼 사 가요."};q.oninput=upv;pr.oninput=upv;
+    box.append(h("div",{c:"sm",style:"margin-bottom:4px",t:"판매 등록"}),sel,h("div",{c:"row",style:"margin:6px 0"},q,pr),pv,btn("등록",()=>listItem(sel.value,+q.value,+pr.value),"pri full"))}
    else box.append(h("p",{c:"sm mt",t:"판매할 소지품이 없습니다."}));
    const L=market.filter(m=>m.seller===uid);box.append(h("div",{c:"sm",style:"margin:12px 0 2px",t:"내 매물 "+L.length+"개"}));
-   L.forEach(m=>box.append(row(h("span",{c:"grow sm",t:IT[m.item].n+" ×"+m.qty+" · "+won(m.price)+" 환 (수령 "+won(Math.floor(m.price*.95))+")"}),btn("취소",()=>cancelListing(m),"sm"))))}}
+   L.forEach(m=>box.append(row(h("span",{c:"grow sm",t:IT[m.item].n+" · 남은 "+m.qty+"개 · 개당 "+won(unitOf(m))+" 환 (다 팔리면 수령 "+won(Math.floor(unitOf(m)*m.qty*.95))+")"}),btn("남은 것 회수",()=>cancelListing(m),"sm"))))}}
  else if(sp==="quar"){const c=cur(me);box.append(pbar(c.con,100,"con","오염도 "+c.con.toFixed(1)+"%"),
   h("p",{c:"sm mt",t:me.quar?"치료 중 · 완치까지 약 "+fmt(Math.ceil(c.con/(100/1800)))+" (100% 기준 30분)":"입원하면 오염도가 빠르게 내려갑니다. 100%에서 완치까지 30분, 언제든 퇴원할 수 있어요."}),
   me.quar?btn("퇴원",()=>upd({quar:false}).then(()=>toast("퇴원했습니다")),"full"):btn("입원 치료 시작",()=>upd({quar:true}).then(()=>toast("격리 치료를 시작합니다")),"pri full",{disabled:c.con<=0}))}
@@ -986,12 +1007,17 @@ async function enhance(s){const eq=clone(me.eq||{}),q=eq[s];if(!q)return;const u
  const inv={...me.inv};inv.kit-=need;const ok=rf()<rate;if(ok)q.up=up+1;await upd({eq,inv,tan:me.tan-cost});toast(ok?"보강 성공! +"+q.up:"보강 실패 (재료 소모)")}
 async function craft(id){const inv={...me.inv},need=RC[id];for(const k in need)if((inv[k]||0)<need[k])return toast("재료 부족");
  for(const k in need)inv[k]-=need[k];if(addInv(inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd({inv});toast(IT[id].n+" 제작 완료")}
+/* 거래소: 개당 가격(unit) · 예전 매물은 총액(price)을 개수로 나눠 환산 */
+const unitOf=m=>m.unit!=null?m.unit:Math.max(1,Math.ceil((m.price||0)/(m.qty||1)));
 async function listItem(id,q,price){if(IT[id]&&IT[id].bound)return toast("귀속 아이템은 판매할 수 없습니다");q=Math.floor(q);price=Math.floor(price);if(!(q>0)||!(price>0))return toast("수량과 가격을 확인하세요");if((me.inv[id]||0)<q)return toast("수량이 부족합니다");
- const inv={...me.inv};inv[id]-=q;await upd({inv});await db.collection("market").add({t:Date.now(),seller:uid,item:id,qty:q,price});toast("거래소에 등록했습니다")}
-async function buyListing(m){const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매된 매물입니다");const d=s.data();
- if(me.tan<d.price)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,d.item,d.qty)<d.qty)return toast("가방 공간이 부족합니다");
- await ref.delete();await upd({inv,tan:me.tan-d.price});
- await db.collection("payouts").add({t:Date.now(),to:d.seller,from:uid,amt:Math.floor(d.price*.95),k:"sale",memo:IT[d.item].n+" ×"+d.qty+" 판매 (수수료 5%)"});toast(IT[d.item].n+" ×"+d.qty+" 구매 완료")}
+ const inv={...me.inv};inv[id]-=q;await upd({inv});await db.collection("market").add({t:Date.now(),seller:uid,item:id,qty:q,unit:price});toast("거래소에 등록했습니다 · 개당 "+won(price)+" 환")}
+async function buyListing(m,n){n=Math.floor(n)||0;if(n<1)return toast("구매 개수를 입력하세요");
+ const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매된 매물입니다");const d=s.data();
+ if(n>d.qty)return toast("남은 수량은 "+d.qty+"개예요");const u=unitOf(d),cost=u*n;
+ if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+" 환 필요)");const inv={...me.inv};if(addInv(inv,d.item,n)<n)return toast("가방 공간이 부족합니다");
+ if(n>=d.qty)await ref.delete();else await ref.update({qty:d.qty-n,unit:u});
+ await upd({inv,tan:me.tan-cost});
+ await db.collection("payouts").add({t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:IT[d.item].n+" ×"+n+" 판매 (개당 "+won(u)+" · 수수료 5%)"});toast(IT[d.item].n+" ×"+n+" 구매 완료 (-"+won(cost)+" 환)")}
 async function cancelListing(m){const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매되었습니다");const d=s.data();const inv={...me.inv};if(addInv(inv,d.item,d.qty)<d.qty)return toast("가방 공간이 부족합니다");await ref.delete();await upd({inv});toast("판매를 취소했습니다")}
 
 /* ===== 전투 (솔로는 이 기기에서 처리, 파티는 공유 문서) ===== */
@@ -1350,7 +1376,7 @@ function openPhone(scr,room){phoneOn=true;const P=$("#phone");P.textContent="";
   nav5(),h("div",{c:"fk"},kbtn("call",svgI(IC_CALL),()=>wrap(callKey),null,"통화"),kbtn("",svgI(IC_BACK),backKey,phBack,"뒤로 (길게: 이전 화면)"),kbtn("end",svgI(IC_END),endKey,null,"끊기")),kp);
  ph.scr=scr||"home";ph.room=room||null;ph.buf="";ph.sel=null;ph.stack=!scr||scr==="home"?[]:scr==="chat"?[["home",null],["msg",null]]:[["home",null]];
  if(call.st==="in"||(call.st!=="idle"&&!scr)){ph.scr="incall";ph.stack=[["home",null]]}
- P.style.display="block";$("#ptab").classList.add("act");phRender()}
+ P.style.display="block";$("#ptab").classList.add("act");phRender();placePhone()}
 function nav5(){const side=(t,k)=>kbtn("",t,()=>sideApp(k),null,t),ar=(d,lab,fn)=>kbtn("ar",svgI(d),fn,null,lab);
  return h("div",{c:"nav5"},h("div",{c:"side"},side("협회","assoc"),side("연락처","contacts")),
   h("div",{c:"dpad"},ar("M6 15l6-6 6 6","위",()=>navMove("u")),ar("M15 6l-6 6 6 6","왼쪽",()=>navMove("l")),kbtn("ok","전송",()=>wrap(navOk),null,"전송"),ar("M9 6l6 6-6 6","오른쪽",()=>navMove("r")),ar("M6 9l6 6 6-6","아래",()=>navMove("d"))),
@@ -1483,7 +1509,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
  else if(s==="blog"){hd("거래 내역");const L=me.blog||[];if(!L.length)B.append(h("div",{c:"pe",t:"내역이 없습니다."}));L.forEach(x=>B.append(h("div",{c:"pfr"},h("span",{c:x.amt>=0?"ok":"bad",style:"min-width:56px",t:(x.amt>=0?"+":"")+won(x.amt)}),h("span",{style:"flex:1;min-width:0",t:x.txt}),h("span",{c:"mt",t:ago(x.t)}))))}
  else if(s==="con"){hd("오염도");const c=cur(me),r=me.quar?100/30:.4;
   B.append(h("div",{c:"pbig",t:c.con.toFixed(1)+"%"}),h("div",{c:"pgauge"},h("i",{style:"width:"+Math.min(100,c.con)+"%"})),
-   h("div",{c:"xs "+(me.quar?"ok":"mt"),t:me.quar?"격리 치료 중 · 분당 -3.3% · 완치까지 "+fmt(Math.ceil(c.con/(100/1800))):"자연 감소 분당 -0.4% · 0%까지 약 "+Math.ceil(c.con/r)+"분"}),
+   h("div",{c:"xs "+(me.quar?"ok":"mt"),t:me.quar?"격리 치료 중 · 분당 -3.3% · 완치까지 "+fmt(Math.ceil(c.con/(100/1800))):"저절로 줄지 않아요 · 중앙 거점 격리실에서 치료하세요"}),
    h("div",{c:"xs mt",style:"margin-top:6px",t:"전투 1회 오염: 저위험 약 2% · 중위험 3~5% · 고위험 6~8% (심부 ×1.4, 비+안개 ×1.5)"}),
    h("div",{c:"xs "+(c.con>=50?"hot":"mt"),t:"50% 이상: HP 자연 회복 절반"}),h("div",{c:"xs "+(c.con>=80?"hot":"mt"),t:"80% 이상: 명중률 크게 하락 (35% 빗나감)"}),h("div",{c:"xs "+(c.con>=100?"hot":"mt"),t:"100%: 전투 중 혼란 — 25% 확률로 자신·아군 공격, 적 명중률 대폭 하락 (55% 빗나감)"}))}
  else if(s==="set"){hd("환경설정");const tg=(l,v,fn)=>B.append(h("div",{c:"tg"},h("span",{t:l}),h("button",{type:"button",t:v,onclick:fn})));
@@ -1492,6 +1518,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   if(SET.night)tg("테마",SET.theme==="green"?"블랙 · 그린":"블랙 · 레드",()=>{SET.theme=SET.theme==="green"?"red":"green";saveSet();phRender()});
   else tg("테마",LTH[SET.lth]||"모래",()=>{const K=Object.keys(LTH);SET.lth=K[(K.indexOf(SET.lth)+1)%K.length];saveSet();phRender()});
   B.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.night?"야간 모드: 어두운 바탕 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지"}));
+  tg("휴대폰 아이콘 위치",ptPos?"옮김 · 초기화":"기본",()=>{if(ptPos){resetPtab();phRender()}else toast("휴대폰 아이콘을 끌어서 원하는 곳에 두세요")});
   tg("깨진 화면 효과",SET.crack?"켜짐":"꺼짐",()=>{SET.crack=!SET.crack;saveSet();phRender()});
   tg("상단 상태창",topMin?"접힘":"펼침",()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}phRender()});
   B.append(h("div",{c:"xs mt",style:"margin-top:8px",t:"내 번호 "+fnum(me.num)+" · 설정은 이 기기에만 저장돼요."}))}
