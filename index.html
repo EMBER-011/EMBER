@@ -151,9 +151,9 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .tg{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:6px 2px;border-bottom:1px solid var(--ln)}
 .tg button{padding:2px 10px;font-size:11px;border-radius:99px}
 /* cracked screen */
-#crack{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+#crack{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100lvh;pointer-events:none;z-index:50;overflow:hidden;contain:strict}
 #crack.off{display:none}
-#crsvg{position:absolute;inset:0;width:100%;height:100%}
+#crsvg{position:absolute;inset:0;width:100%;height:100%;will-change:transform;transform:translateZ(0)}
 #noise{position:absolute;inset:-50%;opacity:.07;mix-blend-mode:screen;animation:nz .35s steps(3) infinite}
 @keyframes nz{0%{transform:translate(0,0)}33%{transform:translate(-7%,4%)}66%{transform:translate(5%,-6%)}100%{transform:translate(-3%,7%)}}
 #crack .gl{position:absolute;left:0;right:0;height:2px;opacity:0;mix-blend-mode:screen}
@@ -244,7 +244,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112055521";
+const BUILD="20261112060549";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -697,7 +697,7 @@ function render(force){
 function rCreate(v){
  const base=ROLE[cr.role].base,used=cr.pts.reduce((a,b)=>a+b,0),left=8-used;
  v.append(h("div",{style:"text-align:center;padding:10px 0 16px"},h("h2",{c:"title",style:"font-size:clamp(21px,7vw,30px);letter-spacing:.05em;white-space:nowrap",t:"殘火(잔화) :: Ember"}),h("p",{c:"mt sm",t:"핵과 알 수 없는 바이러스가 휩쓸고 간 지 80년.\n이능에 눈뜬 생존자로 깨어나세요.",style:"white-space:pre-line"})));
- const nm=h("input",{id:"crname",maxlength:12,placeholder:"캐릭터 이름 (2~12자)",value:cr.name,oncompositionend:e=>{cr.name=e.target.value;updCrMiss()},oninput:e=>{cr.name=e.target.value;if(cr.ok){cr.ok=false;render(true);return}updCrMiss()}});
+ const nm=h("input",{id:"crname",maxlength:12,autocomplete:"off",autocapitalize:"off",autocorrect:"off",spellcheck:"false",enterkeyhint:"done",onkeydown:e=>{if(e.key==="Enter")e.target.blur()},placeholder:"캐릭터 이름 (2~12자)",value:cr.name,oncompositionend:e=>{cr.name=e.target.value;updCrMiss()},oninput:e=>{cr.name=e.target.value;if(cr.ok){cr.ok=false;render(true);return}updCrMiss()}});
  v.append(h("div",{c:"card"},h("h3",{t:"이름"}),nm));
  const rc=h("div",{c:"rc"});Object.entries(ROLE).forEach(([k,r])=>rc.append(h("button",{c:cr.role===k?"on":"",onclick:()=>{cr.role=k;cr.pts=[0,0,0,0,0,0];cr.ok=false;render(true)}},r.n,h("small",{t:r.d}))));
  v.append(h("div",{c:"card"},h("h3",{t:"직군"}),rc));
@@ -709,16 +709,17 @@ function rCreate(v){
  const miss=crMiss();
  v.append(h("div",{c:"card"},h("h3",{t:"각성"}),h("p",{c:"mt sm",t:resetDoc?"이전 각성 결과가 그대로 유지됩니다: "+resetDoc.attr+" 속성 · "+resetDoc.grade+"등급":"속성(7종 동일 확률)과 등급(F~S)은 각성 순간 무작위로 정해집니다."}),
   h("p",{id:"crmiss",c:"sm "+(miss.length?"gold":"ok"),style:"margin:0 0 8px",t:miss.length?"남은 준비: "+miss.join(" · "):"준비 완료 — 각성할 수 있어요"}),
-  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{const m=crMiss();if(m.length){updCrMiss();return toast("먼저 해 주세요: "+m.join(" · "))}if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full"),
+  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{try{document.activeElement&&document.activeElement.blur()}catch(e){}const m=crMiss();if(m.length)return crErr("먼저 해 주세요: "+m.join(" · "));if(!cr.ok){cr.ok=true;render(true);return}try{await doCreate()}catch(e){crErr("각성 실패: "+errT(e))}},"pri full"),
   typeof BUILD!=="undefined"?h("p",{c:"xs mt",style:"margin:8px 0 0;text-align:right",t:"버전 "+BUILD.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2}).*/,(x,y,mo,d,hh,mi)=>{const t=new Date(Date.UTC(+y,+mo-1,+d,+hh,+mi)+9*36e5);return (t.getUTCMonth()+1)+"/"+t.getUTCDate()+" "+String(t.getUTCHours()).padStart(2,"0")+":"+String(t.getUTCMinutes()).padStart(2,"0")})}):null));
 }
 function crMiss(){const ni=$("#crname");if(ni)cr.name=ni.value;const used=cr.pts.reduce((a,b)=>a+b,0);return[cr.name.trim().length<2?"이름(2자 이상)":null,8-used>0?"스탯 "+(8-used)+"포인트 더 배분":null].filter(Boolean)}
+function crErr(m){const e=$("#crmiss");if(e){e.textContent=m;e.className="sm bad"}toast(m)}
 function updCrMiss(){const e=$("#crmiss");if(!e)return;const m=crMiss();e.textContent=m.length?"남은 준비: "+m.join(" · "):"준비 완료 — 각성할 수 있어요";e.className="sm "+(m.length?"gold":"ok")}
 function newNum(){const used=new Set(Object.values(chars).map(c=>c.num));let n;do{n=String(1000000+ri(9000000))}while(used.has(n));return n}
 async function doCreate(){
  const name=cr.name.trim();
- if(Object.values(chars).some(c=>c.name===name))return toast("이미 사용 중인 이름입니다");
- const s0=await db.doc("chars/"+uid).get(),rd=s0.exists?s0.data():null;if(rd&&!rd.reset)return toast("이미 캐릭터가 있습니다");
+ if(Object.values(chars).some(c=>c.name===name))return crErr("이미 사용 중인 이름입니다: "+name);
+ const s0=await db.doc("chars/"+uid).get(),rd=s0.exists?s0.data():null;if(rd&&!rd.reset)return crErr("이미 캐릭터가 있습니다 — 새로고침해 주세요");
  const s=ROLE[cr.role].base.map((b,i)=>b+cr.pts[i]);
  const c={name,role:cr.role,s,sp:0,sv:3,gear:[],attr:rd?rd.attr:ATTR[ri(7)],rv:2,grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
  c.hp=maxHp(c);c.en=MAXEN;c.mp=maxMp(c);await db.doc("chars/"+uid).set(c);toast("각성: "+c.attr+" 속성 "+c.grade+"등급! 내 번호 "+fnum(c.num));tab="me";
@@ -1463,7 +1464,7 @@ function updCall(B){const fresh=!!B;B=B||($("#pscr")&&$("#pscr").querySelector("
  const f=$("#pfeed");if(f&&call.st==="on"){f.textContent="";call.msgs.forEach(m=>{const b=h("div",{c:"pc"},h("span",{c:"pn",t:m.me?me.name:dName(call.peer)}),m.text);f.append(m.me?h("div",{c:"pl me"},b):h("div",{c:"pl o"},avatar(c||{name:"?"},"xs"),b))});f.scrollTop=f.scrollHeight}}
 
 /* ===== 깨진 화면 (금 + 노이즈) ===== */
-function drawCracks(){const S=$("#crsvg");if(!S)return;const W=innerWidth,H=innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
+function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClientRect(),W=Math.round(r.width)||innerWidth,H=Math.round(r.height)||innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
  let sd=7;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
  const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);S.append(e);return e};
  const line=(pts,w,o)=>E("polyline",{points:pts.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" "),fill:"none",stroke:"rgba(150,150,155,"+o+")","stroke-width":w,"stroke-linejoin":"bevel"});
@@ -1481,7 +1482,7 @@ function drawCracks(){const S=$("#crsvg");if(!S)return;const W=innerWidth,H=inne
   E("circle",{cx:cx.toFixed(1),cy:cy.toFixed(1),r:(4*sc*2).toFixed(1),fill:"rgba(205,205,210,.14)"})};
  impact(W*.8,H*.76,16,.5,.27);impact(W*.17,H*.2,9,.22,.19)}
 (()=>{try{const c=document.createElement("canvas");c.width=c.height=160;const x=c.getContext("2d"),d=x.createImageData(160,160);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255|0;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=Math.random()<.5?255:0}x.putImageData(d,0,0);$("#noise").style.backgroundImage="url("+c.toDataURL()+")"}catch(e){}
- applySet();drawCracks();let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(drawCracks,200)})})();
+ applySet();drawCracks();let rz,lw=innerWidth;addEventListener("resize",()=>{if(Math.abs(innerWidth-lw)<40)return;lw=innerWidth;clearTimeout(rz);rz=setTimeout(drawCracks,250)})})();
 /* 5분마다: 오래 둔 열상 → 감염 · 약물과다 불시 발작 (24시간 10회 이내) */
 setInterval(()=>{if(!me||!db||!me.s)return;const p={},now=Date.now();
  if(ailOn(me,"bleed")&&!ailOn(me,"infect")&&now-me.ail.bleed.t>12e5&&rf()<.25){const A=clone(me.ail);A.infect={t:now};p.ail=A;setTimeout(()=>toast("상처가 감염되었습니다 — 고열 (항생제 필요)"),300)}
