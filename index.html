@@ -81,7 +81,7 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .skb>*{position:relative}.skb small{font-weight:400;font-size:11px;opacity:.8}.skb .mpc{color:var(--ac2);font-weight:700;opacity:1}.skb .fill{position:absolute;left:0;bottom:0;width:100%;height:0;background:rgba(var(--acr),.28)}
 .mem{margin-top:8px}.mem .row{margin-bottom:2px}
 #toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--sf);color:var(--tx);border:1px solid var(--bd);padding:10px 18px;border-radius:2px;font-size:14px;font-weight:600;display:none;max-width:90%;text-align:center;z-index:12}
-#ask{position:fixed;right:14px;bottom:84px;width:min(260px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:12px;z-index:10;display:none}
+#ask{position:fixed;right:14px;bottom:84px;animation:askIn .32s cubic-bezier(.2,.85,.25,1);width:min(260px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:12px;z-index:10;display:none}
 #ask p{margin:0 0 4px;font-weight:600}#ask p.an{font-size:16px;font-weight:800;margin:0 0 2px}#ask p.sub{margin:0 0 6px;font-size:13px;font-weight:400;color:var(--mt)}#ask p.q{margin:0 0 10px}
 #ask .btns{display:flex;gap:8px;justify-content:flex-end}
 #ask button{width:46px;height:36px;padding:0;border-radius:2px;display:flex;align-items:center;justify-content:center}
@@ -153,6 +153,8 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .plcd svg{width:14px;height:26px;flex:none;transform:skewX(-7deg)}.plcd rect{fill:var(--tx);opacity:.07}.plcd rect.on{opacity:1}
 .plcd .lch{flex:1;font-size:11px;color:var(--mt)}.plcd .lcur{width:8px;height:3px;background:var(--tx);margin:0 0 -18px 2px;animation:lcb 1s steps(1) infinite;flex:none}
 @keyframes lcb{50%{opacity:0}}
+@keyframes askIn{from{transform:translateX(calc(100% + 24px));opacity:0}to{transform:none;opacity:1}}#ask.out{animation:askOut .2s ease-in forwards}@keyframes askOut{to{transform:translateX(calc(100% + 24px));opacity:0}}
+@media (prefers-reduced-motion:reduce){#ask,#ask.out{animation:none}}
 *{scrollbar-width:thin;scrollbar-color:rgba(var(--acr),.45) transparent}::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(var(--acr),.4);border-radius:5px}::-webkit-scrollbar-thumb:hover{background:rgba(var(--acr),.7)}::-webkit-scrollbar-corner{background:transparent}
 #phone ::-webkit-scrollbar{width:3px}
 .app.sel i{border-color:var(--ac);background:rgba(var(--acr),.22)}.apps.edit .app i{animation:wob .5s ease-in-out infinite alternate}@keyframes wob{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
@@ -160,7 +162,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .aprof b{display:block;font-size:13px}.aprof small{display:block;font-size:10px;color:var(--mt);line-height:1.5}
 .gatec{border-color:var(--gold)}.gatec.ovf,.gatec.s{border-color:#ff1f3d;box-shadow:inset 0 0 0 1px rgba(255,31,61,.35)}.gatec.perm{border-color:var(--bd)}
 .ovfb{margin:-2px 0 8px;padding:6px 10px;border:1px solid #ff1f3d;border-radius:6px;color:#ff4d62;font-size:12px;background:rgba(255,31,61,.08);animation:ovb 1.6s steps(2) infinite}@keyframes ovb{50%{background:rgba(255,31,61,.18)}}
-.gmk{cursor:pointer}.gmk rect{fill:var(--gold);stroke:var(--bg);stroke-width:.4}.gmk.ov rect,.gmk.s circle{fill:#ff1f3d;stroke:var(--bg);stroke-width:.4}.gmk text{font-size:2px;font-weight:800;text-anchor:middle;fill:#111;pointer-events:none}.gmk.ov,.gmk.s{animation:gmb 1s steps(2) infinite}@keyframes gmb{50%{opacity:.45}}
+.gmk{cursor:pointer}.gmk rect{fill:var(--gold);stroke:var(--bg);stroke-width:.4}.gmk.ov rect,.gmk.s circle{fill:#ff1f3d;stroke:var(--bg);stroke-width:.4}.gmk text{font-size:2px;font-weight:800;text-anchor:middle;fill:#111;pointer-events:none}.gmk.ov,.gmk.s{animation:gmb 1s steps(2) infinite}.gmk.sv circle{fill:var(--r2);stroke:var(--bg);stroke-width:.4}.gmk.sv{animation:gmb 1.6s steps(2) infinite}@keyframes gmb{50%{opacity:.45}}
 #swarn{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(20,0,4,.74);animation:swf .9s steps(2) infinite}
 #swarn .swb{width:min(360px,100%);text-align:center;padding:24px 16px 22px;background:#0b0002;border:2px solid #ff1f3d;color:#fff;position:relative;box-shadow:0 0 30px rgba(255,31,61,.5)}
 #swarn .swb::before,#swarn .swb::after{content:"";position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(-45deg,#ff1f3d 0 10px,#0b0002 10px 20px)}#swarn .swb::before{top:0}#swarn .swb::after{bottom:0}
@@ -272,7 +274,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112120939";
+const BUILD="20261112123245";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -713,7 +715,7 @@ function updTop(){if(!me)return;const c=cur(me);let hp=c.hp,mp=c.mp;const mh=max
  const set=(b,s,v,mx,lab)=>{$(b).style.width=Math.min(100,v/mx*100)+"%";$(s).textContent=lab+" "+Math.round(v)+" / "+mx};
  set("#thb","#thp",hp,mh,"HP");set("#tmb","#tmp",mp,mm,"MP");set("#teb","#ten",c.en,MAXEN,"에너지");
  $("#tcb").style.width=Math.min(100,c.con)+"%";$("#tcn").textContent="오염도 "+c.con.toFixed(0)+"%"+(me.quar?" · 치료 중":"");
- const loc=me.sg?"S급 게이트 내부":me.auto?REG[me.loc].n+" · 자동 전투 중":me.trip?"이동 중 → "+REG[me.trip.to].n+" ("+fmt(Math.max(0,Math.ceil((me.trip.at-Date.now())/1000)))+")":REG[me.loc].n+" · "+spotName(me.loc,spot());
+ const loc=me.sg?(me.sg==="sv"?"외딴 섬 · 연구실의 생존자":gateById(me.sg)?gLabel(gateById(me.sg))+" 내부":"게이트"):me.auto?REG[me.loc].n+" · 자동 전투 중":me.trip?"이동 중 → "+REG[me.trip.to].n+" ("+fmt(Math.max(0,Math.ceil((me.trip.at-Date.now())/1000)))+")":REG[me.loc].n+" · "+spotName(me.loc,spot());
  $("#tloc").textContent=loc;
  const L=ailList(me),O=odState(me),ts=$("#tst");
  if(ts){ts.textContent="";if(L.length)ts.append(h("span",{},h("span",{c:"k",t:"부상·질병"}),L.map(k=>AIL[k].n+(k==="fracture"&&me.ail[k].sp?"(부목)":"")).join(", ")));
@@ -879,6 +881,7 @@ function rMap(v){
  if(!selReg||!REG[selReg])selReg=me.loc;
  v.append(mapBox(selReg));if(ovfOn())v.append(h("div",{c:"ovfb",t:"게이트 폭주 중 — 모든 지역 크리처 출몰 ×1.5 · 크리처 폭주 상태 · 헌터 오염도 상승"}));
  if(!me.trip&&me.sg&&sgPanel(v))return;
+ if(!me.trip&&!inB())openGates(v);
  v.append(h("div",{c:"xs mt",style:"margin:-2px 0 8px",t:"길로 이어진 옆 지역으로만 이동할 수 있어요(색이 채워진 곳). 오른쪽 바다 건너 종말의 섬(하드)은 내 레벨이 지역 레벨(60~100)에 닿을 때마다 노이즈가 걷히며 해금돼요. 검은 바다에서 배로 건너가고, 두 섬 사이도 배로 오가요. 크리처가 강한 대신 환 보상이 1.8배예요."}));
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
@@ -910,21 +913,22 @@ function askRoute(to){const rt=findRoute(me.loc,to),a=$("#ask");a.textContent=""
  a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:"바로 갈 수 없어요 · "+(rt.path.length-1)+"구간 · 총 "+fmt(rt.sec)+(REG[to].safe?"":" · 권장 Lv "+REG[to].lv)}),
   h("p",{c:"sub",t:"경로: "+rt.path.map(k=>REG[k].n).join(" → ")}),h("p",{c:"q",t:"먼저 "+REG[nx].n+"(으)로 이동할까요? ("+fmt(tsec(me.loc,nx))+" · 에너지 "+MOVE_EN+")"}),
   h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(nx,tsec(me.loc,nx)))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
- a.style.display="block"}
+ showAsk(a)}
 const ICK="M4 12.5l5 5L20 6.5",ICX="M5 5l14 14M19 5L5 19";
-function closeAsk(){$("#ask").style.display="none"}
+let askT=0;function closeAsk(){const a=$("#ask");if(!a||a.style.display!=="block")return;clearTimeout(askT);a.classList.add("out");askT=setTimeout(()=>{a.style.display="none";a.classList.remove("out")},200)}
+function showAsk(a){clearTimeout(askT);const was=a.style.display==="block"&&!a.classList.contains("out");a.classList.remove("out");if(!was){a.style.display="none";void a.offsetWidth}a.style.display="block"}
 function askTravel(to,s){
  const a=$("#ask");a.textContent="";
  a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:"이동 시간 "+fmt(s)+(contOf(to)!==contOf(me.loc)?" (대륙 간)":"")+" · 에너지 "+MOVE_EN+(REG[to].safe?"":" · 권장 Lv "+REG[to].lv+(isHard(to)?" · 하드":""))}),h("p",{c:"q",t:"이동하시겠습니까?"}),
   h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,s))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
- a.style.display="block"}
-async function travel(to,s){if(me.trip)return toast("이동 중입니다");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("S급 게이트 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");if(!isAdj(me.loc,to))return toast("길로 이어진 옆 지역으로만 이동할 수 있어요");if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
+ showAsk(a)}
+async function travel(to,s){if(me.trip)return toast("이동 중입니다");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");if(!isAdj(me.loc,to))return toast("길로 이어진 옆 지역으로만 이동할 수 있어요");if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
  const c=cur(me);if(c.en<MOVE_EN)return toast("에너지가 부족합니다 ("+MOVE_EN+" 필요)");
  selReg=to;showSpots=false;const tp={trip:{to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},quar:false,en:Math.round(c.en-MOVE_EN)},sick=["snow","rain","rainfog"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
  if(sick){const A=clone(me.ail||{});A.cold={t:Date.now(),u:Date.now()+AIL.cold.nat};tp.ail=A}
  await upd(tp);toast(REG[to].n+"(으)로 출발"+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
 async function moveSpot(k){
- if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");const again=k===spot();if(again&&REG[me.loc].safe)return;if(again){if(Date.now()<gcd)return;gcd=Date.now()+1200}
+ if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const again=k===spot();if(again&&REG[me.loc].safe)return;if(again){if(Date.now()<gcd)return;gcd=Date.now()+1200}
  const c=cur(me),safe=REG[me.loc].safe,cost=safe?0:MOVE_EN;if(c.en<cost)return toast("에너지가 부족합니다 ("+cost+" 필요)");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const pp={spot:k,en:Math.round(c.en-cost),quar:false},gd=safe?null:maybeDrop(.04+tier(REG[me.loc].lv)*.01,REG[me.loc].lv+HSP[k].lv,isHard(me.loc)),got=addGear(pp,gd);
@@ -934,7 +938,7 @@ async function moveSpot(k){
 const gRate=c=>Math.min(.95,.42+(c.s?es(c,1)+es(c,5):0)*.025);
 async function gather(){
  if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");
- if(me.auto)return toast("자동 전투 중입니다");const R=REG[me.loc];if(!R.res)return toast("중앙 거점에서는 채집할 수 없습니다");if(Date.now()<gcd)return;
+ if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const R=REG[me.loc];if(!R.res)return toast("중앙 거점에서는 채집할 수 없습니다");if(Date.now()<gcd)return;
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const c=cur(me);if(c.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+1500;
  const H=HSP[spot()],ok=rf()<gRate(me),inv={...me.inv},gc={};
@@ -1103,7 +1107,7 @@ function hqMsgs(){const now=Date.now(),key=Math.floor(now/15000)+"|"+gver;if(hqC
   add(g.t,"[게이트 발생] "+loc+"에 "+g.grade+"급 게이트가 열렸습니다. 폭주까지 예상시간은 0시간 30분. 헌터 여러분들의 많은 협조 바랍니다.");gEvents(g,add,now)}
  for(let d=kday(now)-1;d<=kday(now);d++){const s=sGate(d);if(s.t>=GEPOCH){add(s.t-6e5,"[긴급 예보] 지금까지와는 차원이 다른 게이트 파장이 감지됩니다.");add(s.t-3e5,"[긴급 경보] 거대한 파장이 급격히 불안정해지고 있습니다.");
   add(s.t,"[S급 게이트] S급 게이트가 열렸습니다. 헌터들을 긴급 소집합니다. 위치: "+sLoc(s)+". 폭주까지 예상시간은 0시간 30분.");gEvents(s,add,now)}
-  if(d%3===0)[15,22].forEach(hr=>add(d*864e5-KO+hr*36e5,"[협회 알림] 연구실의 생존자가 중앙 거점 주점에 나타났습니다. 1시간 동안 머뭅니다."))}
+  if(d%3===0)[15,22].forEach(hr=>{const t=d*864e5-KO+hr*36e5;add(t,"[협회 알림] 연구실의 생존자가 "+survIsle(t).near+" 앞바다의 외딴 섬에 나타났습니다. 1시간 동안 머뭅니다. 지도에서 섬을 눌러 건너갈 수 있어요.")})}
  hqC={k:key,v:L.sort((a,b)=>a.t-b.t).slice(-80)};return hqC.v}
 function gEvents(g,add,now){const d=gates[g.id],lbl=gLabel(g),done=d&&d.done;
  if(d&&d.st==="clear"&&done)add(done,"[게이트 소멸] "+jo(lbl)+" 클리어되었습니다. 협조해 주신 헌터 여러분께 감사드립니다.");
@@ -1131,7 +1135,7 @@ async function startGateBattle(gt){
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return toast("이미 전투가 진행 중입니다");
  const c=cur(me),pt=me.party&&parties[me.party],n=pt?pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length:1,ov=ovfOn();let mo,lv,hpm=1.25,atm=1.15,lab;
  if(gt.kind==="p"){const R=REG[me.loc];if(R.safe)return toast("이 지역에는 상시 게이트가 없습니다");const m=R.mon[ri(R.mon.length)];mo={n:m[0],at:m[1]};lv=R.lv+3+ri(2);if(R.hard){hpm*=1.4;atm*=1.25}lab="상시 게이트"}
- else{const g=gateById(gt.id),st=gState(g);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(g.kind==="w"&&me.loc!==g.reg)return toast(REG[g.reg].n+"에 있어야 들어갈 수 있어요");if(g.kind==="s"&&me.sg!==g.id)return toast("S급 게이트로 먼저 이동하세요");
+ else{const g=gateById(gt.id),st=gState(g);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(g.kind==="w"&&me.loc!==g.reg&&me.sg!==g.id)return toast("게이트로 먼저 이동하세요");if(g.kind==="s"&&me.sg!==g.id)return toast("S급 게이트로 먼저 이동하세요");
   const sp=gSpec(g);mo=sp;lv=GLV[g.grade]+ri(3);if(st==="ovf"){hpm*=1.35;atm*=1.3}if(g.kind==="s"){hpm*=1.6;atm*=1.2}lab=g.grade+"급 게이트"+(st==="ovf"?" (폭주)":"");gt={id:g.id,kind:g.kind,grade:g.grade}}
  if(ov&&gt.kind==="p"){hpm*=1.35;atm*=1.3}
  const max=Math.round((50+lv*28)*(1+.5*(Math.max(1,n)-1))*hpm),nm=(gt.kind==="s"?"[군주] ":"")+mo.n;
@@ -1171,8 +1175,9 @@ async function postReq(f){const amt=Math.floor(+f.amt)||0;if(amt<100)return toas
  const rp=useG?repOf(g):repOf(me),fr=feeRate(rp);if(fr==null)return toast("명성이 30 이하라 의뢰 게시판을 쓸 수 없어요. 납품으로 명성을 회복하세요");const fee=Math.ceil(amt*fr);
  if(f.kind==="mat"&&(!IT[f.item]||!(+f.qty>0)))return toast("재료와 수량을 정하세요");
  if(useG){if((g.tan||0)<fee)return toast("길드 공동자산이 부족합니다 (수수료 "+won(fee)+")");await gmut(me.guild,q=>{q.tan=(q.tan||0)-fee})}else{if(me.tan<fee)return toast("수수료 "+won(fee)+" 환이 부족합니다");await upd({tan:me.tan-fee})}
- await db.collection("reqs").add({t:Date.now(),by:uid,byn:me.name,pay:useG?"guild":"me",gid:me.guild||"",kind:f.kind,grade:f.grade||"F",item:f.item||null,qty:Math.floor(+f.qty)||0,amt,fee,st:"open"});toast("의뢰를 올렸습니다 · 수수료 "+won(fee)+" 환")}
-async function rmut(id,fn){const ref=db.doc("reqs/"+id),s=await ref.get();if(!s.exists)return false;const d=s.data();if(fn(d)===false)return false;await ref.set(d);return true}
+ await db.collection("reqs").add({t:Date.now(),by:uid,byn:me.name,pay:useG?"guild":"me",gid:me.guild||"",kind:f.kind,grade:f.grade||"F",item:f.item||null,qty:Math.floor(+f.qty)||0,amt,fee,st:"open"});toast("의뢰를 올렸습니다 · 수수료 "+won(fee)+" 환");tavRefresh()}
+async function rmut(id,fn){const ref=db.doc("reqs/"+id),s=await ref.get();if(!s.exists)return false;const d=s.data();if(fn(d)===false)return false;await ref.set(d);reqs=reqs.map(r=>r.id===id?Object.assign({id},d):r);tavRefresh();return true}
+function tavRefresh(){try{const a=document.activeElement;if(a&&a.blur&&$("#view").contains(a))a.blur()}catch(e){}if(tab==="map")render(true)}
 async function acceptReq(r){if(r.by===uid)return toast("내 의뢰입니다");if(me.guild&&r.gid&&me.guild===r.gid)return toast("같은 길드의 의뢰는 받을 수 없어요 (타 길드 지원 의뢰)");
  if(!await rmut(r.id,d=>{if(d.st!=="open")return false;d.st="acc";d.acc=uid;d.accn=me.name;d.accT=Date.now()}))return toast("이미 다른 헌터가 맡았어요");toast("의뢰를 맡았습니다")}
 async function handReq(r){if((me.inv[r.item]||0)<r.qty)return toast(IT[r.item].n+" "+r.qty+"개가 필요해요");let ok=false;
@@ -1202,7 +1207,7 @@ function tavMsgs(){const L=[];reqs.filter(r=>(r.by===uid||(r.pay==="guild"&&me.g
 /* 자동 전투 */
 const AUTO_D=[[30,"30분"],[60,"1시간"],[120,"2시간"],[180,"3시간"],[480,"8시간"]];let autoSel={d:60,p:""};
 const healIt=()=>Object.keys(IT).filter(k=>IT[k].use&&IT[k].use.hp);
-async function startAuto(){if(me.auto)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.sg)return toast("S급 게이트 안에서는 자동 전투를 할 수 없어요");const R=REG[me.loc];if(R.safe)return toast("상시 게이트가 있는 지역에서만 가능합니다");
+async function startAuto(){if(me.auto)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.sg)return toast("게이트(섬) 안에서는 자동 전투를 할 수 없어요");const R=REG[me.loc];if(R.safe)return toast("상시 게이트가 있는 지역에서만 가능합니다");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");await upd({auto:{reg:me.loc,t0:Date.now(),dur:autoSel.d,prio:autoSel.p||""}});toast("자동 전투 시작 · "+AUTO_D.find(x=>x[0]===autoSel.d)[1])}
 function simAuto(a,mins){const R=REG[a.reg],hard=!!R.hard,lf=luckF(me),c=clone(me);let hp=cur(me).hp,lv=c.lv,mh=maxHp(c),exp=c.exp,tan=0,gx=0,sp=0,wins=0,dead=false;const inv={...c.inv},got={},used={},P=pw(c)*1.25,D=df(c);
  const add=(id,q)=>{const k=addInv(inv,id,q);if(k)got[id]=(got[id]||0)+k};
@@ -1224,14 +1229,39 @@ async function claimAuto(){const a=me.auto;if(!a)return;const mins=Math.min(a.du
 /* S급 게이트 경보 · 이동 */
 function showSWarn(s){if($("#swarn"))return;const w=h("div",{id:"swarn"},h("div",{c:"swb"},h("div",{c:"swh",t:"WARNING"}),h("b",{t:"S급 게이트가 열렸습니다."}),h("b",{t:"헌터들을 긴급 소집합니다."}),h("small",{t:"위치: "+sLoc(s)}),
  h("div",{c:"row",style:"margin-top:14px;justify-content:center"},btn("바로 이동",async()=>{w.remove();await goSGate(s)},"pri"),btn("닫기",()=>w.remove()))));document.body.append(w);try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
-async function goSGate(s){const st=gState(s);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(me.trip)return toast("이동 중에는 들어갈 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
- await upd({sg:s.id});tab="map";render(true);toast("S급 게이트로 이동했습니다 · 게이트가 닫히면 원래 자리로 돌아와요")}
-function sgPanel(v){const s=gateById(me.sg),st=s?gState(s):"gone";if(!s||(st!=="open"&&st!=="ovf"))return false;const d=gates[s.id],dealt=gDealt(d),g=Object.assign({},s,{st});
+/* 게이트·섬 방문: 지역(me.loc)은 그대로 두고 방문만 기록 → 끝나면 제자리 */
+const visitAlive=id=>{if(id==="sv")return !!survAt();const g=gateById(id),st=g?gState(g):"gone";return st==="open"||st==="ovf"};
+async function goGate(g){const st=gState(g);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(me.trip)return toast("이동 중에는 들어갈 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
+ closePop();closeAsk();await upd({sg:g.id});toast(gLabel(g)+" 진입 · 게이트가 닫히면 원래 자리로 돌아와요");
+ me.sg=g.id;if(await startGateBattle({id:g.id,kind:g.kind})!==true){tab="map";render(true)}}
+const goSGate=goGate;
+/* 연구실의 생존자: 무너진 땅 부근 섬 (방문마다 다른 섬) */
+const isleC=p=>{let x=0,y=0;p.forEach(q=>{x+=q[0];y+=q[1]});return{x:x/p.length,y:y/p.length}};
+function survIsle(t){const L=CONT.a.isl.map(isleC),c=L[Math.floor(srng("sv"+t)()*L.length)];return Object.assign({},c,{near:REG[nearReg(c.x,c.y)].n})}
+async function goSurv(){const sv=survAt();if(!sv)return toast("생존자가 섬을 떠났습니다");if(me.trip)return toast("이동 중에는 건널 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
+ closePop();closeAsk();await upd({sg:"sv"});tab="map";render(true);toast("배를 타고 섬으로 건너왔습니다 · 생존자가 떠나면 원래 자리로 돌아와요")}
+function gatePop(g){const d=gates[g.id],mx=GHP[g.grade],left=Math.max(0,mx-gDealt(d));
+ openPop(h("div",{c:"h0",t:gLabel(g)}),h("p",{c:"sm mt",t:(g.st==="ovf"?"폭주 중 · ":"")+(g.kind==="s"?sLoc(g):gSpec(g).n+" · Lv"+GLV[g.grade]+"~")}),pbar(left,mx,"mon","게이트 잔여 "+won(left)+" / "+won(mx)),
+  h("div",{c:"sm mt",style:"margin:6px 0 10px"},(g.st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))})),
+  me.sg===g.id?h("p",{c:"sm ok",t:"이미 이 게이트 안에 있어요"}):h("div",{c:"row"},btn("바로 이동",()=>goGate(g),"pri grow"),btn("닫기",closePop,"grow")))}
+function survPop(){const sv=survAt();if(!sv)return;const I=survIsle(sv.s);openPop(h("div",{c:"h0",t:"연구실의 생존자"}),h("p",{c:"sm mt",t:I.near+" 앞바다의 외딴 섬 · 떠나기까지 "+fmt(Math.ceil((sv.e-Date.now())/1000))}),
+ me.sg==="sv"?h("p",{c:"sm ok",t:"이미 섬에 있어요"}):h("div",{c:"row",style:"margin-top:10px"},btn("섬으로 건너가기",goSurv,"pri grow"),btn("닫기",closePop,"grow")))}
+function sgPanel(v){const id=me.sg;if(!visitAlive(id))return false;
+ if(id==="sv"){const sv=survAt(),I=survIsle(sv.s),box=h("div",{c:"card gatec"},h("h3",{t:"외딴 섬 · 연구실의 생존자"}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:I.near+" 앞바다"}),
+   h("p",{c:"sm",t:"“…핵을 가져왔나. 연구실에서 건진 걸 나눠 주지.”"}),h("div",{c:"sm gold",style:"margin:4px 0 8px"},"희귀한 핵 "+(me.inv.rcore||0)+"개 · 떠나기까지 ",h("b",{"data-u":sv.e,t:fmt(Math.ceil((sv.e-Date.now())/1000))})));
+  SURV.forEach(([k,cost,q])=>box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[2].c,t:IT[k].n+(q>1?" ×"+q:"")})),btn("핵 "+cost+"개",()=>survBuy(k,cost,q),"pri sm",{disabled:(me.inv.rcore||0)<cost}))));
+  box.append(h("div",{style:"height:8px"}),btn("섬을 떠나 돌아가기",()=>upd({sg:null}).then(()=>toast("원래 자리로 돌아왔습니다")),"full"));v.append(box);return true}
+ const s=gateById(id),st=gState(s),d=gates[s.id],dealt=gDealt(d),g=Object.assign({},s,{st}),mx=GHP[s.grade],S=s.kind==="s";
  const top=d?Object.keys(d).filter(k=>k.startsWith("c_")).map(k=>[d["n_"+k.slice(2)]||"?",d[k]]).sort((a,b)=>b[1]-a[1]).slice(0,5):[];
- v.append(h("div",{c:"card gatec s"},h("h3",{t:"S급 게이트 내부"+(st==="ovf"?" · 폭주":"")}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:"위치: "+sLoc(s)+" · 군주 "+gSpec(s).n}),
-  pbar(Math.max(0,GHP.S-dealt),GHP.S,"mon","게이트 잔여 "+won(Math.max(0,GHP.S-dealt))+" / "+won(GHP.S)),h("div",{c:"sm mt",style:"margin:6px 0"},(st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))})),
-  top.length?h("div",{c:"xs mt",t:"기여 순위: "+top.map((x,i)=>(i+1)+". "+x[0]+" "+won(x[1])).join(" · ")}):null,h("p",{c:"xs mt",t:"클리어하면 기여 1~3위 헌터와 기여 1위 길드(참여자)에게 희귀한 핵 2개씩 · 한 사람은 한 번만 받아요."}),
-  h("div",{c:"row",style:"margin-top:8px"},btn("군주에게 맞서기",()=>startGateBattle({id:s.id,kind:"s"}),"pri grow"),btn("게이트에서 나가기",()=>upd({sg:null}).then(()=>toast("원래 자리로 돌아왔습니다")),"grow"))));return true}
+ v.append(h("div",{c:"card gatec"+(S||st==="ovf"?" s":"")},h("h3",{t:gLabel(s)+" 내부"+(st==="ovf"?" · 폭주":"")}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:(S?"위치: "+sLoc(s)+" · 군주 ":"")+gSpec(s).n+(S?"":" · Lv"+GLV[s.grade]+"~")}),
+  pbar(Math.max(0,mx-dealt),mx,"mon","게이트 잔여 "+won(Math.max(0,mx-dealt))+" / "+won(mx)),h("div",{c:"sm mt",style:"margin:6px 0"},(st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))})),
+  top.length?h("div",{c:"xs mt",t:"기여 순위: "+top.map((x,i)=>(i+1)+". "+x[0]+" "+won(x[1])).join(" · ")}):null,
+  h("p",{c:"xs mt",t:S?"클리어하면 기여 1~3위 헌터와 기여 1위 길드(참여자)에게 희귀한 핵 2개씩 · 한 사람은 한 번만 받아요.":st==="ovf"?"폭주를 저지하면 기여 1위 헌터와 기여 1위 길드(참여자)에게 희귀한 핵 1개씩 · 참여자 전원 클리어 보상":"클리어하면 참여자 전원에게 "+won(GBON[s.grade])+"환 · 게이트가 닫히면 원래 자리로 돌아와요"}),
+  h("div",{c:"row",style:"margin-top:8px"},btn(S?"군주에게 맞서기":"게이트 몬스터와 싸우기",()=>startGateBattle({id:s.id,kind:s.kind}),"pri grow"),btn("게이트에서 나가기",()=>upd({sg:null}).then(()=>toast("원래 자리로 돌아왔습니다")),"grow"))));return true}
+function openGates(v){const L=liveGates().filter(g=>g.kind==="w");const sv=survAt();if(!L.length&&!sv)return;const box=h("div",{c:"card"},h("h3",{t:"열린 게이트 "+L.length}));
+ L.slice().reverse().forEach(g=>box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:g.st==="ovf"?"color:#ff4d62":"",t:REG[g.reg].n+" · "+g.grade+"급"+(g.st==="ovf"?" · 폭주":"")}),h("div",{c:"xs mt"},(g.st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))}))),btn("바로 이동",()=>goGate(g),"pri sm"))));
+ if(sv){const I=survIsle(sv.s);box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[2].c,t:"연구실의 생존자"}),h("div",{c:"xs mt",t:I.near+" 앞바다 섬 · "})),btn("건너가기",goSurv,"pri sm")))}
+ v.append(box)}
 function gateCards(v){const R=REG[me.loc],L=liveGates().filter(g=>g.kind==="w"&&g.reg===me.loc);
  L.forEach(g=>{const d=gates[g.id],dealt=gDealt(d),mx=GHP[g.grade],sp=gSpec(g);v.append(h("div",{c:"card gatec"+(g.st==="ovf"?" ovf":"")},h("div",{c:"row sb"},h("h3",{t:g.grade+"급 게이트"+(g.st==="ovf"?" · 폭주 중":"")}),h("span",{c:"sm mt",t:sp.n+" · Lv"+GLV[g.grade]+"~"})),
   pbar(Math.max(0,mx-dealt),mx,"mon","게이트 잔여 "+won(Math.max(0,mx-dealt))+" / "+won(mx)),h("div",{c:"sm mt",style:"margin:6px 0"},(g.st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))})),
@@ -1248,9 +1278,10 @@ function gateCards(v){const R=REG[me.loc],L=liveGates().filter(g=>g.kind==="w"&&
 Object.keys(MRC).forEach(k=>IT["rm_"+k]={n:"제작법: "+IT[k].n,learn:k,bound:1,rar:MRC[k].r,d:(MRC[k].r===2?"희귀":"고급")+" 몬스터 장비 「"+IT[k].n+"」 제작법 · 거래 불가 · 만든 장비는 거래소에서 팔 수 있음"});
 Object.keys(FRC).forEach(k=>IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"주점 조리실에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
 Object.keys(URC).forEach(k=>IT["rc_"+k]={n:"가구 도면: "+IT[k].n,learn:k,bound:1,d:"정비소에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
-function gateMarks(E){liveGates().forEach(g=>{const ov=g.st==="ovf";if(g.kind==="w"){const P=mapP(g.reg),x=P.x+3.2,y=P.y-3.4,gg=E("g",{class:"gmk"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();pickRegion(g.reg)};
+function gateMarks(E){const sv=survAt();if(sv){const I=survIsle(sv.s),gg=E("g",{class:"gmk sv"});gg.onclick=e=>{e.stopPropagation();survPop()};E("circle",{cx:I.x,cy:I.y,r:2.4},gg);const t=E("text",{x:I.x,y:I.y+.8},gg);t.textContent="生"}
+ liveGates().forEach(g=>{const ov=g.st==="ovf";if(g.kind==="w"){const P=mapP(g.reg),x=P.x+3.2,y=P.y-3.4,gg=E("g",{class:"gmk"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};
   E("rect",{x:x-1.5,y:y-1.5,width:3,height:3,transform:"rotate(45 "+x+" "+y+")"},gg);const t=E("text",{x,y:y+.72},gg);t.textContent=g.grade}
- else{const gg=E("g",{class:"gmk s"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();showSWarn(g)};E("circle",{cx:g.x,cy:g.y,r:2.6},gg);const t=E("text",{x:g.x,y:g.y+.8},gg);t.textContent="S"}})}
+ else{const gg=E("g",{class:"gmk s"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};E("circle",{cx:g.x,cy:g.y,r:2.6},gg);const t=E("text",{x:g.x,y:g.y+.8},gg);t.textContent="S"}})}
 /* 제작 (음식 · 가구 · 몬스터 장비) */
 async function craftFU(id){const need=FRC[id]||URC[id];if(!(me.rcp||[]).includes(id))return toast("레시피를 먼저 익히세요");const inv={...me.inv};for(const k in need)if((inv[k]||0)<need[k])return toast("재료 부족");
  for(const k in need)inv[k]-=need[k];if(addInv(inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd({inv});toast(IT[id].n+" 완성")}
@@ -1271,12 +1302,10 @@ function shopDlv(box,row){dlvPick(box);if(!dlvHead(box,["arms"])){box.append(h("
  G.slice().sort((a,b)=>b.r-a.r).forEach(q=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"xs mt",t:RAR[q.r].n+" · Lv"+q.lv+" · 납품가 "+won(gearVal(q))+" 환 · 명성 +3"})),btn("납품",()=>deliverGear(q.gid),"sm"))))}
 /* 주점 */
 const SURV=[["rm_mg_heartblade",3,1],["rm_mg_lensplate",3,1],["rm_mg_heartring",3,1],["mm_heart",1,2],["mm_lens",1,2]];
-async function survBuy(id,cost,q){if(!survAt())return toast("생존자가 떠났습니다");if((me.inv.rcore||0)<cost)return toast("희귀한 핵이 "+cost+"개 필요해요");const inv={...me.inv};inv.rcore-=cost;if(addInv(inv,id,q)<q)return toast("가방 공간이 부족합니다");await upd({inv});toast("교환: "+IT[id].n+" ×"+q)}
+async function survBuy(id,cost,q){if(!survAt())return toast("생존자가 떠났습니다");if(me.sg!=="sv")return toast("섬으로 먼저 건너가세요");if((me.inv.rcore||0)<cost)return toast("희귀한 핵이 "+cost+"개 필요해요");const inv={...me.inv};inv.rcore-=cost;if(addInv(inv,id,q)<q)return toast("가방 공간이 부족합니다");await upd({inv});toast("교환: "+IT[id].n+" ×"+q)}
 let rform={kind:"mat",grade:"D",item:"scrap",qty:5,amt:500,pay:"me"};
 function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=subs("tavern",[["board","의뢰 게시판"],["cook","조리실"]]),g=myG(),hd=x=>box.append(h("div",{c:"sm",style:"margin:12px 0 4px;color:var(--ac2)",t:x}));
  if(t==="cook"){rcpRows(box,row,FRC,craftFU,"요리법");return}
- if(sv){hd("연구실의 생존자");box.append(h("div",{c:"sm gold",style:"margin:0 0 6px"},"희귀한 핵 "+(me.inv.rcore||0)+"개 · 떠나기까지 ",h("b",{"data-u":sv.e,t:fmt(Math.ceil((sv.e-Date.now())/1000))})));
-  SURV.forEach(([id,cost,q])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[2].c,t:IT[id].n+(q>1?" ×"+q:"")})),btn("핵 "+cost+"개",()=>survBuy(id,cost,q),"pri sm",{disabled:(me.inv.rcore||0)<cost}))))}
  const mine=reqs.filter(r=>r.acc===uid&&r.st==="acc");if(mine.length){hd("맡은 의뢰");
   mine.forEach(r=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+" · "+won(r.amt)+" 환"})),r.kind==="mat"?btn("재료 전달",()=>handReq(r),"pri sm"):h("span",{c:"xs mt",t:"진행 중"}))))}
  const C=me.certs||[];if(C.length){hd("임무완수증서 "+C.length+"장");C.forEach(c=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:c.ti}),h("div",{c:"xs mt",t:c.byn+" · "+won(c.amt)+" 환"})),btn("제출",()=>submitCert(c),"pri sm"))))}
@@ -1317,7 +1346,7 @@ function monTick(b){
  if(rf()<.14){const a2=Object.values(b.mem).filter(x=>x.hp>0);if(a2.length)lg(b,flavLine(b,a2[ri(a2.length)]))}
  b.mon.nextAt=now+4500;if(!Object.values(b.mem).some(x=>x.hp>0)){b.st="lost";lg(b,"전원 쓰러졌다…")}return true}
 async function startBattle(enc,spk){
- const R=REG[me.loc];if(R.safe)return toast("중앙 거점에서는 전투할 수 없습니다");if(me.trip)return toast("이동 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("S급 게이트 안에 있습니다");
+ const R=REG[me.loc];if(R.safe)return toast("중앙 거점에서는 전투할 수 없습니다");if(me.trip)return toast("이동 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return toast("이미 전투가 진행 중입니다");
  const c=cur(me),H=HSP[spk||spot()]||HSP.out;
  const pt=me.party&&parties[me.party],n=pt?pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length:1;
@@ -1341,12 +1370,12 @@ function useSk(sk){
   else if(sk.t==="heal"){const a=Object.values(b.mem).filter(x=>x.hp>0).sort((x,y)=>x.hp/x.max-y.hp/y.max)[0],q=Math.round(m.hl*1.4);a.hp=Math.min(a.max,a.hp+q);lg(b,m.n+"의 치유 → "+a.n+" +"+q)}
   else{const q=Math.round(m.hl*.7);Object.values(b.mem).forEach(x=>{if(x.hp>0)x.hp=Math.min(x.max,x.hp+q)});lg(b,m.n+"의 광역 치유 (전원 +"+q+")")}})
 }
-async function flee(){const m=battle.mem[uid];if(battle.gate&&battle.gate.kind!=="p")pushContrib(battle.gate,m.dmg||0).catch(()=>{});await bmut(b=>{delete b.mem[uid];lg(b,me.name+" 후퇴");if(!Object.keys(b.mem).length)b.st="fled"});await upd({hp:Math.max(1,m.hp),mp:Math.round(memMp(m))});toast("전투에서 이탈했습니다")}
+async function flee(){const m=battle.mem[uid];if(battle.gate&&battle.gate.kind!=="p")pushContrib(battle.gate,m.dmg||0).catch(()=>{});await bmut(b=>{delete b.mem[uid];lg(b,me.name+" 후퇴");if(!Object.keys(b.mem).length)b.st="fled"});await upd({hp:Math.max(1,m.hp),mp:Math.round(memMp(m))});toast("전투에서 이탈했습니다");if(tab==="battle"){tab="map";render(true)}}
 function settleCheck(){if(battle&&battle.st!=="on"&&battle.mem&&battle.mem[uid]&&me&&me.lastB!==battle.t)settle(battle).catch(e=>toast("정산 오류: "+errT(e)))}
 const conGain=(R,sk)=>Math.round((1+tier(R.lv)*1.2)*1.15*((HSP[sk]||HSP.out).con)*(RF()?1.5:1)*10)/10;
 async function settle(b){
  if(settling)return;settling=true;
- try{const m=b.mem[uid],c=cur(me),R=REG[b.region],H=HSP[b.spot]||HSP.out,cg=b.st==="fled"?0:conGain(R,b.spot);
+ try{const m=b.mem[uid],c=cur(me),R=(()=>{if(b.gate&&b.gate.kind!=="p"){const g=gateById(b.gate.id);if(g)return REG[g.reg||nearReg(g.x,g.y)]}return REG[b.region]})(),H=HSP[b.spot]||HSP.out,cg=b.st==="fled"?0:conGain(R,b.spot);
   const p={ts:Date.now(),lastB:b.t,en:Math.round(c.en),mp:Math.round(memMp(m)),con:Math.min(100,Math.round((c.con+cg)*10)/10)};
   const eq=clone(me.eq||{});for(const s in eq)if(eq[s]&&eq[s].id)eq[s].dur=Math.max(0,(eq[s].dur||0)-2);p.eq=eq;
   let msg="패배… 중앙 거점 치료소로 후송되었다";
@@ -1364,7 +1393,7 @@ async function settle(b){
   else if(b.st==="lost"){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null;p.tan=Math.floor(me.tan*.9);p.sg=null}
   else{p.hp=Math.max(1,m.hp);msg="전투 종료"}
   const hurt=m.hurt||[];if(hurt.length){const A=clone(me.ail||{}),now=Date.now();hurt.forEach(k=>{A[k]={t:now};if(AIL[k].nat)A[k].u=now+AIL[k].nat});p.ail=A;msg+=" · 부상: "+hurt.map(k=>AIL[k].n).join(", ")}
-  await db.doc("chars/"+uid).update(p);toast(msg);if(b.gate&&b.gate.kind!=="p")pushContrib(b.gate,m.dmg||0).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
+ await db.doc("chars/"+uid).update(p);toast(msg);setTimeout(()=>{if(tab==="battle"&&!inB()){tab="map";render(true)}},900);if(b.gate&&b.gate.kind!=="p")pushContrib(b.gate,m.dmg||0).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
  finally{settling=false}
 }
 function rBattle(v){
@@ -1443,12 +1472,21 @@ async function unequip(slot){const eq=clone(me.eq||{}),q=eq[slot];if(!q)return;c
 function equipView(){
  const W=340,H=340,wrap0=h("div",{c:"eqw"}),S=document.createElementNS(NS,"svg");S.setAttribute("viewBox","0 0 "+W+" "+H);
  const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);S.append(e);return e};
- const fem=false,st="fill:rgba(var(--acr),.07);stroke:var(--ac);stroke-opacity:.55;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round";
- const MALE="M118 62L118 72Q100 74 88 80Q80 84 78 96L72 150Q70 172 68 190L74 193Q80 170 84 150L90 112L92 150Q92 172 96 182L100 240L102 292L98 300L117 300L116 292L120 200L125 188L130 200L134 292L133 300L152 300L148 292L150 240L154 182Q158 172 158 150L160 112L166 150Q170 170 176 193L182 190Q180 172 178 150L172 96Q170 84 162 80Q150 74 132 72L132 62Z";
- const FEM="M119 62L119 72Q104 75 96 82Q89 88 87 100L81 150Q78 172 76 188L82 190Q87 170 90 150L96 112Q101 128 102 140Q95 160 92 182L100 240L103 292L99 300L117 300L116 292L120 205L125 192L130 205L134 292L133 300L151 300L147 292L150 240L158 182Q155 160 148 140Q149 128 154 112L160 150Q163 170 168 190L174 188Q172 172 169 150L163 100Q161 88 154 82Q146 75 131 72L131 62Z";
- if(fem)E("path",{d:"M104 52Q101 16 125 16Q149 16 146 52L149 80Q141 83 136 76L136 52Q125 42 114 52L114 76Q109 83 101 80Z",style:st});
- E("path",{d:fem?FEM:MALE,style:st});E("ellipse",{cx:125,cy:45,rx:fem?15:16,ry:fem?18:19,style:st});
- const B={head:[6,24,60],arms:[6,128,60],legs:[6,206,60],feet:[6,280,60],acc1:[184,42,64],body:[184,112,64],acc2:[184,182,64]},P={head:[125,40],arms:[fem?85:78,150],legs:[110,240],feet:[108,297],acc1:[125,74],body:[125,122],acc2:fem?[171,189]:[179,191]};
+ const st="fill:rgba(var(--acr),.07);stroke:var(--ac);stroke-opacity:.6;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round",ln="fill:none;stroke:var(--ac);stroke-opacity:.6;stroke-width:1.1;stroke-linecap:round";
+ /* 역삼각형 상체 · 긴 다리 · 손가락 · 갸름한 얼굴 (직접 그린 선) */
+ const ARM="M86 84Q77 88 76 100L74 137L70 175L79 175L83 139L88.5 107Q90.5 94 86 84Z",HAND="M69.5 174.5L79.5 174.5Q81.5 181 80 187.5L69 187.5Q67 181 69.5 174.5Z";
+ const FING=[[70.3,187.3,68.4,197.2],[73.1,187.5,72.1,201],[75.9,187.5,76,201.6],[78.6,187.3,79.8,198.8],[80.4,179.5,85.2,186.6]];
+
+ E("path",{d:"M106 150Q102 170 104 190L107 236Q105 262 108 286L99 289.5Q88 295 92.5 300.5L122 300.5L119.5 287Q121 262 121 236L123.5 192L125 172L126.5 192L129 236Q129 262 130.5 287L128 300.5L157.5 300.5Q162 295 151 289.5L142 286Q145 262 143 236L146 190Q148 170 144 150Z",style:st});
+ E("path",{d:"M119 66L119 75Q107 77 97 81.5Q89 84.5 89 95L91.5 110Q96.5 128 107 140L108 152L142 152L143 140Q153.5 128 158.5 110L161 95Q161 84.5 153 81.5Q143 77 131 75L131 66Z",style:st});
+ E("path",{d:"M108 152Q125 157 142 152",style:ln});E("path",{d:"M110 92Q125 99 140 92M125 101V136M112 120Q125 124 138 120",style:ln+";stroke-opacity:.28"});
+ [false,true].forEach(m=>{const f=d=>m?d.replace(/(\d+\.?\d*) (\d+\.?\d*)/g,(q,x,y)=>(250-x)+" "+y):d;const tf=m?"translate(-7.5 0) translate(164 84) scale(1 .88) translate(-164 -84)":"translate(7.5 0) translate(86 84) scale(1 .88) translate(-86 -84)";E("path",{d:f(ARM),style:st,transform:tf});E("path",{d:f(HAND),style:st,transform:tf});
+  FING.forEach(([x1,y1,x2,y2],i)=>{if(m){x1=250-x1;x2=250-x2}const w=i===4?1.45:1.25,L=Math.hypot(x2-x1,y2-y1),nx=-(y2-y1)/L*w,ny=(x2-x1)/L*w,F=v=>v.toFixed(2);
+   E("path",{d:"M"+F(x1+nx)+" "+F(y1+ny)+"L"+F(x2+nx)+" "+F(y2+ny)+"A"+w+" "+w+" 0 0 1 "+F(x2-nx)+" "+F(y2-ny)+"L"+F(x1-nx)+" "+F(y1-ny)+"Z",style:st,transform:tf})})});
+const HT="translate(125 69) scale(.7) translate(-125 -69)";
+ E("path",{transform:HT,d:"M125 17C139 17 147 27 147 41C147 51 143 57 136.5 63L129.5 68.5Q125 71 120.5 68.5L113.5 63C107 57 103 51 103 41C103 27 111 17 125 17Z",style:st});
+ E("path",{transform:HT,d:"M103 39C101 21 113 12.5 126 13.5C140 14.5 149.5 24 147.2 39.5C145.5 33 141.5 29.5 136.5 27.5C130 30.5 118.5 30 112.5 26.5C107.5 29.5 104.5 34 103 39Z",style:st+";fill:rgba(var(--acr),.16)"});
+ const B={head:[6,24,60],arms:[6,128,60],legs:[6,206,60],feet:[6,280,60],acc1:[184,42,64],body:[184,112,64],acc2:[184,182,64]},P={head:[125,48],arms:[85,142],legs:[114,240],feet:[108,296],acc1:[125,72],body:[125,112],acc2:[167.5,174]};
  const bh=38;
  for(const s in B){const [bx,by,bw]=B[s],[px,py]=P[s],ex=bx<px?bx+bw:bx,ey=by+bh/2;E("line",{x1:px,y1:py,x2:ex,y2:ey,style:"stroke:var(--ac);stroke-width:1;stroke-opacity:.7"});E("circle",{cx:px,cy:py,r:3.2,style:"fill:var(--ac2)"})}
  wrap0.append(S);
@@ -1991,7 +2029,7 @@ function onMsg(){phRefresh();updDot();if($("#feed"))updFeed()}
  lst("payouts",50,a=>{payouts=a;claimPayouts()},true);
  lst("freq",200,a=>{freqs=a;procFreq().catch(()=>{});fqInit=true;if(phoneOn&&["contacts","person","home","newgrp"].includes(ph.scr)&&!(document.activeElement&&document.activeElement.id==="pmsg"))phRender();updDot()},true);
  lst("gates",80,a=>{gates={};a.forEach(d=>gates[d.id]=d);gver++;procReqs();if(tab==="map")rq();if(phoneOn&&ph.scr==="chat"&&ph.room==="hq")updPhone()},true);
- lst("reqs",150,a=>{reqs=a;gver++;procReqs();if(tab==="map"&&me&&me.loc==="base"&&spot()==="tavern")rq();updDot()},true);
+ lst("reqs",150,a=>{reqs=a;gver++;procReqs();if(tab==="map"&&me&&me.loc==="base"&&spot()==="tavern"){const ae=document.activeElement;if(ae&&/INPUT|SELECT/.test(ae.tagName)&&$("#view").contains(ae))rq();else render(true)}updDot()},true);
  lst("calls",50,a=>{calls=a;if(phoneOn&&(ph.scr==="dial"||ph.scr==="home"))phRender();updDot()});
  setInterval(()=>{if(!me)return;
   if(me.trip&&Date.now()>=me.trip.at&&!arr){arr=1;const to=me.trip.to;selReg=to;pendEnc=!REG[to].safe&&rf()<encRate(HSP.out.enc)?to:null;(()=>{const pp={loc:to,trip:null,spot:defSpot(to)},gd=REG[to].safe?null:maybeDrop(.04+tier(REG[to].lv)*.01,REG[to].lv),got=addGear(pp,gd);return upd(pp).then(()=>{if(got)toastG(gd)})})().catch(e=>toast("도착 처리 실패: "+errT(e))).finally(()=>arr=0)}
@@ -2001,7 +2039,7 @@ function onMsg(){phRefresh();updDot();if($("#feed"))updFeed()}
   if(battle&&battle.st==="on"&&battle.mem&&battle.mem[uid]&&battle.mon.nextAt<=now&&!mt){mt=1;bmut(monTick).finally(()=>mt=0)}
   if(now-tk5>5000){tk5=now;updDot();if(phoneOn&&ph.scr==="chat"&&(ph.room==="hq"||ph.room==="tav"))updPhone();
    const sd=kday(now);for(const d of[sd-1,sd]){const sg=sGate(d);if(gState(sg,now)==="open"){let sw={};try{sw=JSON.parse(localStorage.getItem("af_sw")||"{}")}catch(e){}if(!sw[sg.id]){sw[sg.id]=1;try{localStorage.setItem("af_sw",JSON.stringify(sw))}catch(e){}showSWarn(sg)}}}
-   if(me.sg&&!inB()&&!sgx){const g=gateById(me.sg),st=g?gState(g,now):"gone";if(st!=="open"&&st!=="ovf"){sgx=1;upd({sg:null}).then(()=>toast("S급 게이트가 닫혀 원래 자리로 돌아왔습니다")).finally(()=>sgx=0)}}
+   if(me.sg&&!inB()&&!sgx&&!visitAlive(me.sg)){sgx=1;const was=me.sg;upd({sg:null}).then(()=>toast(was==="sv"?"생존자가 떠나 원래 자리로 돌아왔습니다":"게이트가 닫혀 원래 자리로 돌아왔습니다")).finally(()=>sgx=0)}
    if(me.auto&&now>=me.auto.t0+me.auto.dur*6e4&&autoNote!==me.auto.t0){autoNote=me.auto.t0;toast("자동 전투가 끝났어요 · 상시 게이트에서 정산 받으세요")}}
   if(phoneOn&&ph.scr==="incall"&&call.st!=="idle")updCall();else if(phoneOn&&call.st!=="idle"){const b=$("#pcbar");if(b)b.firstChild.textContent=callBarT();else phRender()}
  },1000);
