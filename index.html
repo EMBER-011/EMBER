@@ -176,6 +176,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .attrs svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .tile .ti{display:flex;gap:8px;align-items:center}.tile svg.ico{width:28px;height:28px;flex:none;fill:none;stroke:var(--ac2);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .pico{display:flex;justify-content:center;margin-bottom:6px}.pico svg{width:44px;height:44px;fill:none;stroke:var(--ac2);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.sdesc{margin:-3px 0 7px 2px;font-size:11px;color:var(--mt)}
 .tst{display:flex;flex-wrap:wrap;gap:3px 14px;font-size:11.5px;margin-top:7px}.tst:empty{display:none}.tst .k{color:var(--mt);margin-right:5px}.tst .perm{color:var(--ac);font-weight:700}
 #crack .g3{top:22%;height:3px;background:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.6),rgba(var(--acr),.65),transparent 88%);animation:glt 4.6s 1s infinite;display:none}
 #crack .g4{top:57%;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,255,.5),rgba(var(--acr),.75),transparent);animation:glt 3.3s .4s infinite;display:none}
@@ -243,7 +244,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112043929";
+const BUILD="20261112054159";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -369,7 +370,7 @@ const BUILD="20261112043929";
  /* ----- 운영자: 시작 방식 선택 · 운영 화면 · 운영자 캐릭터 숨김 ----- */
  const GM={view:false,chosen:false};
  window.__hideGM=id=>!!FB.ownerUid&&id===FB.ownerUid&&id!==FB.uid;
- window.__gmRender=function(v){if(!FB.admin||!GM.view)return false;
+ window.__gmRender=function(v){if(!FB.admin||!GM.view)return false;try{if(phoneOn)closePhone()}catch(e){}
   const play=()=>{GM.view=false;GM.chosen=true;render(true)},playT=me?"캐릭터로 플레이 · "+me.name+" Lv"+me.lv:"캐릭터 만들어서 플레이";
   if(!GM.chosen){v.append(h("div",{style:"text-align:center;padding:18px 0 14px"},h("h2",{c:"title",style:"font-size:clamp(21px,7vw,30px);letter-spacing:.05em;white-space:nowrap",t:"殘火(잔화) :: Ember"}),h("p",{c:"mt sm",t:"운영자로 로그인했어요. 어떻게 시작할까요?"})),
     h("div",{c:"card"},btn("운영 화면만 보기",()=>{GM.chosen=true;render(true)},"pri full"),h("div",{c:"xs mt",style:"margin:6px 2px 14px",t:"초대코드 만들기, 회원 관리만 해요. 캐릭터 없이도 돼요."}),
@@ -396,7 +397,7 @@ const BUILD="20261112043929";
   out.push(h("div",{c:"card"},h("h3",{t:"계정"}),h("div",{c:"sm mt",t:"로그인 아이디 "+FB.loginId+(FB.admin?" · 운영자":"")}),h("div",{style:"height:8px"}),
    btn("로그아웃",async()=>{if(FB.dropPresence)await FB.dropPresence();await auth.signOut();location.href=location.pathname},"full")));
   if(!FB.admin)return out;
-  if(!GM.view)out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full")));
+  if(!GM.view){out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"초대코드와 회원 관리는 운영 화면에 있어요. 내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full")));return out}
   if(AD.inv===null&&!AD.loading)setTimeout(adLoad,0);
   const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"운영 · 초대코드"}),btn("새로고침",adLoad,"sm")));
   const sel=h("select",{onchange:e=>{AD.exp=+e.target.value}},[[7,"7일"],[30,"30일"],[0,"기한 없음"]].map(([v,n])=>{const o=h("option",{value:v,t:"유효기간 "+n});if(v===AD.exp)o.selected=true;return o}));
@@ -449,7 +450,7 @@ const sRing=()=>{beep(620,.18,.05,"square");beep(780,.18,.05,"square",.22)};
 function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}catch(e){}[0,.22,.44].forEach(d=>beep(140,.08,.05,"sawtooth",d));["#phone","#ptab"].forEach(q=>{const e=$(q);if(!e)return;e.classList.remove("vib");void e.offsetWidth;e.classList.add("vib");setTimeout(()=>e.classList.remove("vib"),700)})}
 
 /* ===== 데이터 ===== */
-const SN=["힘","행운","민첩","지능","공격력","손재주"],SHOW=[0,1,2,3,5];/* 4번(공격력)은 폐지 · 공격력은 힘에 비례 */
+const SN=["힘","행운","민첩","지능","공격력","손재주"],SHOW=[0,1,2,3,5],SDESC=["공격력 · 최대 HP · 방어력","치명타 · 드랍률 · 채집","회피 · 스킬 재사용 단축","치유력 · 최대 MP · MP 회복·소모","","채집 성공률 · 드랍률"];/* 4번(공격력)은 폐지 · 공격력은 힘에 비례 */
 const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=6;
 const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
@@ -696,7 +697,7 @@ function render(force){
 function rCreate(v){
  const base=ROLE[cr.role].base,used=cr.pts.reduce((a,b)=>a+b,0),left=8-used;
  v.append(h("div",{style:"text-align:center;padding:10px 0 16px"},h("h2",{c:"title",style:"font-size:clamp(21px,7vw,30px);letter-spacing:.05em;white-space:nowrap",t:"殘火(잔화) :: Ember"}),h("p",{c:"mt sm",t:"핵과 알 수 없는 바이러스가 휩쓸고 간 지 80년.\n이능에 눈뜬 생존자로 깨어나세요.",style:"white-space:pre-line"})));
- const nm=h("input",{maxlength:12,placeholder:"캐릭터 이름 (2~12자)",value:cr.name,oninput:e=>{cr.name=e.target.value;cr.ok=false}});
+ const nm=h("input",{maxlength:12,placeholder:"캐릭터 이름 (2~12자)",value:cr.name,oninput:e=>{cr.name=e.target.value;if(cr.ok){cr.ok=false;render(true);return}updCrMiss()}});
  v.append(h("div",{c:"card"},h("h3",{t:"이름"}),nm));
  const rc=h("div",{c:"rc"});Object.entries(ROLE).forEach(([k,r])=>rc.append(h("button",{c:cr.role===k?"on":"",onclick:()=>{cr.role=k;cr.pts=[0,0,0,0,0,0];cr.ok=false;render(true)}},r.n,h("small",{t:r.d}))));
  v.append(h("div",{c:"card"},h("h3",{t:"직군"}),rc));
@@ -705,13 +706,15 @@ function rCreate(v){
  const sc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯 배분"}),h("span",{c:"gold sm",t:"남은 포인트 "+left+" · 총합 "+(base.reduce((a,b)=>a+b,0)+used)+"/15"})));
  SHOW.forEach(i=>{const n=SN[i];sc.append(h("div",{c:"stat"},h("span",{c:"n",t:n,style:i===ROLE[cr.role].key?"color:var(--ac2);font-weight:700":""}),mbar((base[i]+cr.pts[i])/10),
   h("button",{t:"−",disabled:cr.pts[i]===0,onclick:()=>{cr.pts[i]--;cr.ok=false;render(true)}}),h("b",{t:base[i]+cr.pts[i]}),
-  h("button",{t:"+",disabled:left===0,onclick:()=>{cr.pts[i]++;cr.ok=false;render(true)}})))});
+  h("button",{t:"+",disabled:left===0,onclick:()=>{cr.pts[i]++;cr.ok=false;render(true)}})),h("div",{c:"sdesc",t:SDESC[i]}))});
  v.append(sc);
- const miss=[cr.name.trim().length<2?"이름(2자 이상)":null,!resetDoc&&!cr.attr?"속성 고르기":null,left>0?"스탯 "+left+"포인트 더 배분":null].filter(Boolean),ready=!miss.length;
+ const miss=crMiss();
  v.append(h("div",{c:"card"},h("h3",{t:"각성"}),h("p",{c:"mt sm",t:resetDoc?"이전 각성 결과가 그대로 유지됩니다: "+resetDoc.attr+" 속성 · "+resetDoc.grade+"등급":"속성은 위에서 고른 대로, 등급(F~S)은 각성 순간 무작위로 정해집니다."}),
-  miss.length?h("p",{c:"sm gold",style:"margin:0 0 8px",t:"남은 준비: "+miss.join(" · ")}):null,
-  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{if(!ready)return toast("먼저 해 주세요: "+miss.join(" · "));if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full")));
+  h("p",{id:"crmiss",c:"sm "+(miss.length?"gold":"ok"),style:"margin:0 0 8px",t:miss.length?"남은 준비: "+miss.join(" · "):"준비 완료 — 각성할 수 있어요"}),
+  btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{const m=crMiss();if(m.length){updCrMiss();return toast("먼저 해 주세요: "+m.join(" · "))}if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full")));
 }
+function crMiss(){const used=cr.pts.reduce((a,b)=>a+b,0);return[cr.name.trim().length<2?"이름(2자 이상)":null,!resetDoc&&!cr.attr?"속성 고르기":null,8-used>0?"스탯 "+(8-used)+"포인트 더 배분":null].filter(Boolean)}
+function updCrMiss(){const e=$("#crmiss");if(!e)return;const m=crMiss();e.textContent=m.length?"남은 준비: "+m.join(" · "):"준비 완료 — 각성할 수 있어요";e.className="sm "+(m.length?"gold":"ok")}
 function newNum(){const used=new Set(Object.values(chars).map(c=>c.num));let n;do{n=String(1000000+ri(9000000))}while(used.has(n));return n}
 async function doCreate(){
  const name=cr.name.trim();
@@ -1218,7 +1221,7 @@ async function doReset(){if(inB())return toast("전투 중에는 초기화할 �
 function statCards(v){
  const cp=capOf(me.lv),sp=me.sp||0,st=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯"}),h("span",{c:"sm "+(sp?"gold":"mt"),t:"포인트 "+sp})));
  SHOW.forEach(i=>{const n=SN[i],val=me.s[i]||0;st.append(h("div",{c:"stat",style:"margin:4px 0"},h("span",{c:"n sm",t:n,style:i===ROLE[me.role].key?"color:var(--ac2);font-weight:700":""}),mbar(val/cp),h("b",{t:val}),eqStat(me,"s"+i)?h("span",{c:"xs ok",t:"+"+eqStat(me,"s"+i)}):null,
-  sp>0?h("button",{t:"+",disabled:val>=cp,onclick:()=>wrap(()=>addStat(i))}):null))});
+  sp>0?h("button",{t:"+",disabled:val>=cp,onclick:()=>wrap(()=>addStat(i))}):null),h("div",{c:"sdesc",t:SDESC[i]}))});
  st.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"레벨업마다 1포인트 · 100레벨까지 총 "+(15+MAXLV-1)+"포인트 · 스탯 하나당 최대 "+STATMAX+" · 행운+손재주가 높을수록 드랍률·수확률 ×"+luckF(me).toFixed(2)}));
  v.append(h("div",{c:"card"},h("div",{c:"sm mt",t:me.lv>=MAXLV?"최고 레벨 달성":"Lv"+me.lv+" · 경험치 "+me.exp+" / "+me.lv*60+" (전투 경험치 ×"+EXPX+")"}),h("div",{c:"thin"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(me.lv*60)*100)+"%;background:var(--gold)"})),
   h("div",{c:"sm",style:"margin-top:8px",t:"공격 "+pw(me)+" · 치유 "+hl(me)+" · 방어 "+df(me)}),h("div",{c:"sm mt",t:"최대 MP "+maxMp(me)+" · MP 소모 ×"+mpMult(me).toFixed(2)+" · 채집 성공률 "+Math.round(gRate(me)*100)+"%"})),st,eqSummary())}
