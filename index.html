@@ -307,8 +307,8 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .bbox{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}.bbox .bd{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 4px;border-radius:4px}.bbox .bd small{font-size:10px;color:var(--mt)}.bbox .bd.off{opacity:.35}
 .krrow{align-items:center;gap:10px}.krmini{width:30px;flex:none;display:flex;justify-content:center;--krc:var(--mt)}.krmini svg{max-height:110px}
 .decoi{display:flex;gap:1px;flex:none;align-items:center}.ti.grow{display:flex;gap:8px;align-items:center}
-.kring{position:absolute;right:-11px;top:4px;z-index:3;pointer-events:none;transform-origin:12px 4px;animation:krsw 3.2s ease-in-out infinite;--krc:var(--mt);filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
-@keyframes krsw{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(5deg)}}@media (prefers-reduced-motion:reduce){.kring{animation:none}}
+.kring{position:absolute;right:-34px;top:0;z-index:3;pointer-events:none;transform-origin:34px 9px;animation:krsw 3.2s ease-in-out infinite;--krc:var(--mt);filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+@keyframes krsw{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(3deg)}}@media (prefers-reduced-motion:reduce){.kring{animation:none}}
 .isrc{font-size:12px;color:var(--tx);margin:8px 0 2px;padding:6px 8px;border:1px dashed var(--ln);border-radius:3px}.isrc .k{color:var(--mt);font-size:11px;margin-right:6px}
 #pfeed .pl.me .rcpt{align-self:flex-end;flex:none;font-size:9.5px;margin-right:4px;color:var(--mt);line-height:1.2}#pfeed .pl.me .rcpt.n{color:var(--gold);font-weight:700}
 .ptyp{flex:none;height:15px;line-height:15px;font-size:10.5px;color:var(--mt);padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s}.ptyp.on{opacity:1;animation:typb 1.4s ease-in-out infinite}
@@ -361,7 +361,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112155353";
+const BUILD="20261112160420";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1090,7 +1090,7 @@ function facility(sp){
   row(h("div",{c:"grow"},h("b",{c:"sm",t:"휴식"}),h("div",{c:"xs mt",t:"에너지와 MP를 모두 회복"})),btn(rest+" 환",()=>clinic("rest",rest),"sm")),
   row(h("div",{c:"grow"},h("b",{c:"sm",t:"해독제 구매"}),h("div",{c:"xs mt",t:IT.detox.d})),btn("200 환",()=>buy("detox",200),"sm")))}
  else if(sp==="market"){box.append(wal);const t=subs("market",[["shop","상점"],["ex","거래소"],["mine","내 판매"],["dlv","납품"]]);
-  if(t==="shop")box.append(row(h("div",{c:"ti grow"},h("div",{c:"decoi"},beadSvg("hx.4",16),beadSvg("ht.0",16),beadSvg("st.2",16)),h("div",{},h("b",{c:"sm",t:"꾸미기재료묶음"}),h("div",{c:"xs mt",t:"동그란·십자가·사각형·다이아몬드·육각형·별·하트·물방울·원통 비즈 중 "+DECO_N+"개 무작위 · 숙소 키링 공방에서 사용"}))),h("span",{c:"sm gold",t:DECO_P}),btn("구매",buyDeco,"sm")));
+  if(t==="shop")Object.entries(BSET).forEach(([k,S])=>box.append(row(h("div",{c:"ti grow"},h("div",{c:"decoi"},beadSvg("ht."+S.c[0],16),beadSvg("dm."+S.c[3],16),beadSvg("dr."+S.c[4],16)),h("div",{},h("b",{c:"sm",t:S.n}),h("div",{c:"xs mt",t:"네모·동그라미·다이아몬드·물방울·하트·십자가 × "+S.c.map(i=>BCL[i][0]).join("·")+" · 모양·색깔별 "+BSET_Q+"개씩 ("+BSET_SH.length*S.c.length*BSET_Q+"개) · 가방에서 사용"}))),h("span",{c:"sm gold",t:DECO_P}),btn("구매",()=>buyDeco(k),"sm"))));
   if(t==="shop")Object.entries(MARKET).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d||"제작 재료"})),h("span",{c:"sm gold",t:p}),btn("1개",()=>buy(id,p),"sm"),btn("5개",()=>buy(id,p,5),"sm"))));
   else if(t==="ex"){const L=market.filter(m=>m.seller!==uid);box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"거래 수수료 5%는 판매자에게서 차감됩니다."}));if(!L.length)box.append(h("p",{c:"sm mt",t:"등록된 매물이 없습니다."}));
    L.forEach(m=>{if(m.gear){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[m.gear.r].c,t:"["+RAR[m.gear.r].n+"] "+gName(m.gear)+" · Lv"+m.gear.lv}),h("div",{c:"xs mt",t:(gDesc(m.gear)||"옵션 없음")+" · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
@@ -1596,7 +1596,7 @@ function itemPop(k){const i=IT[k],n=me.inv[k]||0;if(!n)return closePop();
  const st=[i.d,i.atk?"공격 +"+i.atk:null,i.def?"방어 +"+i.def:null,i.slot?"장착 부위: "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,""):null].filter(Boolean).join(" · ");
  const acts=h("div",{c:"row",style:"margin-top:12px"});
  if(i.use)acts.append(btn(k==="detox"?"사용":"먹기 / 사용",async()=>{await useItem(k);itemPop(k)},"pri grow"));
- if(i.deco){acts.append(btn("사용하기",()=>{closePop();wrap(openDeco)},"pri grow"));if(Object.values(me.beads||{}).some(x=>x>0))acts.append(btn("만들기",()=>{closePop();krPop()},"grow"))}
+ if(i.deco){acts.append(btn("사용하기",()=>{closePop();wrap(()=>openDeco(k))},"pri grow"));if(Object.values(me.beads||{}).some(x=>x>0))acts.append(btn("만들기",()=>{closePop();krPop()},"grow"))}
  if(i.med)acts.append(btn("사용",async()=>{await useMed(k);itemPop(k)},"pri grow"));
  if(i.dose)acts.append(btn(doseArm?"정말 주사합니다":"주사하기",async()=>{if(!doseArm){doseArm=true;itemPop(k);return}doseArm=false;await useDose(k);itemPop(k)},"pri grow"));
  if(i.learn)acts.append(btn((me.rcp||[]).includes(i.learn)?"이미 익힘":"익히기",async()=>{await learnRcp(k);itemPop(k)},"pri grow",{disabled:(me.rcp||[]).includes(i.learn)}));
@@ -2239,9 +2239,13 @@ function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"bu
 const SVGNS="http://www.w3.org/2000/svg";
 function svE(t,a,p){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.append(e);return e}
 /* 비즈: 모양 × 색 */
-const BSH={rd:"동그란",cr:"십자가",sq:"사각형",dm:"다이아몬드",hx:"육각형",st:"별",ht:"하트",dr:"물방울",cy:"원통"};
-const BCL=[["루비","#e2445c"],["호박","#e8a33d"],["레몬","#e3cf55"],["비취","#45b884"],["하늘","#5aa9e6"],["라벤더","#9b7be0"],["우유","#ece6dc"],["흑요","#4a4a58"]];
-const DECO_P=400,DECO_N=14,KR_MAX=6,KR_LEN=9;
+const BSH={rd:"동그라미",cr:"십자가",sq:"네모",dm:"다이아몬드",hx:"육각형",st:"별",ht:"하트",dr:"물방울",cy:"원통"};
+const BCL=[["루비","#e2445c"],["호박","#e8a33d"],["레몬","#e3cf55"],["비취","#45b884"],["하늘","#5aa9e6"],["라벤더","#9b7be0"],["우유","#ece6dc"],["흑요","#4a4a58"],
+ ["빨강","#e3202e"],["주황","#f07612"],["노랑","#f6cc10"],["초록","#1ea64a"],["파랑","#1d5ed8"],["보라","#7b2ccb"],
+ ["분홍","#f5b3c7"],["살구","#f8c9a2"],["연노랑","#f4e8a0"],["민트","#b2e6cd"],["하늘","#b5d5f3"],["연보라","#d2c0ef"]];
+/* 비즈세트: 네모·동그라미·다이아몬드·물방울·하트·십자가 × 색 6가지 × 3개씩 */
+const BSET={deco_p:{n:"꾸미기비즈세트(원색)",c:[8,9,10,11,12,13]},deco_s:{n:"꾸미기비즈세트(파스텔)",c:[14,15,16,17,18,19]}},BSET_SH=["sq","rd","dm","dr","ht","cr"],BSET_Q=3;
+const DECO_P=400,DECO_N=14,KR_MAX=6,KR_LEN=9,KR_SC=2.25;
 const bName=k=>{const[s,c]=k.split(".");return BCL[+c][0]+" "+BSH[s]+" 비즈"};
 function beadDraw(g,k,cx,cy,r){const[s,c]=k.split("."),col=BCL[+c]?BCL[+c][1]:"#ccc",st={fill:col,stroke:"rgba(0,0,0,.45)","stroke-width":.6};let e;
  const P=pts=>pts.map(([x,y])=>(cx+x*r).toFixed(2)+","+(cy+y*r).toFixed(2)).join(" ");
@@ -2257,18 +2261,18 @@ function beadDraw(g,k,cx,cy,r){const[s,c]=k.split("."),col=BCL[+c]?BCL[+c][1]:"#
  svE("ellipse",{cx:cx-r*.3,cy:cy-r*.35,rx:r*.26,ry:r*.16,fill:"rgba(255,255,255,.55)",transform:`rotate(-30 ${cx-r*.3} ${cy-r*.35})`},g);return e}
 function beadSvg(k,px){const v=svE("svg",{viewBox:"0 0 20 20",width:px||22,height:px||22,class:"bead"});beadDraw(v,k,10,10,7.2);return v}
 /* 비즈 스트랩: 고리 → 줄 → 비즈 → 매듭 → 술 */
-function strapSvg(L,sc){sc=sc||1;const step=13,h0=14,H=h0+L.length*step+20,v=svE("svg",{viewBox:`0 0 24 ${H}`,width:24*sc,height:H*sc,class:"strap"});
- svE("ellipse",{cx:12,cy:6,rx:3.6,ry:4.6,fill:"none",stroke:"var(--krc)","stroke-width":1.3},v);
- svE("line",{x1:12,y1:10.5,x2:12,y2:H-16,stroke:"var(--krc)","stroke-width":1.1},v);
- L.forEach((k,i)=>beadDraw(v,k,12,h0+i*step+6,5.6));
- const ky=H-15;svE("circle",{cx:12,cy:ky,r:2.1,fill:"var(--krc)"},v);[-4,-1.5,1.5,4].forEach(dx=>svE("line",{x1:12,y1:ky+1,x2:12+dx,y2:H-1,stroke:"var(--krc)","stroke-width":.9,"stroke-linecap":"round"},v));return v}
+function strapSvg(L,sc){sc=sc||1;const W=30,cx=15,step=14.6,h0=15,H=h0+L.length*step+20,v=svE("svg",{viewBox:`0 0 ${W} ${H}`,width:W*sc,height:H*sc,class:"strap"});
+ svE("ellipse",{cx,cy:6,rx:3.8,ry:4.8,fill:"none",stroke:"var(--krc)","stroke-width":1.3},v);
+ svE("line",{x1:cx,y1:10.8,x2:cx,y2:H-16,stroke:"var(--krc)","stroke-width":1.1},v);
+ L.forEach((k,i)=>beadDraw(v,k,cx,h0+i*step+7.3,7.2));
+ const ky=H-15;svE("circle",{cx,cy:ky,r:2.2,fill:"var(--krc)"},v);[-4.5,-1.6,1.6,4.5].forEach(dx=>svE("line",{x1:cx,y1:ky+1,x2:cx+dx,y2:H-1,stroke:"var(--krc)","stroke-width":.9,"stroke-linecap":"round"},v));return v}
 /* 기기에 달린 키링 */
 function krOf(dev){const id=me&&me.kra&&me.kra[dev];return id?(me.krs||[]).find(x=>x.id===id)||null:null}
 function applyKR(){if(!me)return;[["phone","#phone"],["radio","#radio"]].forEach(([dev,sel])=>{const P=$(sel);if(!P)return;const k=krOf(dev),key=k?k.id+":"+k.b.join(","):"",cur=P.querySelector(":scope>.kring");
- if((cur?cur.dataset.k:"")===key)return;if(cur)cur.remove();if(!k)return;const w=h("div",{c:"kring","data-k":key});w.append(strapSvg(k.b,1));P.append(w)})}
+ if((cur?cur.dataset.k:"")===key)return;if(cur)cur.remove();if(!k)return;const w=h("div",{c:"kring","data-k":key});w.append(strapSvg(k.b,KR_SC));P.append(w)})}
 /* 시장: 꾸미기재료묶음 */
-async function buyDeco(){if(me.tan<DECO_P)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,"deco",1)<1)return toast("가방이 가득 찼습니다");
- await upd({tan:me.tan-DECO_P,inv});toast("꾸미기재료묶음 구매 · 가방에서 눌러 사용하세요")}
+async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,k,1)<1)return toast("가방이 가득 찼습니다");
+ await upd({tan:me.tan-DECO_P,inv});toast(BSET[k].n+" 구매 · 가방에서 눌러 사용하세요")}
 /* 우편함: 협회(게이트 보상)에서 온 우편은 직접 받아야 함 */
 const mails=()=>payouts.filter(x=>x.to===uid&&x.from==="hq").sort((a,b)=>b.t-a.t);
 let kdraft=[],homeSub="mail";
@@ -2295,13 +2299,13 @@ function rRoom(v){const R=me.room||{},c=h("div",{c:"card"},h("h3",{t:"내 방"})
  FURN.forEach(([k,n])=>{const has=me.inv[k]||0,placed=!!R[k];c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n}),h("div",{c:"xs mt",t:placed?"방에 놓여 있음":has?"가방에 "+has+"개":"없음 · 정비소에서 제작"})),
   placed?btn("빼기",()=>moveFurn(k,false),"sm"):btn("들여놓기",()=>moveFurn(k,true),"sm"+(has?" pri":""))))});v.append(c)}
 async function moveFurn(k,put){const R={...(me.room||{})},inv={...me.inv};if(put){if(!inv[k])return toast("가방에 "+IT[k].n+"이(가) 없어요");inv[k]--;R[k]=1}else{if(!R[k])return;if(addInv(inv,k,1)<1)return toast("가방이 가득 찼습니다");delete R[k]}await upd({inv,room:R});toast(IT[k].n+(put?" 들여놓음":" 가방으로"))}
-function rKr(v){const B=me.beads||{},keys=Object.keys(B).filter(k=>B[k]>0).sort(),use={};kdraft.forEach(k=>use[k]=(use[k]||0)+1);
+function rKr(v){const B=me.beads||{},keys=Object.keys(B).filter(k=>B[k]>0).sort((a,b)=>{const[x,i]=a.split("."),[y,j]=b.split(".");return(+i)-(+j)||BSET_SH.indexOf(x)-BSET_SH.indexOf(y)}),use={};kdraft.forEach(k=>use[k]=(use[k]||0)+1);
  const mk=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"키링 만들기"}),h("span",{c:"sm mt",t:kdraft.length+" / "+KR_LEN})));
  const pv=h("div",{c:"krpv"});if(kdraft.length)pv.append(strapSvg(kdraft,1.6));else pv.append(h("span",{c:"xs mt",t:"아래 비즈를 눌러 위에서부터 한 줄로 끼워요"}));mk.append(pv);
  mk.append(h("div",{c:"row",style:"gap:6px;margin:8px 0"},btn("하나 빼기",()=>{kdraft.pop();krRe()},"sm grow"),btn("비우기",()=>{kdraft=[];krRe()},"sm grow"),btn("완성",makeKR,"sm pri grow")));
- const bx=h("div",{c:"bbox"});if(!keys.length)bx.append(h("p",{c:"sm mt",style:"grid-column:1/-1",t:"비즈가 없어요. 시장 상점에서 꾸미기재료묶음을 사서 가방에서 사용하면 여러 모양의 비즈가 나와요."}));
- keys.forEach(k=>{const left=B[k]-(use[k]||0);bx.append(h("button",{c:"bd"+(left<=0?" off":""),title:bName(k),onclick:()=>{if(left<=0)return toast("이 비즈를 다 썼어요");if(kdraft.length>=KR_LEN)return toast("한 줄에 "+KR_LEN+"개까지 끼울 수 있어요");kdraft.push(k);krRe()}},beadSvg(k,24),h("small",{t:"×"+left})))});
- mk.append(h("div",{c:"xs mt",style:"margin:2px 0 6px",t:"비즈 상자 · 9가지 모양 × 8가지 색"}),bx);v.append(mk);
+ const bx=h("div",{c:"bbox"});if(!keys.length)bx.append(h("p",{c:"sm mt",style:"grid-column:1/-1",t:"비즈가 없어요. 시장 상점에서 꾸미기비즈세트(원색·파스텔)를 사서 가방에서 사용하면 비즈가 나와요."}));
+ keys.forEach(k=>{const left=B[k]-(use[k]||0);bx.append(h("button",{c:"bd"+(left<=0?" off":""),title:bName(k),onclick:()=>{if(left<=0)return toast("이 비즈를 다 썼어요");if(kdraft.length>=KR_LEN)return toast("한 줄에 "+KR_LEN+"개까지 끼울 수 있어요");kdraft.push(k);krRe()}},beadSvg(k,28),h("small",{t:"×"+left})))});
+ mk.append(h("div",{c:"xs mt",style:"margin:2px 0 6px",t:"비즈 상자 · 원색·파스텔 비즈"}),bx);v.append(mk);
  const L=me.krs||[],kc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 키링"}),h("span",{c:"sm mt",t:L.length+" / "+KR_MAX})));
  if(!L.length)kc.append(h("p",{c:"sm mt",t:"만든 키링이 없어요."}));
  L.forEach(k=>{const at=Object.entries(me.kra||{}).filter(([d,id])=>id===k.id).map(([d])=>d==="phone"?"핸드폰":"수신기");
@@ -2588,11 +2592,14 @@ function garnish(p){const L=me&&me.loan;if(!L||!L.pen||!L.p||p.loan!==undefined)
 /* 격리실: 오염도 0%면 자동 퇴원 */
 let quarOut=0;function quarTick(){if(!me||!me.quar||quarOut)return;if(cur(me).con<=0){quarOut=1;upd({quar:false}).then(()=>toast("오염도 0% · 격리실에서 자동 퇴원했어요")).finally(()=>quarOut=0)}}
 /* ===== 꾸미기재료묶음 (가방) → 키링 만들기 ===== */
+Object.entries(BSET).forEach(([k,S])=>{IT[k]={n:S.n,deco:1,d:"네모·동그라미·다이아몬드·물방울·하트·십자가 비즈가 "+S.c.map(i=>BCL[i][0]).join("·")+" 색깔별로 "+BSET_Q+"개씩 들어 있어요. 사용하면 비즈 상자에 담기고, 한 줄로 끼워 키링을 만들 수 있어요."}});
 IT.deco={n:"꾸미기재료묶음",deco:1,d:"동그란·십자가·사각형·다이아몬드·육각형·별·하트·물방울·원통 비즈가 섞인 묶음. 사용하면 비즈 "+DECO_N+"개가 나오고, 한 줄로 끼워 키링을 만들 수 있어요."};
 function krRe(){if($("#pop").style.display==="flex"&&$("#popb .krwrap"))krPop();else render(true)}
 function krPop(){const c=h("div",{c:"krwrap"});rKr(c);openPop(c,btn("닫기",closePop,"full",{style:"margin-top:8px"}))}
-async function openDeco(){const inv={...me.inv};if(!inv.deco)return toast("꾸미기재료묶음이 없어요");inv.deco--;const b={...(me.beads||{})},S=Object.keys(BSH);for(let i=0;i<DECO_N;i++){const k=S[ri(S.length)]+"."+ri(BCL.length);b[k]=(b[k]||0)+1}
- await upd({inv,beads:b});toast("꾸미기재료묶음을 열었어요 · 비즈 "+DECO_N+"개");setTimeout(krPop,250)}
+async function openDeco(k){k=k||"deco";const inv={...me.inv};if(!inv[k])return toast("비즈세트가 없어요");inv[k]--;const b={...(me.beads||{})};let n=0;
+ if(BSET[k])BSET_SH.forEach(sh=>BSET[k].c.forEach(ci=>{const key=sh+"."+ci;b[key]=(b[key]||0)+BSET_Q;n+=BSET_Q}));
+ else{const S=Object.keys(BSH);for(let i=0;i<DECO_N;i++){const key=S[ri(S.length)]+"."+ri(8);b[key]=(b[key]||0)+1;n++}}
+ await upd({inv,beads:b});toast((IT[k]?IT[k].n:"비즈세트")+"를 열었어요 · 비즈 "+n+"개");setTimeout(krPop,250)}
 function krCard(){const L=me.krs||[],nb=Object.values(me.beads||{}).reduce((a,b)=>a+b,0);if(!L.length&&!nb)return null;
  const row=h("div",{c:"krsum"});L.slice(0,6).forEach(k=>row.append(h("div",{c:"krmini"},strapSvg(k.b,.8))));
  return h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"키링"}),h("span",{c:"sm mt",t:"비즈 "+nb+"개 · 키링 "+L.length+"/"+KR_MAX})),L.length?row:null,btn("키링 만들기 · 달기",krPop,"full",{style:"margin-top:8px"}))}
