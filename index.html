@@ -244,7 +244,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112054159";
+const BUILD="20261112054903";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -311,8 +311,8 @@ const BUILD="20261112054159";
 
  async function afterLogin(u){FB.uid=u.uid;FB.loginId=(u.email||"").replace(ID_DOMAIN,"");
   try{const us=await fs.doc("users/"+u.uid).get();if(!us.exists){st.mode="join";st.busy=false;paint();return}
-   /* 1회 정리: 이 계정의 예전 캐릭터(새 버전 이전에 만든 것)만 지움 */
-   if(FB.loginId==="xodud1234111"){try{const cr=fs.doc("chars/"+u.uid),cs=await cr.get();if(cs.exists&&!cs.data().born)await cr.delete()}catch(e){}}
+   /* 1회 정리: 이 계정의 예전 캐릭터(속성 무작위 버전 이전에 만든 것)만 지움 */
+   if(FB.loginId==="xodud1234111"){try{const cr=fs.doc("chars/"+u.uid),cs=await cr.get();if(cs.exists&&cs.data().rv!==2)await cr.delete()}catch(e){}}
    const ow=await ownerExists();FB.ownerUid=ow?ow.uid:null;FB.admin=!!(ow&&ow.uid===u.uid);GM.view=FB.admin;GM.chosen=false;enter()}
   catch(e){if(e&&e.code==="permission-denied"){st.mode="join";st.err="";st.busy=false;paint();return}st.mode="msg";st.err="접속 확인 중 오류: "+em(e);paint()}}
  function enter(){if(entered)return;entered=true;const A=q("#auth");if(A)A.style.display="none";
@@ -701,19 +701,17 @@ function rCreate(v){
  v.append(h("div",{c:"card"},h("h3",{t:"이름"}),nm));
  const rc=h("div",{c:"rc"});Object.entries(ROLE).forEach(([k,r])=>rc.append(h("button",{c:cr.role===k?"on":"",onclick:()=>{cr.role=k;cr.pts=[0,0,0,0,0,0];cr.ok=false;render(true)}},r.n,h("small",{t:r.d}))));
  v.append(h("div",{c:"card"},h("h3",{t:"직군"}),rc));
- const ag=h("div",{c:"attrs"}),fixA=resetDoc?resetDoc.attr:null;ATTR.forEach(a=>{const on=(fixA||cr.attr)===a;ag.append(h("button",{disabled:!!fixA&&!on,style:"color:"+ACOL[a]+";"+(on?"border-color:"+ACOL[a]+";background:"+ACOL[a]+"22":""),onclick:()=>{if(fixA)return;cr.attr=a;cr.ok=false;render(true)}},svgI(AICO[a]),a))});
- v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"속성"}),h("span",{c:"xs mt",t:fixA?"이전 각성 속성 유지":"직접 고르기"})),ag,h("p",{c:"xs mt",style:"margin:8px 0 0",t:"상성: 불→풀→땅→번개→물→불 · 빛↔어둠 (유리하면 피해 ×1.3)"})));
  const sc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯 배분"}),h("span",{c:"gold sm",t:"남은 포인트 "+left+" · 총합 "+(base.reduce((a,b)=>a+b,0)+used)+"/15"})));
  SHOW.forEach(i=>{const n=SN[i];sc.append(h("div",{c:"stat"},h("span",{c:"n",t:n,style:i===ROLE[cr.role].key?"color:var(--ac2);font-weight:700":""}),mbar((base[i]+cr.pts[i])/10),
   h("button",{t:"−",disabled:cr.pts[i]===0,onclick:()=>{cr.pts[i]--;cr.ok=false;render(true)}}),h("b",{t:base[i]+cr.pts[i]}),
   h("button",{t:"+",disabled:left===0,onclick:()=>{cr.pts[i]++;cr.ok=false;render(true)}})),h("div",{c:"sdesc",t:SDESC[i]}))});
  v.append(sc);
  const miss=crMiss();
- v.append(h("div",{c:"card"},h("h3",{t:"각성"}),h("p",{c:"mt sm",t:resetDoc?"이전 각성 결과가 그대로 유지됩니다: "+resetDoc.attr+" 속성 · "+resetDoc.grade+"등급":"속성은 위에서 고른 대로, 등급(F~S)은 각성 순간 무작위로 정해집니다."}),
+ v.append(h("div",{c:"card"},h("h3",{t:"각성"}),h("p",{c:"mt sm",t:resetDoc?"이전 각성 결과가 그대로 유지됩니다: "+resetDoc.attr+" 속성 · "+resetDoc.grade+"등급":"속성(7종 동일 확률)과 등급(F~S)은 각성 순간 무작위로 정해집니다."}),
   h("p",{id:"crmiss",c:"sm "+(miss.length?"gold":"ok"),style:"margin:0 0 8px",t:miss.length?"남은 준비: "+miss.join(" · "):"준비 완료 — 각성할 수 있어요"}),
   btn(cr.ok?"정말 각성합니다 (되돌릴 수 없음)":"각성하고 시작",async()=>{const m=crMiss();if(m.length){updCrMiss();return toast("먼저 해 주세요: "+m.join(" · "))}if(!cr.ok){cr.ok=true;render(true);return}await doCreate()},"pri full")));
 }
-function crMiss(){const used=cr.pts.reduce((a,b)=>a+b,0);return[cr.name.trim().length<2?"이름(2자 이상)":null,!resetDoc&&!cr.attr?"속성 고르기":null,8-used>0?"스탯 "+(8-used)+"포인트 더 배분":null].filter(Boolean)}
+function crMiss(){const used=cr.pts.reduce((a,b)=>a+b,0);return[cr.name.trim().length<2?"이름(2자 이상)":null,8-used>0?"스탯 "+(8-used)+"포인트 더 배분":null].filter(Boolean)}
 function updCrMiss(){const e=$("#crmiss");if(!e)return;const m=crMiss();e.textContent=m.length?"남은 준비: "+m.join(" · "):"준비 완료 — 각성할 수 있어요";e.className="sm "+(m.length?"gold":"ok")}
 function newNum(){const used=new Set(Object.values(chars).map(c=>c.num));let n;do{n=String(1000000+ri(9000000))}while(used.has(n));return n}
 async function doCreate(){
@@ -721,7 +719,7 @@ async function doCreate(){
  if(Object.values(chars).some(c=>c.name===name))return toast("이미 사용 중인 이름입니다");
  const s0=await db.doc("chars/"+uid).get(),rd=s0.exists?s0.data():null;if(rd&&!rd.reset)return toast("이미 캐릭터가 있습니다");
  const s=ROLE[cr.role].base.map((b,i)=>b+cr.pts[i]);
- const c={name,role:cr.role,s,sp:0,sv:3,gear:[],attr:rd?rd.attr:(cr.attr||ATTR[ri(7)]),grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
+ const c={name,role:cr.role,s,sp:0,sv:3,gear:[],attr:rd?rd.attr:ATTR[ri(7)],rv:2,grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
  c.hp=maxHp(c);c.en=MAXEN;c.mp=maxMp(c);await db.doc("chars/"+uid).set(c);toast("각성: "+c.attr+" 속성 "+c.grade+"등급! 내 번호 "+fnum(c.num));tab="me";
 }
 let migr=false;
