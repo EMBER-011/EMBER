@@ -255,7 +255,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261112071441";
+const BUILD="20261112072453";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -381,7 +381,7 @@ const BUILD="20261112071441";
  /* ----- 운영자: 시작 방식 선택 · 운영 화면 · 운영자 캐릭터 숨김 ----- */
  const GM={view:false,chosen:false};
  window.__hideGM=id=>!!FB.ownerUid&&id===FB.ownerUid&&id!==FB.uid;
- window.__gmRender=function(v){if(!FB.admin||!GM.view)return false;try{if(phoneOn)closePhone()}catch(e){}
+ window.__gmRender=function(v){if(!FB.admin||!GM.view)return false;if(!GM.chosen&&me){GM.view=false;GM.chosen=true;return false}try{if(phoneOn)closePhone()}catch(e){}
   const play=()=>{GM.view=false;GM.chosen=true;render(true)},playT=me?"캐릭터로 플레이 · "+me.name+" Lv"+me.lv:"캐릭터 만들어서 플레이";
   if(!GM.chosen){v.append(h("div",{style:"text-align:center;padding:18px 0 14px"},h("h2",{c:"title",style:"font-size:clamp(21px,7vw,30px);letter-spacing:.05em;white-space:nowrap",t:"殘火(잔화) :: Ember"}),h("p",{c:"mt sm",t:"운영자로 로그인했어요. 어떻게 시작할까요?"})),
     h("div",{c:"card"},btn("운영 화면만 보기",()=>{GM.chosen=true;render(true)},"pri full"),h("div",{c:"xs mt",style:"margin:6px 2px 14px",t:"초대코드 만들기, 회원 관리만 해요. 캐릭터 없이도 돼요."}),
