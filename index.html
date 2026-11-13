@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113050330";
+const BUILD="20261113051921";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -547,7 +547,7 @@ const BUILD="20261113050330";
   out.push(h("div",{c:"card"},h("h3",{t:"계정"}),h("div",{c:"sm mt",t:"로그인 아이디 "+FB.loginId+(FB.admin?" · 운영자":"")}),h("div",{style:"height:8px"}),
    btn("로그아웃",async()=>{if(FB.dropPresence)await FB.dropPresence();await auth.signOut();location.href=location.pathname},"full")));
   if(!FB.admin)return out;
-  if(!GM.view){out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"초대코드와 회원 관리는 운영 화면에 있어요. 내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full")));return out}
+  if(!GM.view){out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"초대코드와 회원 관리는 운영 화면에 있어요. 내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full"),h("div",{style:"height:6px"}),btn("내 캐릭터 살리기",()=>wrap(()=>gmRevive(FB.uid)),"full")));return out}
   if(AD.inv===null&&!AD.loading)setTimeout(adLoad,0);
   const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"운영 · 초대코드"}),btn("새로고침",adLoad,"sm")));
   const sel=h("select",{onchange:e=>{AD.exp=+e.target.value}},[[7,"7일"],[30,"30일"],[0,"기한 없음"]].map(([v,n])=>{const o=h("option",{value:v,t:"유효기간 "+n});if(v===AD.exp)o.selected=true;return o}));
@@ -563,8 +563,8 @@ const BUILD="20261113050330";
   const m=h("div",{c:"card"},h("h3",{t:"회원 "+(AD.users?AD.users.length+"명":"")}));
   (AD.users||[]).forEach(u=>{const ch=chars[u.uid],self=u.uid===FB.uid;
    m.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:u.id+(u.owner?" · 운영자":"")}),u.invite?h("span",{c:"xs mt",t:" "+u.invite}):null,h("div",{c:"xs mt",t:(ch?ch.name+" · Lv"+ch.lv:"캐릭터 없음")+" · 가입 "+day(u.t)+(online.has(u.uid)?" · 접속 중":"")})),
-    self?null:btn(AD.arm===u.uid?"정말 차단":"차단",()=>adBlock(u),AD.arm===u.uid?"pri sm":"sm")))});
-  m.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"아이디 옆 코드는 가입할 때 쓴 초대코드예요. 차단하면 그 회원은 게임에 들어올 수 없어요. 캐릭터는 남아 있어서, 새 초대코드로 다시 입장하면 이어서 할 수 있어요. 비밀번호를 잊은 회원은 새 아이디로 가입해야 합니다."}));
+    ch?btn("살리기",()=>wrap(()=>gmRevive(u.uid)),"sm"):null,self?null:btn(AD.arm===u.uid?"정말 차단":"차단",()=>adBlock(u),AD.arm===u.uid?"pri sm":"sm")))});
+  m.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"살리기: 실종·격리를 풀고 HP·MP·에너지를 가득 채워 중앙 거점 광장으로 보내요. "}),h("div",{c:"xs mt",style:"margin-top:4px",t:"아이디 옆 코드는 가입할 때 쓴 초대코드예요. 차단하면 그 회원은 게임에 들어올 수 없어요. 캐릭터는 남아 있어서, 새 초대코드로 다시 입장하면 이어서 할 수 있어요. 비밀번호를 잊은 회원은 새 아이디로 가입해야 합니다."}));
   out.push(m);return out};
 })();
 
@@ -2238,7 +2238,7 @@ async function ensureExt(){const g=myG();if(!g||myExt())return;await gmut(me.gui
 const gMates=()=>{const g=myG();return g?g.members.filter(id=>id!==uid&&chars[id]):[]};
 const rLogs=()=>calls.filter(c=>c.r&&(c.from===uid||c.to===uid||(c.mem||[]).includes(uid))).slice(-12).reverse();
 const rMissed=()=>calls.filter(c=>c.r&&c.to===uid&&c.st==="missed"&&c.t>seenOf("rcall")).length;
-function openRadio(){rdOn=true;if(myG())ensureExt().catch(()=>{});const R=$("#radio");if(!R.firstChild)buildRadio(R);R.style.display="block";$("#rtab").classList.add("act");rdRender();placeRadio()}
+function openRadio(){rdOn=true;if(myG())ensureExt().catch(()=>{});const R=$("#radio");if(!R.dataset.built){R.dataset.built="1";R.querySelectorAll(":scope>:not(.kring)").forEach(x=>x.remove());buildRadio(R)}R.style.display="block";$("#rtab").classList.add("act");rdRender();placeRadio()}
 function closeRadio(){rdOn=false;$("#radio").style.display="none";$("#rtab").classList.remove("act")}
 function buildRadio(R){const key=(t,fn,c,lab)=>kbtn(c||"",t,fn,null,lab||(typeof t==="string"?t:""));
  const kp=h("div",{c:"rkp"});"123456789*0#".split("").forEach(d=>kp.append(key(d,()=>rdKey(d),"rk")));
@@ -3030,6 +3030,11 @@ async function relRun(now){
  const q=me.pairReq;if(q&&now>=q.due&&!me.pair){await pairAnn(q,uid,q.w);await upd({pair:{w:q.w,at:q.due},pairReq:null});toast("협회 승인 · "+((chars[q.w]||{}).name||"")+" 헌터와 페어가 되었어요")}
  else if(!me.pair&&!q){for(const[id,c]of Object.entries(chars)){if(id===uid)continue;const cq=c.pairReq;if((c.pair&&c.pair.w===uid)||(cq&&cq.w===uid&&now>=cq.due)){if(cq&&!c.pair)await pairAnn(cq,id,uid);await upd({pair:{w:id,at:cq?cq.due:c.pair.at}});toast("협회 승인 · "+c.name+" 헌터와 페어가 되었어요");break}}}}
 
+/* 운영자: 캐릭터 살리기 (실종·격리 해제, HP·MP·에너지 가득, 중앙 거점으로) */
+async function gmRevive(id){const c=id===uid?me:chars[id];if(!c)return toast("캐릭터가 없어요");const p={mis:null,hosp:null,loc:"base",spot:"plaza",sg:null,trip:null,gx:null};
+ const m=c.mis;if(m&&m.kr&&m.kr.length&&!gates[krpId(id,m.t)])p.krs=(c.krs||[]).concat(m.kr.map(k=>{const z={id:"k"+Date.now().toString(36)+ri(1e5),b:k.b};if(k.pm)z.pm=k.pm;return z}));
+ if(id===uid)await upd(Object.assign(p,{ts:Date.now()}));else await db.doc("chars/"+id).update(Object.assign(p,{hp:maxHp(c),mp:maxMp(c),en:MAXEN,ts:Date.now()}));
+ if(id===uid)await db.doc("chars/"+uid).update({hp:maxHp(me),mp:maxMp(me),en:MAXEN,ts:Date.now()});toast(c.name+" 캐릭터를 살렸어요 · 중앙 거점 광장")}
 /* ===== 깨진 화면 (금 + 노이즈) ===== */
 function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClientRect(),W=Math.round(r.width)||innerWidth,H=Math.round(r.height)||innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
  let sd=7;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
