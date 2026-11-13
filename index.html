@@ -373,7 +373,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113011806";
+const BUILD="20261113012835";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1977,6 +1977,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
  else if(s==="contacts"){hd("연락처",h("span",{c:"xs"},h("button",{c:"plink"+(ph.sub==="f"?" on":""),type:"button",t:"친구",onclick:()=>{ph.sub="f";phRender()}})," ",h("button",{c:"plink"+(ph.sub==="g"?" on":""),type:"button",t:"길드",onclick:()=>{ph.sub="g";phRender()}})," ",h("button",{c:"plink"+(ph.sub==="b"?" on":""),type:"button",t:"차단",onclick:()=>{ph.sub="b";phRender()}})));
   if(ph.sub==="b"){const L=Object.keys(me.blk||{}).filter(id=>chars[id]);sec("스팸 등록 "+L.length);if(!L.length)B.append(h("div",{c:"pe",t:"차단한 사람이 없어요. 연락처에서 사람을 눌러 스팸 등록할 수 있어요."}));
    L.forEach(id=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:dName(id)}),h("small",{t:fnum(chars[id].num)+" · "+ago(me.blk[id])+" 등록"})),h("button",{c:"plink",type:"button",t:"정보",onclick:()=>phGo("person","dm:"+id)}),h("button",{c:"plink",type:"button",t:"해제",onclick:()=>wrap(()=>toggleBlk(id))}))));return}
+  sec("기관");[["133","목공","목공소 · 보관함 확장"],["115","헌터 협회","협회 가입 · 탈퇴 · 상담"]].forEach(([n,nm,d])=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:nm}),h("small",{t:"☎ "+n+" · "+d})),h("button",{c:"plink",type:"button",t:"전화",onclick:()=>placeCall(n)}))));
   if(ph.sub==="f"){const IN=frIn(),OUT=frOut(),L=(me.friends||[]).filter(id=>id!==uid&&chars[id]).map(id=>[id,chars[id]]).sort((a,b)=>(online.has(b[0])-online.has(a[0]))||a[1].name.localeCompare(b[1].name,"ko"));
    const fq=(q,id,btns)=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:chars[id].name}),h("small",{t:fnum(chars[id].num)+" · "+ROLE[chars[id].role].n+" Lv"+chars[id].lv})),...btns.map(([t,fn])=>h("button",{c:"plink",type:"button",t,onclick:()=>wrap(fn)}))));
    if(IN.length){sec("받은 친구 요청 "+IN.length);IN.forEach(q=>fq(q,q.from,[["수락",()=>frAccept(q)],["거절",()=>frDecline(q)]]))}
