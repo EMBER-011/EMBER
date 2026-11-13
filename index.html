@@ -303,7 +303,12 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .sub3{font-size:12.5px;font-weight:700;color:var(--ac2);margin:4px 0 6px;letter-spacing:.02em}.gwi{padding:9px 0;border-top:1px solid var(--ln)}.gwi input{margin:0}
 .pvg{margin-bottom:10px}.pvm{display:block;width:100%;text-align:left;padding:6px 6px 4px;margin-top:4px;border:1px solid var(--ln);border-radius:4px;background:transparent;color:inherit;font:inherit}.pvm.sel{border-color:var(--ac);background:rgba(var(--acr),.1)}.pvm.me{border-style:dashed}.pvm.down{opacity:.45}
 .pvres{font-size:26px;margin:6px 0 2px;letter-spacing:.1em}.pvres.win{color:var(--gold)}.pvres.lose{color:var(--mt)}
-#pscr{position:relative}.pnone{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:var(--scr);text-align:center;animation:pnin .25s ease-out both}.pnone p{margin:0;font-size:13px;line-height:1.7;color:var(--tx);word-break:keep-all}.pnone.out{opacity:0;transition:opacity .35s}
+#pscr{position:relative}#view.tripblk>*:not(.tripbar):not(.tripok){pointer-events:none;opacity:.42;filter:grayscale(.4)}
+.tripbar{position:sticky;top:0;z-index:6;display:flex;flex-direction:column;gap:2px;padding:10px 12px;margin:-2px 0 10px;border:1px solid var(--ln);border-radius:6px;background:var(--bg);font-size:12.5px}.tripbar b{color:var(--ac2);font-weight:600}.tripbar span{color:var(--mt);font-size:11.5px}
+.ptrb{font:inherit;font-size:12px;background:none;color:inherit;border:1px solid currentColor;border-radius:4px;padding:5px 16px;opacity:.8;cursor:pointer}
+.roomv{margin-top:8px;border-radius:6px;overflow:hidden;border:1px solid var(--ln)}.roomsv{display:block;width:100%;height:auto}
+:root{--rmw:#2a2622;--rms:#221f1c;--rmf:#1b1916;--rmc:#25221f;--rml:rgba(255,255,255,.07);--rmsky:#141a24;--rmfr:#3a352f;--rmcity:#2a3140;--rmmoon:#c9c3b6;--rmbulb:#e8c98a}
+.pnone{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:var(--scr);text-align:center;animation:pnin .25s ease-out both}.pnone p{margin:0;font-size:13px;line-height:1.7;color:var(--tx);word-break:keep-all}.pnone.out{opacity:0;transition:opacity .35s}
 @keyframes pnin{from{opacity:0}}#radio .rnone{justify-content:center}#radio .rnone p{margin:0;line-height:1.7;word-break:keep-all;text-align:center}
 .sosrow{display:flex;gap:10px;align-items:center;margin-top:8px}.sosb{position:relative;flex:none;width:44px;height:52px;padding:4px 0 3px;display:flex;flex-direction:column;align-items:center;gap:1px;border-radius:8px;background:var(--sf);border:1px solid var(--bd);z-index:2}
 .sosb .sosi{width:26px;height:30px;fill:none;stroke:var(--ac2);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}.sosb small{font-size:9px;letter-spacing:.12em;color:var(--mt);font-weight:600}
@@ -393,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113061422";
+const BUILD="20261113091820";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -889,7 +894,8 @@ function render(force){
  if(!me){nav.style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";if(ld.c)rCreate(v);return}
  nav.style.display="flex";$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}}
  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));
- (lockMsg()&&(tab==="map"||tab==="battle")?rLock:{map:rMap,battle:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab])(v);if(tc)v.classList.add("anim");
+ v.classList.remove("tripblk");(lockMsg()&&(tab==="map"||tab==="battle")?rLock:{map:rMap,battle:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab])(v);if(tc)v.classList.add("anim");
+ if(me.trip&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")}),h("span",{t:"도착할 때까지 채팅만 할 수 있어요"})))}
  if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;
  v.scrollTop=tc?0:sc;updTop();
 }
@@ -1868,7 +1874,7 @@ function rMe(v){
  const prev=h("div",{id:"pv"},avatar(pendPhoto?{photo:pendPhoto,name:me.name}:me,"l")),file=h("input",{type:"file",accept:"image/*",onchange:async e=>{const f=e.target.files[0];if(!f)return;try{pendPhoto=await readPhoto(f);prev.textContent="";prev.append(avatar({photo:pendPhoto,name:me.name},"l"))}catch(x){toast("이미지를 읽지 못했습니다")}}});
  v.append(h("div",{c:"card"},h("h3",{t:"프로필 수정 (언제든 가능)"}),h("div",{c:"row"},prev,h("div",{c:"grow"},file)),h("div",{style:"height:8px"}),nm,h("div",{style:"height:8px"}),bio,h("div",{style:"height:10px"}),
   btn("저장",async()=>{const n=nm.value.trim();if(n.length<2)return toast("이름은 2자 이상");if(Object.entries(chars).some(([id,c])=>id!==uid&&c.name===n))return toast("이미 사용 중인 이름");
-   const p={name:n,bio:bio.value.trim()};if(pendPhoto)p.photo=pendPhoto;await upd(p);pendPhoto=null;toast("프로필 저장 완료")},"pri full")),resetCard(),...(window.__fbCards?__fbCards():[]));
+   const p={name:n,bio:bio.value.trim()};if(pendPhoto)p.photo=pendPhoto;await upd(p);pendPhoto=null;toast("프로필 저장 완료")},"pri full")),resetCard(),...(window.__fbCards?__fbCards().map(e=>(e.classList.add("tripok"),e)):[]));
 }
 
 /* ===== 휴대폰 ===== */
@@ -1972,7 +1978,9 @@ const SEG={0:"abcdef",1:"bc",2:"abged",3:"abgcd",4:"fgbc",5:"afgcd",6:"afgedc",7
 function segSvg(ch){const S=document.createElementNS(NS,"svg"),on=SEG[ch]||"";S.setAttribute("viewBox","0 0 12 22.2");for(const k in SEGR){const [x,y,w,hh]=SEGR[k],r=document.createElementNS(NS,"rect");r.setAttribute("x",x);r.setAttribute("y",y);r.setAttribute("width",w);r.setAttribute("height",hh);r.setAttribute("rx",.9);if(on.includes(k))r.setAttribute("class","on");S.append(r)}return S}
 function lcdUp(){const l=$("#plcd");if(!l)return;l.textContent="";const v=ph.buf||"";if(!v)l.append(h("span",{c:"lch",t:"번호를 누르세요"}));else[...(v.length>3?fnum(v):v)].forEach(ch=>l.append(segSvg(ch)));l.append(h("i",{c:"lcur"}))}
 /* 화면 */
+const TRIP_PH=["home","msg","chat","pchat","contacts","person"];
 function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const w=wxNow();
+ if(me.trip&&!TRIP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"이동 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"도착할 때까지 채팅만 할 수 있어요"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  S.append(h("div",{c:"psb"},h("span",{c:"pleft"},h("button",{c:"phome",type:"button","aria-label":"홈 화면",onclick:phHome},svgI("M4 11.5l8-7 8 7M6.5 9.5V20h4v-5.5h3V20h4V9.5")),h("span",{id:"pclock",t:clock()})),h("span",{c:"pwx",title:WX[w].n},wxIco(w),h("span",{t:WX[w].n}))));
  if(call.st!=="idle"&&ph.scr!=="incall")S.append(h("button",{c:"pcbar",id:"pcbar",type:"button",onclick:()=>phGo("incall")},h("span",{t:callBarT()}),h("span",{t:"돌아가기 ›"})));
  const B=h("div",{c:"pbody"});S.append(B);
@@ -2361,10 +2369,27 @@ async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("�
  await upd({tan:me.tan-DECO_P,inv});toast(BSET[k].n+" 구매 · 가방에서 눌러 사용하세요")}
 /* 우편함: 협회(게이트 보상)에서 온 우편은 직접 받아야 함 */
 const mails=()=>payouts.filter(x=>x.to===uid&&(x.from==="hq"||x.k==="kr")).sort((a,b)=>b.t-a.t);
-let kdraft=[],homeSub="mail";
+let kdraft=[],homeSub="room";
 function rHome(v){
- const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:me.rno?me.rno+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:me.rno?Math.floor(me.rno/100)+"층":""})));[["mail","우편함"+(mails().length?" "+mails().length:"")],["store","보관함"]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
- if(homeSub==="store")return rStore(v);return rMail(v)}
+ const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:me.rno?me.rno+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:me.rno?Math.floor(me.rno/100)+"층":""})));[["room","방"],["mail","우편함"+(mails().length?" "+mails().length:"")],["store","보관함"]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
+ if(homeSub==="room")return rMyRoom(v);if(homeSub==="store")return rStore(v);return rMail(v)}
+/* 내 방 (가구 자리는 아직 없음 · 빈 방) */
+function myRoomSvg(){const v=svE("svg",{viewBox:"0 0 320 210",class:"roomsv",role:"img","aria-label":"빈 방"});
+ svE("rect",{x:0,y:0,width:320,height:210,fill:"var(--rmw)"},v);
+ svE("polygon",{points:"0,0 52,34 52,150 0,210",fill:"var(--rms)"},v);svE("polygon",{points:"320,0 268,34 268,150 320,210",fill:"var(--rms)"},v);
+ svE("polygon",{points:"0,210 52,150 268,150 320,210",fill:"var(--rmf)"},v);svE("polygon",{points:"0,0 52,34 268,34 320,0",fill:"var(--rmc)"},v);
+ for(let i=1;i<6;i++){const t=i/6,x0=52+216*t,x1=320*t;svE("line",{x1:x0,y1:150,x2:x1,y2:210,stroke:"var(--rml)","stroke-width":.6},v)}
+ [[150,168],[168,190]].forEach(([y])=>{const t=(y-150)/60;svE("line",{x1:52-52*t,y1:y,x2:268+52*t,y2:y,stroke:"var(--rml)","stroke-width":.6},v)});
+ svE("rect",{x:52,y:34,width:216,height:116,fill:"none",stroke:"var(--rml)","stroke-width":.8},v);
+ const wx=160,wy=60;svE("rect",{x:wx-42,y:wy,width:84,height:52,fill:"var(--rmsky)",stroke:"var(--rmfr)","stroke-width":3},v);
+ svE("line",{x1:wx,y1:wy,x2:wx,y2:wy+52,stroke:"var(--rmfr)","stroke-width":2},v);svE("line",{x1:wx-42,y1:wy+26,x2:wx+42,y2:wy+26,stroke:"var(--rmfr)","stroke-width":2},v);
+ [[wx-28,wy+40,5],[wx-18,wy+44,8],[wx+22,wy+42,6],[wx+32,wy+38,9]].forEach(([x,y,hh])=>svE("rect",{x,y:y-hh,width:6,height:hh+12,fill:"var(--rmcity)"},v));
+ svE("circle",{cx:wx+24,cy:wy+12,r:4,fill:"var(--rmmoon)",opacity:.8},v);
+ svE("rect",{x:276,y:62,width:30,height:84,fill:"none",stroke:"var(--rml)","stroke-width":1.2,transform:"skewY(-12)",style:"transform-box:fill-box;transform-origin:left top"},v);
+ svE("line",{x1:160,y1:34,x2:160,y2:46,stroke:"var(--rml)","stroke-width":1},v);svE("circle",{cx:160,cy:49,r:3.5,fill:"var(--rmbulb)"},v);
+ svE("ellipse",{cx:160,cy:182,rx:80,ry:12,fill:"var(--rmbulb)",opacity:.06},v);return v}
+function rMyRoom(v){const c=h("div",{c:"card roomc"},h("h3",{t:"내 방"}),
+  h("div",{c:"roomv"},myRoomSvg()),h("p",{c:"sm mt",style:"margin:10px 2px 0",t:"아직 아무것도 들이지 않은 빈 방이다. 창밖으로 거점의 불빛이 희미하게 보인다."}));v.append(c)}
 function rMail(v){if(mailSend.on)rMailSend(v);else v.append(btn("우편 보내기",()=>{mailSend.on=true;render(true)},"full",{style:"margin-bottom:10px"}));const L=mails(),c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"우편함"}),L.length>1?btn("모두 받기",async()=>{for(const p of mails())await claimOne(p)},"sm pri"):null));
  if(!L.length)c.append(h("p",{c:"sm mt",t:"도착한 우편이 없습니다. 게이트를 공략하면 보상이 기여도에 따라 우편으로 와요."}));
  L.forEach(p=>c.append(h("div",{c:"mail"},svgI("M3 6h18v12H3zM3 7l9 6 9-6","mico"),h("div",{c:"grow"},h("b",{c:"sm",t:p.memo||"협회 우편"}),h("div",{c:"xs mt",t:(p.k==="kr"?((chars[p.from]||{}).name||"헌터")+" 헌터":"협회")+" · "+kfmt(p.t)}),h("div",{c:"xs gold",t:p.k==="kr"?"키링 1개":p.k==="item"?(IT[p.item]?IT[p.item].n:p.item)+" ×"+(p.qty||1):won(p.amt)+" 환 (은행으로 입금)"})),btn("받기",()=>claimOne(p),"sm"))));
@@ -2701,15 +2726,18 @@ function logoPick(){const g=myG();if(!g||!isOff(g))return toast("길드장이나
  document.body.append(fi);fi.click()}
 async function logoDel(){const g=myG();if(!g||!isOff(g))return;await gmut(me.guild,G=>{G.logo="";delete G.emb});toast("길드 로고를 지웠어요")}
 
-/* ===== 게이트 탐사: 심부로 나아가기 4번(크리처·유품) → 5번째 심부 보스 ===== */
-const GX_STEPS=4,GX_ENC=.4,GX_FIND=.07,BOSS_HP={F:1.9,E:2.1,D:2.4,C:3,B:3.3,A:3.6,S:4.5},BOSS_AT={F:.95,E:1,D:1.05,C:1.18,B:1.22,A:1.26,S:1.35},LOWG={F:1,E:1,D:1};
-const gxOf=id=>me&&me.gx&&me.gx.id===id?me.gx.d:0;
+/* ===== 게이트 탐사: 심부로 4번 (1번째 전투 · 2번째 채집물 · 3·4번째 중 한 번 전투 · 3초 간격) → 5번째 심부 보스 ===== */
+const GX_STEPS=4,GX_CD=3000,GX_ENC=.4,GX_FIND=.07,BOSS_HP={F:1.9,E:2.1,D:2.4,C:3,B:3.3,A:3.6,S:4.5},BOSS_AT={F:.95,E:1,D:1.05,C:1.18,B:1.22,A:1.26,S:1.35},LOWG={F:1,E:1,D:1};
+const gxOf=id=>me&&me.gx&&me.gx.id===id?me.gx.d:0;let gxLast=0;
 async function gateStep(){const id=me.sg,g=gateById(id);if(!g||!visitAlive(id))return toast("이미 닫힌 게이트입니다");{const l=lockMsg();if(l)return toast(l)}if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const d0=gxOf(id);if(d0>GX_STEPS)return startGateBattle({id,kind:g.kind,boss:1});
- const c=cur(me);if(c.en<MOVE_EN)return toast("에너지가 부족합니다 ("+MOVE_EN+" 필요)");const d=d0+1,p={gx:{id,d},en:Math.round(c.en-MOVE_EN)};
+ {const w=gxLast+GX_CD-Date.now();if(w>0)return toast("숨을 고르는 중… "+Math.ceil(w/1000)+"초 뒤에 나아갈 수 있어요")}
+ const c=cur(me);if(c.en<MOVE_EN)return toast("에너지가 부족합니다 ("+MOVE_EN+" 필요)");const d=d0+1,fb=d0&&me.gx&&me.gx.b?me.gx.b:3+ri(2),p={gx:{id,d,b:fb},en:Math.round(c.en-MOVE_EN)};gxLast=Date.now();
  if(d>GX_STEPS){await upd(p);toast("게이트 심부에 도착했다… 거대한 기척이 다가온다");return startGateBattle({id,kind:g.kind,boss:1})}
  let msg="심부로 나아갔다 ("+d+"/"+GX_STEPS+")";if(rf()<GX_FIND*luckF(me)){const inv={...me.inv},it=rf()<.5?"will":"relic";if(addInv(inv,it,1)){p.inv=inv;msg+=" · "+(it==="will"?"쓰러진 헌터 곁에서 낡은 유언장을 발견했다":"쓰러진 헌터의 유품을 발견했다")}}
- await upd(p);toast(msg);const ov=gState(g)==="ovf";if(rf()<GX_ENC*(ov?1.3:1)){setTimeout(()=>{if(!inB())startGateBattle({id,kind:g.kind,mob:1})},500)}else render(true)}
+ if(d===2){const R0=REG[g.reg||nearReg(g.x,g.y)],res=R0&&R0.res?medW(R0.res):[["scrap",3],["wire",2],["cloth",2],["glass",2],["herb",2]],inv=p.inv||{...me.inv},got={};
+  for(let i=0;i<2+ri(2);i++){const it=pickW(res),q=addInv(inv,it,1+(rf()<.35?1:0));if(q)got[it]=(got[it]||0)+q}p.inv=inv;const gs=Object.entries(got).map(([k,q])=>IT[k].n+" ×"+q).join(", ");msg+=gs?" · 무너진 틈에서 "+gs+"을(를) 주웠다":" · 가방이 가득 차 아무것도 줍지 못했다"}
+ await upd(p);toast(msg);if(d===1||d===fb){setTimeout(()=>{if(!inB())startGateBattle({id,kind:g.kind,mob:1})},500)}else render(true)}
 /* ===== 유언장 · 유품 ===== */
 IT.will={n:"이름 모를 헌터의 유언장",d:"게이트 안에서 발견한 접힌 종이. 읽어 볼 수 있고, 협회에 납품하면 명성 +10 · 보상금 1,500환을 받아요. (숙소 → 우편함 → 보내기)"};
 IT.relic={n:"이름 모를 헌터의 유품",slot:"acc",atk:2,def:2,d:"게이트 안에서 쓰러진 헌터가 지니고 있던 물건. 장신구로 장착할 수 있고, 협회에 납품하면 명성 +10 · 보상금 1,500환을 받아요. (숙소 → 우편함 → 보내기)"};
