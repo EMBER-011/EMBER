@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113044815";
+const BUILD="20261113050330";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1657,11 +1657,16 @@ function itemPop(k){const i=IT[k],n=me.inv[k]||0;if(!n)return closePop();
  if(i.med)acts.append(btn("사용",async()=>{await useMed(k);itemPop(k)},"pri grow"));
  if(i.dose)acts.append(btn(doseArm?"정말 주사합니다":"주사하기",async()=>{if(!doseArm){doseArm=true;itemPop(k);return}doseArm=false;await useDose(k);itemPop(k)},"pri grow"));
  if(i.learn)acts.append(btn((me.rcp||[]).includes(i.learn)?"이미 익힘":"익히기",async()=>{await learnRcp(k);itemPop(k)},"pri grow",{disabled:(me.rcp||[]).includes(i.learn)}));
+ if(i.learn&&(me.rcp||[]).includes(i.learn)&&mmRcpR(i.learn)!=null)acts.append(btn("분해",()=>wrap(async()=>{await dismRcp(k);me.inv[k]?itemPop(k):closePop()}),"grow"));
  if(i.slot)acts.append(btn("장착",async()=>{await equipItem(k);closePop()},"pri grow"));
  acts.append(btn("닫기",closePop,"grow"));
  const src=itemSrc(k);
  openPop(i.ico?h("div",{c:"pico"},svgI(SYR)):null,h("div",{c:"h0",t:i.n}),h("div",{c:"sm mt",t:"보유 "+n+"개"}),st?h("p",{c:"sm",t:st}):null,src?h("div",{c:"isrc"},h("span",{c:"k",t:"얻는 곳"}),src):null,
   i.dose?h("p",{c:"xs "+(doseArm?"bad":"mt"),t:"누적 투약 "+(me.dose||0)+"회 · 현재 "+gradeL(me)+"등급 · "+doseNext(me)+(doseArm?" · 불법 약물입니다. 정말 맞으시겠어요?":"")}):null,acts)}
+/* 이미 익힌 몬스터 장비 제작법 → 분해 (제작법 등급과 같은 몬스터 재료 1개) */
+function mmRcpR(t){const x=MRC[t]||HRC[t];if(!x||!x.need||!Object.keys(x.need).some(k=>k.indexOf("mm_")===0))return null;return x.r}
+async function dismRcp(id){const i=IT[id];if(!i||!i.learn||!(me.rcp||[]).includes(i.learn))return;const r=mmRcpR(i.learn);if(r==null)return;const pool=MM.filter(x=>x[1]===r);if(!pool.length)return;
+ const inv={...me.inv};if(!inv[id])return;inv[id]--;if(!inv[id])delete inv[id];const m=pool[ri(pool.length)][0];if(!addInv(inv,m,1))return toast("가방이 가득 찼어요");await upd({inv});toast(i.n+" 분해 → "+IT[m].n+" ×1 ("+RAR[r].n+")")}
 async function learnRcp(id){const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (주점 · 조리실)":" (정비소 · 제작)"))}
 async function craftH(id){const r=HRC[id];if(!(me.rcp||[]).includes(id))return toast("제작서를 먼저 익히세요");const inv={...me.inv};for(const k in r.need)if((inv[k]||0)<r.need[k])return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");for(const k in r.need)inv[k]-=r.need[k];const g=mkGear(Math.max(60,me.lv),r.r,id),p={inv};addGear(p,g);await upd(p);toastG(g)}
@@ -2845,11 +2850,11 @@ function krLoop(){if(krRaf||!Object.keys(KRF).length)return;const step=()=>{krRa
 function krStep(S){const r=S.P.getBoundingClientRect();if(S.lx==null){S.lx=r.left;S.ly=r.top;krRest(S);krDraw(S);return}
  let dx=r.left-S.lx,dy=r.top-S.ly;S.lx=r.left;S.ly=r.top;if(Math.abs(dx)>160||Math.abs(dy)>160){krRest(S);krDraw(S);S.wake=0;return}
  if(KR_RM)return;if(dx||dy)S.wake=24;if(S.wake<=0)return;const N=S.n;
- for(let i=1;i<N.length;i++){N[i].x-=dx;N[i].y-=dy}
- for(let i=1;i<N.length;i++){const p=N[i],vx=(p.x-p.px)*.965,vy=(p.y-p.py)*.965;p.px=p.x;p.py=p.y;p.x+=vx;p.y+=vy+.5}
+ const cl=(v,m)=>v>m?m:v<-m?-m:v,ix=cl(dx*.45,9),iy=cl(dy*.45,9);for(let i=1;i<N.length;i++){N[i].x-=ix;N[i].y-=iy}
+ for(let i=1;i<N.length;i++){const p=N[i],vx=cl((p.x-p.px)*.9,7),vy=cl((p.y-p.py)*.9,7);p.px=p.x;p.py=p.y;p.x+=vx;p.y+=vy+.95}
  for(let it=0;it<10;it++){for(let i=1;i<N.length;i++){const a=N[i-1],b=N[i],ex=b.x-a.x,ey=b.y-a.y,d=Math.hypot(ex,ey)||1e-3,f=(d-b.L)/d;if(i===1){b.x-=ex*f;b.y-=ey*f}else{b.x-=ex*f*.5;b.y-=ey*f*.5;a.x+=ex*f*.5;a.y+=ey*f*.5}}
-  const mn=S.R*1.75;for(let i=1;i<N.length;i++)for(let j=i+2;j<N.length;j++){const a=N[i],b=N[j],ex=b.x-a.x,ey=b.y-a.y,d=Math.hypot(ex,ey)||1e-3;if(d<mn){const f=(mn-d)/d*.5;a.x-=ex*f;a.y-=ey*f;b.x+=ex*f;b.y+=ey*f}}}
- let e=0;for(let i=1;i<N.length;i++)e+=Math.abs(N[i].x-N[i].px)+Math.abs(N[i].y-N[i].py);if(e>.06*N.length)S.wake=Math.max(S.wake,24);else S.wake--;krDraw(S)}
+  const mn=S.R*1.75;for(let i=1;i<N.length;i++)for(let j=i+2;j<N.length;j++){const a=N[i],b=N[j],ex=b.x-a.x,ey=b.y-a.y,d=Math.hypot(ex,ey)||1e-3;if(d<mn){const f=(mn-d)/d*.2;a.x-=ex*f;a.y-=ey*f;b.x+=ex*f;b.y+=ey*f}}}
+ let e=0;for(let i=1;i<N.length;i++)e+=Math.abs(N[i].x-N[i].px)+Math.abs(N[i].y-N[i].py);if(e>.1*N.length)S.wake=Math.max(S.wake,20);else S.wake--;krDraw(S)}
 function krDraw(S){const N=S.n,f=x=>x.toFixed(1),pts=[[S.ax-8,S.ay-10],[S.ax,S.ay]].concat(N.slice(1).map(p=>[p.x,p.y]));S.line.setAttribute("points",pts.map(q=>f(q[0])+","+f(q[1])).join(" "));
  const ang=(a,b)=>Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI-90;
  S.G.forEach((g,i)=>{const p=N[i+1],a=N[i],b=N[i+2]||p;g.setAttribute("transform","translate("+f(p.x)+" "+f(p.y)+") rotate("+ang(a,b).toFixed(1)+")")});
