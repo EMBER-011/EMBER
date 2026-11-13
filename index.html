@@ -398,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113140055";
+const BUILD="20261113142258";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1319,7 +1319,7 @@ async function startGateBattle(gt){
   if(gt.mob){const R=REG[g.reg||nearReg(g.x,g.y)],x=R&&R.mon?R.mon[ri(R.mon.length)]:[sp.n,sp.at];mo={n:x[0],at:x[1]};lv=Math.max(1,GLV[g.grade]-2+ri(3));if(LOWG[g.grade]){hpm*=.82;atm*=.85}if(st==="ovf"){hpm*=1.15;atm*=1.12}lab=g.grade+"급 게이트 내부 · 크리처";gt={id:g.id,kind:"gm",grade:g.grade}}
   else{mo={n:(g.kind==="s"?"":"[보스] ")+sp.n,at:sp.at};lv=GLV[g.grade]+1+ri(3);hpm*=BOSS_HP[g.grade]||2.5;atm*=BOSS_AT[g.grade]||1.15;if(st==="ovf"){hpm*=1.25;atm*=1.2}if(g.kind==="s"){hpm*=1.3;atm*=1.1}lab=g.grade+"급 게이트 심부"+(st==="ovf"?" (폭주)":"");gt={id:g.id,kind:g.kind,grade:g.grade,boss:1}}}
  if(ov&&gt.kind==="p"){hpm*=1.35;atm*=1.3}
- const pals=pt&&gt.kind!=="p"?pt.members.filter(id=>id!==uid&&chars[id]&&online.has(id)&&!chars[id].auto&&!chars[id].trip&&!lockMsg(chars[id])):[],nn=gt.kind!=="p"?1+pals.length:n;
+ const pals=pt&&gt.kind!=="p"?pt.members.filter(id=>id!==uid&&chars[id]&&online.has(id)&&!chars[id].auto&&!chars[id].trip&&!lockMsg(chars[id])&&(chars[id].sg?chars[id].sg===(me.sg||gt.id):chars[id].loc===me.loc)):[],nn=gt.kind!=="p"?1+pals.length:n;
  const max=Math.round((50+lv*28)*(1+.5*(Math.max(1,nn)-1))*hpm),nm=(gt.kind==="s"?"[군주] ":"")+mo.n;
  const bt={t:Date.now(),region:me.loc,spot:"out",st:"on",gate:gt,mon:{n:nm,attr:mo.at,lv,hp:max,max,atk:Math.round((6+lv*3)*atm),nextAt:Date.now()+5000},mem:{[uid]:mkMem(c)},log:[lab+" — "+jo(nm)+" 모습을 드러냈다! (Lv"+lv+")"]};
  pals.forEach(id=>{try{bt.mem[id]=mkMemFor(id)}catch(e){}});if(pals.length)bt.log.push("파티원 "+pals.length+"명이 함께 게이트에 들어섰다!");gateJoined.add(bt.t);
