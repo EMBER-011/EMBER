@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113051921";
+const BUILD="20261113052802";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2332,11 +2332,14 @@ function beadDraw(g,k,cx,cy,r){if(isPd(k))return pdDraw(g,k,cx,cy,r);const[s,c]=
  else if(s==="dr")e=svE("path",{d:`M${cx} ${cy-r*1.05} C${cx+r*.35} ${cy-r*.45} ${cx+r*.85} ${cy} ${cx+r*.85} ${cy+r*.3} A${r*.85} ${r*.85} 0 0 1 ${cx-r*.85} ${cy+r*.3} C${cx-r*.85} ${cy} ${cx-r*.35} ${cy-r*.45} ${cx} ${cy-r*1.05}Z`,...st},g);
  else e=svE("rect",{x:cx-r*.55,y:cy-r,width:r*1.1,height:r*2,rx:r*.35,...st},g);
  svE("ellipse",{cx:cx-r*.3,cy:cy-r*.35,rx:r*.26,ry:r*.16,fill:"rgba(255,255,255,.55)",transform:`rotate(-30 ${cx-r*.3} ${cy-r*.35})`},g);return e}
-function beadSvg(k,px){const v=svE("svg",{viewBox:"0 0 20 20",width:px||22,height:px||22,class:"bead"});beadDraw(v,k,10,10,7.2);return v}
+function beadSvg(k,px){const v=svE("svg",{viewBox:"0 0 20 20",width:px||22,height:px||22,class:"bead"});const pd=isPd(k);beadDraw(v,k,10,pd?10.6:10,pd?5.3:7.2);return v}
+function bExt(k){const r=7.2;return isPd(k)?[r*1.8,r*1.46]:[r,r]}
+function bGap(a,b){return Math.max(14.6,bExt(a)[1]+bExt(b)[0]+.4)}
+function bYs(L,h0){const y=[];L.forEach((k,i)=>y.push(i?y[i-1]+bGap(L[i-1],k):h0+bExt(k)[0]+.1));return y}
 /* 비즈 스트랩: 고리 → 줄 → 비즈 → 매듭 → 술 */
-function strapSvg(L,sc,pm){sc=sc||1;const W=30,cx=15,step=14.6,h0=15,H=h0+L.length*step+20,v=svE("svg",{viewBox:`0 0 ${W} ${H}`,width:W*sc,height:H*sc,class:"strap"});
+function strapSvg(L,sc,pm){sc=sc||1;const W=30,cx=15,h0=15,Y=bYs(L,h0),ky0=L.length?Y[L.length-1]+bExt(L[L.length-1])[1]+5.1:h0+5,H=ky0+15,v=svE("svg",{viewBox:`0 0 ${W} ${H}`,width:W*sc,height:H*sc,class:"strap"});
  svE("line",{x1:cx,y1:1,x2:cx,y2:H-16,stroke:"var(--krc)","stroke-width":1.1,"stroke-linecap":"round"},v);
- const o=PDM;PDM=pm||null;L.forEach((k,i)=>beadDraw(v,k,cx,h0+i*step+7.3,7.2));PDM=o;
+ const o=PDM;PDM=pm||null;L.forEach((k,i)=>beadDraw(v,k,cx,Y[i],7.2));PDM=o;
  const ky=H-15;svE("circle",{cx,cy:ky,r:2.2,fill:"var(--krc)"},v);[-4.5,-1.6,1.6,4.5].forEach(dx=>svE("line",{x1:cx,y1:ky+1,x2:cx+dx,y2:H-1,stroke:"var(--krc)","stroke-width":.9,"stroke-linecap":"round"},v));return v}
 /* 기기에 달린 키링 */
 function krOf(dev){const id=me&&me.kra&&me.kra[dev];return id?(me.krs||[]).find(x=>x.id===id)||null:null}
@@ -2819,7 +2822,7 @@ function isPd(k){return typeof k==="string"&&k.indexOf("pd:")===0}
 var PDM=null,pdN=0;
 function pdImgAny(id){const f=L=>{for(const x of L||[]){if(x.id===id&&x.img)return x.img}return""};let u=f(me&&me.pds);if(u)return u;
  for(const k of ((me&&me.krs)||[]).concat((me&&me.fkr)||[]))if(k.pm&&k.pm[id])return k.pm[id];return""}
-function pdDraw(g,k,cx,cy,r){const id=k.slice(3),img=(PDM&&PDM[id])||pdImgAny(id),rx=r*.8,ry=r*1.12,G=svE("g",{class:"pend"},g);
+function pdDraw(g,k,cx,cy,r){const id=k.slice(3),img=(PDM&&PDM[id])||pdImgAny(id),rx=r*1.04,ry=r*1.46,G=svE("g",{class:"pend"},g);
  svE("ellipse",{cx,cy:cy-ry-r*.1,rx:r*.2,ry:r*.24,fill:"none",stroke:"#8d939a","stroke-width":r*.09},G);
  svE("ellipse",{cx,cy,rx,ry,fill:"#9aa0a7",stroke:"#4f545a","stroke-width":r*.07},G);
  svE("ellipse",{cx,cy,rx:rx*.9,ry:ry*.92,fill:"none",stroke:"#dfe3e7","stroke-width":r*.06,opacity:.8},G);
@@ -2844,7 +2847,7 @@ function krBuild(w,k,P){const sc=KR_SC,R=7.2*sc,st=14.6*sc,ax=-4,ay=34,v=svE("sv
  S.line=svE("polyline",{fill:"none",stroke:"var(--krc)","stroke-width":1.9,"stroke-linejoin":"round","stroke-linecap":"round"},v);
  const o=PDM;PDM=k.pm||null;k.b.forEach(b=>{const g=svE("g",{},v);beadDraw(g,b,0,0,R);S.G.push(g)});PDM=o;
  S.T=svE("g",{},v);svE("circle",{cx:0,cy:0,r:2.2*sc,fill:"var(--krc)"},S.T);[-4.5,-1.6,1.6,4.5].forEach(dx=>svE("line",{x1:0,y1:sc,x2:dx*sc,y2:14*sc,stroke:"var(--krc)","stroke-width":.9*sc,"stroke-linecap":"round"},S.T));
- const L=[0,12*sc];for(let i=1;i<k.b.length;i++)L.push(st);L.push(12.3*sc);S.n=L.map(l=>({x:0,y:0,px:0,py:0,L:l}));krRest(S);krDraw(S);return S}
+ const B=k.b,L=[0,(4.8+bExt(B[0])[0])*sc];for(let i=1;i<B.length;i++)L.push(bGap(B[i-1],B[i])*sc);L.push((bExt(B[B.length-1])[1]+5.1)*sc);S.n=L.map(l=>({x:0,y:0,px:0,py:0,L:l}));krRest(S);krDraw(S);return S}
 function krRest(S){let y=S.ay;S.n.forEach((p,i)=>{y+=i?p.L:0;p.x=p.px=S.ax;p.y=p.py=i?y:S.ay});S.n[0].x=S.ax;S.n[0].y=S.ay}
 function krLoop(){if(krRaf||!Object.keys(KRF).length)return;const step=()=>{krRaf=0;let any=false;for(const d in KRF){const S=KRF[d];if(!S.P.isConnected||!S.w.isConnected){delete KRF[d];continue}if(S.P.style.display!=="block"){S.lx=null;continue}any=true;try{krStep(S)}catch(e){}}if(any)krRaf=requestAnimationFrame(step)};krRaf=requestAnimationFrame(step)}
 function krStep(S){const r=S.P.getBoundingClientRect();if(S.lx==null){S.lx=r.left;S.ly=r.top;krRest(S);krDraw(S);return}
