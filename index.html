@@ -398,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113132351";
+const BUILD="20261113133818";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2372,8 +2372,8 @@ async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("�
 const mails=()=>payouts.filter(x=>x.to===uid&&(x.from==="hq"||x.k==="kr")).sort((a,b)=>b.t-a.t);
 let kdraft=[],homeSub="room";
 function rHome(v){
- const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:me.rno?me.rno+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:me.rno?Math.floor(me.rno/100)+"층":""})));[["room","방"],["mail","우편함"+(mails().length?" "+mails().length:"")],["store","보관함"]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
- if(homeSub==="room")return rMyRoom(v);if(homeSub==="store")return rStore(v);return rMail(v)}
+ const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:me.rno?me.rno+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:me.rno?Math.floor(me.rno/100)+"층":""})));[["room","방"],["mail","우편함"+(mails().length?" "+mails().length:"")]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
+ if(homeSub==="store")homeSub="room";if(homeSub==="room"){rMyRoom(v);return rStore(v)}return rMail(v)}
 /* 내 방 (가구 자리는 아직 없음 · 빈 방) */
 function myRoomSvg(){const v=svE("svg",{viewBox:"0 0 320 210",class:"roomsv",role:"img","aria-label":"빈 방"});
  svE("rect",{x:0,y:0,width:320,height:210,fill:"var(--rmw)"},v);
