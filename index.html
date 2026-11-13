@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113025935";
+const BUILD="20261113044815";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2968,11 +2968,11 @@ function relPhone(B,sec,it,pb){sec("관계");const R=me.rel,P=R&&chars[R.w];
  if(R&&P){it(REL_N[R.t]+" · "+P.name+" 헌터",fmtD(R.at)+"부터"+(R.t==="m"?" · 협회 등록":""),()=>phGo("person","dm:"+R.w));
   if(R.t==="e"){if(R.mq)B.append(h("div",{c:"xs mt",style:"padding:2px 4px",t:"혼인 신고서 제출됨 · "+P.name+" 헌터의 신고를 기다리는 중"}));else B.append(pb(P.rel&&P.rel.w===uid&&P.rel.mq?P.name+" 헌터와 함께 혼인 신고":"협회에 혼인 신고 (결혼 등록)",marryReq,"pri"))}
   B.append(pb("관계 정리",relBreak))}
- else it("관계 없음","커플반지·청혼반지는 정비소 제작이나 주점 의뢰로 구해요 · 반지를 눌러 고백·청혼",null);
+ else it("관계 없음","",null);
  const Q=me.pair&&chars[me.pair.w],q=me.pairReq;
  if(Q)it("페어 · "+Q.name+" 헌터",fmtD(me.pair.at)+" 협회 승인",()=>phGo("person","dm:"+me.pair.w));
  else if(q)it("페어 심사 중 · "+((chars[q.w]||{}).name||"?")+" 헌터",fmtD(q.at)+" 접수 · 승인까지 최대 3일",null);
- else it("페어 없음","☎ 115 헌터 협회 · 4번 페어 서류 요청",null)}
+ else it("페어 없음","",null)}
 /* ===== 페어 서류 ===== */
 IT.pair_doc={n:"페어 요청 서류",d:"헌터 협회에서 보낸 페어 요청서. 작성해서 협회에 제출하세요."};
 let pf=null;
