@@ -83,7 +83,7 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .skb{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:1px;padding:10px 4px;min-height:92px;text-align:center;line-height:1.25}
 .skb>*{position:relative}.skb small{font-weight:400;font-size:11px;opacity:.8}.skb .mpc{color:var(--ac2);font-weight:700;opacity:1}.skb .fill{position:absolute;left:0;bottom:0;width:100%;height:0;background:rgba(var(--acr),.28)}
 .mem{margin-top:8px}.mem .row{margin-bottom:2px}
-#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--sf);color:var(--tx);border:1px solid var(--bd);padding:10px 18px;border-radius:2px;font-size:14px;font-weight:600;display:none;max-width:90%;text-align:center;z-index:12}
+#toast{position:fixed;left:0;right:0;margin:0 auto;bottom:100px;width:fit-content;max-width:min(620px,calc(100% - 24px));box-sizing:border-box;background:var(--sf);color:var(--tx);border:1px solid var(--bd);padding:9px 18px;border-radius:2px;font-size:13px;font-weight:500;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;display:none;text-align:center;z-index:12}
 #ask{position:fixed;right:14px;bottom:84px;animation:askIn .32s cubic-bezier(.2,.85,.25,1);width:min(260px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:12px;z-index:10;display:none}
 #ask p{margin:0 0 4px;font-weight:600}#ask p.an{font-size:16px;font-weight:800;margin:0 0 2px}#ask p.sub{margin:0 0 6px;font-size:13px;font-weight:400;color:var(--mt)}#ask p.q{margin:0 0 10px}
 #ask .btns{display:flex;gap:8px;justify-content:flex-end}
@@ -398,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113091820";
+const BUILD="20261113132351";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2072,7 +2072,8 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   it("입금","지갑 → 은행",()=>phGo("bdep"));it("출금","은행 → 지갑",()=>phGo("bwd"));it("이체","전화번호로 송금 (은행 잔고에서)",()=>phGo("btr1"));it("거래 내역",(me.blog||[]).length+"건",()=>phGo("blog"));if(debtNow()){B.append(h("div",{c:"xs bad",style:"margin-top:6px",t:"구조 비용 빚 "+won(debtNow())+" 환 · 하루마다 +"+DEBT_DAY+" 환"}));it("빚 갚기","은행 잔고 → 모자라면 지갑에서",()=>wrap(payDebt))}
   {const lp=loanP(),li=loanInt(),late=lp&&me.loan.pen;B.append(h("div",{c:"xs "+(late?"bad":"mt"),style:"margin-top:6px",t:lp?"대출 원금 "+won(lp)+" 환 · 밀린 이자 "+won(li)+" 환"+(late?" · 연체 (버는 환의 10% 자동 상환 중)":""):"대출 · 최대 "+won(LOAN_MAX)+" 환 · 하루 이자 "+LOAN_DAY+" 환"}));
    it("대출 받기",lp?"더 빌릴 수 있는 돈 "+won(LOAN_MAX-lp)+" 환":"이자를 5일 넘게 안 내면 명성이 절반으로 깎여요",()=>phGo("bloan"));if(lp){it("이자 내기","밀린 이자 "+won(li)+" 환",()=>wrap(loanPayInt));it("대출 갚기","원금과 이자를 갚아요",()=>phGo("brep"))}}
-  B.append(h("div",{c:"xs mt",style:"margin-top:4px",t:"받은 돈과 거래소 판매 대금은 은행으로 자동 입금돼요."}))}
+  rentBank(B,it);
+  B.append(h("div",{c:"xs mt",style:"margin-top:4px",t:"받은 돈과 거래소 판매 대금은 은행으로 자동 입금돼요 · 은행 잔고에는 하루에 한 번 5% 이자가 붙어요."}))}
  else if(s==="bdep"||s==="bwd"){hd(s==="bdep"?"입금 (지갑 → 은행)":"출금 (은행 → 지갑)");B.append(h("div",{c:"xs mt",t:s==="bdep"?"지갑 "+won(me.tan):"잔고 "+won(me.bank||0)}));numIn(9,false,"금액");B.append(pb("확인",bankOk,"pri"))}
  else if(s==="bloan"||s==="brep"){hd(s==="bloan"?"대출 받기":"대출 갚기");B.append(h("div",{c:"xs mt",t:s==="bloan"?"빌릴 수 있는 돈 "+won(LOAN_MAX-loanP())+" 환 · 은행 잔고로 들어와요 · 하루 이자 "+LOAN_DAY+" 환":"갚을 돈 "+won(loanP()+loanInt())+" 환 (이자 먼저) · 은행 잔고 → 모자라면 지갑"}));numIn(5,false,"금액");B.append(pb("확인",bankOk,"pri"))}
  else if(s==="btr1"){hd("이체 · 받는 사람");numIn(7,true,"받는 사람 번호");const c=Object.values(chars).find(x=>x.num===ph.buf);B.append(h("div",{c:"xs "+(c?"ok":"mt"),t:c?"받는 사람: "+c.name:"번호 7자리를 입력하세요"}),pb("다음",bankOk,"pri"))}
@@ -3078,6 +3079,30 @@ async function gmRevive(id){const c=id===uid?me:chars[id];if(!c)return toast("�
  const m=c.mis;if(m&&m.kr&&m.kr.length&&!gates[krpId(id,m.t)])p.krs=(c.krs||[]).concat(m.kr.map(k=>{const z={id:"k"+Date.now().toString(36)+ri(1e5),b:k.b};if(k.pm)z.pm=k.pm;return z}));
  if(id===uid)await upd(Object.assign(p,{ts:Date.now()}));else await db.doc("chars/"+id).update(Object.assign(p,{hp:maxHp(c),mp:maxMp(c),en:MAXEN,ts:Date.now()}));
  if(id===uid)await db.doc("chars/"+uid).update({hp:maxHp(me),mp:maxMp(me),en:MAXEN,ts:Date.now()});toast(c.name+" 캐릭터를 살렸어요 · 중앙 거점 광장")}
+/* ===== 집세 (매주 월요일 0시 청구 · 은행 앱에서 납부) · 은행 예금 이자 (하루 5%) ===== */
+const RENT=300,BINT=.05,kweek=t=>Math.floor((kday(t)+3)/7),wkStart=w=>(w*7-3)*DAY_MS-KO;
+function rentDebtNow(c){c=c||me;const d=c&&c.rdebt;if(!d||!d.p)return 0;return d.p+LOAN_DAY*Math.max(0,Math.floor((Date.now()-d.t)/DAY_MS))}
+let ecoBusy=0;
+function ecoTick(){if(!me||ecoBusy||!db)return;ecoBusy=1;ecoRun().catch(()=>{}).finally(()=>ecoBusy=0)}
+async function ecoRun(){const now=Date.now(),W=kweek(now),D=kday(now),p={},msg=[];
+ const R0=me.rent;
+ if(!R0){p.rent={w:W,due:RENT,miss:0};msg.push("이번 주 집세 "+won(RENT)+"환이 청구됐어요 · 은행 앱에서 낼 수 있어요")}
+ else if(R0.w<W){const R={...R0};let rd=me.rdebt&&me.rdebt.p?{p:rentDebtNow(),t:now}:null,toDebt=0;
+  for(let w=R.w+1;w<=W;w++){if(R.due>0){if(R.miss>=1){toDebt+=R.due;rd={p:(rd?rd.p:0)+R.due,t:wkStart(w)};R.due=RENT;R.miss=0}else{R.miss=1;R.due+=RENT}}else{R.due=RENT;R.miss=0}R.w=w}
+  p.rent=R;if(toDebt){p.rdebt=rd;msg.push("집세 "+won(toDebt)+"환을 2주째 못 내서 빚으로 넘어갔어요 · 하루마다 이자 "+LOAN_DAY+"환")}
+  msg.push(R.miss?"집세가 밀렸어요 · 이번 주 집세 "+won(R.due)+"환 (밀린 집세 포함)":"이번 주 집세 "+won(RENT)+"환이 청구됐어요 · 은행 앱에서 낼 수 있어요")}
+ if(me.bint==null)p.bint=D;
+ else if(me.bint<D){let b=me.bank||0;const n=D-me.bint,b0=b;for(let i=0;i<n;i++)b=Math.floor(b*(1+BINT));p.bint=D;if(b>b0){p.bank=b;p.blog=bLog(b-b0,"예금 이자 "+(BINT*100)+"%"+(n>1?" × "+n+"일":""));msg.push("은행 예금 이자 "+won(b-b0)+"환이 붙었어요")}}
+ if(!Object.keys(p).length)return;await upd(p);msg.forEach((m,i)=>setTimeout(()=>toast(m),i*3400));if(phoneOn&&ph.scr==="bank")phRender()}
+function payFrom(n,txt){const bk=me.bank||0,fb=Math.min(bk,n),fw=n-fb;if(fw>me.tan)return null;return{bank:bk-fb,tan:me.tan-fw,blog:bLog(-n,txt)}}
+async function payRent(){const R=me.rent;if(!R||!R.due)return toast("이번 주 집세는 이미 냈어요");const q=payFrom(R.due,"집세");if(!q)return toast("돈이 모자라요 · 집세 "+won(R.due)+"환 (은행 잔고 → 모자라면 지갑)");
+ await upd(Object.assign(q,{rent:{...R,due:0,miss:0}}));toast("집세 "+won(R.due)+"환을 냈어요");phRender()}
+async function payRentDebt(){const owe=rentDebtNow();if(!owe)return toast("집세 빚이 없어요");const have=(me.bank||0)+me.tan;if(have<=0)return toast("갚을 돈이 없어요");const n=Math.min(owe,have),q=payFrom(n,"집세 빚 상환");
+ q.rdebt=n>=owe?null:{p:owe-n,t:Date.now()};await upd(q);toast(n>=owe?"집세 빚을 모두 갚았어요":"집세 빚 "+won(n)+"환을 갚았어요 · 남은 빚 "+won(owe-n)+"환");phRender()}
+function rentBank(B,it){const R=me.rent||{due:RENT},rd=rentDebtNow(),nx=wkStart(kweek(Date.now())+1),dd=Math.max(1,Math.ceil((nx-Date.now())/DAY_MS));
+ B.append(h("div",{c:"xs "+(R.miss?"bad":"mt"),style:"margin-top:6px",t:"집세 · 매주 "+won(RENT)+"환 · 월요일 0시 청구"+(R.miss?" · 지난주 집세가 밀려 있어요":"")}));
+ it("집세 내기",R.due?"이번 주 "+won(R.due)+"환"+(R.miss?" (밀린 집세 포함)":"")+" · 2주째 못 내면 빚으로 넘어가요":"이번 주 집세 완료 · 다음 청구까지 "+dd+"일",()=>wrap(payRent));
+ if(rd){B.append(h("div",{c:"xs bad",style:"margin-top:6px",t:"집세 빚 "+won(rd)+"환 · 하루마다 +"+LOAN_DAY+"환"}));it("집세 빚 갚기","은행 잔고 → 모자라면 지갑에서",()=>wrap(payRentDebt))}}
 /* ===== 깨진 화면 (금 + 노이즈) ===== */
 function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClientRect(),W=Math.round(r.width)||innerWidth,H=Math.round(r.height)||innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
  let sd=7;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
@@ -3192,7 +3217,7 @@ initRadio();
    if(me.auto&&now>=me.auto.t0+me.auto.dur*6e4&&autoNote!==me.auto.t0){autoNote=me.auto.t0;toast("자동 전투가 끝났어요 · 상시 게이트에서 정산 받으세요")}}
   if(rdOn&&rc.st==="on"){const sg2=$("#rlcd .rseg");if(sg2){const sec=Math.round((now-rc.t0)/1000);sg2.textContent="";[...(two(Math.floor(sec/60)%100)+"-"+two(sec%60))].forEach(ch=>sg2.append(segSvg(ch)))}}
   if(pc.on&&me.party!==pc.pid)pcLeave(true);
-  tyTick();applyKR();misTick();relTick();gateSigTick();if(me&&me.eq&&me.eq.arms&&!armFix){armFix=1;const eq=clone(me.eq),q=eq.arms;delete eq.arms;upd({eq,gear:(me.gear||[]).concat(q&&q.id?[q]:[])}).catch(()=>{})}if(phoneOn&&ph.scr==="chat"){const f=$("#pfeed"),k=ph.room||"rp";if(f&&/^(dm|grp):/.test(k)&&f.dataset.rs!==rcptSig(k,roomRows(k)))updPhone()}
+  tyTick();applyKR();misTick();relTick();ecoTick();gateSigTick();if(me&&me.eq&&me.eq.arms&&!armFix){armFix=1;const eq=clone(me.eq),q=eq.arms;delete eq.arms;upd({eq,gear:(me.gear||[]).concat(q&&q.id?[q]:[])}).catch(()=>{})}if(phoneOn&&ph.scr==="chat"){const f=$("#pfeed"),k=ph.room||"rp";if(f&&/^(dm|grp):/.test(k)&&f.dataset.rs!==rcptSig(k,roomRows(k)))updPhone()}
   if(pc.on){const ids=pcMembers().filter(id=>online.has(id)),k=ids.join();if(k!==pc.k){const old=new Set((pc.k||"").split(","));pc.k=k;ids.filter(id=>!old.has(id)&&!pc.here.has(id)).forEach(id=>sig(id,{ty:"p_join",pid:pc.pid}))}
    let ch=0;[...pc.here].forEach(id=>{if(!pcMembers().includes(id)){pc.here.delete(id);pc.msgs.push({sys:1,t:now,text:dName(id)+" 님이 나갔습니다"});ch=1}});if(ch&&phoneOn&&ph.scr==="pchat"){const r=$("#pscr .pcm");if(r&&$("#pfeed")){r.replaceWith(pcRow());pcUpd()}else phRender()}}
   if(phoneOn&&ph.scr==="incall"&&call.st!=="idle")updCall();else if(phoneOn&&call.st!=="idle"){const b=$("#pcbar");if(b)b.firstChild.textContent=callBarT();else phRender()}
