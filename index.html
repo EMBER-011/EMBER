@@ -319,8 +319,28 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .bbox{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}.bbox .bd{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 4px;border-radius:4px}.bbox .bd small{font-size:10px;color:var(--mt)}.bbox .bd.off{opacity:.35}
 .krrow{align-items:center;gap:10px}.krmini{width:30px;flex:none;display:flex;justify-content:center;--krc:var(--mt)}.krmini svg{max-height:110px}
 .decoi{display:flex;gap:1px;flex:none;align-items:center}.ti.grow{display:flex;gap:8px;align-items:center}
-.kring{position:absolute;right:-34px;top:0;z-index:3;pointer-events:none;transform-origin:34px 9px;animation:krsw 3.2s ease-in-out infinite;--krc:var(--mt);filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
-@keyframes krsw{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(3deg)}}@media (prefers-reduced-motion:reduce){.kring{animation:none}}
+.kring{position:absolute;left:100%;top:0;width:0;height:0;overflow:visible;z-index:3;pointer-events:none;--krc:var(--mt);filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}.kring .krsv{position:absolute;left:0;top:0;overflow:visible}
+.pdw{display:flex;flex-direction:column;align-items:center;gap:3px}.pdw .bd{width:100%}.pdph{font:inherit;font-size:9.5px;color:var(--ac2);background:none;border:0;border-bottom:1px solid var(--ln);padding:0 0 1px;cursor:pointer;white-space:nowrap}
+.krfind{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:10px 0 2px}.krfi{display:flex;flex-direction:column;align-items:center;gap:4px;--krc:var(--mt)}.krfi .krmini{width:auto}
+.rpk{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--ln);color:inherit;font:inherit;cursor:pointer;padding:8px 2px}
+.rmsg{width:100%;box-sizing:border-box;resize:vertical;min-height:110px;background:transparent;color:var(--tx);border:1px solid var(--ln);border-radius:4px;padding:8px;font:inherit;font-size:13px;line-height:1.55}
+.rcall{text-align:center;font-size:13px;color:var(--ac2);letter-spacing:.02em;padding:4px 0 8px;border-bottom:1px solid var(--ln)}
+.rletter{border:1px solid var(--ln);border-radius:4px;padding:12px;margin-top:8px}.rlt{white-space:pre-line;font-size:13.5px;line-height:1.65;margin:0 0 10px;max-height:34vh;overflow-y:auto}.rring{font-size:12px;border-top:1px dashed var(--ln);padding-top:8px}
+.tpick{max-height:52vh;overflow-y:auto;margin-top:8px}.tpick .lrow{gap:10px;align-items:center}
+.rumor{font-size:12px;color:var(--mt);text-align:center;margin:8px 4px;line-height:1.5;letter-spacing:.01em}.psys.rumor{font-style:normal}
+.pform{background:#ece7dc;color:#26221d;border-radius:3px;padding:18px 16px 16px;font-size:13px;box-shadow:inset 0 0 0 1px #cfc6b4;max-height:64vh;overflow-y:auto}
+.pform .pft{text-align:center;font-size:18px;letter-spacing:.35em;font-weight:600;margin-bottom:2px}.pform .pfs{text-align:center;font-size:11px;color:#6f675b;margin-bottom:12px}
+.pform .pfb{border-top:1px solid #b9ae98;padding:8px 0 4px}.pform .pfh{font-size:11px;color:#6f675b;margin-bottom:4px;letter-spacing:.1em}
+.pform .pfr{display:flex;align-items:flex-end;gap:8px;margin:5px 0}.pform .pfr span{flex:none;width:58px;font-size:12px;color:#4a4339}
+.pform .pfr input{flex:1;min-width:0;background:transparent;border:0;border-bottom:1px solid #8f8471;border-radius:0;color:#1d1a17;font:inherit;font-size:13px;padding:2px 2px 3px;caret-color:#1d1a17}.pform .pfr input:focus{outline:0;border-bottom-color:#26221d}
+.pform .pfp{margin:14px 0 4px;text-align:center;font-size:13px}.pform .pfdt{text-align:center;font-size:11.5px;color:#6f675b;margin-bottom:12px}
+.pform .pfsig{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}.pform .pfsig u{text-decoration:none;border-bottom:1px solid #8f8471;min-width:60px;text-align:center;padding:0 4px}
+.pform .pfin{position:relative;display:inline-block;width:42px;text-align:center;color:#6f675b}.pform .pfin img{position:absolute;left:50%;top:50%;width:84px;height:42px;transform:translate(-50%,-50%);pointer-events:none}
+.pform .pfsb{margin-left:18px;font:inherit;font-size:11px;background:none;border:1px solid #8f8471;color:#26221d;border-radius:3px;padding:3px 8px;cursor:pointer}
+.pfgo{display:block;width:100%;margin-top:10px;padding:11px;border-radius:4px;font:inherit;font-size:14px;border:1px solid var(--ln);background:transparent;color:var(--mt);opacity:.55;cursor:not-allowed;transition:all .25s}
+.pfgo.on{opacity:1;cursor:pointer;color:var(--bg);background:var(--ac);border-color:var(--ac);box-shadow:0 0 14px var(--ac)}
+.sigov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px}.sigbx{background:var(--bg);border:1px solid var(--ln);border-radius:6px;padding:12px}
+.sigt{font-size:12px;color:var(--mt);margin-bottom:6px}.sigcv{display:block;background:#ece7dc;border-radius:3px;touch-action:none;cursor:crosshair}
 .isrc{font-size:12px;color:var(--tx);margin:8px 0 2px;padding:6px 8px;border:1px dashed var(--ln);border-radius:3px}.isrc .k{color:var(--mt);font-size:11px;margin-right:6px}
 #pfeed .pl.me .rcpt{align-self:flex-end;flex:none;font-size:9.5px;margin-right:4px;color:var(--mt);line-height:1.2}#pfeed .pl.me .rcpt.n{color:var(--gold);font-weight:700}
 .ptyp{flex:none;height:15px;line-height:15px;font-size:10.5px;color:var(--mt);padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s}.ptyp.on{opacity:1;animation:typb 1.4s ease-in-out infinite}
@@ -373,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113013404";
+const BUILD="20261113025935";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -771,7 +791,7 @@ function calcOnline(){const o=new Set(peerSet);try{const g=typeof window.__gmPee
 
 /* ===== 파생 수치 ===== */
 const gB=(q,k)=>q[k]!=null?q[k]:((IT[q.id]||{})[k]||0);
-const eqStat=(c,k)=>{let s=0;const e=c.eq||{};for(const sl in e){const q=e[sl];if(q&&q.id&&IT[q.id]&&q.dur>0){if(k==="atk"||k==="def")s+=gB(q,k)*(1+.15*(q.up||0));s+=(q.opts&&q.opts[k])||0}}return Math.round(s)};
+const eqStat=(c,k)=>{let s=0;const e=c.eq||{};for(const sl in e){const q=e[sl];if(q&&q.id&&IT[q.id]&&q.dur>0){const x=q.set?ringX(c,q):1;if(k==="atk"||k==="def")s+=gB(q,k)*(1+.15*(q.up||0))*x;s+=((q.opts&&q.opts[k])||0)*x}}return Math.round(s)};
 const rawS=(c,i)=>(c.s[i]||0)+eqStat(c,"s"+i);
 const ailOn=(c,k)=>{const a=c&&c.ail&&c.ail[k];return !!a&&(!a.u||a.u>Date.now())};
 const ailList=c=>Object.keys(AIL).filter(k=>ailOn(c,k));
@@ -1106,18 +1126,18 @@ function facility(sp){
   if(t==="shop")Object.entries(BSET).forEach(([k,S])=>box.append(row(h("div",{c:"ti grow"},h("div",{c:"decoi"},beadSvg("ht."+S.c[0],16),beadSvg("dm."+S.c[3],16),beadSvg("dr."+S.c[4],16)),h("div",{},h("b",{c:"sm",t:S.n}),h("div",{c:"xs mt",t:"네모·동그라미·다이아몬드·물방울·하트·십자가 × "+S.c.map(i=>BCL[i][0]).join("·")+" · 모양·색깔별 "+BSET_Q+"개씩 ("+BSET_SH.length*S.c.length*BSET_Q+"개) · 가방에서 사용"}))),h("span",{c:"sm gold",t:DECO_P}),btn("구매",()=>buyDeco(k),"sm"))));
   if(t==="shop")Object.entries(MARKET).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d||"제작 재료"})),h("span",{c:"sm gold",t:p}),btn("1개",()=>buy(id,p),"sm"),btn("5개",()=>buy(id,p,5),"sm"))));
   else if(t==="ex"){const L=market.filter(m=>m.seller!==uid);box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"거래 수수료 5%는 판매자에게서 차감됩니다."}));if(!L.length)box.append(h("p",{c:"sm mt",t:"등록된 매물이 없습니다."}));
-   L.forEach(m=>{if(m.gear){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[m.gear.r].c,t:"["+RAR[m.gear.r].n+"] "+gName(m.gear)+" · Lv"+m.gear.lv}),h("div",{c:"xs mt",t:(gDesc(m.gear)||"옵션 없음")+" · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
+   L.forEach(m=>{if(m.kr){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:krName(m.kr)}),h("div",{c:"xs mt",t:"비즈 "+m.kr.b.length+"개 키링 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}if(m.gear){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[m.gear.r].c,t:"["+RAR[m.gear.r].n+"] "+gName(m.gear)+" · Lv"+m.gear.lv}),h("div",{c:"xs mt",t:(gDesc(m.gear)||"옵션 없음")+" · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
     box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(IT[m.item]?IT[m.item].n:m.item)+" · 남은 "+m.qty+"개"}),h("div",{c:"xs mt",t:"개당 "+won(u)+" 환 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")}),tot),n,btn("구매",()=>buyListing(m,+n.value),"sm")))})}
   else if(t==="dlv")marketDlv(box,row);
-  else{const own=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&!IT[k].bound);
+  else{const own=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&!IT[k].bound&&!IT[k].noex);
    if(own.length){const sel=h("select",{},own.map(([k,n])=>h("option",{value:k,t:IT[k].n+" (보유 "+n+")"}))),q=h("input",{type:"number",min:1,value:1,placeholder:"수량"}),pr=h("input",{type:"number",min:1,placeholder:"1개당 가격 (환)"}),pv=h("div",{c:"xs mt",style:"margin:-2px 0 6px",t:"1개당 가격을 정하면, 사는 사람이 원하는 개수만큼 사 가요."});
     const upv=()=>{const a=Math.floor(+q.value)||0,b=Math.floor(+pr.value)||0;pv.textContent=a>0&&b>0?"전부 팔리면 총 "+won(a*b)+" 환 · 수수료 5% 빼고 "+won(Math.floor(a*b*.95))+" 환 수령":"1개당 가격을 정하면, 사는 사람이 원하는 개수만큼 사 가요."};q.oninput=upv;pr.oninput=upv;
     box.append(h("div",{c:"sm",style:"margin-bottom:4px",t:"판매 등록"}),sel,h("div",{c:"row",style:"margin:6px 0"},q,pr),pv,btn("등록",()=>listItem(sel.value,+q.value,+pr.value),"pri full"))}
    else box.append(h("p",{c:"sm mt",t:"판매할 소지품이 없습니다."}));
-   const GL=me.gear||[];if(GL.length){const gs=h("select",{},GL.map(q=>h("option",{value:q.gid,t:"["+RAR[q.r].n+"] "+gName(q)+" Lv"+q.lv}))),gp=h("input",{type:"number",min:1,placeholder:"가격 (환)"});
+   const GL=(me.gear||[]).filter(q=>!(IT[q.id]&&IT[q.id].ring));if(GL.length){const gs=h("select",{},GL.map(q=>h("option",{value:q.gid,t:"["+RAR[q.r].n+"] "+gName(q)+" Lv"+q.lv}))),gp=h("input",{type:"number",min:1,placeholder:"가격 (환)"});
     box.append(h("div",{c:"sm",style:"margin:12px 0 4px",t:"장비 판매 등록 (만든 장비도 팔 수 있어요)"}),gs,h("div",{c:"row",style:"margin:6px 0"},gp,btn("등록",()=>listGear(gs.value,+gp.value),"pri")))}
    const L=market.filter(m=>m.seller===uid);box.append(h("div",{c:"sm",style:"margin:12px 0 2px",t:"내 매물 "+L.length+"개"}));
-   L.forEach(m=>box.append(row(h("span",{c:"grow sm",t:IT[m.item].n+" · 남은 "+m.qty+"개 · 개당 "+won(unitOf(m))+" 환 (다 팔리면 수령 "+won(Math.floor(unitOf(m)*m.qty*.95))+")"}),btn("남은 것 회수",()=>cancelListing(m),"sm"))))}}
+   L.forEach(m=>box.append(row(h("span",{c:"grow sm",t:(m.kr?krName(m.kr):IT[m.item].n)+" · 남은 "+m.qty+"개 · 개당 "+won(unitOf(m))+" 환 (다 팔리면 수령 "+won(Math.floor(unitOf(m)*m.qty*.95))+")"}),btn("남은 것 회수",()=>cancelListing(m),"sm"))))}}
  else if(sp==="tavern")tavernFac(box,subs,row,wal);
  else if(sp==="quar"){const c=cur(me);box.append(pbar(c.con,100,"con","오염도 "+c.con.toFixed(1)+"%"),
   h("p",{c:"sm mt",t:me.quar?"치료 중 · 완치까지 약 "+fmt(Math.ceil(c.con/(100/1800)))+" (100% 기준 30분)":"입원하면 오염도가 빠르게 내려갑니다. 100%에서 완치까지 30분, 언제든 퇴원할 수 있어요."}),
@@ -1162,18 +1182,20 @@ async function craft(id){const inv={...me.inv},need=RC[id];for(const k in need)i
  for(const k in need)inv[k]-=need[k];if(addInv(inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd({inv});toast(IT[id].n+" 제작 완료")}
 /* 거래소: 개당 가격(unit) · 예전 매물은 총액(price)을 개수로 나눠 환산 */
 const unitOf=m=>m.unit!=null?m.unit:Math.max(1,Math.ceil((m.price||0)/(m.qty||1)));
-async function listGear(gid,price){price=Math.floor(price)||0;if(price<1)return toast("가격을 확인하세요");const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;
+async function listGear(gid,price){price=Math.floor(price)||0;if(price<1)return toast("가격을 확인하세요");const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(IT[q.id]&&IT[q.id].ring)return toast("반지는 거래소에 올릴 수 없어요 · 같은 지역 헌터에게 직접 건네세요");
  await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid)});await db.collection("market").add({t:Date.now(),seller:uid,item:q.id,qty:1,unit:price,gear:q});toast("장비를 거래소에 올렸습니다")}
-async function listItem(id,q,price){if(IT[id]&&IT[id].bound)return toast("귀속 아이템은 판매할 수 없습니다");q=Math.floor(q);price=Math.floor(price);if(!(q>0)||!(price>0))return toast("수량과 가격을 확인하세요");if((me.inv[id]||0)<q)return toast("수량이 부족합니다");
+async function listItem(id,q,price){if(IT[id]&&IT[id].bound)return toast("귀속 아이템은 판매할 수 없습니다");if(IT[id]&&IT[id].noex)return toast(IT[id].n+"은(는) 거래소에 올릴 수 없어요");q=Math.floor(q);price=Math.floor(price);if(!(q>0)||!(price>0))return toast("수량과 가격을 확인하세요");if((me.inv[id]||0)<q)return toast("수량이 부족합니다");
  const inv={...me.inv};inv[id]-=q;await upd({inv});await db.collection("market").add({t:Date.now(),seller:uid,item:id,qty:q,unit:price});toast("거래소에 등록했습니다 · 개당 "+won(price)+" 환")}
 async function buyListing(m,n){n=Math.floor(n)||0;if(n<1)return toast("구매 개수를 입력하세요");
  const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매된 매물입니다");const d=s.data();
  if(n>d.qty)return toast("남은 수량은 "+d.qty+"개예요");const u=unitOf(d),cost=u*n;
- if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+" 환 필요)");const inv={...me.inv};if(d.gear){n=1;if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다")}else if(addInv(inv,d.item,n)<n)return toast("가방 공간이 부족합니다");
+ if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+" 환 필요)");
+ if(d.kr){await ref.delete();const rr=krRecvP(d.kr);await upd({...rr.p,tan:me.tan-cost});const po={t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:krName(d.kr)+" 판매 (수수료 5%)"};if(d.kr.own===uid)po.rep5=true;await db.collection("payouts").add(po);return toast(rr.msg+" (-"+won(cost)+" 환)")}
+ const inv={...me.inv};if(d.gear){n=1;if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다")}else if(addInv(inv,d.item,n)<n)return toast("가방 공간이 부족합니다");
  if(n>=d.qty)await ref.delete();else await ref.update({qty:d.qty-n,unit:u});
  await upd(d.gear?{gear:(me.gear||[]).concat([d.gear]),tan:me.tan-cost}:{inv,tan:me.tan-cost});
  await db.collection("payouts").add({t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:IT[d.item].n+" ×"+n+" 판매 (개당 "+won(u)+" · 수수료 5%)"});toast(IT[d.item].n+" ×"+n+" 구매 완료 (-"+won(cost)+" 환)")}
-async function cancelListing(m){const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매되었습니다");const d=s.data();if(d.gear){if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");await ref.delete();await upd({gear:(me.gear||[]).concat([d.gear])});return toast("장비를 회수했습니다")}const inv={...me.inv};if(addInv(inv,d.item,d.qty)<d.qty)return toast("가방 공간이 부족합니다");await ref.delete();await upd({inv});toast("판매를 취소했습니다")}
+async function cancelListing(m){const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매되었습니다");const d=s.data();if(d.kr){await ref.delete();await upd({fkr:(me.fkr||[]).concat([d.kr])});return toast("키링을 회수했어요")}if(d.gear){if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");await ref.delete();await upd({gear:(me.gear||[]).concat([d.gear])});return toast("장비를 회수했습니다")}const inv={...me.inv};if(addInv(inv,d.item,d.qty)<d.qty)return toast("가방 공간이 부족합니다");await ref.delete();await upd({inv});toast("판매를 취소했습니다")}
 
 
 /* ===== 게이트 · 협회 공지 · 주점 · 납품 · 자동전투 ===== */
@@ -1552,7 +1574,7 @@ async function settle(b){
   else if(b.st==="lost"){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null;p.tan=Math.floor(me.tan*.9);p.sg=null}
   else{p.hp=Math.max(1,m.hp);msg="전투 종료"}
   if(b.gate&&(b.gate.kind==="w"||b.gate.kind==="s"||b.gate.kind==="gm")&&m.hp<=0){const g=gateById(b.gate.id);p.mis={t:Date.now(),reg:g?(g.reg||nearReg(g.x,g.y)):b.region,grade:(g&&g.grade)||b.gate.grade||"D",lab:g?gLabel(g):"게이트",gid:b.gate.id};
-   p.loc=me.loc;p.spot=me.spot||"out";p.sg=null;p.trip=null;p.hp=1;msg="게이트 안에서 쓰러졌다… 실종 상태 · 10분 안에 다른 헌터가 구조하러 올 수 있어요"}
+   p.loc=me.loc;p.spot=me.spot||"out";p.sg=null;p.trip=null;p.hp=1;msg="게이트 안에서 쓰러졌다… 실종 상태 · 10분 안에 다른 헌터가 구조하러 올 수 있어요";if(krDrop(p))msg+=" · 기기에 달아 둔 키링을 잃어버렸다"}
   const hurt=m.hurt||[];if(hurt.length){const A=clone(me.ail||{}),now=Date.now();hurt.forEach(k=>{A[k]={t:now};if(AIL[k].nat)A[k].u=now+AIL[k].nat});p.ail=A;msg+=" · 부상: "+hurt.map(k=>AIL[k].n).join(", ")}
  await db.doc("chars/"+uid).update(p);toast(msg);setTimeout(()=>{if(tab==="battle"&&!inB()){tab="map";render(true)}},900);if(b.gate&&b.gate.kind==="r")rescueAfter(b).catch(()=>{});else if(b.gate&&b.gate.kind!=="p"&&b.gate.kind!=="gm")pushContrib(b.gate,m.dmg||0,m.hp<=0,b.st==="won"&&!!b.gate.boss).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
  finally{settling=false}
@@ -1608,7 +1630,7 @@ function rBag(v){
  if(!items.length)bag.append(h("p",{c:"mt sm",t:"비어 있습니다. 채집하거나 전투로 전리품을 모으세요."}));
  const g=h("div",{c:"grid"});items.forEach(([k,n])=>{const i=IT[k],tx=[h("b",{style:i.rar!=null?"color:"+RAR[i.rar].c:"",t:i.n+" × "+n}),h("div",{c:"xs mt",t:i.dose?"귀속 · 주사":i.deco?"사용 가능 · 키링":i.med?"치료용":i.use?"사용 가능"+(i.dv?" · 납품용":""):i.learn?(i.bound?"레시피 · 거래 불가":"제작서"):i.slot?"장착 가능 · 일반":i.dv?"납품용":i.rar!=null?RAR[i.rar].n+" 재료":"재료"})];
   g.append(h("button",{c:"tile",onclick:()=>{doseArm=false;itemPop(k)}},i.ico?h("div",{c:"ti"},svgI(SYR,"ico"),h("div",{},...tx)):tx))});
- bag.append(g);v.append(bag);{const kc=krCard();if(kc)v.append(kc)}
+ bag.append(g);v.append(bag);{const kc=krCard();if(kc)v.append(kc);const fc=fkrCard();if(fc)v.append(fc)}
  const gc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"장비"}),h("span",{c:"sm mt",t:G.length+" / "+MAXGEAR})));
  const GCAT=[["head","머리"],["body","상의"],["legs","하의"],["feet","신발"],["acc","악세서리"],["wpn","무기"]],gcat=q=>{const t=IT[q.id]&&IT[q.id].slot;return t==="main"||t==="sub"?"wpn":t==="arms"?"acc":t};
  {if(!GCAT.some(x=>x[0]===gearTab))gearTab="head";const tabs=h("div",{c:"gtabs"});GCAT.forEach(([ck,cn])=>{const n=G.filter(q=>gcat(q)===ck).length;tabs.append(h("button",{c:"gtab"+(gearTab===ck?" on":""),onclick:()=>{gearTab=ck;render(true)}},cn,n?h("small",{t:String(n)}):null))});gc.append(tabs);
@@ -1618,7 +1640,7 @@ function rBag(v){
  gc.append(h("div",{c:"legend",style:"border:0;padding:8px 0 0"},RAR.map(r=>h("span",{},h("i",{style:"background:"+r.c}),r.n))));v.append(gc)}
 function gearPop(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return closePop();const i=IT[q.id];
  openPop(h("div",{c:"h0",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"sm mt",t:"["+RAR[q.r].n+"] · Lv"+q.lv+" · "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")}),h("p",{c:"sm",t:gDesc(q)||"옵션 없음"}),
-  h("div",{c:"row",style:"margin-top:12px"},btn("장착",async()=>{await equipGear(gid);closePop()},"pri grow"),btn("분해",async()=>{await dismantle(gid);closePop()},"grow"),btn("닫기",closePop,"grow")))}
+  h("div",{c:"row",style:"margin-top:12px"},btn("장착",async()=>{await equipGear(gid);closePop()},"pri grow"),i.ring?(q.id==="ring_m"?null:btn(q.id==="ring_c"?"고백하기":"청혼하기",()=>{closePop();ringGive(gid)},"grow")):btn("분해",async()=>{await dismantle(gid);closePop()},"grow"),btn("닫기",closePop,"grow")),i.ring?h("p",{c:"xs mt",style:"margin-top:8px",t:"같은 파티에 짝이 같은 반지를 끼고 있으면 반지 효과가 3배가 돼요 · 연락처에서 상대를 골라 같은 지역에서 건넬 수 있어요 · 거래소·상점에는 팔 수 없어요"}):null)}
 async function equipGear(gid,slot){const G=(me.gear||[]).slice(),k=G.findIndex(x=>x.gid===gid);if(k<0)return;const q=G[k],t=IT[q.id].slot,eq=clone(me.eq||{});
  if(!slot)slot=t==="acc"?(!eq.acc1?"acc1":!eq.acc2?"acc2":"acc1"):t;G.splice(k,1);const old=eq[slot],inv={...me.inv};
  if(old&&old.id){if(old.gid)G.push(old);else inv[old.id]=(inv[old.id]||0)+1}
@@ -1629,6 +1651,8 @@ function itemPop(k){const i=IT[k],n=me.inv[k]||0;if(!n)return closePop();
  const acts=h("div",{c:"row",style:"margin-top:12px"});
  if(i.use)acts.append(btn(k==="detox"?"사용":"먹기 / 사용",async()=>{await useItem(k);itemPop(k)},"pri grow"));
  if(k==="will")acts.append(btn("읽어 본다",()=>{closePop();readWill()},"pri grow"));
+ if(i.rbox)acts.append(btn("꺼내기",()=>{closePop();wrap(()=>openRingBox(k))},"pri grow"));
+ if(k==="pair_doc")acts.append(btn("작성하기",()=>{closePop();pairForm()},"pri grow"));
  if(i.deco){acts.append(btn("사용하기",()=>{closePop();wrap(()=>openDeco(k))},"pri grow"));if(Object.values(me.beads||{}).some(x=>x>0))acts.append(btn("만들기",()=>{closePop();krPop()},"grow"))}
  if(i.med)acts.append(btn("사용",async()=>{await useMed(k);itemPop(k)},"pri grow"));
  if(i.dose)acts.append(btn(doseArm?"정말 주사합니다":"주사하기",async()=>{if(!doseArm){doseArm=true;itemPop(k);return}doseArm=false;await useDose(k);itemPop(k)},"pri grow"));
@@ -1753,11 +1777,11 @@ async function war(tid){
 }
 
 /* ===== 채팅 공용 ===== */
-function rows(){if(room==="hq")return hqMsgs();if(room==="tav")return tavMsgs();if(room==="rp")return rp.filter(m=>m.reg===me.loc);if(room==="g")return gchat.filter(m=>m.g===me.guild&&!m.o);if(room==="owner")return me.guild?gchat.filter(m=>m.g===me.guild&&m.o):[];if(room==="grp")return gmsgs.filter(m=>m.room===grpId);if(room==="pt")return me.party?pchats.filter(m=>m.party===me.party):[];
+function rows(){if(room==="hq")return hqMsgs();if(room==="tav")return tavMsgs();if(room==="rp")return rp.filter(m=>m.reg===me.loc||m.reg==="*");if(room==="g")return gchat.filter(m=>m.g===me.guild&&!m.o);if(room==="owner")return me.guild?gchat.filter(m=>m.g===me.guild&&m.o):[];if(room==="grp")return gmsgs.filter(m=>m.room===grpId);if(room==="pt")return me.party?pchats.filter(m=>m.party===me.party):[];
  return dms.filter(m=>dmWith&&((m.from===uid&&m.to===dmWith)||(m.from===dmWith&&m.to===uid&&!isBlk(dmWith))))}
 function rpParts(b,m,plain){if(plain||m.kind==="sys")return b.append(m.text);if(m.kind==="act")return b.append("* "+m.text);if(m.kind==="ooc")return b.append("[OOC] "+m.text);
  m.text.split(/(\([^)]*\))/).filter(p=>p.trim()).forEach(p=>{if(/^\([^)]*\)$/.test(p))b.append(h("i",{c:"mt",t:p+" "}));else b.append("“"+p.trim()+"” ")})}
-function msgEl(m){const id=m.uid||m.from,c=chars[id],b=h("div",{c:"b"});rpParts(b,m,room==="owner");
+function msgEl(m){if(m.kind==="rumor")return h("div",{c:"rumor",t:"["+m.name+"] "+m.text});const id=m.uid||m.from,c=chars[id],b=h("div",{c:"b"});rpParts(b,m,room==="owner");
  return h("div",{c:"m"+(id===uid?" own":"")},id===uid?null:avatar(c,"s"),h("div",{c:"mc"},h("div",{c:"nm",t:m.name}),b))}
 function updFeed(){const f=$("#feed");if(!f)return;const r=rows();feedFill(f,r,f=>{if(!r.length)f.append(h("p",{c:"mt sm",t:"아직 대화가 없습니다. 첫 대사를 남겨 보세요."}));r.forEach(m=>f.append(msgEl(m)))});
  if(tab==="guild"&&(room==="g"||room==="owner")&&r.length){markSeen(room,lastT(r));navDots()}}
@@ -1882,11 +1906,13 @@ function openPhone(scr,room){if(inGateNow())setTimeout(()=>{try{gateSigTick()}ca
  ph.scr=scr||"home";ph.room=room||null;ph.buf="";ph.sel=null;ph.stack=!scr||scr==="home"?[]:scr==="chat"?[["home",null],["msg",null]]:[["home",null]];
  if(call.st==="in"||(call.st!=="idle"&&!scr)){ph.scr="incall";ph.stack=[["home",null]]}
  P.style.display="block";$("#ptab").classList.add("act");phRender();placePhone()}
-function nav5(){const side=(t,k)=>kbtn("",svgI(APPS.find(a=>a[0]===k)[2]),()=>sideApp(k),null,t),ar=(d,lab,fn)=>kbtn("ar",svgI(d),fn,null,lab);
+function nav5(){const side=(t,k)=>kbtn("",svgI(appEnt(APPS.find(a=>a[0]===k))[2]),()=>sideApp(k),null,appEnt(APPS.find(a=>a[0]===k))[1]),ar=(d,lab,fn)=>kbtn("ar",svgI(d),fn,null,lab);
  return h("div",{c:"nav5"},h("div",{c:"side"},side("문자","msg"),side("연락처","contacts")),
   h("div",{c:"dpad"},ar("M6 15l6-6 6 6","위",()=>navMove("u")),ar("M15 6l-6 6 6 6","왼쪽",()=>navMove("l")),kbtn("ok","확인",()=>wrap(navOk),null,"확인"),ar("M9 6l6 6-6 6","오른쪽",()=>navMove("r")),ar("M6 9l6 6 6-6","아래",()=>navMove("d"))),
   h("div",{c:"side"},side("협회","assoc"),kbtn("",svgI("M4 11.5l8-7 8 7M6.5 9.5V20h4v-5.5h3V20h4V9.5"),phHome,null,"홈")))}
-function appOrder(){const o=Array.isArray(SET.apps)?SET.apps:[],L=o.map(k=>APPS.find(a=>a[0]===k)).filter(Boolean);APPS.forEach(a=>{if(!L.includes(a))L.push(a)});return L}
+const IC_HUNT="M12 3.5a3.6 3.6 0 1 1 0 7.2 3.6 3.6 0 0 1 0-7.2zM5 20.5c.7-4.2 3.5-6.8 7-6.8s6.3 2.6 7 6.8M16.5 4.5l3-1.5M18 7.5h2.5";
+const appEnt=a=>a&&a[0]==="assoc"&&me&&me.hqOut?["assoc","헌터",IC_HUNT]:a;
+function appOrder(){const o=Array.isArray(SET.apps)?SET.apps:[],L=o.map(k=>APPS.find(a=>a[0]===k)).filter(Boolean);APPS.forEach(a=>{if(!L.includes(a))L.push(a)});return L.map(appEnt)}
 function sideApp(k){ph.stack=[["home",null]];ph.scr=k;ph.room=null;ph.buf="";ph.sel=null;ph.fi=null;phRender()}
 function navItems(){const B=$("#pscr .pbody");return B?[...B.querySelectorAll(".app,.pit,.pbtn,.tg button,.plink,.pk")].filter(e=>!e.disabled&&e.offsetParent!==null):[]}
 function navMark(){const L=navItems(),on=ph.fiScr===ph.scr;L.forEach((e,k)=>e.classList.toggle("fo",on&&k===ph.fi));const e=on&&L[ph.fi];if(e)e.scrollIntoView({block:"nearest"})}
@@ -1965,8 +1991,9 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   L.forEach(c=>{const out=c.from===uid,o=chars[out?c.to:c.from],st=out?({done:"발신",missed:"발신 · 응답 없음",declined:"발신 · 거절됨",busy:"발신 · 통화 중"}[c.st]):({done:"수신",missed:"부재중",declined:"거절함",busy:"부재중 (통화 중)"}[c.st]);
    it((o?dName(out?c.to:c.from):"알 수 없음")+(o?" · "+fnum(o.num):""),(st||c.st)+" · "+ago(c.t)+(c.dur?" · "+fmt(c.dur):""),()=>{if(o){ph.buf=o.num;phRender()}},!out&&c.st==="missed")})}
  else if(s==="incall"){if(call.st==="idle"){ph.scr="dial";return phRender()}updCall(B)}
- else if(s==="assoc"){hd("협회");const p=me.party&&parties[me.party],mg=myG();
-  B.append(h("div",{c:"aprof"},h("div",{c:"aph"},me.photo?h("img",{src:me.photo,alt:""}):null),h("div",{style:"min-width:0"},h("b",{t:me.name}),h("small",{t:"등급 "+gradeL(me)+" · 능력 "+me.attr}),h("small",{c:"rowi"},logoEl(mg,15),"소속 길드: "+(mg?mg.name:"미소속")),h("small",{t:ROLE[me.role].n+" · Lv"+me.lv}))));
+ else if(s==="assoc"){hd(me.hqOut?"헌터":"협회");const p=me.party&&parties[me.party],mg=myG();
+  B.append(h("div",{c:"aprof"},h("div",{c:"aph"},me.photo?h("img",{src:me.photo,alt:""}):null),h("div",{style:"min-width:0"},h("b",{t:me.name}),h("small",{t:"등급 "+gradeL(me)+" · 능력 "+me.attr}),h("small",{c:"rowi"},logoEl(mg,15),"소속 길드: "+(mg?mg.name:"미소속")),h("small",{},ROLE[me.role].n+" · Lv"+me.lv+" · ",h("span",{c:me.hqOut?"bad":"ok",t:me.hqOut?"협회 미가입":"협회 가입"})))));
+  relPhone(B,sec,it,pb);
   sec("유언장");it(me.will&&me.will.text?"내 유언장 · 작성됨":"내 유언장 · 비어 있음",willToday()?"오늘 이미 썼어요 · 내일 다시 고칠 수 있어요":"하루에 한 번 쓰거나 고칠 수 있어요",()=>phGo("willedit"));
   sec("파티");
   if(p){B.append(h("div",{c:"xs",t:p.name+" ("+p.members.length+"/4) · 몬스터는 탱커를 먼저 노립니다"}));
@@ -2053,7 +2080,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
 function updPhone(force){if(!phoneOn||ph.scr!=="chat")return;const f=$("#pfeed");if(!f)return;const k=ph.room||"rp",r=roomRows(k),own=splitK(k)[0]==="owner";
  const rs=rcptSig(k,r),rc0=/^(dm|grp):/.test(k),lm=rc0?r.filter(m=>(m.uid||m.from)===uid).pop():null;f.dataset.rs=rs;
  feedFill(f,r,f=>{if(!r.length)f.append(h("div",{c:"pe",t:"수신된 메시지가 없습니다."}));
- r.forEach(m=>{const id=m.uid||m.from,mine=id===uid,b=h("div",{c:"pc"},h("span",{c:"pn",t:m.name}));rpParts(b,m,own);
+ r.forEach(m=>{if(m.kind==="rumor")return f.append(h("div",{c:"psys rumor",t:"["+m.name+"] "+m.text}));const id=m.uid||m.from,mine=id===uid,b=h("div",{c:"pc"},h("span",{c:"pn",t:m.name}));rpParts(b,m,own);
   let rl=null;if(mine&&rc0){const n=rcptOf(k,m);if(n)rl=h("span",{c:"rcpt n",t:String(n)});else if(m===lm)rl=h("span",{c:"rcpt",t:"읽음"})}
   f.append(mine?h("div",{c:"pl me"},rl,b):h("div",{c:"pl o"},avatar(chars[id]||{name:m.name},"xs"),b))})},force,rs);
  markSeen(k,lastT(r));markRead(k,lastT(r));updDot()}
@@ -2112,14 +2139,16 @@ async function bankOk(){const s=ph.scr,n=parseInt(ph.buf,10)||0,log=(amt,txt)=>[
   await upd({bank:(me.bank||0)-n,blog:log(-n,"이체 → "+e[1].name)});await db.collection("payouts").add({t:Date.now(),to:e[0],from:uid,amt:n,k:"transfer",memo:""});toast(e[1].name+"님에게 "+won(n)+" 환 이체")}
  ph.buf="";ph.stack=[["home",null]];ph.scr="bank";phRender()}
 let claimBusy=false,claimExp=null,claimT=0,fullT=0;
-async function claimPayouts(){if(!me||claimBusy||(claimExp!==null&&Date.now()-claimT<5000))return;const p=payouts.filter(x=>x.to===uid&&x.from!=="hq").sort((a,b)=>(a.k==="item")-(b.k==="item"))[0];if(!p)return;return claimOne(p)}
+async function claimPayouts(){if(!me||claimBusy||(claimExp!==null&&Date.now()-claimT<5000))return;const p=payouts.filter(x=>x.to===uid&&x.from!=="hq"&&!["kr","trade","tresp"].includes(x.k)).sort((a,b)=>(a.k==="item")-(b.k==="item"))[0];if(!p)return;return claimOne(p)}
 async function claimOne(p){if(claimBusy)return;claimBusy=true;
  try{const ref=db.doc("payouts/"+p.id),s=await ref.get();if(!s.exists)return;const d=s.data(),from=d.from==="hq"?"협회":chars[d.from]?chars[d.from].name:"알 수 없음";
+  if(d.k==="kr"){await ref.delete();await krRecv(d.kr);return}
+  if(d.k==="trade"||d.k==="tresp")return;
   if(d.k==="item"&&d.item==="sos_tx"){await ref.delete();await upd({sosOff:false});toast("비상구조요청송신기를 받았어요 · 장비 화면에 돌아왔어요");return}
   if(d.k==="item"){const inv={...me.inv},q=d.qty||1;if(!IT[d.item]){await ref.delete();return}if(addInv(inv,d.item,q)<q){if(Date.now()-fullT>60000){fullT=Date.now();toast("가방이 가득 차서 "+IT[d.item].n+"을(를) 받지 못했어요. 가방을 비우면 자동으로 받아요")}return}
    await ref.delete();claimExp=-1;claimT=Date.now();await upd({inv});toast(IT[d.item].n+" ×"+q+" 받음 · "+(d.memo||from));return}
   await ref.delete();const nb=(me.bank||0)+d.amt;claimExp=nb;claimT=Date.now();const tx=d.k==="sale"?"거래소 · "+(d.memo||""):d.k==="gate"||d.k==="req"?(d.memo||""):"입금 · "+from;
-  await upd({bank:nb,blog:[{t:Date.now(),amt:d.amt,txt:tx}].concat(me.blog||[]).slice(0,30)});
+  await upd(Object.assign({bank:nb,blog:[{t:Date.now(),amt:d.amt,txt:tx}].concat(me.blog||[]).slice(0,30)},d.rep5?{rep:Math.min(100,repOf(me)+5)}:{}));if(d.rep5)setTimeout(()=>toast("키링이 주인에게 돌아갔어요 · 명성 +5"),1500);
   toast("은행 입금 +"+won(d.amt)+" 환 ("+(d.k==="sale"?"거래소 판매":d.k==="gate"?"협회 게이트 보상":d.k==="req"?"의뢰 보수":from)+")")}catch(e){}finally{claimBusy=false}}
 /* ===== 전화 (실시간 · 저장 안 됨) ===== */
 let call={st:"idle"},callTo=null,ringIv=null;
@@ -2285,8 +2314,8 @@ const BCL=[["루비","#e2445c"],["호박","#e8a33d"],["레몬","#e3cf55"],["비�
 /* 비즈세트: 네모·동그라미·다이아몬드·물방울·하트·십자가 × 색 6가지 × 3개씩 */
 const BSET={deco_p:{n:"꾸미기비즈세트(원색)",c:[8,9,10,11,12,13]},deco_s:{n:"꾸미기비즈세트(파스텔)",c:[14,15,16,17,18,19]}},BSET_SH=["sq","rd","dm","dr","ht","cr"],BSET_Q=3;
 const DECO_P=400,DECO_N=14,KR_MAX=6,KR_LEN=9,KR_SC=2.25;
-const bName=k=>{const[s,c]=k.split(".");return BCL[+c][0]+" "+BSH[s]+" 비즈"};
-function beadDraw(g,k,cx,cy,r){const[s,c]=k.split("."),col=BCL[+c]?BCL[+c][1]:"#ccc",st={fill:col,stroke:"rgba(0,0,0,.45)","stroke-width":.6};let e;
+const bName=k=>{if(isPd(k))return"타원형 금속 펜던트";const[s,c]=k.split(".");return BCL[+c][0]+" "+BSH[s]+" 비즈"};
+function beadDraw(g,k,cx,cy,r){if(isPd(k))return pdDraw(g,k,cx,cy,r);const[s,c]=k.split("."),col=BCL[+c]?BCL[+c][1]:"#ccc",st={fill:col,stroke:"rgba(0,0,0,.45)","stroke-width":.6};let e;
  const P=pts=>pts.map(([x,y])=>(cx+x*r).toFixed(2)+","+(cy+y*r).toFixed(2)).join(" ");
  if(s==="rd")e=svE("circle",{cx,cy,r:r*.92,...st},g);
  else if(s==="sq")e=svE("rect",{x:cx-r*.82,y:cy-r*.82,width:r*1.64,height:r*1.64,rx:r*.22,...st},g);
@@ -2300,27 +2329,25 @@ function beadDraw(g,k,cx,cy,r){const[s,c]=k.split("."),col=BCL[+c]?BCL[+c][1]:"#
  svE("ellipse",{cx:cx-r*.3,cy:cy-r*.35,rx:r*.26,ry:r*.16,fill:"rgba(255,255,255,.55)",transform:`rotate(-30 ${cx-r*.3} ${cy-r*.35})`},g);return e}
 function beadSvg(k,px){const v=svE("svg",{viewBox:"0 0 20 20",width:px||22,height:px||22,class:"bead"});beadDraw(v,k,10,10,7.2);return v}
 /* 비즈 스트랩: 고리 → 줄 → 비즈 → 매듭 → 술 */
-function strapSvg(L,sc){sc=sc||1;const W=30,cx=15,step=14.6,h0=15,H=h0+L.length*step+20,v=svE("svg",{viewBox:`0 0 ${W} ${H}`,width:W*sc,height:H*sc,class:"strap"});
- svE("ellipse",{cx,cy:6,rx:3.8,ry:4.8,fill:"none",stroke:"var(--krc)","stroke-width":1.3},v);
- svE("line",{x1:cx,y1:10.8,x2:cx,y2:H-16,stroke:"var(--krc)","stroke-width":1.1},v);
- L.forEach((k,i)=>beadDraw(v,k,cx,h0+i*step+7.3,7.2));
+function strapSvg(L,sc,pm){sc=sc||1;const W=30,cx=15,step=14.6,h0=15,H=h0+L.length*step+20,v=svE("svg",{viewBox:`0 0 ${W} ${H}`,width:W*sc,height:H*sc,class:"strap"});
+ svE("line",{x1:cx,y1:1,x2:cx,y2:H-16,stroke:"var(--krc)","stroke-width":1.1,"stroke-linecap":"round"},v);
+ const o=PDM;PDM=pm||null;L.forEach((k,i)=>beadDraw(v,k,cx,h0+i*step+7.3,7.2));PDM=o;
  const ky=H-15;svE("circle",{cx,cy:ky,r:2.2,fill:"var(--krc)"},v);[-4.5,-1.6,1.6,4.5].forEach(dx=>svE("line",{x1:cx,y1:ky+1,x2:cx+dx,y2:H-1,stroke:"var(--krc)","stroke-width":.9,"stroke-linecap":"round"},v));return v}
 /* 기기에 달린 키링 */
 function krOf(dev){const id=me&&me.kra&&me.kra[dev];return id?(me.krs||[]).find(x=>x.id===id)||null:null}
-function applyKR(){if(!me)return;[["phone","#phone"],["radio","#radio"]].forEach(([dev,sel])=>{const P=$(sel);if(!P)return;const k=krOf(dev),key=k?k.id+":"+k.b.join(","):"",cur=P.querySelector(":scope>.kring");
- if((cur?cur.dataset.k:"")===key)return;if(cur)cur.remove();if(!k)return;const w=h("div",{c:"kring","data-k":key});w.append(strapSvg(k.b,KR_SC));P.append(w)})}
+/* applyKR → v31 모듈 (물리) */
 /* 시장: 꾸미기재료묶음 */
 async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,k,1)<1)return toast("가방이 가득 찼습니다");
  await upd({tan:me.tan-DECO_P,inv});toast(BSET[k].n+" 구매 · 가방에서 눌러 사용하세요")}
 /* 우편함: 협회(게이트 보상)에서 온 우편은 직접 받아야 함 */
-const mails=()=>payouts.filter(x=>x.to===uid&&x.from==="hq").sort((a,b)=>b.t-a.t);
+const mails=()=>payouts.filter(x=>x.to===uid&&(x.from==="hq"||x.k==="kr")).sort((a,b)=>b.t-a.t);
 let kdraft=[],homeSub="mail";
 function rHome(v){
  const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:me.rno?me.rno+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:me.rno?Math.floor(me.rno/100)+"층":""})));[["mail","우편함"+(mails().length?" "+mails().length:"")],["store","보관함"]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
  if(homeSub==="store")return rStore(v);return rMail(v)}
-function rMail(v){if(mailSend.on)rSend(v);else v.append(btn("우편 보내기",()=>{mailSend.on=true;render(true)},"full",{style:"margin-bottom:10px"}));const L=mails(),c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"우편함"}),L.length>1?btn("모두 받기",async()=>{for(const p of mails())await claimOne(p)},"sm pri"):null));
+function rMail(v){if(mailSend.on)rMailSend(v);else v.append(btn("우편 보내기",()=>{mailSend.on=true;render(true)},"full",{style:"margin-bottom:10px"}));const L=mails(),c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"우편함"}),L.length>1?btn("모두 받기",async()=>{for(const p of mails())await claimOne(p)},"sm pri"):null));
  if(!L.length)c.append(h("p",{c:"sm mt",t:"도착한 우편이 없습니다. 게이트를 공략하면 보상이 기여도에 따라 우편으로 와요."}));
- L.forEach(p=>c.append(h("div",{c:"mail"},svgI("M3 6h18v12H3zM3 7l9 6 9-6","mico"),h("div",{c:"grow"},h("b",{c:"sm",t:p.memo||"협회 우편"}),h("div",{c:"xs mt",t:"협회 · "+kfmt(p.t)}),h("div",{c:"xs gold",t:p.k==="item"?(IT[p.item]?IT[p.item].n:p.item)+" ×"+(p.qty||1):won(p.amt)+" 환 (은행으로 입금)"})),btn("받기",()=>claimOne(p),"sm"))));
+ L.forEach(p=>c.append(h("div",{c:"mail"},svgI("M3 6h18v12H3zM3 7l9 6 9-6","mico"),h("div",{c:"grow"},h("b",{c:"sm",t:p.memo||"협회 우편"}),h("div",{c:"xs mt",t:(p.k==="kr"?((chars[p.from]||{}).name||"헌터")+" 헌터":"협회")+" · "+kfmt(p.t)}),h("div",{c:"xs gold",t:p.k==="kr"?"키링 1개":p.k==="item"?(IT[p.item]?IT[p.item].n:p.item)+" ×"+(p.qty||1):won(p.amt)+" 환 (은행으로 입금)"})),btn("받기",()=>claimOne(p),"sm"))));
  v.append(c)}
 const FURN=[["fu_closet","옻칠 장롱"],["fu_cabinet","상아 장식장"],["fu_bed","철제 침대"],["fu_sofa","가죽 소파"],["fu_chair","판자 의자"]];
 function roomSvg(R){const v=svE("svg",{viewBox:"0 0 320 190",class:"roomv"});
@@ -2342,21 +2369,21 @@ function rKr(v){const B=me.beads||{},keys=Object.keys(B).filter(k=>B[k]>0).sort(
  const mk=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"키링 만들기"}),h("span",{c:"sm mt",t:kdraft.length+" / "+KR_LEN})));
  const pv=h("div",{c:"krpv"});if(kdraft.length)pv.append(strapSvg(kdraft,1.6));else pv.append(h("span",{c:"xs mt",t:"아래 비즈를 눌러 위에서부터 한 줄로 끼워요"}));mk.append(pv);
  mk.append(h("div",{c:"row",style:"gap:6px;margin:8px 0"},btn("하나 빼기",()=>{kdraft.pop();krRe()},"sm grow"),btn("비우기",()=>{kdraft=[];krRe()},"sm grow"),btn("완성",makeKR,"sm pri grow")));
- const bx=h("div",{c:"bbox"});if(!keys.length)bx.append(h("p",{c:"sm mt",style:"grid-column:1/-1",t:"비즈가 없어요. 시장 상점에서 꾸미기비즈세트(원색·파스텔)를 사서 가방에서 사용하면 비즈가 나와요."}));
+ const bx=h("div",{c:"bbox"});if(!keys.length&&!(me.pds||[]).length)bx.append(h("p",{c:"sm mt",style:"grid-column:1/-1",t:"비즈가 없어요. 시장 상점에서 꾸미기비즈세트(원색·파스텔)를 사서 가방에서 사용하면 비즈가 나와요."}));
  keys.forEach(k=>{const left=B[k]-(use[k]||0);bx.append(h("button",{c:"bd"+(left<=0?" off":""),title:bName(k),onclick:()=>{if(left<=0)return toast("이 비즈를 다 썼어요");if(kdraft.length>=KR_LEN)return toast("한 줄에 "+KR_LEN+"개까지 끼울 수 있어요");kdraft.push(k);krRe()}},beadSvg(k,28),h("small",{t:"×"+left})))});
- mk.append(h("div",{c:"xs mt",style:"margin:2px 0 6px",t:"비즈 상자 · 원색·파스텔 비즈"}),bx);v.append(mk);
+ pdTiles(bx);mk.append(h("div",{c:"xs mt",style:"margin:2px 0 6px",t:"비즈 상자 · 원색·파스텔 비즈 · 타원형 금속 펜던트 (사진을 넣을 수 있어요)"}),bx);v.append(mk);
  const L=me.krs||[],kc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 키링"}),h("span",{c:"sm mt",t:L.length+" / "+KR_MAX})));
  if(!L.length)kc.append(h("p",{c:"sm mt",t:"만든 키링이 없어요."}));
  L.forEach(k=>{const at=Object.entries(me.kra||{}).filter(([d,id])=>id===k.id).map(([d])=>d==="phone"?"핸드폰":"수신기");
-  kc.append(h("div",{c:"lrow krrow"},h("div",{c:"krmini"},strapSvg(k.b,.9)),h("div",{c:"grow"},h("b",{c:"sm",t:"비즈 "+k.b.length+"개 키링"}),h("div",{c:"xs mt",t:at.length?at.join(" · ")+"에 달려 있음":"보관 중"})),
+  kc.append(h("div",{c:"lrow krrow"},h("div",{c:"krmini"},strapSvg(k.b,.9,k.pm)),h("div",{c:"grow"},h("b",{c:"sm",t:"비즈 "+k.b.length+"개 키링"}),h("div",{c:"xs mt",t:at.length?at.join(" · ")+"에 달려 있음":"보관 중"})),
    h("div",{c:"col",style:"display:flex;flex-direction:column;gap:4px"},btn("핸드폰에 달기",()=>attachKR(k.id,"phone"),"sm"),myG()?btn("수신기에 달기",()=>attachKR(k.id,"radio"),"sm"):null,at.length?btn("떼기",()=>detachKR(k.id),"sm"):btn("풀기",()=>breakKR(k.id),"sm"))))});
  v.append(kc)}
 async function makeKR(){if(kdraft.length<3)return toast("비즈를 3개 이상 끼워 주세요");const L=(me.krs||[]).slice();if(L.length>=KR_MAX)return toast("키링은 "+KR_MAX+"개까지 가질 수 있어요");
- const B={...(me.beads||{})};for(const k of kdraft){if(!B[k])return toast("비즈가 모자라요");B[k]--;if(!B[k])delete B[k]}
- L.push({id:"k"+Date.now().toString(36),b:kdraft.slice()});kdraft=[];await upd({beads:B,krs:L});toast("키링 완성! 핸드폰이나 수신기에 달아 보세요");setTimeout(krRe,300)}
+ const B={...(me.beads||{})},P=(me.pds||[]).slice(),pm={};for(const k of kdraft){if(isPd(k)){const i=P.findIndex(x=>x.id===k.slice(3));if(i<0)return toast("펜던트가 없어요");if(P[i].img)pm[P[i].id]=P[i].img;P.splice(i,1);continue}if(!B[k])return toast("비즈가 모자라요");B[k]--;if(!B[k])delete B[k]}
+ const kr={id:"k"+Date.now().toString(36),b:kdraft.slice()};if(Object.keys(pm).length)kr.pm=pm;L.push(kr);kdraft=[];await upd({beads:B,pds:P,krs:L});toast("키링 완성! 핸드폰이나 수신기에 달아 보세요");setTimeout(krRe,300)}
 async function attachKR(id,dev){const a={...(me.kra||{})};a[dev]=id;await upd({kra:a});toast((dev==="phone"?"핸드폰":"수신기")+"에 키링을 달았어요");applyKR();setTimeout(krRe,300)}
 async function detachKR(id){const a={...(me.kra||{})};Object.keys(a).forEach(d=>{if(a[d]===id)delete a[d]});await upd({kra:a});toast("키링을 뗐어요");applyKR();setTimeout(krRe,300)}
-async function breakKR(id){const L=(me.krs||[]),k=L.find(x=>x.id===id);if(!k)return;const B={...(me.beads||{})};k.b.forEach(x=>B[x]=(B[x]||0)+1);await upd({krs:L.filter(x=>x.id!==id),beads:B});toast("키링을 풀어 비즈를 상자에 돌려놨어요");setTimeout(krRe,300)}
+async function breakKR(id){const L=(me.krs||[]),k=L.find(x=>x.id===id);if(!k)return;const B={...(me.beads||{})},P=(me.pds||[]).slice();k.b.forEach(x=>{if(isPd(x))P.push({id:x.slice(3),img:(k.pm||{})[x.slice(3)]||""});else B[x]=(B[x]||0)+1});await upd({krs:L.filter(x=>x.id!==id),beads:B,pds:P});toast("키링을 풀어 비즈를 상자에 돌려놨어요");setTimeout(krRe,300)}
 
 /* ===== 실종자 구조: 게이트 안에서 쓰러진 헌터 → 30분 안에 구조 · 못 하면 협회가 꺼내 격리실 10분 입원 ===== */
 const MIS_MS=10*6e4,HOSP_MS=10*6e4,RES_ST=3,MIS_MAX=6*36e5;
@@ -2385,6 +2412,7 @@ function resMon(gt){const m=chars[gt.mid]&&chars[gt.mid].mis;if(!m)return null;c
 async function rescueAfter(b){const g=b.gate,ref=db.doc("gates/"+g.id);let s;try{s=await ref.get()}catch(e){return}if(!s.exists)return;const d=s.data(),now=Date.now();
  if(d.st==="esc"||d.st==="clear"||d.st==="fail")return;
  if(b.st!=="won"){if(d.by===uid){await ref.update({st:"fail",u:now});toast("구조 실패… 실종자를 데려오지 못했다")}return}
+ try{await krFindChk(g)}catch(e){}
  if(d.by!==uid)return;
  if(g.stage<RES_ST){await ref.update({stage:g.stage,u:now});setTimeout(()=>openPop(h("div",{c:"h0",t:"수색 "+g.stage+" / "+RES_ST}),h("p",{c:"sm",t:"게이트의 파장이 조금씩 흔들린다. 계속 나아갈까?"}),
    h("div",{c:"row",style:"margin-top:12px"},btn("다음 전투",async()=>{closePop();await startGateBattle({...g,stage:g.stage+1})},"pri grow"),btn("포기하고 나가기",async()=>{closePop();await ref.update({st:"fail",u:Date.now()});toast("구조를 포기했다")},"grow"))),1000)}
@@ -2639,9 +2667,9 @@ function krPop(){const c=h("div",{c:"krwrap"});rKr(c);openPop(c,btn("닫기",clo
 async function openDeco(k){k=k||"deco";const inv={...me.inv};if(!inv[k])return toast("비즈세트가 없어요");inv[k]--;const b={...(me.beads||{})};let n=0;
  if(BSET[k])BSET_SH.forEach(sh=>BSET[k].c.forEach(ci=>{const key=sh+"."+ci;b[key]=(b[key]||0)+BSET_Q;n+=BSET_Q}));
  else{const S=Object.keys(BSH);for(let i=0;i<DECO_N;i++){const key=S[ri(S.length)]+"."+ri(8);b[key]=(b[key]||0)+1;n++}}
- await upd({inv,beads:b});toast((IT[k]?IT[k].n:"비즈세트")+"를 열었어요 · 비즈 "+n+"개");setTimeout(krPop,250)}
+ const pds=(me.pds||[]).concat([{id:"p"+Date.now().toString(36)+ri(1e4),img:""}]);await upd({inv,beads:b,pds});toast((IT[k]?IT[k].n:"비즈세트")+"를 열었어요 · 비즈 "+n+"개 · 타원형 금속 펜던트 1개");setTimeout(krPop,250)}
 function krCard(){const L=me.krs||[],nb=Object.values(me.beads||{}).reduce((a,b)=>a+b,0);if(!L.length&&!nb)return null;
- const row=h("div",{c:"krsum"});L.slice(0,6).forEach(k=>row.append(h("div",{c:"krmini"},strapSvg(k.b,.8))));
+ const row=h("div",{c:"krsum"});L.slice(0,6).forEach(k=>row.append(h("div",{c:"krmini"},strapSvg(k.b,.8,k.pm))));
  return h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"키링"}),h("span",{c:"sm mt",t:"비즈 "+nb+"개 · 키링 "+L.length+"/"+KR_MAX})),L.length?row:null,btn("키링 만들기 · 달기",krPop,"full",{style:"margin-top:8px"}))}
 /* ===== 길드 로고 (이미지) ===== */
 const gLogo=g=>(g&&(g.logo||(g.emb&&g.emb.img)))||"";
@@ -2679,8 +2707,8 @@ async function saveWill(){const i=$("#pmsg");if(!i)return;if(willToday())return 
 /* ===== 우편 보내기 (협회 납품 · 빚 상환) ===== */
 let mailSend={on:false,to:"hq",what:"",item:"",amt:""};
 const MS_W=[["will","유언장"],["relic","유품"],["debt","빚 상환"]];
-function rSend(v){const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"우편 보내기"}),btn("닫기",()=>{mailSend.on=false;render(true)},"sm")));
- const sel=h("select",{onchange:e=>{mailSend.to=e.target.value;render(true)}},h("option",{value:"hq",t:"협회"}));sel.value=mailSend.to;
+function rMailSend(v){const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"우편 보내기"}),btn("닫기",()=>{mailSend.on=false;render(true)},"sm")));
+ const sel=mailSel();if(mailSend.to!=="hq")return rMailP(v,c,sel);
  c.append(h("div",{c:"xs mt",style:"margin:4px 0 2px",t:"받는 이"}),sel,h("div",{c:"sub3",style:"margin-top:12px",t:"무엇을 보내시겠습니까?"}));
  const L=h("div",{c:"mslist"});MS_W.forEach(([k,n],i)=>L.append(h("button",{c:"msopt"+(mailSend.what===k?" on":""),onclick:()=>{mailSend.what=k;mailSend.item="";render(true)}},h("b",{t:(i+1)+"."}),h("span",{t:n}))));c.append(L);
  const w=mailSend.what;
@@ -2749,7 +2777,7 @@ function npcClear(){npcT.forEach(clearTimeout);npcT=[]}
 function npcCall(num){if(call.st!=="idle")return toast("이미 통화 중입니다");const k=NPC_NUM[num];npcClear();
  call={st:"out",dir:"out",peer:"npc:"+k,npc:k,num,cid:"n"+Date.now().toString(36),t0:Date.now(),msgs:[],step:"menu",busy:false};phShow("incall");
  const cid=call.cid;npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="out")return;call.st="on";call.t0=Date.now();phShow("incall");phRender();
-  npcSay(k==="carp"?["무엇을 도와드릴까요?","보관함 확장은 1, 용건 없음은 2, 기타는 3을 눌려주세요"]:["안녕하세요, 헌터 협회입니다. 무엇을 도와드릴까요?\n1. 헌터 협회 가입\n2. 헌터 협회 탈퇴\n3. 사담\n4. 용건 없음"])},3000))}
+  npcSay(k==="carp"?["무엇을 도와드릴까요?","보관함 확장은 1, 용건 없음은 2, 기타는 3을 눌려주세요"]:["안녕하세요, 헌터 협회입니다. 무엇을 도와드릴까요?\n1. 헌터 협회 가입\n2. 헌터 협회 탈퇴\n3. 사담\n4. 페어 서류 요청\n5. 용건 없음"])},3000))}
 function npcSay(lines,then){const cid=call.cid;call.busy=true;let d=900;lines.forEach(l=>{const at=d;npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="on")return;call.msgs.push({me:false,t:Date.now(),text:l});try{sMsg()}catch(e){}updCall()},at));d+=Math.min(3200,1000+l.length*30)});
  npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="on")return;call.busy=false;if(then)then();else if(call.pend){const x=call.pend;call.pend=null;npcIn(x)}},d+400))}
 function npcEnd(){npcClear();if(call.npc)endCall("상대가 전화를 끊었습니다")}
@@ -2772,13 +2800,231 @@ async function npcIn(t){const k=call.npc,c=(t.match(/[0-9]/)||[""])[0],nm=me.nam
  if(c==="2"){if(me.hqOut){call.step="done";return npcSay(["이미 협회를 탈퇴하신 상태입니다. 재가입은 1번을 눌러 주세요. 감사합니다."],npcEnd)}call.step="quit";
   return npcSay(["협회 탈퇴 시 기본적으로 누릴 수 있는 혜택이 모두 중단됩니다. 탈퇴 시 7일동안 재가입이 불가능하며, 게이트 내에서 실종 시 협회 구조가 불가능해집니다. 동의 하십니까?\n1. 동의\n2. 동의하지 않음"])}
  if(c==="3"){call.step="done";return npcSay([nm+"님, 게이트를 공략하시느라 언제나 고생 많으십니다. 감사합니다."],npcEnd)}
- if(c==="4"){call.step="done";return npcSay(["헌터 협회였습니다. 전화 주셔서 감사합니다."],npcEnd)}
- return npcSay(["1, 2, 3, 4 중에 눌러 주세요."])}
+ if(c==="4"){call.step="done";if(me.hqOut)return npcSay(["페어 서류는 협회에 가입된 헌터만 신청하실 수 있습니다. 감사합니다."],npcEnd);if(me.pair)return npcSay([nm+" 헌터께선 이미 페어가 등록되어 있습니다. 감사합니다."],npcEnd);if(me.pairReq)return npcSay(["이미 접수된 페어 요청서가 심사 중입니다. 승인까지 조금만 기다려 주십시오. 감사합니다."],npcEnd);
+  return npcSay(["네, 접수되었습니다. 3일 이내로 헌터님의 숙소 우편함으로 배송될 예정이니, 작성하신 후 협회에 제출 바랍니다.","서류가 접수되더라도 페어 승인까지는 최대 3일이 소요될 수 있는 점 참고 바랍니다."],async()=>{npcEnd();await db.collection("payouts").add({t:Date.now(),to:uid,from:"hq",amt:0,k:"item",item:"pair_doc",qty:1,memo:"헌터 협회 · 페어 요청 서류"});toast("숙소 우편함에 페어 요청 서류가 도착했어요")})}
+ if(c==="5"){call.step="done";return npcSay(["헌터 협회였습니다. 전화 주셔서 감사합니다."],npcEnd)}
+ return npcSay(["1, 2, 3, 4, 5 중에 눌러 주세요."])}
 /* 전파 없음 */
 const inGateC=c=>!!c&&((c.mis&&Date.now()<c.mis.t+MIS_MAX)||(c.sg&&c.sg!=="sv"&&visitAlive(c.sg)));
 function phMsg(t){const S=$("#pscr");if(!S)return;const o=h("div",{c:"pnone"},h("p",{t}));S.append(o);setTimeout(()=>{o.classList.add("out");setTimeout(()=>o.remove(),400)},2600)}
 
 let armFix=0,gearTab="head";
+/* ===== v31: 펜던트 · 키링 물리 · 분실 키링 · 커플/약혼/결혼 · 페어 ===== */
+function isPd(k){return typeof k==="string"&&k.indexOf("pd:")===0}
+var PDM=null,pdN=0;
+function pdImgAny(id){const f=L=>{for(const x of L||[]){if(x.id===id&&x.img)return x.img}return""};let u=f(me&&me.pds);if(u)return u;
+ for(const k of ((me&&me.krs)||[]).concat((me&&me.fkr)||[]))if(k.pm&&k.pm[id])return k.pm[id];return""}
+function pdDraw(g,k,cx,cy,r){const id=k.slice(3),img=(PDM&&PDM[id])||pdImgAny(id),rx=r*.8,ry=r*1.12,G=svE("g",{class:"pend"},g);
+ svE("ellipse",{cx,cy:cy-ry-r*.1,rx:r*.2,ry:r*.24,fill:"none",stroke:"#8d939a","stroke-width":r*.09},G);
+ svE("ellipse",{cx,cy,rx,ry,fill:"#9aa0a7",stroke:"#4f545a","stroke-width":r*.07},G);
+ svE("ellipse",{cx,cy,rx:rx*.9,ry:ry*.92,fill:"none",stroke:"#dfe3e7","stroke-width":r*.06,opacity:.8},G);
+ const irx=rx*.72,iry=ry*.76;
+ if(img){const cid="pdc"+(++pdN)+"_"+Math.random().toString(36).slice(2,6),cp=svE("clipPath",{id:cid},G);svE("ellipse",{cx,cy,rx:irx,ry:iry},cp);
+  const im=svE("image",{x:cx-irx,y:cy-iry,width:irx*2,height:iry*2,preserveAspectRatio:"xMidYMid slice","clip-path":"url(#"+cid+")"},G);im.setAttribute("href",img);
+  svE("ellipse",{cx,cy,rx:irx,ry:iry,fill:"none",stroke:"#5d6268","stroke-width":r*.06},G)}
+ else{svE("ellipse",{cx,cy,rx:irx,ry:iry,fill:"#3b3f45",stroke:"#5d6268","stroke-width":r*.06},G);svE("path",{d:`M${cx-irx*.45} ${cy+iry*.35}l${irx*.3} ${-iry*.4}l${irx*.22} ${iry*.25}l${irx*.18} ${-iry*.18}l${irx*.2} ${iry*.33}`,fill:"none",stroke:"#7b8189","stroke-width":r*.07,"stroke-linejoin":"round"},G)}
+ svE("ellipse",{cx:cx-rx*.42,cy:cy-ry*.5,rx:r*.16,ry:r*.32,fill:"rgba(255,255,255,.55)",transform:`rotate(25 ${cx-rx*.42} ${cy-ry*.5})`},G);return G}
+/* 펜던트 사진 넣기 */
+function pdPhoto(id){const fi=h("input",{type:"file",accept:"image/*",style:"display:none"});document.body.append(fi);
+ fi.onchange=async e=>{const f=e.target.files&&e.target.files[0];fi.remove();if(!f)return;try{const u=await readPhoto(f);const P=(me.pds||[]).map(x=>x.id===id?{id,img:u}:x);await upd({pds:P});toast("펜던트에 사진을 넣었어요");setTimeout(krRe,250)}catch(err){toast("사진을 읽지 못했어요")}};fi.click()}
+function pdTiles(bx){const P=me.pds||[];if(!P.length)return;const used=new Set(kdraft.filter(isPd).map(k=>k.slice(3)));
+ P.forEach(p=>{const k="pd:"+p.id,on=used.has(p.id);bx.append(h("div",{c:"pdw"},h("button",{c:"bd"+(on?" off":""),title:"타원형 금속 펜던트",onclick:()=>{if(on)return toast("이미 끼운 펜던트예요");if(kdraft.length>=KR_LEN)return toast("한 줄에 "+KR_LEN+"개까지 끼울 수 있어요");kdraft.push(k);krRe()}},beadSvg(k,28),h("small",{t:on?"사용":"×1"})),
+  h("button",{c:"pdph",type:"button",t:p.img?"사진 바꾸기":"사진 넣기",onclick:()=>pdPhoto(p.id)})))})}
+
+/* ===== 기기에 달린 키링: 줄로 이어진 비즈 · 기기를 옮기면 흔들림 (verlet) ===== */
+const KRF={};let krRaf=0;const KR_RM=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
+function applyKR(){if(!me)return;[["phone","#phone"],["radio","#radio"]].forEach(([dev,sel])=>{const P=$(sel);if(!P)return;const k=krOf(dev),key=k?k.id+":"+k.b.join(",")+":"+Object.values(k.pm||{}).map(x=>x.length).join("."):"",cur=P.querySelector(":scope>.kring");
+ if((cur?cur.dataset.k:"")===key){if(KRF[dev]&&KRF[dev].w!==cur)delete KRF[dev];if(cur&&!KRF[dev])KRF[dev]=krBuild(cur,k,P);return}if(cur)cur.remove();delete KRF[dev];if(!k)return;const w=h("div",{c:"kring","data-k":key});P.append(w);KRF[dev]=krBuild(w,k,P)});krLoop()}
+function krBuild(w,k,P){const sc=KR_SC,R=7.2*sc,st=14.6*sc,ax=-4,ay=34,v=svE("svg",{class:"krsv",width:1,height:1},w),S={w,P,R,ax,ay,n:[],G:[],lx:null,wake:0};
+ S.line=svE("polyline",{fill:"none",stroke:"var(--krc)","stroke-width":1.9,"stroke-linejoin":"round","stroke-linecap":"round"},v);
+ const o=PDM;PDM=k.pm||null;k.b.forEach(b=>{const g=svE("g",{},v);beadDraw(g,b,0,0,R);S.G.push(g)});PDM=o;
+ S.T=svE("g",{},v);svE("circle",{cx:0,cy:0,r:2.2*sc,fill:"var(--krc)"},S.T);[-4.5,-1.6,1.6,4.5].forEach(dx=>svE("line",{x1:0,y1:sc,x2:dx*sc,y2:14*sc,stroke:"var(--krc)","stroke-width":.9*sc,"stroke-linecap":"round"},S.T));
+ const L=[0,12*sc];for(let i=1;i<k.b.length;i++)L.push(st);L.push(12.3*sc);S.n=L.map(l=>({x:0,y:0,px:0,py:0,L:l}));krRest(S);krDraw(S);return S}
+function krRest(S){let y=S.ay;S.n.forEach((p,i)=>{y+=i?p.L:0;p.x=p.px=S.ax;p.y=p.py=i?y:S.ay});S.n[0].x=S.ax;S.n[0].y=S.ay}
+function krLoop(){if(krRaf||!Object.keys(KRF).length)return;const step=()=>{krRaf=0;let any=false;for(const d in KRF){const S=KRF[d];if(!S.P.isConnected||!S.w.isConnected){delete KRF[d];continue}if(S.P.style.display!=="block"){S.lx=null;continue}any=true;try{krStep(S)}catch(e){}}if(any)krRaf=requestAnimationFrame(step)};krRaf=requestAnimationFrame(step)}
+function krStep(S){const r=S.P.getBoundingClientRect();if(S.lx==null){S.lx=r.left;S.ly=r.top;krRest(S);krDraw(S);return}
+ let dx=r.left-S.lx,dy=r.top-S.ly;S.lx=r.left;S.ly=r.top;if(Math.abs(dx)>160||Math.abs(dy)>160){krRest(S);krDraw(S);S.wake=0;return}
+ if(KR_RM)return;if(dx||dy)S.wake=24;if(S.wake<=0)return;const N=S.n;
+ for(let i=1;i<N.length;i++){N[i].x-=dx;N[i].y-=dy}
+ for(let i=1;i<N.length;i++){const p=N[i],vx=(p.x-p.px)*.965,vy=(p.y-p.py)*.965;p.px=p.x;p.py=p.y;p.x+=vx;p.y+=vy+.5}
+ for(let it=0;it<10;it++){for(let i=1;i<N.length;i++){const a=N[i-1],b=N[i],ex=b.x-a.x,ey=b.y-a.y,d=Math.hypot(ex,ey)||1e-3,f=(d-b.L)/d;if(i===1){b.x-=ex*f;b.y-=ey*f}else{b.x-=ex*f*.5;b.y-=ey*f*.5;a.x+=ex*f*.5;a.y+=ey*f*.5}}
+  const mn=S.R*1.75;for(let i=1;i<N.length;i++)for(let j=i+2;j<N.length;j++){const a=N[i],b=N[j],ex=b.x-a.x,ey=b.y-a.y,d=Math.hypot(ex,ey)||1e-3;if(d<mn){const f=(mn-d)/d*.5;a.x-=ex*f;a.y-=ey*f;b.x+=ex*f;b.y+=ey*f}}}
+ let e=0;for(let i=1;i<N.length;i++)e+=Math.abs(N[i].x-N[i].px)+Math.abs(N[i].y-N[i].py);if(e>.06*N.length)S.wake=Math.max(S.wake,24);else S.wake--;krDraw(S)}
+function krDraw(S){const N=S.n,f=x=>x.toFixed(1),pts=[[S.ax-8,S.ay-10],[S.ax,S.ay]].concat(N.slice(1).map(p=>[p.x,p.y]));S.line.setAttribute("points",pts.map(q=>f(q[0])+","+f(q[1])).join(" "));
+ const ang=(a,b)=>Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI-90;
+ S.G.forEach((g,i)=>{const p=N[i+1],a=N[i],b=N[i+2]||p;g.setAttribute("transform","translate("+f(p.x)+" "+f(p.y)+") rotate("+ang(a,b).toFixed(1)+")")});
+ const k=N[N.length-1],k0=N[N.length-2];S.T.setAttribute("transform","translate("+f(k.x)+" "+f(k.y)+") rotate("+ang(k0,k).toFixed(1)+")")}
+
+/* ===== 게이트에서 쓰러지면 기기에 단 키링을 잃어버림 → 구조하러 온 헌터가 주울 수 있음 (선착 1명) ===== */
+IT.fkr={n:"주운 키링",d:"게이트에서 주운 누군가의 키링"};
+const krName=k=>(k&&k.on?k.on:"누군가")+"의 키링";
+function krDrop(p){const ids=[...new Set(Object.values(me.kra||{}))].filter(Boolean),L=me.krs||[],lost=L.filter(k=>ids.includes(k.id));if(!lost.length)return false;
+ p.krs=L.filter(k=>!ids.includes(k.id));p.kra={};p.mis.kr=lost.map(k=>({...k,own:uid,on:me.name}));p.mis.krst=1+ri(RES_ST);return true}
+const krpId=(mid,mt)=>"krp_"+mid+"_"+mt,krSeen=new Set();
+function krFindChk(g){return new Promise(res=>{const c=chars[g.mid],m=c&&c.mis;if(!m||!m.kr||!m.kr.length||m.krst!==g.stage||g.mid===uid)return res();const id=krpId(g.mid,m.t);if(krSeen.has(id)||gates[id])return res();krSeen.add(id);
+ const L=m.kr,done=()=>{closePop();res()};
+ setTimeout(()=>openPop(h("div",{c:"h0",t:"발밑에 무언가 있다"}),h("p",{c:"sm",t:"누구 것인지 모를 키링이 떨어져있다. 자세히 보니 어딘가 낯익다."}),
+  h("div",{c:"krfind"},...L.map(k=>h("div",{c:"krfi"},h("div",{c:"krmini"},strapSvg(k.b,.9,k.pm)),h("b",{c:"sm",t:krName(k)})))),
+  h("div",{c:"row",style:"margin-top:12px"},btn("줍기",async()=>{try{await krPick(g.mid,m)}finally{done()}},"pri grow"),btn("지나치기",done,"grow"))),700)})}
+async function krPick(mid,m){const id=krpId(mid,m.t),ref=db.doc("gates/"+id),s=await ref.get();if(s.exists)return toast("…이미 누군가 주워 간 것 같다");
+ await ref.set({kind:"krp",by:uid,t:Date.now()});await new Promise(r=>setTimeout(r,700));const s2=await ref.get();if(!s2.exists||s2.data().by!==uid)return toast("…한발 늦었다. 이미 누군가 주워 갔다");
+ const F=(me.fkr||[]).concat(m.kr.map(k=>({...k,id:"f"+Date.now().toString(36)+ri(1e5)})));await upd({fkr:F});toast(m.kr.map(krName).join(", ")+"을(를) 주웠다 · 가방에 들어갔어요")}
+/* 받기: 주인이면 원래 키링으로 · 아니면 주운 키링 */
+function krRecvP(kr){if(kr.own===uid){const k={id:"k"+Date.now().toString(36)+ri(1e4),b:kr.b};if(kr.pm)k.pm=kr.pm;return{p:{krs:(me.krs||[]).concat([k])},msg:"잃어버렸던 키링이 돌아왔어요!"}}
+ return{p:{fkr:(me.fkr||[]).concat([{...kr,id:"f"+Date.now().toString(36)+ri(1e5)}])},msg:krName(kr)+"을(를) 받았어요"}}
+async function krRecv(kr){const r=krRecvP(kr);await upd(r.p);toast(r.msg)}
+function fkrCard(){const L=me.fkr||[];if(!L.length)return null;const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"주운 키링"}),h("span",{c:"sm mt",t:L.length+"개"})));
+ L.forEach(k=>c.append(h("div",{c:"lrow krrow"},h("div",{c:"krmini"},strapSvg(k.b,.8,k.pm)),h("div",{c:"grow"},h("b",{c:"sm",t:krName(k)}),h("div",{c:"xs mt",t:"상점 판매 불가 · 거래·우편·거래소 가능 · 주인에게 돌려주면 명성 +5"})),btn("보내기",()=>fkrPop(k.id),"sm"))));return c}
+function fkrPop(id){const k=(me.fkr||[]).find(x=>x.id===id);if(!k)return closePop();const pr=h("input",{type:"number",min:1,inputmode:"numeric",placeholder:"가격 (환)"});
+ openPop(h("div",{c:"h0",t:krName(k)}),h("div",{c:"krpv"},strapSvg(k.b,1.4,k.pm)),h("p",{c:"xs mt",t:"주인을 찾아 돌려주면 명성이 5 올라요."}),
+  h("div",{c:"col",style:"display:flex;flex-direction:column;gap:6px;margin-top:8px"},
+   btn("같은 지역 헌터에게 건네기 (거래)",()=>{closePop();tradePick(krName(k),to=>giveOffer(to,"fkr",k))},"pri full"),
+   btn("우편으로 보내기",()=>{closePop();mailSend={on:true,to:"",what:"kr",item:k.id,amt:""};homeSub="mail";tab="home";render(true)},"full"),
+   h("div",{c:"row"},pr,btn("거래소에 올리기",()=>wrap(async()=>{await listKr(k.id,+pr.value);closePop()}),"grow"))),btn("닫기",closePop,"full",{style:"margin-top:8px"}))}
+async function listKr(id,price){price=Math.floor(price)||0;if(price<1)return toast("가격을 확인하세요");const k=(me.fkr||[]).find(x=>x.id===id);if(!k)return;
+ await upd({fkr:(me.fkr||[]).filter(x=>x.id!==id)});await db.collection("market").add({t:Date.now(),seller:uid,item:"fkr",qty:1,unit:price,kr:k});toast(krName(k)+"을(를) 거래소에 올렸어요")}
+/* 우편: 헌터에게 키링 */
+function mailSel(){const sel=h("select",{onchange:e=>{mailSend.to=e.target.value;mailSend.item="";render(true)}},h("option",{value:"hq",t:"헌터 협회"}),h("option",{value:"",t:"헌터 선택…"}));
+ Object.entries(chars).filter(([id])=>id!==uid).sort((a,b)=>(a[1].name||"").localeCompare(b[1].name||"")).forEach(([id,c])=>sel.append(h("option",{value:"u:"+id,t:c.name+" 헌터"})));sel.value=mailSend.to;return sel}
+function rMailP(v,c,sel){c.append(h("div",{c:"xs mt",style:"margin:4px 0 2px",t:"받는 이"}),sel,h("div",{c:"sub3",style:"margin-top:12px",t:"무엇을 보내시겠습니까?"}),h("div",{c:"mslist"},h("button",{c:"msopt on"},h("b",{t:"1."}),h("span",{t:"주운 키링"}))));
+ const L=me.fkr||[];if(!L.length)c.append(h("p",{c:"sm mt",t:"보낼 수 있는 키링이 없어요. 게이트에서 주운 키링만 헌터에게 우편으로 보낼 수 있어요."}));
+ L.forEach(k=>c.append(h("button",{c:"msitem"+(mailSend.item===k.id?" on":""),onclick:()=>{mailSend.item=k.id;render(true)}},h("b",{t:krName(k)}),h("span",{c:"xs mt",t:"비즈 "+k.b.length+"개"}))));
+ c.append(btn("발송",()=>wrap(sendKr),"pri full",{style:"margin-top:10px",disabled:!mailSend.to.startsWith("u:")||!L.some(k=>k.id===mailSend.item)}));v.append(c)}
+async function sendKr(){const to=mailSend.to.slice(2),k=(me.fkr||[]).find(x=>x.id===mailSend.item);if(!chars[to]||!k)return toast("받는 이와 키링을 고르세요");
+ const back=k.own===to,p={fkr:(me.fkr||[]).filter(x=>x.id!==k.id)};if(back)p.rep=Math.min(100,repOf(me)+5);await upd(p);
+ await db.collection("payouts").add({t:Date.now(),to,from:uid,k:"kr",kr:k,amt:0,memo:krName(k)});mailSend.item="";toast(back?"주인에게 키링을 돌려보냈어요 · 명성 +5":chars[to].name+" 헌터에게 "+krName(k)+"을(를) 보냈어요")}
+
+/* ===== 반지 · 커플 · 약혼 · 결혼 ===== */
+IT.ring_c={n:"커플반지",slot:"acc",atk:2,def:2,cr:1,ring:1,d:"한 쌍으로 된 반지. 같은 지역에 있는 헌터에게 거래로 건네고, 상대가 받으면 커플이 돼요."};
+IT.ring_p={n:"청혼반지",slot:"acc",atk:3,def:3,cr:1,ring:1,d:"한 쌍으로 된 반지. 같은 지역에 있는 헌터에게 거래로 건네고, 상대가 받으면 약혼자가 돼요. 협회에 혼인 신고를 올리면 결혼반지가 돼요."};
+IT.ring_m={n:"결혼반지",slot:"acc",atk:3,def:3,cr:1,ring:1,d:"협회에 등록된 동반자와 나눠 낀 반지."};
+const REL_N={c:"커플",e:"약혼",m:"결혼 (동반자)"},TR_MS=10*6e4;
+/* 반지는 정비소 제작 또는 주점 의뢰로만 · 거래소·상점 판매 불가 */
+IT.ringbox_c={n:"커플반지 한 쌍",rbox:"ring_c",noex:1,d:"커플반지 두 개가 든 상자. 꺼내면 장비 → 악세서리에 반지 두 개가 들어가요. 하나는 고백할 때 건네요. (정비소 제작 · 주점 의뢰로만 구할 수 있어요 · 거래소 판매 불가)"};
+IT.ringbox_p={n:"청혼반지 한 쌍",rbox:"ring_p",noex:1,d:"청혼반지 두 개가 든 상자. 꺼내면 장비 → 악세서리에 반지 두 개가 들어가요. 하나는 청혼할 때 건네요. (정비소 제작 · 주점 의뢰로만 구할 수 있어요 · 거래소 판매 불가)"};
+RC.ringbox_c={scrap:4,wire:3,glass:2};RC.ringbox_p={alloy:2,crystal:1,glass:3,wire:2};
+/* 같은 파티에 짝이 같은 반지를 끼고 있으면 반지 효과 3배 */
+function ringX(c,q){if(!q||!q.set||!c||!c.rel||!(c.rel.rps||[]).includes(q.set)||!c.party)return 1;const P=chars[c.rel.w];if(!P||!P.rel||!(P.rel.rps||[]).includes(q.set)||P.party!==c.party)return 1;
+ const e=P.eq||{};for(const s in e){const z=e[s];if(z&&z.set===q.set&&z.dur>0)return 3}return 1}
+async function openRingBox(k){const id=IT[k]&&IT[k].rbox;if(!id||!me.inv[k])return;if((me.gear||[]).length>MAXGEAR-2)return toast("장비 칸이 2칸 필요해요");const inv={...me.inv};inv[k]--;if(!inv[k])delete inv[k];
+ const g=mkGear(me.lv,rollRar(me.lv),id),set="r"+Date.now().toString(36)+ri(1e6).toString(36);g.set=set;const g2={...clone(g),gid:g.gid+"b"};await upd({inv,gear:(me.gear||[]).concat([g,g2])});toast(IT[id].n+" 두 개를 꺼냈어요 · 가방 → 장비 → 악세서리")}
+const relOf=id=>((id===uid?me:chars[id])||{}).rel||null;
+function relErr(a,b,t){const A=relOf(a),B=relOf(b),nm=(chars[b]||{}).name||"상대";
+ if(t==="c"){if(A)return"이미 "+REL_N[A.t]+" 관계인 헌터가 있어요";if(B)return nm+" 헌터는 이미 다른 헌터와 관계가 있어요";return null}
+ if(A&&A.w===b&&A.t!=="c")return"이미 "+REL_N[A.t]+" 사이예요";if(A&&A.w!==b)return"이미 다른 헌터와 "+REL_N[A.t]+" 관계예요";if(B&&B.w!==a)return nm+" 헌터는 이미 다른 헌터와 관계가 있어요";return null}
+function ringGive(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;ringPick(gid)}
+function ringContacts(){const ids=[...new Set((me.friends||[]).concat((myG()&&myG().members)||[]))].filter(id=>id!==uid&&chars[id]);return ids.sort((a,b)=>(online.has(b)-online.has(a))||chars[a].name.localeCompare(chars[b].name,"ko"))}
+function ringPick(gid,warn){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return closePop();const L=ringContacts(),box=h("div",{c:"tpick"});
+ if(!L.length)box.append(h("p",{c:"sm mt",t:"연락처가 비어 있어요. 먼저 친구를 맺거나 길드에 들어가세요."}));
+ L.forEach(id=>{const c=chars[id],on=online.has(id);box.append(h("button",{c:"lrow rpk",type:"button",onclick:()=>{const c=chars[id]||{};if(c.loc!==me.loc||c.trip||me.trip){toast(c.name+" 헌터는 지금 멀리 있어서 반지를 건넬 수 없어요");return ringPick(gid,c.name+" 헌터는 지금 멀리 있어서 반지를 건넬 수 없어요. 같은 지역에 있어야 해요.")}ringCompose(gid,id)}},
+  avatar(c,"s"),h("div",{c:"grow"},h("b",{c:"sm",t:c.name}),h("div",{c:"xs mt",t:fnum(c.num)+" · "+(c.trip?"이동 중":REG[c.loc].n)+(on?" · 접속 중":"")}))))});
+ openPop(h("div",{c:"h0",t:IT[q.id].n+" · 상대 고르기"}),h("p",{c:"xs mt",t:"연락처 (친구 · 길드)에서 반지를 건넬 헌터를 고르세요 · 같은 지역에 있어야 해요"}),warn?h("p",{c:"sm bad",style:"margin:6px 0 0",t:warn}):null,box,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
+function ringCompose(gid,to){const q=(me.gear||[]).find(x=>x.gid===gid),c=chars[to];if(!q||!c)return closePop();const conf=q.id==="ring_c",cnt=h("span",{c:"xs mt",t:"0 / 500"}),ta=h("textarea",{c:"rmsg",maxlength:500,rows:6,placeholder:conf?"전하고 싶은 한마디 (최대 500자)":"청혼의 한마디 (최대 500자)",oninput:e=>{cnt.textContent=e.target.value.length+" / 500"}});
+ openPop(h("div",{c:"h0",t:conf?"고백":"청혼"}),h("p",{c:"sm",t:c.name+" 헌터에게 "+IT[q.id].n+"를 건넵니다."}),h("p",{c:"xs mt",t:"["+RAR[q.r].n+"] "+(gDesc(q)||"옵션 없음")}),
+  h("div",{c:"xs mt",style:"margin:10px 0 4px",t:"한마디"}),ta,h("div",{style:"text-align:right;margin-top:2px"},cnt),
+  h("div",{c:"row",style:"margin-top:10px"},btn(conf?"고백하기":"청혼하기",()=>wrap(async()=>{const m=ta.value.trim().slice(0,500);if(await giveOffer(to,"ring",q,m))closePop()}),"pri grow"),btn("취소",()=>ringPick(gid),"grow")))}
+function tradePick(what,fn){const L=Object.entries(chars).filter(([id,c])=>id!==uid&&c.loc===me.loc&&!c.trip).sort((a,b)=>online.has(b[0])-online.has(a[0]));const box=h("div",{c:"tpick"});
+ if(!L.length)box.append(h("p",{c:"sm mt",t:"지금 "+REG[me.loc].n+"에 다른 헌터가 없어요. 같은 지역에 있어야 거래할 수 있어요."}));
+ L.forEach(([id,c])=>{const on=online.has(id);box.append(h("div",{c:"lrow"},avatar(c,"s"),h("div",{c:"grow"},h("b",{c:"sm",t:c.name}),h("div",{c:"xs "+(on?"ok":"mt"),t:(on?"접속 중":"접속 안 함")+" · "+gradeL(c)+"급 · "+c.attr})),btn("건네기",()=>{closePop();wrap(()=>fn(id))},"sm"+(on?" pri":""),{disabled:!on})))});
+ openPop(h("div",{c:"h0",t:"거래 · "+what}),h("p",{c:"xs mt",t:REG[me.loc].n+"에 있는 헌터에게만 건넬 수 있어요 · 상대가 받아야 거래가 끝나요"}),box,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
+async function giveOffer(to,what,obj,msg){const c=chars[to];if(!c)return;if(me.trip||c.trip||c.loc!==me.loc)return toast(c.name+" 헌터는 지금 멀리 있어서 건넬 수 없어요");if(!online.has(to))return toast(c.name+" 헌터가 접속해 있지 않아요");
+ if(what==="ring"){const e=relErr(uid,to,obj.id==="ring_c"?"c":"p");if(e)return toast(e);if(!(me.gear||[]).some(x=>x.gid===obj.gid))return;await upd({gear:(me.gear||[]).filter(x=>x.gid!==obj.gid)})}
+ else{if(!(me.fkr||[]).some(x=>x.id===obj.id))return;await upd({fkr:(me.fkr||[]).filter(x=>x.id!==obj.id)})}
+ const doc={t:Date.now(),to,from:uid,k:"trade",what,obj,fn:me.name,loc:me.loc,amt:0};if(msg)doc.msg=msg;await db.collection("payouts").add(doc);
+ toast(what==="ring"?c.name+" 헌터를 불렀어요 · 상대의 대답을 기다리는 중 (10분)":c.name+" 헌터에게 "+krName(obj)+"을(를) 내밀었어요 · 10분 안에 받으면 거래 완료");return true}
+const trSeen=new Set();
+function tradePop(p){const nm=p.fn||(chars[p.from]||{}).name||"헌터",ring=p.what==="ring",t=ring&&p.obj.id==="ring_c"?"c":"p";
+ if(ring)return openPop(h("div",{c:"rcall",t:nm+"헌터가 당신을 부릅니다."}),h("div",{c:"h0",style:"margin-top:8px",t:t==="c"?"고백":"청혼"}),
+  h("div",{c:"rletter"},p.msg?h("p",{c:"rlt",t:p.msg}):h("p",{c:"rlt mt",t:"(말없이 반지를 내민다)"}),h("div",{c:"rring"},h("b",{t:IT[p.obj.id].n}),h("span",{c:"xs mt",t:" ["+RAR[p.obj.r].n+"] "+(gDesc(p.obj)||"옵션 없음")}))),
+  h("p",{c:"sm",style:"text-align:center;margin:12px 0 2px",t:"수락하시겠습니까?"}),h("p",{c:"xs mt",style:"text-align:center;margin:0",t:"수락하면 "+nm+" 헌터와 "+(t==="c"?"커플이 돼요.":"약혼자가 돼요.")}),
+  h("div",{c:"row",style:"margin-top:10px"},btn("예",()=>wrap(()=>tradeAns(p,true)),"pri grow"),btn("아니요",()=>wrap(()=>tradeAns(p,false)),"grow")));
+ openPop(h("div",{c:"h0",t:"거래 요청"}),h("p",{c:"sm",t:nm+" 헌터가 "+(ring?IT[p.obj.id].n:krName(p.obj))+"을(를) 내밀었다."}),
+  ring?h("p",{c:"xs mt",t:"["+RAR[p.obj.r].n+"] "+(gDesc(p.obj)||"옵션 없음")}):h("div",{c:"krpv"},strapSvg(p.obj.b,1.2,p.obj.pm)),
+  ring?h("p",{c:"xs gold",t:"받으면 "+nm+" 헌터와 "+(t==="c"?"커플이 돼요.":"약혼자가 돼요.")}):p.obj.own===uid?h("p",{c:"xs gold",t:"잃어버렸던 내 키링이에요!"}):null,
+  h("div",{c:"row",style:"margin-top:12px"},btn("받기",()=>wrap(()=>tradeAns(p,true)),"pri grow"),btn("거절",()=>wrap(()=>tradeAns(p,false)),"grow")))}
+async function tradeAns(p,ok){closePop();const ref=db.doc("payouts/"+p.id),s=await ref.get();if(!s.exists)return toast("이미 끝난 거래예요");const d=s.data();if(Date.now()-d.t>TR_MS){await ref.delete();await tResp(d,false);return toast("시간이 지나 거래가 취소됐어요")}
+ if(ok&&d.what==="ring"){const e=relErr(d.from,uid,d.obj.id==="ring_c"?"c":"p");if(e){await ref.delete();await tResp(d,false);return toast(e)}if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼어요")}
+ await ref.delete();if(!ok){await tResp(d,false);return toast(d.what==="ring"?"정중히 거절했어요 · 반지는 돌려보냈어요":"거래를 거절했어요")}
+ const nm=d.fn||(chars[d.from]||{}).name||"헌터";
+ if(d.what==="ring"){const t=d.obj.id==="ring_c"?"c":"e",R0=me.rel&&me.rel.w===d.from?me.rel:null;await upd({gear:(me.gear||[]).concat([d.obj]),rel:{t,w:d.from,at:Date.now(),rps:((R0&&R0.rps)||[]).concat([d.obj.set])}});
+  await tResp(d,true);if(t==="c")await rumor(d.from,uid,d.obj.set);toast(nm+" 헌터의 "+IT[d.obj.id].n+"을(를) 받았어요 · "+(t==="c"?"커플":"약혼자")+"가 되었어요")}
+ else{await krRecv(d.obj);await tResp(d,true)}}
+function tResp(d,ok){return db.collection("payouts").add({t:Date.now(),to:d.from,from:uid,k:"tresp",ok,what:d.what,obj:d.obj,amt:0})}
+/* 커플 소문 (전체 RP 채팅 · 시스템) */
+const RUM_W=["지나가는 헌터","밥 좋아 헌터","수다쟁이 헌터","귀 밝은 헌터","소문 빠른 헌터","주점 단골 헌터","졸린 헌터","눈치 빠른 헌터","커피 중독 헌터","야근 중인 헌터","배고픈 헌터","정비소 앞 헌터"];
+const RUM_T=["그거 들었어? {A}헌터랑 {B}헌터랑 사귄대.","...야 {A}헌터랑 {B}헌터랑 사귄다는 거 진짜야?","방금 {A}헌터랑 {B}헌터 손에 똑같은 반지 끼워져 있는 거 봤어. 둘이 그런 사이였어?","{A}헌터가 {B}헌터한테 반지 건네는 거 본 사람? 나만 봤어?",
+ "와, {A}헌터랑 {B}헌터 사귄다며. 언제부터였대?","{A}헌터 요즘 왜 저렇게 표정이 밝나 했더니… {B}헌터랑 사귄대.","속보. {A}헌터랑 {B}헌터, 커플 됐대.","{B}헌터랑 {A}헌터 같은 파티 자주 다니더니 결국 사귄다더라.",
+ "게이트 앞에서 {A}헌터랑 {B}헌터가 커플반지 맞춘 거 봤다는 사람 있던데?","나 이제 {A}헌터랑 {B}헌터 있는 파티 못 들어가겠다. 사귄대잖아.","{A}헌터랑 {B}헌터가 사귄다고? …일단 축하는 해 줘야겠지?","어제 주점에서 {A}헌터가 {B}헌터 얘기만 하더니, 둘이 사귄대.",
+ "{A}헌터랑 {B}헌터 사귄다는 소문, 협회 앞까지 다 퍼졌던데.","잠깐, {A}헌터랑 {B}헌터? 그 둘이? …진짜로?"];
+async function rumor(a,b,key){const A=(chars[a]||{}).name||"누군가",B=(b===uid?me:chars[b]||{}).name||"누군가",tx=RUM_T[ri(RUM_T.length)].replace("{A}",A).replace("{B}",B);
+ try{await db.doc("rp/rum_"+key).set({t:Date.now(),uid:"rumor",name:RUM_W[ri(RUM_W.length)],kind:"rumor",text:tx,reg:"*"})}catch(e){}}
+/* 협회: 혼인 신고 · 관계 정리 */
+let relArm=0;
+async function marryReq(){if(me.hqOut)return toast("협회 가입 헌터만 혼인 신고를 올릴 수 있어요");const R=me.rel;if(!R||R.t!=="e")return;if(R.mq)return toast("이미 혼인 신고서를 올렸어요 · 상대를 기다리는 중");
+ await upd({rel:{...R,mq:Date.now()}});toast("혼인 신고서를 올렸어요 · 상대도 신고하면 결혼이 등록돼요");phRender()}
+async function relBreak(){if(Date.now()-relArm>4000){relArm=Date.now();toast("한 번 더 누르면 관계가 정리돼요");return}relArm=0;const R=me.rel;if(!R)return;await upd({rel:null,relX:{w:R.w,t:Date.now()}});toast("관계를 정리했어요");phRender()}
+function convRings(p,rps){const cv=q=>q&&q.id==="ring_p"&&rps.includes(q.set)?{...q,id:"ring_m"}:q,eq=clone(me.eq||{});let n=0;for(const s in eq){const z=cv(eq[s]);if(z!==eq[s]){eq[s]=z;n++}}const G=(me.gear||[]).map(q=>{const z=cv(q);if(z!==q)n++;return z});if(n){p.eq=eq;p.gear=G}}
+function relPhone(B,sec,it,pb){sec("관계");const R=me.rel,P=R&&chars[R.w];
+ if(R&&P){it(REL_N[R.t]+" · "+P.name+" 헌터",fmtD(R.at)+"부터"+(R.t==="m"?" · 협회 등록":""),()=>phGo("person","dm:"+R.w));
+  if(R.t==="e"){if(R.mq)B.append(h("div",{c:"xs mt",style:"padding:2px 4px",t:"혼인 신고서 제출됨 · "+P.name+" 헌터의 신고를 기다리는 중"}));else B.append(pb(P.rel&&P.rel.w===uid&&P.rel.mq?P.name+" 헌터와 함께 혼인 신고":"협회에 혼인 신고 (결혼 등록)",marryReq,"pri"))}
+  B.append(pb("관계 정리",relBreak))}
+ else it("관계 없음","커플반지·청혼반지는 정비소 제작이나 주점 의뢰로 구해요 · 반지를 눌러 고백·청혼",null);
+ const Q=me.pair&&chars[me.pair.w],q=me.pairReq;
+ if(Q)it("페어 · "+Q.name+" 헌터",fmtD(me.pair.at)+" 협회 승인",()=>phGo("person","dm:"+me.pair.w));
+ else if(q)it("페어 심사 중 · "+((chars[q.w]||{}).name||"?")+" 헌터",fmtD(q.at)+" 접수 · 승인까지 최대 3일",null);
+ else it("페어 없음","☎ 115 헌터 협회 · 4번 페어 서류 요청",null)}
+/* ===== 페어 서류 ===== */
+IT.pair_doc={n:"페어 요청 서류",d:"헌터 협회에서 보낸 페어 요청서. 작성해서 협회에 제출하세요."};
+let pf=null;
+function pairForm(){if(!me.inv.pair_doc)return toast("페어 요청 서류가 없어요");if(!pf)pf={a:["","","",""],b:["","","",""],sig:""};
+ const F=["이름","전화번호","능력","등급"],sub=h("button",{c:"pfgo",type:"button",t:"협회에 제출",onclick:()=>wrap(pairSubmit)}),ready=()=>pf.a.every(x=>x.trim())&&pf.b.every(x=>x.trim())&&!!pf.sig,chk=()=>{sub.disabled=!ready();sub.classList.toggle("on",ready());nm.textContent=pf.a[0].trim()||"　　　"};
+ const blk=(t,arr)=>h("div",{c:"pfb"},h("div",{c:"pfh",t}),...F.map((f,i)=>h("label",{c:"pfr"},h("span",{t:f}),h("input",{value:arr[i],maxlength:i===1?13:20,inputmode:i===1?"numeric":"text",autocomplete:"off",oninput:e=>{arr[i]=e.target.value;chk()}}))));
+ const nm=h("u",{}),sg=h("span",{c:"pfin"},"(인)",pf.sig?h("img",{src:pf.sig,alt:""}):null);
+ const paper=h("div",{c:"pform"},h("div",{c:"pft",t:"페어 요청서"}),h("div",{c:"pfs",t:"헌터 협회 귀중"}),blk("본인",pf.a),blk("페어",pf.b),
+  h("p",{c:"pfp",t:"이와 같이 페어 요청 서류를 제출합니다."}),h("div",{c:"pfdt",t:fmtD(Date.now())}),
+  h("div",{c:"pfsig"},h("span",{t:"본인 이름 "}),nm,sg,h("button",{c:"pfsb",type:"button",t:pf.sig?"다시 서명":"서명하기",onclick:()=>sigPad(u=>{pf.sig=u;pairForm()})})));
+ openPop(paper,sub,btn("닫기",closePop,"full",{style:"margin-top:6px"}));chk()}
+function sigPad(done){const W=Math.min(320,innerWidth-48),H=Math.round(W*.5),dpr=window.devicePixelRatio||1,cv=h("canvas",{c:"sigcv",width:W*dpr,height:H*dpr,style:"width:"+W+"px;height:"+H+"px"}),x=cv.getContext("2d");x.scale(dpr,dpr);x.lineWidth=2.4;x.lineCap=x.lineJoin="round";x.strokeStyle="#1d1a17";let dr=false,any=false,lp=null;
+ const pt=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+ cv.addEventListener("pointerdown",e=>{e.preventDefault();dr=true;lp=pt(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}x.beginPath();x.arc(lp[0],lp[1],1.1,0,7);x.fillStyle="#1d1a17";x.fill();any=true});
+ cv.addEventListener("pointermove",e=>{if(!dr)return;e.preventDefault();const p=pt(e);x.beginPath();x.moveTo(lp[0],lp[1]);x.lineTo(p[0],p[1]);x.stroke();lp=p;any=true});
+ const up=()=>{dr=false};cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+ const ov=h("div",{c:"sigov"},h("div",{c:"sigbx"},h("div",{c:"sigt",t:"서명"}),cv,h("div",{c:"row",style:"margin-top:8px"},btn("지우기",()=>{x.clearRect(0,0,W,H);any=false},"grow"),btn("취소",()=>ov.remove(),"grow"),btn("완료",()=>{if(!any)return toast("서명을 해 주세요");const u=cv.toDataURL("image/png");ov.remove();done(u)},"pri grow"))));
+ document.body.append(ov)}
+const normG=s=>String(s||"").replace(/\s|급/g,"").toUpperCase(),normT=s=>String(s||"").replace(/\s/g,""),normN=s=>String(s||"").replace(/\D/g,"");
+async function pairSubmit(){if(!pf)return;const[an,ap,aa,ag]=pf.a,[bn,bp,ba,bg]=pf.b;if(!me.inv.pair_doc)return toast("페어 요청 서류가 없어요");
+ if(me.pair)return toast("이미 페어가 있어요");if(me.pairReq)return toast("이미 심사 중인 페어 요청이 있어요");
+ const bad=[];if(normT(an)!==normT(me.name))bad.push("본인 이름");if(normN(ap)!==normN(me.num))bad.push("본인 전화번호");if(normT(aa)!==normT(me.attr))bad.push("본인 능력");if(normG(ag)!==normG(gradeL(me)))bad.push("본인 등급");
+ const e=Object.entries(chars).find(([id,c])=>id!==uid&&normN(c.num)===normN(bp)&&normT(c.name)===normT(bn));
+ if(!e)bad.push("페어 이름·전화번호");else{const c=e[1];if(normT(ba)!==normT(c.attr))bad.push("페어 능력");if(normG(bg)!==normG(gradeL(c)))bad.push("페어 등급")}
+ if(bad.length)return toast("협회 기록과 다른 항목이 있어요: "+bad.join(", "));
+ const c=e[1];if(c.pair||(c.pairReq&&c.pairReq.w!==uid))return toast(c.name+" 헌터는 이미 페어가 있거나 심사 중이에요");
+ const inv={...me.inv};inv.pair_doc--;if(!inv.pair_doc)delete inv.pair_doc;const at=Date.now();
+ await upd({inv,pairReq:{id:"pr"+at.toString(36)+ri(1e4),w:e[0],at,due:at+Math.round(DAY_MS*(1+Math.random()*2))}});pf=null;closePop();toast("페어 요청서를 협회에 제출했어요 · 승인까지 최대 3일")}
+async function pairAnn(q,aId,bId){const A=aId===uid?me:chars[aId],Bc=bId===uid?me:chars[bId];if(!A||!Bc)return;
+ try{await db.doc("rp/pair_"+q.id).set({t:Date.now(),uid:"hq",name:"협회",kind:"rumor",text:gradeL(A)+"급 "+A.name+" 헌터와 "+gradeL(Bc)+"급 "+Bc.name+" 헌터가 페어가 되었습니다.",reg:"*"})}catch(e){}}
+/* ===== 관계 · 거래 처리 (주기) ===== */
+let relBusy=0;
+function relTick(){if(!me||relBusy)return;const now=Date.now();relBusy=1;relRun(now).catch(()=>{}).finally(()=>relBusy=0)}
+async function relRun(now){
+ /* 받은 거래 요청 */
+ if($("#pop").style.display!=="flex")for(const p of payouts){if(p.to===uid&&p.k==="trade"&&!trSeen.has(p.id)&&now-p.t<TR_MS){trSeen.add(p.id);tradePop(p);break}}
+ /* 내가 건넨 거래의 답 */
+ for(const p of payouts.filter(x=>x.to===uid&&x.k==="tresp")){const ref=db.doc("payouts/"+p.id),s=await ref.get();if(!s.exists)continue;await ref.delete();const d=s.data(),nm=(chars[d.from]||{}).name||"상대";
+  if(!d.ok){if(d.what==="ring")await upd({gear:(me.gear||[]).concat([d.obj])});else await upd({fkr:(me.fkr||[]).concat([d.obj])});toast(d.what==="ring"?nm+" 헌터가 "+(d.obj.id==="ring_c"?"고백":"청혼")+"을 받아 주지 않았어요 · 반지가 돌아왔어요":nm+" 헌터가 거래를 받지 않았어요 · 물건이 돌아왔어요");continue}
+  if(d.what==="ring"){const t=d.obj.id==="ring_c"?"c":"e",R0=me.rel&&me.rel.w===d.from?me.rel:null;await upd({rel:{t,w:d.from,at:Date.now(),rps:((R0&&R0.rps)||[]).concat([d.obj.set])}});toast(nm+" 헌터가 "+(t==="c"?"고백을 받아 줬어요 · 커플이 되었어요":"청혼을 받아 줬어요 · 약혼자가 되었어요"))}
+  else if(d.obj&&d.obj.own===d.from){await upd({rep:Math.min(100,repOf(me)+5)});toast("키링을 주인에게 돌려줬어요 · 명성 +5")}else toast(nm+" 헌터가 "+krName(d.obj)+"을(를) 받았어요")}
+ /* 내가 건넨 거래가 10분 넘게 안 받아짐 → 돌려받기 */
+ for(const p of payouts.filter(x=>x.from===uid&&x.k==="trade"&&now-x.t>TR_MS+5000)){const ref=db.doc("payouts/"+p.id),s=await ref.get();if(!s.exists)continue;await ref.delete();const d=s.data();
+  if(d.what==="ring")await upd({gear:(me.gear||[]).concat([d.obj])});else await upd({fkr:(me.fkr||[]).concat([d.obj])});toast("거래 시간이 지나 물건이 돌아왔어요")}
+ /* 관계: 상대가 정리 · 결혼 등록 */
+ const R=me.rel,P=R&&chars[R.w];
+ if(R&&P&&P.relX&&P.relX.w===uid&&P.relX.t>R.at&&!(P.rel&&P.rel.w===uid&&P.rel.at>P.relX.t)){await upd({rel:null});toast(P.name+" 헌터와의 관계가 정리되었어요")}
+ else if(R&&P&&R.t==="e"&&P.rel&&P.rel.w===uid&&(P.rel.t==="m"||(R.mq&&P.rel.mq))){const p={rel:{...R,t:"m",mat:now,mq:null}};convRings(p,R.rps||[]);await upd(p);toast(P.name+" 헌터와의 결혼이 협회에 등록되었어요 · 청혼반지가 결혼반지가 되었어요")}
+ /* 페어 */
+ const q=me.pairReq;if(q&&now>=q.due&&!me.pair){await pairAnn(q,uid,q.w);await upd({pair:{w:q.w,at:q.due},pairReq:null});toast("협회 승인 · "+((chars[q.w]||{}).name||"")+" 헌터와 페어가 되었어요")}
+ else if(!me.pair&&!q){for(const[id,c]of Object.entries(chars)){if(id===uid)continue;const cq=c.pairReq;if((c.pair&&c.pair.w===uid)||(cq&&cq.w===uid&&now>=cq.due)){if(cq&&!c.pair)await pairAnn(cq,id,uid);await upd({pair:{w:id,at:cq?cq.due:c.pair.at}});toast("협회 승인 · "+c.name+" 헌터와 페어가 되었어요");break}}}}
+
 /* ===== 깨진 화면 (금 + 노이즈) ===== */
 function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClientRect(),W=Math.round(r.width)||innerWidth,H=Math.round(r.height)||innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
  let sd=7;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
@@ -2893,7 +3139,7 @@ initRadio();
    if(me.auto&&now>=me.auto.t0+me.auto.dur*6e4&&autoNote!==me.auto.t0){autoNote=me.auto.t0;toast("자동 전투가 끝났어요 · 상시 게이트에서 정산 받으세요")}}
   if(rdOn&&rc.st==="on"){const sg2=$("#rlcd .rseg");if(sg2){const sec=Math.round((now-rc.t0)/1000);sg2.textContent="";[...(two(Math.floor(sec/60)%100)+"-"+two(sec%60))].forEach(ch=>sg2.append(segSvg(ch)))}}
   if(pc.on&&me.party!==pc.pid)pcLeave(true);
-  tyTick();applyKR();misTick();gateSigTick();if(me&&me.eq&&me.eq.arms&&!armFix){armFix=1;const eq=clone(me.eq),q=eq.arms;delete eq.arms;upd({eq,gear:(me.gear||[]).concat(q&&q.id?[q]:[])}).catch(()=>{})}if(phoneOn&&ph.scr==="chat"){const f=$("#pfeed"),k=ph.room||"rp";if(f&&/^(dm|grp):/.test(k)&&f.dataset.rs!==rcptSig(k,roomRows(k)))updPhone()}
+  tyTick();applyKR();misTick();relTick();gateSigTick();if(me&&me.eq&&me.eq.arms&&!armFix){armFix=1;const eq=clone(me.eq),q=eq.arms;delete eq.arms;upd({eq,gear:(me.gear||[]).concat(q&&q.id?[q]:[])}).catch(()=>{})}if(phoneOn&&ph.scr==="chat"){const f=$("#pfeed"),k=ph.room||"rp";if(f&&/^(dm|grp):/.test(k)&&f.dataset.rs!==rcptSig(k,roomRows(k)))updPhone()}
   if(pc.on){const ids=pcMembers().filter(id=>online.has(id)),k=ids.join();if(k!==pc.k){const old=new Set((pc.k||"").split(","));pc.k=k;ids.filter(id=>!old.has(id)&&!pc.here.has(id)).forEach(id=>sig(id,{ty:"p_join",pid:pc.pid}))}
    let ch=0;[...pc.here].forEach(id=>{if(!pcMembers().includes(id)){pc.here.delete(id);pc.msgs.push({sys:1,t:now,text:dName(id)+" 님이 나갔습니다"});ch=1}});if(ch&&phoneOn&&ph.scr==="pchat"){const r=$("#pscr .pcm");if(r&&$("#pfeed")){r.replaceWith(pcRow());pcUpd()}else phRender()}}
   if(phoneOn&&ph.scr==="incall"&&call.st!=="idle")updCall();else if(phoneOn&&call.st!=="idle"){const b=$("#pcbar");if(b)b.firstChild.textContent=callBarT();else phRender()}
