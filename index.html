@@ -287,7 +287,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 .npchint{flex:none;text-align:center;font-size:11.5px;color:var(--mt);padding:7px 0 3px;border-top:1px solid var(--bd);margin-top:4px}
 .rnob{display:flex;align-items:baseline;gap:8px;margin:0 2px 10px}.rnob b{font-size:20px;letter-spacing:.04em;color:var(--ac2)}
 .stog{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:5px;margin-top:6px}.stoi{display:flex;flex-direction:column;align-items:flex-start;padding:7px 8px;border-radius:5px;text-align:left;min-width:0}.stoi b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.stoi small{font-size:10.5px;color:var(--mt)}
-.gtabs{display:flex;gap:4px;margin:6px 0 10px;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}.gtab{flex:1 1 0;min-width:0;white-space:nowrap;padding:7px 2px 6px;border:1px solid var(--ln);border-bottom:0;border-radius:6px 6px 0 0;font-size:11.5px;background:transparent;color:var(--mt);display:flex;align-items:center;gap:2px;justify-content:center;margin-bottom:-1px}.gtab.on{color:var(--tx);border-color:var(--bd);background:var(--sf);font-weight:700}.gtab small{font-size:10px;color:var(--ac2)}
+.gtabs.inv .gtab{flex:1 1 auto;padding-left:5px;padding-right:5px;letter-spacing:-.02em}.gtabs{display:flex;gap:4px;margin:6px 0 10px;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}.gtab{flex:1 1 0;min-width:0;white-space:nowrap;padding:7px 2px 6px;border:1px solid var(--ln);border-bottom:0;border-radius:6px 6px 0 0;font-size:11.5px;background:transparent;color:var(--mt);display:flex;align-items:center;gap:2px;justify-content:center;margin-bottom:-1px}.gtab.on{color:var(--tx);border-color:var(--bd);background:var(--sf);font-weight:700}.gtab small{font-size:10px;color:var(--ac2)}
 .gcat{display:flex;align-items:baseline;gap:6px;margin:12px 0 4px;padding-top:8px;border-top:1px solid var(--ln)}.gcat span{font-size:12.5px;font-weight:700;color:var(--ac2)}.gcat small{font-size:10.5px;color:var(--mt)}
 .sosb.off{opacity:.45;border-style:dashed;justify-content:center}.sosb.off small{font-size:9px;letter-spacing:0}.pnosig p{font-size:16px!important;letter-spacing:.1em}
 .bitems{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:5px}.bit{display:flex;flex-direction:column;align-items:flex-start;padding:6px 7px;border-radius:5px;text-align:left}.bit b{font-size:12px}.bit small{font-size:10px;color:var(--mt)}
@@ -398,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113134413";
+const BUILD="20261113140055";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1642,13 +1642,27 @@ function itemSrc(k){if(!srcIdx){const S={},band=lv=>[[1,2],[3,5],[6,9],[10,29],[
  const e=srcIdx[k];if(!e)return null;const o=["채집","조사","전투","게이트 전투"];
  return(e.lo<=1&&e.hi>=100?"모든 레벨":e.lo>=60?"Lv60+ (종말의 섬)":"주로 Lv"+e.lo+"~"+(e.hi>=100?"":e.hi)+(e.hd?" (종말의 섬 포함)":""))+" · "+e.k.slice().sort((a,b)=>o.indexOf(a)-o.indexOf(b)).join(" · ")}
 /* ===== 가방 (소지품만 · 누르면 상태창) ===== */
+/* 가방 소지품 분류 (장비함처럼 탭) */
+const INVCAT=[["food","음식"],["med","치료제"],["mat","재료"],["mm","몬스터 재료"],["etc","귀중품"]];let invTab=null;
+function invCat(k){const i=IT[k];if(!i)return"etc";
+ if(/^mm_/.test(k)||k==="rcore")return"mm";
+
+ if(i.dose)return"etc";
+ if(i.med||/^(bandage|detox|hpot|mpot|amp1|amp2|amp3)$/.test(k))return"med";
+ if(/^fd_/.test(k)||/^(ration|riceball|stew|purified)$/.test(k))return"food";
+ if(i.learn||i.slot||i.deco||i.rbox||/^fu_/.test(k)||/^(deco_p|deco_s|will|relic|sos_tx|fkr|pair_doc|cert)$/.test(k))return"etc";
+ if(i.use)return"med";return"mat"}
 function rBag(v){
  const items=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]),G=me.gear||[];
  const bag=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"소지품"}),h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"})));
- if(!items.length)bag.append(h("p",{c:"mt sm",t:"비어 있습니다. 채집하거나 전투로 전리품을 모으세요."}));
- const g=h("div",{c:"grid"});items.forEach(([k,n])=>{const i=IT[k],tx=[h("b",{style:i.rar!=null?"color:"+RAR[i.rar].c:"",t:i.n+" × "+n}),h("div",{c:"xs mt",t:i.dose?"귀속 · 주사":i.deco?"사용 가능 · 키링":i.med?"치료용":i.use?"사용 가능"+(i.dv?" · 납품용":""):i.learn?(i.bound?"레시피 · 거래 불가":"제작서"):i.slot?"장착 가능 · 일반":i.dv?"납품용":i.rar!=null?RAR[i.rar].n+" 재료":"재료"})];
+ if(!items.length&&!(me.fkr||[]).length&&!(me.krs||[]).length)bag.append(h("p",{c:"mt sm",t:"비어 있습니다. 채집하거나 전투로 전리품을 모으세요."}));
+ const cnt={};items.forEach(([k])=>{const c=invCat(k);cnt[c]=(cnt[c]||0)+1});cnt.etc=(cnt.etc||0)+(me.fkr||[]).length;
+ if(!INVCAT.some(x=>x[0]===invTab))invTab=(INVCAT.find(x=>cnt[x[0]])||INVCAT[0])[0];
+ {const tabs=h("div",{c:"gtabs inv"});INVCAT.forEach(([ck,cn])=>tabs.append(h("button",{c:"gtab"+(invTab===ck?" on":""),onclick:()=>{invTab=ck;render(true)}},cn,cnt[ck]?h("small",{t:String(cnt[ck])}):null)));if(items.length||(me.fkr||[]).length||(me.krs||[]).length)bag.append(tabs)}
+ const shown=items.filter(([k])=>invCat(k)===invTab);if((items.length||(me.fkr||[]).length)&&!shown.length&&!(invTab==="etc"&&((me.fkr||[]).length||(me.krs||[]).length)))bag.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:(INVCAT.find(x=>x[0]===invTab)||[0,""])[1]+"이(가) 없어요."}));
+ const g=h("div",{c:"grid"});shown.forEach(([k,n])=>{const i=IT[k],tx=[h("b",{style:i.rar!=null?"color:"+RAR[i.rar].c:"",t:i.n+" × "+n}),h("div",{c:"xs mt",t:k==="will"?"읽어 볼 수 있음 · 협회 납품":k==="relic"?"장착 가능 · 협회 납품":k==="sos_tx"?"구조 요청 송신기":k==="pair_doc"?"서류 · 작성":i.rbox?"꺼내기":i.dose?"귀속 · 주사":i.deco?"사용 가능 · 키링":i.med?"치료용":i.use?"사용 가능"+(i.dv?" · 납품용":""):i.learn?(i.bound?"레시피 · 거래 불가":"제작서"):i.slot?"장착 가능 · 일반":i.dv?"납품용":i.rar!=null?RAR[i.rar].n+" 재료":"재료"})];
   g.append(h("button",{c:"tile",onclick:()=>{doseArm=false;itemPop(k)}},i.ico?h("div",{c:"ti"},svgI(SYR,"ico"),h("div",{},...tx)):tx))});
- bag.append(g);v.append(bag);{const kc=krCard();if(kc)v.append(kc);const fc=fkrCard();if(fc)v.append(fc)}
+ bag.append(g);v.append(bag);if(invTab==="etc"){const kc=krCard();if(kc)v.append(kc);const fc=fkrCard();if(fc)v.append(fc)}
  const gc=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"장비"}),h("span",{c:"sm mt",t:G.length+" / "+MAXGEAR})));
  const GCAT=[["head","머리"],["body","상의"],["legs","하의"],["feet","신발"],["acc","악세서리"],["wpn","무기"]],gcat=q=>{const t=IT[q.id]&&IT[q.id].slot;return t==="main"||t==="sub"?"wpn":t==="arms"?"acc":t};
  {if(!GCAT.some(x=>x[0]===gearTab))gearTab="head";const tabs=h("div",{c:"gtabs"});GCAT.forEach(([ck,cn])=>{const n=G.filter(q=>gcat(q)===ck).length;tabs.append(h("button",{c:"gtab"+(gearTab===ck?" on":""),onclick:()=>{gearTab=ck;render(true)}},cn,n?h("small",{t:String(n)}):null))});gc.append(tabs);
