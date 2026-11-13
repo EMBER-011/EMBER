@@ -398,7 +398,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113133818";
+const BUILD="20261113134413";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -608,7 +608,7 @@ function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}c
 
 /* ===== 데이터 ===== */
 const SN=["힘","행운","민첩","지능","공격력","손재주"],SHOW=[0,1,2,3,5],SDESC=["공격력 · 최대 HP · 방어력","치명타 · 드랍률 · 채집","회피 · 스킬 재사용 단축","치유력 · 최대 MP · MP 회복·소모","","채집 성공률 · 드랍률"];/* 4번(공격력)은 폐지 · 공격력은 힘에 비례 */
-const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=6;
+const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=0;
 const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
 function hsh(n){let x=Math.imul(n^0x9e3779b9,0x85ebca6b);x^=x>>>13;x=Math.imul(x,0xc2b2ae35);x^=x>>>16;return (x>>>0)/4294967296}
@@ -1020,17 +1020,17 @@ function rMap(v){
  v.append(h("div",{c:"xs mt",style:"margin:-2px 0 8px",t:"길로 이어진 옆 지역으로만 이동할 수 있어요(색이 채워진 곳). 오른쪽 바다 건너 종말의 섬(하드)은 내 레벨이 지역 레벨(60~100)에 닿을 때마다 노이즈가 걷히며 해금돼요. 검은 바다에서 배로 건너가고, 두 섬 사이도 배로 오가요. 크리처가 강한 대신 환 보상이 1.8배예요."}));
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
- bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대 · 시설 이동은 에너지 소모 없음":"권장 Lv "+R.lv+" · 지역 내 이동 에너지 "+MOVE_EN})));
+ bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":"권장 Lv "+R.lv})));
  if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&battle.region===me.loc)bar.append(btn("파티 전투",()=>{tab="battle";render(true)}));
   if(!R.safe)bar.append(btn("채집",gather,"pri"))}
  v.append(bar);
  if(R.safe&&!inB()){const s=h("div",{c:"fac"});(R.arena?ARSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
- else if(!inB()){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물 · 에너지 "+MOVE_EN})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"% · 에너지 "+MOVE_EN})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
+ else if(!inB()){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
  if(R.safe)v.append(R.arena?arenaFac(sp):facility(sp));
  else if(HSP[sp]&&HSP[sp].bld){const H=HSP[sp];v.append(h("div",{c:"card"},h("h3",{t:H.n}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:H.d+". 깨진 유리와 녹슨 장비 사이로 무언가 남아 있을지도 모른다."}),
   h("div",{c:"sm mt",t:"크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 높음"}),h("div",{style:"height:8px"}),
-  btn("조사하기 (에너지 "+INV_EN+")",investigate,"pri full"),h("p",{c:"xs mt",style:"margin:6px 0 0",t:"조사할 때도 크리처가 나타날 수 있어요. 수상한 앰플은 아주 드물게 발견된다는 소문이 있다."})))}
+  btn("조사하기",investigate,"pri full"),h("p",{c:"xs mt",style:"margin:6px 0 0",t:"조사할 때도 크리처가 나타날 수 있어요. 수상한 앰플은 아주 드물게 발견된다는 소문이 있다."})))}
  else{const H=HSP[sp];v.append(h("div",{c:"card"},h("h3",{t:H.n+" — "+H.d}),
   h("div",{c:"sm mt",t:"크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 "+(H.con<1?"낮음":H.con>1?"높음":"보통")+(H.loot?" · 전리품 증가":"")}),
   h("div",{style:"margin-top:6px"},R.mon.map(m=>h("span",{c:"chip",style:"border-color:"+ACOL[m[1]],t:m[0]}))),
@@ -1064,11 +1064,11 @@ async function travel(to,s){{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur
  await upd(tp);toast(REG[to].n+"(으)로 출발"+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
 async function moveSpot(k){
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const again=k===spot();if(again&&REG[me.loc].safe)return;if(again){if(Date.now()<gcd)return;gcd=Date.now()+1200}
- const c=cur(me),safe=REG[me.loc].safe,cost=safe?0:MOVE_EN;if(c.en<cost)return toast("에너지가 부족합니다 ("+cost+" 필요)");
+ const c=cur(me),safe=REG[me.loc].safe,cost=0;if(c.en<cost)return toast("에너지가 부족합니다 ("+cost+" 필요)");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const pp={spot:k,en:Math.round(c.en-cost),quar:false},gd=safe?null:maybeDrop(.04+tier(REG[me.loc].lv)*.01,REG[me.loc].lv+HSP[k].lv,isHard(me.loc)),got=addGear(pp,gd);
  await upd(pp);showSpots=false;
- if(!safe)toast(again?spotName(me.loc,k)+" 더 깊이 탐색 (에너지 -"+MOVE_EN+")":spotName(me.loc,k)+"(으)로 이동 (에너지 -"+MOVE_EN+")");if(got)setTimeout(()=>toastG(gd),900);
+ if(!safe)toast(again?spotName(me.loc,k)+" 더 깊이 탐색":spotName(me.loc,k)+"(으)로 이동");if(got)setTimeout(()=>toastG(gd),900);
  if(!REG[me.loc].safe&&rf()<encRate(HSP[k].enc))await encounter(k)}
 const gRate=c=>Math.min(.95,.42+(c.s?es(c,1)+es(c,5):0)*.025);
 async function gather(){
@@ -1085,7 +1085,7 @@ async function gather(){
  await upd({inv,en:Math.round(c.en-GATHER_EN)});
  toast(!ok?"채집 실패 (성공률 "+Math.round(gRate(me)*100)+"%)":got.length?"채집: "+got.join(", "):"가방이 가득 찼습니다");
  if(rf()<encRate(H.enc+.1))await encounter()}
-const INV_EN=8;
+const INV_EN=0;
 async function investigate(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(Date.now()<gcd)return;
  const c=cur(me);if(c.en<INV_EN)return toast("에너지가 부족합니다 ("+INV_EN+" 필요)");gcd=Date.now()+1500;
  const inv={...me.inv},lf=luckF(me);let msg="아무것도 찾지 못했다";
@@ -1448,7 +1448,7 @@ function sgPanel(v){const id=me.sg;if(!visitAlive(id))return false;
   top.length?h("div",{c:"xs mt",t:"기여 순위: "+top.map((x,i)=>(i+1)+". "+x[0]+" "+won(x[1])).join(" · ")}):null,
   h("p",{c:"xs mt",t:S?"클리어하면 기여 1~3위 헌터와 기여 1위 길드(참여자)에게 희귀한 핵 2개씩 · 한 사람은 한 번만 받아요.":st==="ovf"?"폭주를 저지하면 기여 1위 헌터와 기여 1위 길드(참여자)에게 희귀한 핵 1개씩 · 참여자 전원 클리어 보상":"클리어하면 참여자 전원에게 "+won(GBON[s.grade])+"환 · 게이트가 닫히면 원래 자리로 돌아와요"}),
   h("p",{c:"xs mt",style:"margin:4px 0 0",t:"심부로 나아갈 때마다 크리처와 마주칠 수 있고, 드물게 쓰러진 헌터의 유언장이나 유품을 발견해요. 다섯 번째에 심부에 닿으면 "+(S?"군주":"보스")+"와 싸워요. 보스를 쓰러뜨리면 게이트가 닫혀요."}),
-  (()=>{const d0=gxOf(s.id);return h("div",{c:"row",style:"margin-top:8px"},btn(d0>GX_STEPS?(S?"군주에게 맞서기":"보스와 싸우기"):d0===GX_STEPS?"심부로 (보스) · 에너지 "+MOVE_EN:"심부로 나아가기 ("+d0+"/"+GX_STEPS+") · 에너지 "+MOVE_EN,()=>wrap(gateStep),"pri grow"),btn("게이트에서 나가기",()=>upd({sg:null}).then(()=>toast("원래 자리로 돌아왔습니다")),"grow"))})()));return true}
+  (()=>{const d0=gxOf(s.id);return h("div",{c:"row",style:"margin-top:8px"},btn(d0>GX_STEPS?(S?"군주에게 맞서기":"보스와 싸우기"):d0===GX_STEPS?"심부로 (보스)":"심부로 나아가기 ("+d0+"/"+GX_STEPS+")",()=>wrap(gateStep),"pri grow"),btn("게이트에서 나가기",()=>upd({sg:null}).then(()=>toast("원래 자리로 돌아왔습니다")),"grow"))})()));return true}
 function openGates(v){const L=liveGates().filter(g=>g.kind==="w");const sv=survAt();if(!L.length&&!sv&&!misList().length)return;const box=h("div",{c:"card"},h("h3",{t:"열린 게이트 "+L.length}));
  L.slice().reverse().forEach(g=>box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:g.st==="ovf"?"color:#ff4d62":"",t:REG[g.reg].n+" · "+g.grade+"급"+(g.st==="ovf"?" · 폭주":"")}),h("div",{c:"xs mt"},(g.st==="ovf"?"폭주 종료까지 ":"폭주까지 "),h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))}))),btn("바로 이동",()=>goGate(g),"pri sm"))));
  if(sv){const I=survIsle(sv.s);box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[2].c,t:"연구실의 생존자"}),h("div",{c:"xs mt",t:I.near+" 앞바다 섬 · "})),btn("건너가기",goSurv,"pri sm")))}
@@ -2733,7 +2733,7 @@ const gxOf=id=>me&&me.gx&&me.gx.id===id?me.gx.d:0;let gxLast=0;
 async function gateStep(){const id=me.sg,g=gateById(id);if(!g||!visitAlive(id))return toast("이미 닫힌 게이트입니다");{const l=lockMsg();if(l)return toast(l)}if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const d0=gxOf(id);if(d0>GX_STEPS)return startGateBattle({id,kind:g.kind,boss:1});
  {const w=gxLast+GX_CD-Date.now();if(w>0)return toast("숨을 고르는 중… "+Math.ceil(w/1000)+"초 뒤에 나아갈 수 있어요")}
- const c=cur(me);if(c.en<MOVE_EN)return toast("에너지가 부족합니다 ("+MOVE_EN+" 필요)");const d=d0+1,fb=d0&&me.gx&&me.gx.b?me.gx.b:3+ri(2),p={gx:{id,d,b:fb},en:Math.round(c.en-MOVE_EN)};gxLast=Date.now();
+ const d=d0+1,fb=d0&&me.gx&&me.gx.b?me.gx.b:3+ri(2),p={gx:{id,d,b:fb}};gxLast=Date.now();
  if(d>GX_STEPS){await upd(p);toast("게이트 심부에 도착했다… 거대한 기척이 다가온다");return startGateBattle({id,kind:g.kind,boss:1})}
  let msg="심부로 나아갔다 ("+d+"/"+GX_STEPS+")";if(rf()<GX_FIND*luckF(me)){const inv={...me.inv},it=rf()<.5?"will":"relic";if(addInv(inv,it,1)){p.inv=inv;msg+=" · "+(it==="will"?"쓰러진 헌터 곁에서 낡은 유언장을 발견했다":"쓰러진 헌터의 유품을 발견했다")}}
  if(d===2){const R0=REG[g.reg||nearReg(g.x,g.y)],res=R0&&R0.res?medW(R0.res):[["scrap",3],["wire",2],["cloth",2],["glass",2],["herb",2]],inv=p.inv||{...me.inv},got={};
