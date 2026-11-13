@@ -373,7 +373,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113012835";
+const BUILD="20261113013404";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1766,7 +1766,7 @@ function splitK(k){const i=k.indexOf(":");return i<0?[k,null]:[k.slice(0,i),k.sl
 function setRoom(k){const [t,id]=splitK(k);room=t;dmWith=t==="dm"?id:null;grpId=t==="grp"?id:null}
 function roomTitle(k){const [t,id]=splitK(k);return t==="hq"?"협회 공지":t==="tav"?"주점 사장":t==="rp"?"지역 · "+REG[me.loc].n:t==="g"?"길드 채팅 (RP)":t==="owner"?"길드 채팅 (오너)":t==="pt"?"파티 채팅":t==="dm"?dName(id):(groups[id]?groups[id].name:"단체 채팅")}
 function roomRows(k){const s0=[room,dmWith,grpId];setRoom(k);const r=rows();room=s0[0];dmWith=s0[1];grpId=s0[2];return r}
-function validRoom(k){const [t,id]=splitK(k);if(t==="g"||t==="owner")return !!myG();if(t==="grp")return !!(groups[id]&&groups[id].members.includes(uid));if(t==="dm")return !!id&&id!==uid;if(t==="pt")return !!(me.party&&parties[me.party]);return t==="rp"||t==="hq"||t==="tav"}
+function validRoom(k){const [t,id]=splitK(k);if(t==="g"||t==="owner")return !!myG();if(t==="grp")return !!(groups[id]&&groups[id].members.includes(uid));if(t==="dm")return !!id&&id!==uid;if(t==="pt")return !!(me.party&&parties[me.party]);return t==="rp"||(t==="hq"&&!me.hqOut)||t==="tav"}
 function dmPartners(){const ps=[];for(let i=dms.length-1;i>=0;i--){const m=dms[i],o=m.from===uid?m.to:m.to===uid?m.from:null;if(o&&!ps.includes(o)&&!isBlk(o))ps.push(o)}return ps}
 function myGroups(){const lt=id=>{const r=roomRows("grp:"+id);return r.length?r[r.length-1].t:(groups[id].t||0)};return Object.keys(groups).filter(id=>groups[id].members.includes(uid)).sort((a,b)=>lt(b)-lt(a))}
 async function leaveGroup(id){const ref=db.doc("groups/"+id),s=await ref.get();if(s.exists){const g=s.data();g.members=g.members.filter(x=>x!==uid);if(g.members.length)await ref.set(g);else await ref.delete()}toast("채팅방에서 나갔습니다")}
@@ -1946,7 +1946,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   appOrder().forEach(([k,n,p])=>g.append(h("button",{c:"app"+(ph.edit&&ph.esel===k?" sel":""),type:"button",onclick:()=>{if(!ph.edit)return phGo(k);if(!ph.esel){ph.esel=k;return phRender()}if(ph.esel!==k){const o=appOrder().map(a=>a[0]),i=o.indexOf(ph.esel),j=o.indexOf(k);o[i]=k;o[j]=ph.esel;SET.apps=o;saveSet()}ph.esel=null;phRender()}},h("i",{},svgI(p)),n,!ph.edit&&badge[k]?h("em",{t:badge[k]>99?"99+":badge[k]}):null)));
   B.append(g,h("div",{c:"xs mt",style:"text-align:center;margin-top:auto"},ph.edit?"두 앱을 차례로 누르면 자리 교체 ":"내 번호 "+fnum(me.num)+" ",h("button",{c:"plink",type:"button",t:ph.edit?"완료":"앱 정렬",onclick:()=>{ph.edit=!ph.edit;ph.esel=null;phRender()}})))}
  else if(s==="msg"){hd("문자");const room=(k,t,dis)=>{const r=dis?[]:roomRows(k),l=r[r.length-1],u=dis?0:unreadOf(k);it(t,dis||(l?l.name+": "+l.text:"아직 대화가 없습니다"),dis?()=>toast(dis):()=>phGo("chat",k),!!u);if(u){const e=B.lastChild;e.classList.add("unr");e.append(h("em",{c:"pcnt",t:u>99?"99+":u}))}};
-  sec("채널");room("hq","협회 공지");if(tavMsgs().length)room("tav","주점 사장");room("rp","지역 채팅 · "+REG[me.loc].n);room("pt","파티 채팅",me.party&&parties[me.party]?null:"파티에 참여하면 사용할 수 있어요");
+  sec("채널");if(!me.hqOut)room("hq","협회 공지");if(tavMsgs().length)room("tav","주점 사장");room("rp","지역 채팅 · "+REG[me.loc].n);room("pt","파티 채팅",me.party&&parties[me.party]?null:"파티에 참여하면 사용할 수 있어요");
   room("g","길드 채팅 (RP)",myG()?null:"길드에 가입하면 사용할 수 있어요");room("owner","길드 채팅 (오너)",myG()?null:"길드에 가입하면 사용할 수 있어요");
   sec("1:1 채팅");const ps=dmPartners();if(!ps.length)B.append(h("div",{c:"pe",t:"연락처에서 문자를 보내 보세요."}));ps.forEach(id=>room("dm:"+id,dName(id)));
   sec("단체 채팅");myGroups().forEach(id=>room("grp:"+id,groups[id].name+" ("+groups[id].members.length+")"));it("+ 새 단체방","",()=>phGo("newgrp"))}
@@ -2046,7 +2046,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   B.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.night?"야간 모드: 어두운 바탕 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지"}));
   tg("휴대폰 아이콘 위치",ptPos?"옮김 · 초기화":"기본",()=>{if(ptPos){resetPtab();phRender()}else toast("휴대폰 아이콘을 끌어서 원하는 곳에 두세요")});
   tg("깨진 화면 효과",SET.crack?"켜짐":"꺼짐",()=>{SET.crack=!SET.crack;saveSet();phRender()});
-  tg("협회 공지 알림",SET.hqn===false?"끔":"켬",()=>{SET.hqn=SET.hqn===false;saveSet();updDot();phRender()});
+  if(!me.hqOut)tg("협회 공지 알림",SET.hqn===false?"끔":"켬",()=>{SET.hqn=SET.hqn===false;saveSet();updDot();phRender()});
   tg("상단 상태창",topMin?"접힘":"펼침",()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}phRender()});
   B.append(h("div",{c:"xs mt",style:"margin-top:8px",t:"내 번호 "+fnum(me.num)+" · 설정은 이 기기에만 저장돼요."}))}
  updDot();navMark()}
