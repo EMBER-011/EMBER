@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113054708";
+const BUILD="20261113061422";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -690,7 +690,7 @@ const RC={amp2:{mm_voice:1,herb:2,water:1},amp3:{mm_nerve:1,mm_heart:1,herb:3},b
  sword:{scrap:6,wire:2},vest:{hide:4,cloth:3},rifle:{scrap:8,wire:4,batt:2},plate:{core:2,hide:5,scrap:6}};
 const SHOP={helm1:150,shirt1:150,pants1:150,boots1:120,arm1:120,ring1:220,neck1:220,pipe:180,shield1:150,dagger:150,kit:120};
 const MED_SHOP={med_pk:200,med_fever:200,med_gauze:200,med_wrap:250,med_burn:300,med_anti:350,med_abx:500,med_splint:450};
-IT.hpot={n:"회복약",use:{hp:30},d:"HP 30 회복 · 전투 중에도 사용 가능"};const HPOT_P=5;
+IT.hpot={n:"회복약",use:{hp:30},d:"HP 30 회복 · 전투 중에도 사용 가능"};const HPOT_P=5;IT.mpot={n:"마나 회복약",use:{mp:20},d:"MP 20 회복 · 전투 중에도 사용 가능"};const MPOT_P=10;
 const MED_RC={hpot:{herb:1,water:1},med_pk:{herb:2,water:1},med_fever:{herb:2,water:1,salt:1},med_gauze:{cloth:2,herb:1},med_wrap:{cloth:3},med_burn:{herb:2,mush:1},med_anti:{herb:2,mush:2,water:1},med_abx:{herb:2,mush:2,glass:1},med_splint:{scrap:2,cloth:2}};
 Object.assign(RC,MED_RC);const MEDW={herb:1.8,cloth:1.8,water:1.8},medW=o=>Object.entries(o).map(([k,w])=>[k,MEDW[k]?w*MEDW[k]:w]);
 const MARKET={can:30,rice:20,salt:10,scrap:20,wire:30,cloth:20,herb:25,water:15,glass:30,batt:80,amp1:60};
@@ -1116,6 +1116,7 @@ function facility(sp){
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"가구 (도면 필요)"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"도면은 채집과 전투에서 가끔 떨어져요. 가구는 시장에 납품해요."}));rcpRows(box,row,URC,craftFU,"도면")}}
  else if(sp==="clinic"){const c=cur(me),mh=maxHp(me),hc=Math.ceil((mh-c.hp)*1.2)+30,rest=100;box.append(wal);const t=subs("clinic",[["care","진료"],["med","약품"],["rest","회복"]]);
   if(t==="med"){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"회복약"}),h("div",{c:"xs mt",t:"HP 30 회복 · 개당 "+HPOT_P+"환"+((me.inv.hpot||0)?" · 보유 "+me.inv.hpot:"")})),...[1,5,10].map(n=>btn(n+"개 · "+won(HPOT_P*n),()=>buy("hpot",HPOT_P,n),"sm"))));
+   box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"마나 회복약"}),h("div",{c:"xs mt",t:"MP 20 회복 · 개당 "+MPOT_P+"환"+((me.inv.mpot||0)?" · 보유 "+me.inv.mpot:"")})),...[1,5,10].map(n=>btn(n+"개 · "+won(MPOT_P*n),()=>buy("mpot",MPOT_P,n),"sm"))));
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"조제"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"재료를 모아 직접 만들 수 있어요"}));
    Object.entries(MED_RC).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>(me.inv[k]||0)>=need[k]);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:Object.entries(need).map(([k,q])=>IT[k].n+" "+(me.inv[k]||0)+"/"+q).join(" · ")})),btn("조제",()=>craft(id),"pri sm",{disabled:!ok})))});
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"치료제 구매"}))}
@@ -1207,7 +1208,7 @@ async function cancelListing(m){const ref=db.doc("market/"+m.id),s=await ref.get
 
 /* ===== 게이트 · 협회 공지 · 주점 · 납품 · 자동전투 ===== */
 const KO=9*36e5,GW_MS=18e5,OVF_LIFE=36e5,GEPOCH=Date.UTC(2026,10,12,14,30);/* 게이트 운영 재시작: 2026-11-12 23:30 (KST) · 그 전 게이트(폭주 포함)는 모두 진정 */
-/* 일반 게이트가 열리는 12곳 (무너진 땅 곳곳) · 30분마다 그중 4곳에서 열리고, 4곳 중 2곳만 30분 뒤 폭주 */
+/* 일반 게이트가 열리는 12곳 (무너진 땅 곳곳) · 30분마다 그중 4곳에서 열림 · 폭주는 하루 2번(12~15시, 20~24시)만 2곳씩 */
 const GSITES=["ruins","forest","harbor","hwy","mall","metro","desert","lab","reactor","undercity","canyon","zero"];
 const GGR=["F","E","D","C","B","A"],GGW=[26,22,18,14,12,8],GRK={F:1,E:2,D:3,C:4,B:5,A:6,S:7};
 const GLV={F:4,E:12,D:22,C:34,B:46,A:58,S:72},GHP={F:2500,E:6000,D:12000,C:20000,B:32000,A:48000,S:90000},GBON={F:30,E:50,D:70,C:90,B:120,A:150,S:150},GTAN={F:1.1,E:1.3,D:1.6,C:2,B:2.5,A:3,S:4};
@@ -1217,7 +1218,11 @@ function srng(s){let a=shs(String(s));return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Mat
 function gSpec(g){const r=srng("sp"+g.id),at=ATTR[Math.floor(r()*7)],L=GSPEC[at];return{at,n:L[Math.floor(r()*L.length)]+" 의태형"}}
 function waveGates(i){const r=srng("wv4_"+i),pool=GSITES.slice(),out=[];
  for(let k=0;k<4;k++){const reg=pool.splice(Math.floor(r()*pool.length),1)[0];let t=r()*100,gr="F";for(let q=0;q<6;q++){if((t-=GGW[q])<0){gr=GGR[q];break}}out.push({id:"w"+i+"-"+k,kind:"w",t:i*GW_MS,reg,grade:gr,ov:0})}
- const a=Math.floor(r()*4),b=(a+1+Math.floor(r()*3))%4;out[a].ov=1;out[b].ov=1;return out}
+ const a=Math.floor(r()*4),b=(a+1+Math.floor(r()*3))%4;if(ovWave(i)){out[a].ov=1;out[b].ov=1}return out}
+/* 폭주: 하루 2번 · 낮 12~15시, 밤 20~24시 안에서 무작위 한 번씩 · 한 번에 2곳 · 1시간 (하루 총 4곳) */
+const OVW=[[12,5],[20,7]];
+function ovStarts(d){const r=srng("ovd"+d),b=d*864e5-KO;return OVW.map(([h,n])=>b+h*36e5+Math.floor(r()*n)*GW_MS)}
+function ovWave(i){const s=(i+1)*GW_MS;return ovStarts(kday(s)).includes(s)}
 function waveGate(i){const r=srng("wave"+i);let s=Math.floor(r()*12);const ps=Math.floor(srng("wave"+(i-1))()*12);if(s===ps)s=(s+1)%12;
  let t=r()*100,gr="F";for(let k=0;k<6;k++){if((t-=GGW[k])<0){gr=GGR[k];break}}return{id:"w"+i,kind:"w",t:i*GW_MS,reg:GSITES[s],grade:gr,ov:1}}
 const kday=t=>Math.floor((t+KO)/864e5);
