@@ -393,7 +393,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113052802";
+const BUILD="20261113054708";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -689,7 +689,10 @@ Object.keys(HRC).forEach(k=>IT["rp_"+k]={n:"제작서: "+IT[k].n,learn:k,d:"사�
 const RC={amp2:{mm_voice:1,herb:2,water:1},amp3:{mm_nerve:1,mm_heart:1,herb:3},bandage:{herb:2,cloth:1},purified:{water:2,glass:1},ration:{mush:2,herb:1},riceball:{rice:2,salt:1},stew:{can:1,rice:1,salt:1},
  sword:{scrap:6,wire:2},vest:{hide:4,cloth:3},rifle:{scrap:8,wire:4,batt:2},plate:{core:2,hide:5,scrap:6}};
 const SHOP={helm1:150,shirt1:150,pants1:150,boots1:120,arm1:120,ring1:220,neck1:220,pipe:180,shield1:150,dagger:150,kit:120};
-const MED_SHOP={med_pk:1000,med_fever:1000,med_gauze:1000,med_wrap:1200,med_burn:1500,med_anti:1800,med_abx:2500,med_splint:2500};
+const MED_SHOP={med_pk:200,med_fever:200,med_gauze:200,med_wrap:250,med_burn:300,med_anti:350,med_abx:500,med_splint:450};
+IT.hpot={n:"회복약",use:{hp:30},d:"HP 30 회복 · 전투 중에도 사용 가능"};const HPOT_P=5;
+const MED_RC={hpot:{herb:1,water:1},med_pk:{herb:2,water:1},med_fever:{herb:2,water:1,salt:1},med_gauze:{cloth:2,herb:1},med_wrap:{cloth:3},med_burn:{herb:2,mush:1},med_anti:{herb:2,mush:2,water:1},med_abx:{herb:2,mush:2,glass:1},med_splint:{scrap:2,cloth:2}};
+Object.assign(RC,MED_RC);const MEDW={herb:1.8,cloth:1.8,water:1.8},medW=o=>Object.entries(o).map(([k,w])=>[k,MEDW[k]?w*MEDW[k]:w]);
 const MARKET={can:30,rice:20,salt:10,scrap:20,wire:30,cloth:20,herb:25,water:15,glass:30,batt:80,amp1:60};
 const MAT=["scrap","wire","cloth","water","herb","mush","glass","batt"];
 const SLOTS=[["head","머리"],["body","상의"],["legs","하의"],["feet","신발"],["acc1","악세서리 1"],["acc2","악세서리 2"],["main","주 장비"],["sub","보조 장비"]];
@@ -1068,7 +1071,7 @@ async function gather(){
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const c=cur(me);if(c.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+1500;
  const H=HSP[spot()],ok=rf()<gRate(me),inv={...me.inv},gc={};
- const lf=luckF(me);if(ok){for(let i=0;i<2+H.loot;i++){const id=pickW(Object.entries(R.res));const q=addInv(inv,id,1+(rf()<Math.min(.9,.4*lf)?1:0)+(rf()<Math.min(.9,.06*lf)?1:0));if(q)gc[id]=(gc[id]||0)+q}
+ const lf=luckF(me);if(ok){for(let i=0;i<2+H.loot;i++){const id=pickW(medW(R.res));const q=addInv(inv,id,1+(rf()<Math.min(.9,.4*lf)?1:0)+(rf()<Math.min(.9,.06*lf)?1:0));if(q)gc[id]=(gc[id]||0)+q}
   if(R.hard)[["alloy",.04],["crystal",.02]].forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
   [["u_plank",.2],["u_nail",.12],["f_honey",.05],["u_resin",.035],["f_truffle",.012]].forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
   if(rf()<.02*lf){const id="rc_"+pickW(RCW);if(addInv(inv,id,1))gc[id]=(gc[id]||0)+1}}
@@ -1081,7 +1084,7 @@ async function investigate(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.tr
  const c=cur(me);if(c.en<INV_EN)return toast("에너지가 부족합니다 ("+INV_EN+" 필요)");gcd=Date.now()+1500;
  const inv={...me.inv},lf=luckF(me);let msg="아무것도 찾지 못했다";
  if(rf()<Math.min(.06,.02*lf)){msg=addInv(inv,"eb0k14",1)?"깨진 냉장 보관함에서 수상한 주사 앰플을 찾았다… EB-0K14 ×1":"가방이 가득 차서 앰플을 챙기지 못했다"}
- else if(rf()<.5){const id=pickW([["glass",4],["batt",3],["scrap",3],["herb",2],["med_pk",.3],["med_gauze",.3]]),q=addInv(inv,id,1);msg=q?"조사: "+IT[id].n+" ×1":"가방이 가득 찼습니다"}
+ else if(rf()<.5){const id=pickW([["glass",4],["batt",3],["scrap",3],["herb",3],["med_pk",1.2],["med_gauze",1.2],["hpot",1.5]]),q=addInv(inv,id,1);msg=q?"조사: "+IT[id].n+" ×1":"가방이 가득 찼습니다"}
  await upd({inv,en:Math.round(c.en-INV_EN)});toast(msg);
  if(rf()<encRate(HSP.rlab.enc))await encounter("rlab")}
 async function encounter(sp){if(!me||inB()||me.trip||me.auto||me.sg||REG[me.loc].safe||conBlocked())return;if(await startBattle(true,sp)){hidePhone();closeAsk();tab="battle";render(true);toast(RF()?"비와 안개 속에서 크리처가 나타났다!":"크리처가 나타났다!")}}
@@ -1104,7 +1107,7 @@ function facility(sp){
      btn("수리 "+rc,()=>repair([s]),"sm",{disabled:q.dur>=100}),btn("보강",()=>enhance(s),"sm",{disabled:up>=10})))});
    if(tot>0)box.append(btn("전체 수리 ("+tot+" 환)",()=>repair(ks.map(x=>x[0])),"pri full",{style:"margin-top:8px"}))}
   else if(t==="dlv")shopDlv(box,row);
-  else{Object.entries(RC).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>(me.inv[k]||0)>=need[k]),i=IT[id];
+  else{Object.entries(RC).filter(([id])=>!MED_RC[id]).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>(me.inv[k]||0)>=need[k]),i=IT[id];
    box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:Object.entries(need).map(([k,q])=>IT[k].n+" "+(me.inv[k]||0)+"/"+q).join(" · ")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.d?" · "+i.d:"")})),btn("제작",()=>craft(id),"pri sm",{disabled:!ok})))});
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"고급 제작 (제작서 필요)"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"제작서와 재료는 종말의 섬에서 낮은 확률로 떨어집니다. 거래소에서 사고팔 수도 있어요."}));
    Object.entries(HRC).forEach(([id,r])=>{const i=IT[id],kn=(me.rcp||[]).includes(id),ok=kn&&Object.keys(r.need).every(k=>(me.inv[k]||0)>=r.need[k]);
@@ -1112,6 +1115,10 @@ function facility(sp){
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"몬스터 장비 (제작법 필요)"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"제작법은 A~F급 게이트와 상시 게이트에서 떨어지고, 희귀 제작법은 연구실의 생존자와 교환해요. 만든 장비는 거래소에서 팔 수 있어요."}));rcpRows(box,row,MRC,craftM,"제작법");
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"가구 (도면 필요)"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"도면은 채집과 전투에서 가끔 떨어져요. 가구는 시장에 납품해요."}));rcpRows(box,row,URC,craftFU,"도면")}}
  else if(sp==="clinic"){const c=cur(me),mh=maxHp(me),hc=Math.ceil((mh-c.hp)*1.2)+30,rest=100;box.append(wal);const t=subs("clinic",[["care","진료"],["med","약품"],["rest","회복"]]);
+  if(t==="med"){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"회복약"}),h("div",{c:"xs mt",t:"HP 30 회복 · 개당 "+HPOT_P+"환"+((me.inv.hpot||0)?" · 보유 "+me.inv.hpot:"")})),...[1,5,10].map(n=>btn(n+"개 · "+won(HPOT_P*n),()=>buy("hpot",HPOT_P,n),"sm"))));
+   box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"조제"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"재료를 모아 직접 만들 수 있어요"}));
+   Object.entries(MED_RC).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>(me.inv[k]||0)>=need[k]);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:Object.entries(need).map(([k,q])=>IT[k].n+" "+(me.inv[k]||0)+"/"+q).join(" · ")})),btn("조제",()=>craft(id),"pri sm",{disabled:!ok})))});
+   box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"치료제 구매"}))}
   if(t==="med")Object.entries(MED_SHOP).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),h("span",{c:"sm gold",t:won(p)}),btn("구매",()=>buy(id,p),"sm"))));
   else if(t==="care"){const L=ailList(me);if(!L.length)box.append(h("p",{c:"sm mt",t:"치료가 필요한 부상이나 질병이 없습니다."}));
    L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:AIL[k].n}),h("div",{c:"xs mt",t:AIL[k].d})),btn("진료 "+won(AIL[k].cl)+"환",()=>clinicCure(k),"sm"))));
@@ -1560,7 +1567,7 @@ async function settle(b){
   let msg="패배… 중앙 거점 치료소로 후송되었다";
   if(b.st==="won"){const inv={...me.inv},got=[];let gx=b.mon.lv*14*EXPX*(b.mon.lv<me.lv-10?.5:1)*(RF()?1.2:1),exp=me.exp+Math.round(gx),lv=me.lv;
    const lf=luckF(me),tan=Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?(b.gate.kind==="p"?1.3:GTAN[b.gate.grade]):1)),add=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(IT[id].n+" ×"+k)};
-   if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(Object.entries(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
+   if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
    if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1);
     if(rf()<.012*lf*lb){const k=pickW(Object.keys(HRC).map(x=>[x,HRC[x].r===3?1:3]));add("rp_"+k,1)}}
    if(rf()<.35)add("f_meat",1);if(rf()<.07*lf)add("f_egg",1);if(rf()<.1)add("u_nail",1);if(rf()<.02*lf)add("u_ivory",1);if(rf()<.012*lf)add("rc_"+pickW(RCW),1);
