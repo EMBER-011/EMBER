@@ -7,19 +7,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>殘火(잔화) :: Ember</title>
 <style>
-:root{--foe:#19d864;--foer:25,216,100;--bg:#000;--sf:#000;--sf2:#0c0c0f;--tx:#f2eaea;--mt:#a39a9e;--ac:#ff1f3d;--ac2:#ff4d62;--bd:#ff1f3d;--acr:255,31,61;--ln:rgba(255,31,61,.28);--scr:#120306;--ok:#4ade80;--bad:#ff8f86;--gold:#e6b450;--on:#fff;--phb:#050505;--pbt:#fff;--pbs:0 1px 2px #000;--okc:#4ade80;--endc:#ff5a5a;--dim:rgba(0,0,0,.6);--l0:#4ade80;--l1:#8fd45a;--l2:#e8c547;--l3:#ee7a3a;--l4:#e0243b;--l5:#d63ca8;--l6:#9b6bff;--r0:#e8e8e8;--r1:#4da3ff;--r2:#b86bff;--r3:#f2c14e;--a0:#e8c547;--a1:#9b7ccf;--a2:#4da3e8;--a3:#ee6a3a;--a4:#e0d848;--a5:#b88b4a;--a6:#58b56a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-:root[data-th="green"]{--foe:#ff1f3d;--foer:255,31,61;--ac:#19d864;--ac2:#5dff9c;--bd:#19d864;--acr:25,216,100;--ln:rgba(25,216,100,.28);--scr:#03110a;--ok:#9be7ff}
+:root{--onac:#fff;--foe:#19d864;--foer:25,216,100;--bg:#000;--sf:#000;--sf2:#0c0c0f;--tx:#f2eaea;--mt:#a39a9e;--ac:#ff1f3d;--ac2:#ff4d62;--bd:#ff1f3d;--acr:255,31,61;--ln:rgba(255,31,61,.28);--scr:#120306;--ok:#4ade80;--bad:#ff8f86;--gold:#e6b450;--on:#fff;--phb:#050505;--pbt:#fff;--pbs:0 1px 2px #000;--okc:#4ade80;--endc:#ff5a5a;--dim:rgba(0,0,0,.6);--l0:#4ade80;--l1:#8fd45a;--l2:#e8c547;--l3:#ee7a3a;--l4:#e0243b;--l5:#d63ca8;--l6:#9b6bff;--r0:#e8e8e8;--r1:#4da3ff;--r2:#b86bff;--r3:#f2c14e;--a0:#e8c547;--a1:#9b7ccf;--a2:#4da3e8;--a3:#ee6a3a;--a4:#e0d848;--a5:#b88b4a;--a6:#58b56a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-th="green"]{--onac:#001a0a;--foe:#ff1f3d;--foer:255,31,61;--ac:#19d864;--ac2:#5dff9c;--bd:#19d864;--acr:25,216,100;--ln:rgba(25,216,100,.28);--scr:#03110a;--ok:#9be7ff}
 :root[data-th="sand"]{--bg:#f3eee5;--sf:#fbf8f3;--tx:#2e2924;--mt:#7d7368;--ac:#b0583c;--ac2:#c46e50;--bd:#d6c8b2;--acr:176,88,60;--ln:rgba(120,95,70,.22);--scr:#ebe4d7;--foe:#3f78a0;--foer:63,120,160;--sf2:#f1ebe1;--on:#fff;--phb:#ddd4c4;--pbt:var(--tx);--pbs:0 0 2px var(--sf),0 0 4px var(--sf);--okc:#2f8a52;--endc:#c0453a;--dim:rgba(40,36,30,.35);--ok:#3d8a57;--bad:#b4473b;--gold:#9a7424;--l0:#2f8a52;--l1:#5a8a2e;--l2:#a07a12;--l3:#c0602a;--l4:#c0283c;--l5:#a83486;--l6:#6a4ac0;--r0:var(--tx);--r1:#2f6fb8;--r2:#7d43c0;--r3:#a87a10;--a0:#a8861a;--a1:#6a54a0;--a2:#2f74b0;--a3:#c0582a;--a4:#8e8410;--a5:#8a6430;--a6:#3f8a4c;color-scheme:light}
 :root[data-th="mist"]{--bg:#edf0f3;--sf:#f9fafb;--tx:#26303a;--mt:#6a7581;--ac:#3e6d98;--ac2:#5886b2;--bd:#c4cdd7;--acr:62,109,152;--ln:rgba(60,85,110,.2);--scr:#e3e8ee;--foe:#b0603a;--foer:176,96,58;--sf2:#e9edf1;--on:#fff;--phb:#d3dae2;--pbt:var(--tx);--pbs:0 0 2px var(--sf),0 0 4px var(--sf);--okc:#2f8a52;--endc:#c0453a;--dim:rgba(40,36,30,.35);--ok:#3d8a57;--bad:#b4473b;--gold:#9a7424;--l0:#2f8a52;--l1:#5a8a2e;--l2:#a07a12;--l3:#c0602a;--l4:#c0283c;--l5:#a83486;--l6:#6a4ac0;--r0:var(--tx);--r1:#2f6fb8;--r2:#7d43c0;--r3:#a87a10;--a0:#a8861a;--a1:#6a54a0;--a2:#2f74b0;--a3:#c0582a;--a4:#8e8410;--a5:#8a6430;--a6:#3f8a4c;color-scheme:light}
 :root[data-th="sage"]{--bg:#eef1ea;--sf:#f9fbf6;--tx:#29301f;--mt:#6c7562;--ac:#58784a;--ac2:#729560;--bd:#c7d0bd;--acr:88,120,74;--ln:rgba(80,100,70,.22);--scr:#e3e9dc;--foe:#a35a42;--foer:163,90,66;--sf2:#e9eee3;--on:#fff;--phb:#d3dccb;--pbt:var(--tx);--pbs:0 0 2px var(--sf),0 0 4px var(--sf);--okc:#2f8a52;--endc:#c0453a;--dim:rgba(40,36,30,.35);--ok:#3d8a57;--bad:#b4473b;--gold:#9a7424;--l0:#2f8a52;--l1:#5a8a2e;--l2:#a07a12;--l3:#c0602a;--l4:#c0283c;--l5:#a83486;--l6:#6a4ac0;--r0:var(--tx);--r1:#2f6fb8;--r2:#7d43c0;--r3:#a87a10;--a0:#a8861a;--a1:#6a54a0;--a2:#2f74b0;--a3:#c0582a;--a4:#8e8410;--a5:#8a6430;--a6:#3f8a4c;color-scheme:light}
+:root[data-th="blue"]{--pbs:0 1px 2px #000,0 0 3px #000;--onac:#001522;--foe:#ff1f3d;--foer:255,31,61;--ac:#38bdf8;--ac2:#7dd3fc;--bd:#38bdf8;--acr:56,189,248;--ln:rgba(56,189,248,.28);--scr:#02101a;--ok:#4ade80}
+:root[data-th="lawn"]{--pbt:#173d29;--pbs:0 0 2px #fff,0 0 4px #fff;--onac:#215a3d;--bg:#2d6a4a;--sf:#2d6a4a;--sf2:#285f42;--tx:#fff;--mt:#c6e3d2;--ac:#fff;--ac2:#e3f6ea;--bd:rgba(255,255,255,.72);--acr:255,255,255;--ln:rgba(255,255,255,.26);--scr:#24583d;--foe:#ffd166;--foer:255,209,102;--phb:#1f4f37;--pbs:0 1px 2px rgba(0,0,0,.45);--okc:#b9f6ca;--endc:#ffb4a8;--dim:rgba(0,0,0,.4);--ok:#c3f7d3;--bad:#ffc0b5;--gold:#ffe08a;--l0:#b9f6ca;--l1:#e3f59b;--l2:#ffe08a;--l3:#ffc18f;--l4:#ff9d9d;--l5:#ffb5e8;--l6:#d4c4ff;--r0:#fff;--r1:#a9d9ff;--r2:#e1bcff;--r3:#ffe08a;--a0:#ffe08a;--a1:#d4c4ff;--a2:#a9d9ff;--a3:#ffc18f;--a4:#f5f19c;--a5:#ecca9c;--a6:#b9f6ca;color-scheme:dark}
+:root[data-th="navy"]{--pbt:#10192f;--pbs:0 0 2px #fff,0 0 4px #ffe9a8;--onac:#141e3a;--bg:#141e3a;--sf:#141e3a;--sf2:#1a2648;--tx:#f6f1df;--mt:#a7aec4;--ac:#ffcf3f;--ac2:#ffe07a;--bd:#ffcf3f;--acr:255,207,63;--ln:rgba(255,207,63,.26);--scr:#0f1730;--foe:#5fd0ff;--foer:95,208,255;--phb:#0d1428;--okc:#7ee2a0;--endc:#ff8a80;--ok:#7ee2a0;--bad:#ff9a8f;--gold:#ffcf3f;--r3:#ffcf3f;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;display:flex;flex-direction:column;overflow:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 button{background:transparent;border:1px solid var(--bd);border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;transition:background .12s,transform .12s}
 button:active:not(:disabled){transform:scale(.97)}button:hover:not(:disabled){background:rgba(var(--acr),.14)}
 button:disabled{opacity:.4;cursor:default}
-button.pri,button.on{background:var(--ac);border-color:var(--ac);color:#fff}
-:root[data-th="green"] button.pri,:root[data-th="green"] button.on{color:#001a0a}
+button.pri,button.on{background:var(--ac);border-color:var(--ac);color:var(--onac)}
+button.pri,button.on{color:var(--onac)}
 button.pri:hover:not(:disabled),button.on:hover{background:var(--ac2)}
 button.full{width:100%}.row>button{white-space:nowrap}
 button.sm{padding:5px 10px;font-size:13px}
@@ -135,7 +138,7 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .app{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;padding:3px 0;border:0;background:transparent;font-size:9.5px;font-weight:400;border-radius:8px}
 .app i{display:flex;width:27px;height:27px;border:1px solid var(--bd);border-radius:9px;align-items:center;justify-content:center}
 .app svg{width:15px;height:15px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.app em{position:absolute;top:0;right:9px;min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:var(--ac);color:#fff;font-style:normal;font-size:9px;line-height:14px;font-weight:700}
+.app em{position:absolute;top:0;right:9px;min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:var(--ac);color:var(--onac);font-style:normal;font-size:9px;line-height:14px;font-weight:700}
 .phd{display:flex;justify-content:space-between;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--ac2);border-bottom:1px solid var(--ln);padding-bottom:3px;margin-bottom:4px;flex:none}
 .pit{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--ln);border-radius:0;background:transparent;padding:5px 2px;font-weight:400;flex:none}
 .pit b{display:block;font-size:12px}.pit small{display:block;font-size:10px;color:var(--mt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -160,7 +163,7 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 @keyframes lcb{50%{opacity:0}}
 #pfeed .pl.me{display:flex;justify-content:flex-end}#pfeed .pl .pc{max-width:84%;padding:3px 7px;border:1px solid var(--ln);border-radius:2px 9px 9px 9px;background:var(--sf)}#pfeed .pl.me .pc{border-radius:9px 2px 9px 9px;background:rgba(var(--acr),.14);text-align:left}#pfeed .pl.me .pn{text-align:right}#pfeed .pl.o .pc{flex:0 1 auto}
 .psys{text-align:center;font-size:10px;color:var(--mt);margin:2px 0 5px}
-.pit.unr{position:relative;padding-right:26px}.pit.unr b::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin:0 5px 1px 0;vertical-align:middle}.pit .pcnt{position:absolute;right:3px;top:50%;transform:translateY(-50%);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--ac);color:#fff;font-style:normal;font-size:9.5px;line-height:16px;font-weight:700;text-align:center}
+.pit.unr{position:relative;padding-right:26px}.pit.unr b::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin:0 5px 1px 0;vertical-align:middle}.pit .pcnt{position:absolute;right:3px;top:50%;transform:translateY(-50%);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--ac);color:var(--onac);font-style:normal;font-size:9.5px;line-height:16px;font-weight:700;text-align:center}
 #nav button.unr{position:relative}#nav button.unr::after{content:"";position:absolute;top:9px;right:calc(50% - 22px);width:6px;height:6px;border-radius:50%;background:var(--ac)}
 .pcm{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 6px;border-bottom:1px solid var(--ln);margin-bottom:4px;flex:none}.pcmem{display:flex;flex-direction:column;align-items:center;gap:1px;width:42px}.pcmem small{font-size:9px;color:var(--mt);max-width:42px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pcmem .av{outline:2px solid transparent;outline-offset:1px}.pcmem.on .av{outline-color:var(--okc)}.pcmem.idle .av{outline:1px dashed var(--mt)}.pcmem.off{opacity:.45}.pcmem.spk .av{animation:spk .5s ease-in-out infinite alternate}@keyframes spk{to{outline-color:var(--ac);transform:scale(1.08)}}
@@ -306,7 +309,8 @@ textarea#pmsg{flex:1;resize:none;font-size:12px}
 #pscr{position:relative}#view.tripblk>*:not(.tripbar):not(.tripok){pointer-events:none;opacity:.42;filter:grayscale(.4)}
 .tripbar{position:sticky;top:0;z-index:6;display:flex;flex-direction:column;gap:2px;padding:10px 12px;margin:-2px 0 10px;border:1px solid var(--ln);border-radius:6px;background:var(--bg);font-size:12.5px}.tripbar b{color:var(--ac2);font-weight:600}.tripbar span{color:var(--mt);font-size:11.5px}
 .ptrb{font:inherit;font-size:12px;background:none;color:inherit;border:1px solid currentColor;border-radius:4px;padding:5px 16px;opacity:.8;cursor:pointer}
-canvas.room3{display:block;width:100%;aspect-ratio:1.3;margin-top:8px;touch-action:pan-y;cursor:grab;border-radius:6px}
+.room3w{position:relative;margin-top:8px}.room3w .room3wx{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;border-radius:6px}
+canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor:grab;border-radius:6px}
 .rvbar{display:flex;gap:6px;align-items:center;margin-top:6px}.rvb{width:38px;height:34px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--ln);border-radius:6px;color:var(--ac);padding:0;cursor:pointer}.rvb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .rvsel{margin-top:10px;padding-top:10px;border-top:1px solid var(--ln);display:flex;align-items:center;gap:10px}.rvsel b{min-width:0}.rvsel span{flex:1;text-align:right}.rvpad{display:grid;grid-template-columns:repeat(3,44px);gap:6px;justify-content:center;margin:8px 0 6px}.rvpad .rvb{width:44px;height:40px}
 .rvst{margin-top:12px;padding-top:10px;border-top:1px solid var(--ln)}
@@ -403,7 +407,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261113173855";
+const BUILD="20261113181852";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -599,11 +603,11 @@ const won=n=>Math.round(n).toLocaleString("ko-KR");
 
 /* ===== 설정 (기기별) ===== */
 let CKA="150,150,155",CKB="205,205,210";
-const LTH={sand:"모래",mist:"안개",sage:"세이지"};
+const LTH={sand:"모래",mist:"안개",sage:"세이지",lawn:"초원",navy:"별밤"},NTH={red:"블랙 · 레드",green:"블랙 · 그린",blue:"블랙 · 블루"},DARKL=["lawn","navy"];
 let SET={sfx:true,theme:"red",night:true,lth:"sand",crack:true};
 try{Object.assign(SET,JSON.parse(localStorage.getItem("af_set")||"{}"))}catch(e){}
 function saveSet(){try{localStorage.setItem("af_set",JSON.stringify(SET))}catch(e){}applySet()}
-function applySet(){const L=!SET.night;if(!LTH[SET.lth])SET.lth="sand";const th=L?SET.lth:SET.theme==="green"?"green":"",ch=document.documentElement.dataset.th!==th;document.documentElement.dataset.th=th;CKA=L?"120,110,100":"150,150,155";CKB=L?"80,72,64":"205,205,210";$("#crack").classList.toggle("off",!SET.crack);if(ch&&$("#crsvg"))try{drawCracks()}catch(e){}}
+function applySet(){const L=!SET.night;if(!LTH[SET.lth])SET.lth="sand";if(!NTH[SET.theme])SET.theme="red";const th=L?SET.lth:SET.theme==="red"?"":SET.theme,ch=document.documentElement.dataset.th!==th,LL=L&&!DARKL.includes(th);document.documentElement.dataset.th=th;CKA=LL?"120,110,100":"150,150,155";CKB=LL?"80,72,64":"205,205,210";$("#crack").classList.toggle("off",!SET.crack);if(ch&&$("#crsvg"))try{drawCracks()}catch(e){}}
 let actx=null;
 function beep(f,d,v,type,delay){if(!SET.sfx)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t=actx.currentTime+(delay||0),o=actx.createOscillator(),g=actx.createGain();o.type=type||"square";o.frequency.value=f;g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
 const sKey=d=>beep(700+("123456789*0#".indexOf(d)+1)*45,.07,.03);
@@ -614,11 +618,11 @@ function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}c
 /* ===== 데이터 ===== */
 const SN=["힘","행운","민첩","지능","공격력","손재주"],SHOW=[0,1,2,3,5],SDESC=["공격력 · 최대 HP · 방어력","치명타 · 드랍률 · 채집","회피 · 스킬 재사용 단축","치유력 · 최대 MP · MP 회복·소모","","채집 성공률 · 드랍률"];/* 4번(공격력)은 폐지 · 공격력은 힘에 비례 */
 const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=0;
-const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."}};
+const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."},cloudy:{n:"흐림",d:"두꺼운 구름이 하늘을 덮었습니다."},storm:{n:"천둥번개",d:"번개가 치고 비가 쏟아집니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
 function hsh(n){let x=Math.imul(n^0x9e3779b9,0x85ebca6b);x^=x>>>13;x=Math.imul(x,0xc2b2ae35);x^=x>>>16;return (x>>>0)/4294967296}
 function wxOf(d){const blk=Math.floor(d/14);if(d-blk*14===Math.floor(hsh(blk*31+7)*14))return "rainfog";
- const P=[["clear",30],["heat",12],["snow",10],["rain",18],["fog",18],["solar",5],["lunar",5]];let r=hsh(d*13+5)*100;for(const [k,w] of P){if((r-=w)<0)return k}return "clear"}
+ const P=[["clear",25],["heat",10],["snow",9],["rain",14],["fog",14],["cloudy",14],["storm",8],["solar",3],["lunar",3]];let r=hsh(d*13+5)*100;for(const [k,w] of P){if((r-=w)<0)return k}return "clear"}
 const wxNow=()=>wxOf(dayIdx(Date.now())),RF=()=>wxNow()==="rainfog";
 function isNight(){const w=wxNow();if(w==="solar")return true;if(w==="lunar")return false;const hr=new Date(Date.now()+9*3600e3).getUTCHours();return hr>=19||hr<6}
 const encRate=b=>Math.min(.95,(b+(RF()?.35:0))*(db&&me&&ovfOn()?1.5:1));
@@ -629,6 +633,8 @@ const WXP={clear:"M12 8.2a3.8 3.8 0 1 0 0 7.6a3.8 3.8 0 1 0 0-7.6zM12 2.5v2.5M12
  fog:"M4 8c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 5 0M3 13c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 5 0s2 1.4 3 0M5 18c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 4 0",
  solar:"M12 4a8 8 0 1 0 0 16a8 8 0 1 0 0-16zM13.5 6.2a5.8 5.8 0 1 0 0 11.6a5.8 5.8 0 1 0 0-11.6z",
  lunar:"M15 3.5A8.5 8.5 0 1 0 20.5 15A7 7 0 0 1 15 3.5zM9 9h.01M11 14h.01",
+ cloudy:"M6.5 17h11a4 4 0 0 0 .4-8A5.5 5.5 0 0 0 7.3 9.6A3.7 3.7 0 0 0 6.5 17zM9 6.2A4 4 0 0 1 15.6 5",
+ storm:"M7 13h10a3.5 3.5 0 0 0 .3-7A5 5 0 0 0 7.6 6.8A3.1 3.1 0 0 0 7 13zM12.5 14.5l-2.2 3.6h3l-2 3.6M7.5 16l-.8 2.2M17 16l-.8 2.2",
  rainfog:"M7 11h10a3.5 3.5 0 0 0 .3-7A5 5 0 0 0 7.6 4.8A3.1 3.1 0 0 0 7 11zM9 13.5l-.8 2.2M13 13.5l-.8 2.2M3 18.5c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 5 0s2 1.4 3 0M5 22c2-1.4 3 1.4 5 0s3 1.4 5 0s3 1.4 4 0"};
 const wxIco=k=>svgI(WXP[k]||WXP.clear);
 const ROLE={tank:{n:"탱커",base:[3,1,1,1,0,1],d:"힘 중심 · 공격을 받아낸다",key:0},dealer:{n:"딜러",base:[2,1,2,1,0,1],d:"힘·민첩 중심 · 화력 담당",key:0},healer:{n:"힐러",base:[1,1,1,3,0,1],d:"지능 중심 · 아군을 치유",key:3}};
@@ -1064,7 +1070,7 @@ function askTravel(to,s){
  showAsk(a)}
 async function travel(to,s){{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur())return toast("결투 중에는 이동할 수 없어요");if(me.trip)return toast("이동 중입니다");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");if(!isAdj(me.loc,to))return toast("길로 이어진 옆 지역으로만 이동할 수 있어요");if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
  const c=cur(me);if(c.en<MOVE_EN)return toast("에너지가 부족합니다 ("+MOVE_EN+" 필요)");
- selReg=to;showSpots=false;const tp={trip:{to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},quar:false,en:Math.round(c.en-MOVE_EN)},sick=["snow","rain","rainfog"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
+ selReg=to;showSpots=false;const tp={trip:{to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},quar:false,en:Math.round(c.en-MOVE_EN)},sick=["snow","rain","rainfog","storm"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
  if(sick){const A=clone(me.ail||{});A.cold={t:Date.now(),u:Date.now()+AIL.cold.nat};tp.ail=A}
  await upd(tp);toast(REG[to].n+"(으)로 출발"+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
 async function moveSpot(k){
@@ -1338,6 +1344,7 @@ function flavLine(b,m){const party=Object.keys(b.mem).length>1,F=FLV[m.role]||FL
 function flavStart(b){Object.values(b.mem).forEach(m=>lg(b,flavLine(b,m)))}
 /* 몬스터 재료 · 음식 · 가구 */
 const MM=[["mm_fluid",0],["mm_fang",0],["mm_scale",0],["mm_nerve",1],["mm_shell",1],["mm_voice",1],["mm_heart",2],["mm_lens",2],["mm_gene",3],["mm_crown",3]];
+function gMatN(){const f=Math.min(1,Math.max(0,(me&&me.s?es(me,5):0)/STATMAX)),p=.15+.75*f;let n=0;for(let i=0;i<3;i++)if(rf()<p)n++;return n}
 function rollMM(lf){const r=pickW([[0,72],[1,22*lf],[2,3.5*lf],[3,.6*lf]]),L=MM.filter(x=>x[1]===r);return L[ri(L.length)][0]}
 const MRC={mg_spear:{r:1,need:{mm_fang:5,mm_fluid:3,scrap:6}},mg_dagger:{r:1,need:{mm_fang:4,scrap:3}},mg_scalemail:{r:1,need:{mm_scale:6,mm_fluid:2,cloth:4}},mg_shellhelm:{r:1,need:{mm_shell:3,mm_scale:3}},
  mg_shellboots:{r:1,need:{mm_shell:2,hide:3}},mg_nervering:{r:1,need:{mm_nerve:2,wire:3}},mg_voiceneck:{r:1,need:{mm_voice:2,glass:3}},
@@ -1583,14 +1590,15 @@ async function settle(b){
   let msg="패배… 중앙 거점 치료소로 후송되었다";
   if(b.st==="won"){const inv={...me.inv},got=[];let gx=b.mon.lv*14*EXPX*(b.mon.lv<me.lv-10?.5:1)*(RF()?1.2:1),exp=me.exp+Math.round(gx),lv=me.lv;
    const lf=luckF(me),tan=Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?(b.gate.kind==="p"?1.3:GTAN[b.gate.grade]):1)),add=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(IT[id].n+" ×"+k)};
-   if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
-   if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1);
-    if(rf()<.012*lf*lb){const k=pickW(Object.keys(HRC).map(x=>[x,HRC[x].r===3?1:3]));add("rp_"+k,1)}}
+   if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
+    if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1)}}
+   else{/* 게이트: 몬스터를 쓰러뜨려 얻는 재료는 0~3개 (손재주 비례) */const gk=b.gate.kind,boss=!!b.gate.boss,pool=[["hide",3],["res",3]];if(R.lv>=3)pool.push(["core",boss?2:1]);if(gk!=="gm")pool.push(["mm",boss?6:4]);if(R.hard)pool.push(["alloy",1],["crystal",.6],["cell",.25]);
+    const n=gMatN();for(let i=0;i<n;i++){const k=pickW(pool);add(k==="res"?(R.res?pickW(medW(R.res)):"scrap"):k==="mm"?rollMM(lf*(boss?(gk==="s"?2:1.5):1)):k,1)}}
+   if(R.hard){const lb=H.loot?1.3:1;if(rf()<.012*lf*lb){const k=pickW(Object.keys(HRC).map(x=>[x,HRC[x].r===3?1:3]));add("rp_"+k,1)}}
    if(rf()<.35)add("f_meat",1);if(rf()<.07*lf)add("f_egg",1);if(rf()<.1)add("u_nail",1);if(rf()<.02*lf)add("u_ivory",1);if(rf()<.012*lf)add("rc_"+pickW(RCW),1);
    if(b.gate&&b.gate.kind==="gm"){/* 게이트 안 크리처: 몬스터 재료 없음 */}
-   else if(b.gate&&b.gate.boss){const gk=b.gate.kind;add(rollMM(lf),1+(rf()<.5?1:0));if(rf()<.35*lf)add(rollMM(lf*1.5),1);if(gk==="s")add(rollMM(lf*2),1+(rf()<.3?1:0));if(rf()<(gk==="s"?.15:.07)*lf)add("rm_"+pickW(MRW),1)}
-   else if(b.gate){const gk=b.gate.kind;if(rf()<Math.min(.95,(gk==="p"?.55:.8)*lf))add(rollMM(lf),1+(gk!=="p"&&rf()<.4?1:0));if(gk==="s"&&rf()<.3*lf)add(rollMM(lf*2),1);
-    if(gk==="w"&&rf()<.05*lf)add("rm_"+pickW(MRW),1);if(gk==="p"&&rf()<.012*lf)add("rm_"+pickW(MRW),1)}
+   else if(b.gate&&b.gate.boss){const gk=b.gate.kind;if(rf()<(gk==="s"?.15:.07)*lf)add("rm_"+pickW(MRW),1)}
+   else if(b.gate){const gk=b.gate.kind;if(gk==="w"&&rf()<.05*lf)add("rm_"+pickW(MRW),1);if(gk==="p"&&rf()<.012*lf)add("rm_"+pickW(MRW),1)}
    const gd=maybeDrop(.12+tier(R.lv)*.03+H.loot*.05,b.mon.lv,R.hard);if(addGear(p,gd))got.push("["+RAR[gd.r].n+"] "+IT[gd.id].n);
    p.inv=inv;p.tan=me.tan+tan;p.hp=Math.max(1,m.hp);let up=false,gain=0;while(lv<MAXLV&&exp>=lv*60){exp-=lv*60;lv++;gain+=spFor(lv);up=true}if(lv>=MAXLV)exp=0;p.exp=exp;p.lv=lv;if(gain)p.sp=(me.sp||0)+gain;
    if(up)p.hp=maxHp({...me,lv});msg="승리! +"+Math.round(gx)+" EXP · +"+tan+" 환"+(got.length?" · "+got.join(", "):"")+(up?" · 레벨 업 Lv"+lv+"! 스탯 포인트 +"+gain:"")+" · 오염 +"+cg+"%"}
@@ -2103,9 +2111,9 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
  else if(s==="set"){hd("환경설정");const tg=(l,v,fn)=>B.append(h("div",{c:"tg"},h("span",{t:l}),h("button",{type:"button",t:v,onclick:fn})));
   tg("효과음",SET.sfx?"켜짐":"꺼짐",()=>{SET.sfx=!SET.sfx;saveSet();if(SET.sfx)sMsg();phRender()});
   tg("야간 모드",SET.night?"켬":"끔",()=>{SET.night=!SET.night;saveSet();phRender()});
-  if(SET.night)tg("테마",SET.theme==="green"?"블랙 · 그린":"블랙 · 레드",()=>{SET.theme=SET.theme==="green"?"red":"green";saveSet();phRender()});
+  if(SET.night)tg("테마",NTH[SET.theme]||NTH.red,()=>{const K=Object.keys(NTH);SET.theme=K[(K.indexOf(SET.theme)+1)%K.length];saveSet();phRender()});
   else tg("테마",LTH[SET.lth]||"모래",()=>{const K=Object.keys(LTH);SET.lth=K[(K.indexOf(SET.lth)+1)%K.length];saveSet();phRender()});
-  B.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.night?"야간 모드: 어두운 바탕 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지"}));
+  B.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.night?"야간 모드: 레드 · 그린 · 블루 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지 · 초원 · 별밤"}));
   tg("휴대폰 아이콘 위치",ptPos?"옮김 · 초기화":"기본",()=>{if(ptPos){resetPtab();phRender()}else toast("휴대폰 아이콘을 끌어서 원하는 곳에 두세요")});
   tg("깨진 화면 효과",SET.crack?"켜짐":"꺼짐",()=>{SET.crack=!SET.crack;saveSet();phRender()});
   if(!me.hqOut)tg("협회 공지 알림",SET.hqn===false?"끔":"켬",()=>{SET.hqn=SET.hqn===false;saveSet();updDot();phRender()});
@@ -2746,7 +2754,7 @@ async function gateStep(){const id=me.sg,g=gateById(id);if(!g||!visitAlive(id))r
  if(d>GX_STEPS){await upd(p);toast("게이트 심부에 도착했다… 거대한 기척이 다가온다");return startGateBattle({id,kind:g.kind,boss:1})}
  let msg="심부로 나아갔다 ("+d+"/"+GX_STEPS+")";if(rf()<GX_FIND*luckF(me)){const inv={...me.inv},it=rf()<.5?"will":"relic";if(addInv(inv,it,1)){p.inv=inv;msg+=" · "+(it==="will"?"쓰러진 헌터 곁에서 낡은 유언장을 발견했다":"쓰러진 헌터의 유품을 발견했다")}}
  if(d===2){const R0=REG[g.reg||nearReg(g.x,g.y)],res=R0&&R0.res?medW(R0.res):[["scrap",3],["wire",2],["cloth",2],["glass",2],["herb",2]],inv=p.inv||{...me.inv},got={};
-  for(let i=0;i<2+ri(2);i++){const it=pickW(res),q=addInv(inv,it,1+(rf()<.35?1:0));if(q)got[it]=(got[it]||0)+q}p.inv=inv;const gs=Object.entries(got).map(([k,q])=>IT[k].n+" ×"+q).join(", ");msg+=gs?" · 무너진 틈에서 "+gs+"을(를) 주웠다":" · 가방이 가득 차 아무것도 줍지 못했다"}
+  const gn=gMatN();for(let i=0;i<gn;i++){const it=pickW(res),q=addInv(inv,it,1);if(q)got[it]=(got[it]||0)+q}p.inv=inv;const gs=Object.entries(got).map(([k,q])=>IT[k].n+" ×"+q).join(", ");msg+=gs?" · 무너진 틈에서 "+gs+"을(를) 주웠다":gn?" · 가방이 가득 차 아무것도 줍지 못했다":" · 무너진 틈을 뒤졌지만 쓸 만한 건 없었다"}
  await upd(p);toast(msg);if(d===1||d===fb){setTimeout(()=>{if(!inB())startGateBattle({id,kind:g.kind,mob:1})},500)}else render(true)}
 /* ===== 유언장 · 유품 ===== */
 IT.will={n:"이름 모를 헌터의 유언장",d:"게이트 안에서 발견한 접힌 종이. 읽어 볼 수 있고, 협회에 납품하면 명성 +10 · 보상금 1,500환을 받아요. (숙소 → 우편함 → 보내기)"};
@@ -3302,8 +3310,8 @@ F.glassY=(I,x0,x1,y,H,gap)=>{const seg=(a,b)=>{I.closed([[a,y,0],[b,y,0],[b,y,H]
   const w=b-a;I.line([a+w*.2,y,H*.55],[a+w*.45,y,H*.85],{thin:1});I.line([a+w*.3,y,H*.5],[a+w*.5,y,H*.72],{thin:1})};
  if(gap){seg(x0,gap[0]);seg(gap[1],x1)}else seg(x0,x1)};
 /* 중문 (x = 상수 면 · 유리 미닫이 2짝) */
-F.midDoor=(I,x,y0,y1,H)=>{I.box(x-.12,y0,0,x,y0+.12,H);I.box(x-.12,y1-.12,0,x,y1,H);I.box(x-.12,y0,H-.15,x,y1,H);I.line([x-.06,y0+.12,.03],[x-.06,y1-.12,.03],{thin:1});
- const m=(y0+y1)/2;[[y0+.12,m+.08],[m-.08,y1-.12]].forEach(([a,b],k)=>{const xx=x-.03-k*.05;I.closed([[xx,a,.06],[xx,b,.06],[xx,b,H-.18],[xx,a,H-.18]],{fill:1});I.closed([[xx,a+.12,.2],[xx,b-.12,.2],[xx,b-.12,H-.3],[xx,a+.12,H-.3]],{thin:1});
+F.midDoor=(I,x,y0,y1,H,op)=>{I.box(x-.12,y0,0,x,y0+.12,H);I.box(x-.12,y1-.12,0,x,y1,H);I.box(x-.12,y0,H-.15,x,y1,H);I.line([x-.06,y0+.12,.03],[x-.06,y1-.12,.03],{thin:1});
+ const m=(y0+y1)/2;[[y0+.12,m+.08],[m-.08,y1-.12]].forEach(([a,b],k)=>{const xx=x-.03-k*.05,o=k?0:Math.max(0,Math.min(1,op||0))*(m-y0-.22);a+=o;b+=o;I.closed([[xx,a,.06],[xx,b,.06],[xx,b,H-.18],[xx,a,H-.18]],{fill:1});I.closed([[xx,a+.12,.2],[xx,b-.12,.2],[xx,b-.12,H-.3],[xx,a+.12,H-.3]],{thin:1});
   const w=b-a;I.line([xx,a+w*.25,H*.6],[xx,a+w*.55,H*.82],{thin:1});I.line([xx,a+w*.35,H*.52],[xx,a+w*.6,H*.68],{thin:1});I.line([xx,k?a+.25:b-.25,H*.42],[xx,k?a+.25:b-.25,H*.56])})};
 /* 변기 (요즘 일체형 · 탱크 없는 둥근 몸통 · 벽 = -x) */
 F.toiletL=(I,x,y)=>{const yc=y+.45,fp=(sc,z,dx)=>{const pts=[[x+dx,yc-.4*sc,z],[x+.55,yc-.4*sc,z]];for(let i=0;i<=12;i++){const t=-Math.PI/2+i/12*Math.PI;pts.push([x+.55+.42*sc*Math.cos(t),yc+.4*sc*Math.sin(t),z])}pts.push([x+dx,yc+.4*sc,z]);return pts};
@@ -3380,10 +3388,13 @@ function walls(S,ca,sa){const _b=S.box.bind(S);S={__proto__:S,box:(...a)=>{S.__p
  /* 욕실 벽 */S.box(BX,0,0,BX+T,BY,H);S.box(BX,BY-T,0,BDX0,BY,H);S.box(BDX1,BY-T,0,W,BY,H);S.box(BDX0,BY-T,DH,BDX1,BY,H);
  /* 현관 벽 + 중문 */S.box(BX-T,BY,0,BX,7.2,H);S.box(BX-T,9.8,0,BX,D1,H);if(D>D1)S.box(BX-T,D1,0,W,D1+T,H);S.box(BX-T,7.2,DH+.1,BX,9.8,H);}
 /* 닫힌 문 (y = 상수 벽 / x = 상수 벽) · 문틀 + 문짝 + 손잡이 */
-function doorY(S,x0,x1,yc,h){const th=.09,f=.08;S.box(x0,yc-.1,0,x0+f,yc+.1,h);S.box(x1-f,yc-.1,0,x1,yc+.1,h);S.box(x0,yc-.1,h-f,x1,yc+.1,h);
- S.box(x0+f,yc-th/2,0,x1-f,yc+th/2,h-f);S.closed([[x0+.3,yc+th/2+.002,.5],[x1-.3,yc+th/2+.002,.5],[x1-.3,yc+th/2+.002,h-.45],[x0+.3,yc+th/2+.002,h-.45]],{thin:1});
- S.closed([[x0+.3,yc-th/2-.002,.5],[x1-.3,yc-th/2-.002,.5],[x1-.3,yc-th/2-.002,h-.45],[x0+.3,yc-th/2-.002,h-.45]],{thin:1});
- const hx=x1-f-.22;S.box(hx-.18,yc+th/2,1.9,hx+.03,yc+th/2+.12,1.98);S.box(hx-.18,yc-th/2-.12,1.9,hx+.03,yc-th/2,1.98)}
+/* 돌린 상자 (문짝처럼 비스듬한 것) */
+function obox(S,tf,u0,u1,v0,v1,z0,z1){const v=[[u0,v0,z0],[u1,v0,z0],[u1,v1,z0],[u0,v1,z0],[u0,v0,z1],[u1,v0,z1],[u1,v1,z1],[u0,v1,z1]].map(p=>S.v(tf(p)));
+ S.solid([[v[0],v[1],v[2],v[3]],[v[4],v[5],v[6],v[7]],[v[0],v[1],v[5],v[4]],[v[1],v[2],v[6],v[5]],[v[2],v[3],v[7],v[6]],[v[3],v[0],v[4],v[7]]])}
+function doorY(S,x0,x1,yc,h,op){const th=.09,f=.08;S.box(x0,yc-.1,0,x0+f,yc+.1,h);S.box(x1-f,yc-.1,0,x1,yc+.1,h);S.box(x0,yc-.1,h-f,x1,yc+.1,h);
+ const hx=x0+f,Lw=x1-f-hx,a=Math.max(0,Math.min(1,op||0))*Math.PI*.47,ca=Math.cos(a),sa=Math.sin(a),tf=p=>[hx+p[0]*ca+p[1]*sa,yc-p[0]*sa+p[1]*ca,p[2]],Tq=TS(S,tf);
+ obox(S,tf,0,Lw,-th/2,th/2,0,h-f);[1,-1].forEach(k=>{const v=k*(th/2+.002);Tq.closed([[.22,v,.5],[Lw-.22,v,.5],[Lw-.22,v,h-.45],[.22,v,h-.45]],{thin:1})});
+ const u=Lw-.22;obox(S,tf,u-.18,u+.03,th/2,th/2+.12,1.9,1.98);obox(S,tf,u-.18,u+.03,-th/2-.12,-th/2,1.9,1.98)}
 function doorX(S,xc,y0,y1,h){const th=.09,f=.08;S.box(xc-.12,y0,0,xc+.12,y0+f,h);S.box(xc-.12,y1-f,0,xc+.12,y1,h);S.box(xc-.12,y0,h-f,xc+.12,y1,h);
  S.box(xc-th/2,y0+f,0,xc+th/2,y1-f,h-f);S.closed([[xc-th/2-.002,y0+.3,.5],[xc-th/2-.002,y1-.3,.5],[xc-th/2-.002,y1-.3,h-.45],[xc-th/2-.002,y0+.3,h-.45]],{thin:1});
  const hy=y0+f+.22;S.box(xc-th/2-.12,hy-.03,1.9,xc-th/2,hy+.18,1.98);S.box(xc-th/2-.12,hy-.05,1.6,xc-th/2,hy+.05,1.7)}
@@ -3403,13 +3414,13 @@ const FK={
  fridge:{n:"냉장고",w:1.4,d:1.3,f:S=>F.fridge(S,0,0)},
  tub:{n:"욕조",w:2.4,d:1.35,f:S=>F.tub(S,0,0)},
  shower:{n:"샤워기",w:1.4,d:1.4,f:S=>F.shower(S,0,0)},
- glass:{n:"샤워 유리벽",w:4.35,d:.1,f:S=>F.glassY(S,0,4.35,.05,4.4,[.2,1.6])},
+ glass:{n:"샤워 유리벽",w:2.0,d:.1,f:S=>F.glassY(S,0,2.0,.05,4.4)},
  vanity:{n:"세면대",w:1.0,d:1.6,f:S=>F.vanityL(S,0,0)},
  toilet:{n:"변기",w:.95,d:.9,f:S=>F.toiletL(S,0,0)},
  window:{n:"창문",win:1,len:5.8}};
 const WALL_L=[D,W,D,W];function size(big){D=big?D1*2:D1;WALL_L[0]=WALL_L[2]=D}
 const DEF_ROOM={items:[{k:"kitchen",x:.2,y:0,r:0},{k:"induction",x:3.68,y:1.7,r:0},{k:"fridge",x:5.2,y:0,r:0},{k:"bed1",x:8.6,y:0,r:0},{k:"sofa",x:0,y:6.9,r:0},{k:"table",x:3.0,y:7.4,r:0},
- {k:"shower",x:BX+T,y:0,r:0},{k:"tub",x:W-2.4,y:0,r:0},{k:"glass",x:BX+T,y:2.65,r:0},{k:"vanity",x:BX+T,y:3.0,r:0},{k:"toilet",x:BX+T,y:5.0,r:0},{k:"window",w:0,pos:4.2,r:0}],store:[]};
+ {k:"shower",x:BX+T,y:0,r:0},{k:"tub",x:W-2.4,y:0,r:0},{k:"glass",x:W-2.0,y:2.65,r:0},{k:"vanity",x:BX+T,y:3.0,r:0},{k:"toilet",x:BX+T,y:5.0,r:0},{k:"window",w:0,pos:4.2,r:0}],store:[]};
 /* 회전한 크기 */const dims=it=>{const K=FK[it.k];return it.r%2?[K.d,K.w]:[K.w,K.d]};
 /* 좌표를 바꿔서 그리는 장면 (가구 회전 · 이동 · 벽 창문) */
 function TS(S,t){const E=(pts,o)=>S.closed(pts.map(t),o);return{s:S.s,P(){},
@@ -3421,28 +3432,45 @@ function TS(S,t){const E=(pts,o)=>S.closed(pts.map(t),o);return{s:S.s,P(){},
 function itemTf(it){const K=FK[it.k],w=K.w,d=K.d,r=((it.r||0)%4+4)%4;return p=>{const[lx,ly,z]=p;let a,b;if(r===0){a=lx;b=ly}else if(r===1){a=d-ly;b=lx}else if(r===2){a=w-lx;b=d-ly}else{a=ly;b=w-lx}return[it.x+a,it.y+b,z]}}
 function winTf(it){const w=it.w||0,ps=it.pos||0;return p=>{const[lx,ly,z]=p,al=ps+ly;return w===0?[lx,al,z]:w===1?[al,lx,z]:w===2?[W-lx,al,z]:[al,D-lx,z]}}
 const overlap=(a,b)=>{const[aw,ad]=dims(a),[bw,bd]=dims(b);return a.x<b.x+bw&&b.x<a.x+aw&&a.y<b.y+bd&&b.y<a.y+ad};
-function furniture(S,L,ca,sa,map){const its=(L&&L.items)||DEF_ROOM.items;
+function furniture(S,L,ca,sa,map,man){const its=(L&&L.items)||DEF_ROOM.items;
  its.forEach((it,idx)=>{const K=FK[it.k];if(!K)return;
   if(K.win){if(!wallUp(it.w||0,ca,sa))return;S.obj();map[S.o]=idx;F.window(TS(S,winTf(it)),0,K.len,2.15,4.75);return}
   if(it.k==="induction"){const k=its.find(o=>o.k==="kitchen");it._z=k&&overlap(it,k)?1.8:0}
-  S.obj();map[S.o]=idx;K.f(TS(S,itemTf(it)),it)});
- S.obj();F.midDoor(S,BX,7.2,9.8,DH+.1);S.obj();doorY(S,BDX0,BDX1,BY-T/2,DH)}
-/* 둥근 관 (고리마다 중심 · 반지름 · 가로세로 비율) · 매끈한 면 */
-function tube(S,Rg,ca,sa){const n=12,g=++S.g,rings=Rg.map(q=>{if(!q.r)return[S.v([q.c[0],q.c[1],q.z])];const P=[];for(let i=0;i<n;i++){const t=i/n*Math.PI*2,lx=Math.cos(t)*q.r*(q.sx||1),ly=Math.sin(t)*q.r*(q.sy||1);P.push(S.v([q.c[0]+lx*ca-ly*sa,q.c[1]+lx*sa+ly*ca,q.z]))}return P});
+  S.obj();map[S.o]=idx;K.f(TS(S,itemTf(it)),it);
+  if(man&&man.pose==="lie"&&man.act===idx&&it.k==="bed1"){const Tb=TS(S,itemTf(it)),X=[[.1,1.4],[.2,1.82],[.45,2.02],[1.05,2.1],[1.65,2.02],[1.9,1.82],[2.0,1.4]];S.obj();map[S.o]=idx;Tb.loft(X.map(q=>[q[0],1.32,q[1]]),X.map(q=>[q[0],4.02,q[1]]))}});
+ const dO=(man&&man.doors)||{};S.obj();F.midDoor(S,BX,7.2,9.8,DH+.1,dO.m||0);S.obj();doorY(S,BDX0,BDX1,BY-T/2,DH,dO.b||0)}
+/* 둥근 관: 고리 중심(몸 기준 앞 · 옆 · 위) · 반지름 · 고리는 관 방향에 수직 · T = 몸 → 방 좌표 */
+function tube(S,Rg,T){const n=12,g=++S.g,N=Rg.length,rings=Rg.map((q,k)=>{if(!q.r)return[S.v(T(q.c))];const A=Rg[Math.max(0,k-1)].c,B=Rg[Math.min(N-1,k+1)].c;let ax=[B[0]-A[0],B[1]-A[1],B[2]-A[2]];const al=Math.hypot(ax[0],ax[1],ax[2])||1;ax=ax.map(x=>x/al);
+  let v=[-ax[1]*ax[0],1-ax[1]*ax[1],-ax[1]*ax[2]];const vl=Math.hypot(v[0],v[1],v[2])||1;v=v.map(x=>x/vl);const u=[v[1]*ax[2]-v[2]*ax[1],v[2]*ax[0]-v[0]*ax[2],v[0]*ax[1]-v[1]*ax[0]];
+  const P=[];for(let i=0;i<n;i++){const t=i/n*Math.PI*2,a=Math.cos(t)*q.r*(q.sx||1),b=Math.sin(t)*q.r*(q.sy||1);P.push(S.v(T([q.c[0]+u[0]*a+v[0]*b,q.c[1]+u[1]*a+v[1]*b,q.c[2]+u[2]*a+v[2]*b])))}return P});
  const f=[];for(let k=0;k+1<rings.length;k++){const a=rings[k],b=rings[k+1];for(let i=0;i<n;i++){const j=(i+1)%n;if(a.length===1)f.push([a[0],b[j],b[i]]);else if(b.length===1)f.push([a[i],a[j],b[0]]);else f.push([a[i],a[j],b[j],b[i]])}}S.solid(f,g)}
-/* 픽토그램 사람 (키 1.7m) · m={x,y,h(바라보는 방향),ph(걸음)} */
-function person(S,m){const ch=Math.cos(m.h||0),sh=Math.sin(m.h||0),P=(fw,sd)=>[m.x+ch*fw-sh*sd,m.y+sh*fw+ch*sd],sw=Math.sin(m.ph||0)*.3,tz=Math.abs(Math.sin(m.ph||0))*.05;
- [1,-1].forEach(sd=>{const hip=P(0,.16*sd),ft=P(sw*sd,.17*sd);S.obj();tube(S,[{c:hip,z:1.74,r:0},{c:hip,z:1.64,r:.15},{c:ft,z:.13,r:.13},{c:ft,z:0,r:0}],ch,sh)});
- const c0=P(0,0),bd=(z,r,sx,sy)=>({c:c0,z:z+tz,r,sx,sy});S.obj();tube(S,[bd(1.42,0),bd(1.5,.26,.72,1.12),bd(1.75,.33,.72,1.12),bd(2.3,.38,.72,1.12),bd(2.5,.33,.72,1.12),bd(2.62,.18,.8,1),bd(2.66,0)],ch,sh);
- [1,-1].forEach(sd=>{const s0=P(0,.5*sd),hd=P(-sw*sd*.8,.55*sd);S.obj();tube(S,[{c:s0,z:2.52+tz,r:0},{c:s0,z:2.42+tz,r:.11},{c:hd,z:1.52+tz,r:.1},{c:hd,z:1.42+tz,r:0}],ch,sh)});
- const Rh=.34,zc=3.06+tz,rg=[];for(let i=0;i<=8;i++){const t=i/8*Math.PI;rg.push({c:c0,z:zc-Rh*Math.cos(t),r:i===0||i===8?0:Rh*Math.sin(t)})}S.obj();tube(S,rg,ch,sh)}
+/* 픽토그램 사람 (키 1.7m) · m={x,y,h,ph,pose:"sit"|"lie"|"bath"|null,z(앉는 높이 · 매트리스 높이),water} · 눕기: (x,y)=발끝 · h=머리 쪽 */
+function person(S,m){const ch=Math.cos(m.h||0),sh=Math.sin(m.h||0),pose=m.pose||null,z0=m.z||0,
+ T=pose==="lie"?p=>[m.x+ch*p[2]-sh*p[1],m.y+sh*p[2]+ch*p[1],z0+.3+p[0]]:p=>[m.x+ch*p[0]-sh*p[1],m.y+sh*p[0]+ch*p[1],p[2]],
+ sw=pose?0:Math.sin(m.ph||0)*.3,tz=pose?0:Math.abs(Math.sin(m.ph||0))*.05,seat=pose==="sit"||pose==="bath",hz=pose==="sit"?z0+.14:pose==="bath"?z0+.18:1.64,dz=seat?hz-1.6:tz,rg=a=>a.map(q=>({c:[q[0],q[1],q[2]],r:q[3],sx:q[4],sy:q[5]}));
+ [1,-1].forEach(sd=>{const y0=.16*sd,y1=.17*sd;let R0;
+  if(pose==="sit")R0=[[-.1,y0,hz,0],[0,y0,hz,.15],[.58,y1,hz,.14],[.72,y1,hz-.1,.13],[.76,y1,.14,.12],[.76,y1,0,0]];
+  else if(pose==="bath")R0=[[-.1,y0,hz,0],[0,y0,hz,.15],[1.45,y1,hz+.04,.13],[1.56,y1,hz+.04,0]];
+  else R0=[[0,y0,1.74,0],[0,y0,1.64,.15],[sw*sd,y1,.13,.13],[sw*sd,y1,0,0]];
+  S.obj();tube(S,rg(R0),T)});
+ S.obj();tube(S,rg([[0,0,1.42+dz,0],[0,0,1.5+dz,.26,.72,1.12],[0,0,1.75+dz,.33,.72,1.12],[0,0,2.3+dz,.38,.72,1.12],[0,0,2.5+dz,.33,.72,1.12],[0,0,2.62+dz,.18,.8,1],[0,0,2.66+dz,0]]),T);
+ [1,-1].forEach(sd=>{const sz=2.42+dz;S.obj();tube(S,rg(seat?[[0,.5*sd,sz+.1,0],[0,.5*sd,sz,.11],[.4,.44*sd,hz+.24,.1],[.5,.44*sd,hz+.22,0]]:[[0,.5*sd,sz+.1,0],[0,.5*sd,sz,.11],[-sw*sd*.8,.55*sd,1.52+dz,.1],[-sw*sd*.8,.55*sd,1.42+dz,0]]),T)});
+ const Rh=.34,zc=3.06+dz,hf=pose==="lie"?.3:0,hd=[];for(let i=0;i<=8;i++){const t=i/8*Math.PI;hd.push([hf,0,zc-Rh*Math.cos(t),i===0||i===8?0:Rh*Math.sin(t)])}S.obj();tube(S,rg(hd),T);
+ if(m.water){const[wx,wy]=m.water;for(let i=0;i<7;i++){const t=i/7*Math.PI*2,r=.1+(i%3)*.07;S.line([wx+Math.cos(t)*r,wy+Math.sin(t)*r,4.12],[wx+Math.cos(t)*r*1.25,wy+Math.sin(t)*r*1.25,3.5],{thin:1})}}}
+/* 가구와 하기: a = 다가갈 곳 · p = 자리 · d = 바라볼 방향 (가구 기준 좌표) */
+const ACT={bed1:{a:[2.6,2.3],p:[1.05,3.98],d:[0,-1],pose:"lie",z:1.38},sofa:{a:[2.3,1.6],p:[.78,1.6],d:[1,0],pose:"sit",z:.95},toilet:{a:[1.55,.45],p:[.4,.45],d:[1,0],pose:"sit",z:.74},
+ tub:{a:[1.2,2.05],p:[.32,.675],d:[1,0],pose:"bath",z:.32},shower:{a:[.7,1.95],p:[.7,.85],d:[0,1],water:[.7,.8]},vanity:{a:[1.95,.8],p:[1.42,.8],d:[-1,0]},kitchen:{a:[1.5,2.35],p:[1.5,1.72],d:[0,-1]},fridge:{a:[.7,2.25],p:[.7,1.78],d:[0,-1]}};
+function actOf(L,idx){const it=L&&L.items&&L.items[idx];if(!it)return null;const K=FK[it.k];if(!K)return null;
+ if(K.win){const t=winTf(it),mm=K.len/2,P=t([1.0,mm,0]),A=t([1.35,mm,0]),Q=t([0,mm,0]);return{a:[A[0],A[1]],p:[P[0],P[1]],h:Math.atan2(Q[1]-P[1],Q[0]-P[0])}}
+ const D=ACT[it.k];if(!D)return null;const t=itemTf(it),P=t([D.p[0],D.p[1],0]),A=t([D.a[0],D.a[1],0]),F2=t([D.p[0]+D.d[0],D.p[1]+D.d[1],0]),o={a:[A[0],A[1]],p:[P[0],P[1]],h:Math.atan2(F2[1]-P[1],F2[0]-P[0]),pose:D.pose||null,z:D.z||0};
+ if(D.water){const w=t([D.water[0],D.water[1],0]);o.water=[w[0],w[1]]}return o}
 /* 걸을 수 있는 바닥 (0.25 칸) · 벽 · 가구는 막힘 (샤워 칸 바닥은 지나감) */
 function walkMap(L){const c=.25,nx=Math.round(W/c),ny=Math.round(D/c),b=new Uint8Array(nx*ny),pad=.28;
  const rect=(x0,y0,x1,y1)=>{const i0=Math.max(0,Math.ceil((x0-pad)/c-.5)),i1=Math.min(nx-1,Math.floor((x1+pad)/c-.5)),j0=Math.max(0,Math.ceil((y0-pad)/c-.5)),j1=Math.min(ny-1,Math.floor((y1+pad)/c-.5));for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++)b[j*nx+i]=1};
  for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const x=(i+.5)*c,y=(j+.5)*c;if(x<pad||y<pad||x>W-pad||y>D-pad)b[j*nx+i]=1}
- rect(BX,0,BX+T,BY);rect(BX,BY-T,BDX0,BY);rect(BDX1,BY-T,W,BY);rect(BX-T,BY,BX,7.2);rect(BX-T,9.8,BX,D1);if(D>D1)rect(BX-T,D1,W,D1+T);
+ rect(BX,0,BX+T,BY);rect(BX,BY-T,BDX0,BY);rect(BDX1,BY-T,W,BY);rect(BX-T,BY,BX,7.2);rect(BX-T,9.8,BX,D1);rect(BX-T,8.5,BX,9.8);if(D>D1)rect(BX-T,D1,W,D1+T);
  ((L&&L.items)||[]).forEach(it=>{const K=FK[it.k];if(!K||K.win||it.k==="shower")return;const[w,d]=dims(it);rect(it.x,it.y,it.x+w,it.y+d)});return{nx,ny,c,b}}
-function buildRoom(ang,L,sel,man){const S=new Scene();const ca=Math.cos(ang),sa=Math.sin(ang);floorG(S);walls(S,ca,sa);const map={};S.obj();furniture(S,L,ca,sa,map);if(man)person(S,man);S.map=map;
+function buildRoom(ang,L,sel,man){const S=new Scene();const ca=Math.cos(ang),sa=Math.sin(ang);floorG(S);walls(S,ca,sa);const map={};S.obj();furniture(S,L,ca,sa,map,man);if(man)person(S,man);S.map=map;
  S.selO=null;if(sel!=null)for(const k in map)if(map[k]===sel)S.selO=+k;return S}
 
 /* ---- 그리기: 정사영 · z-버퍼로 면 가림 · 선만 그림 ---- */
@@ -3493,20 +3521,22 @@ function viewer(cv,o){o=o||{};let ang=o.ang!=null?o.ang:Math.PI/4,raf=0,drag=nul
 /* 가구 하나만 (미리보기용) */
 function thumb(cv,fn,ang){const S=new Scene();fn(S);let mn=[1e9,1e9,1e9],mx=[-1e9,-1e9,-1e9];S.V.concat(S.L.flatMap(l=>[l[0],l[1]])).forEach(p=>{for(let k=0;k<3;k++){mn[k]=Math.min(mn[k],p[k]);mx[k]=Math.max(mx[k],p[k])}});
  const c=[(mn[0]+mx[0])/2,(mn[1]+mx[1])/2,(mn[2]+mx[2])/2],sp=Math.hypot(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2])*1.05;draw(cv,S,ang==null?Math.PI/4:ang,{center:c,span:sp,lw:.9})}
-window.Room3D={viewer,thumb,buildRoom,draw,Scene,FK,DEF_ROOM,dims,WALL_L,W,get D(){return D},BX,BY,size,walkMap}})();
+window.Room3D={viewer,thumb,buildRoom,draw,Scene,FK,DEF_ROOM,dims,WALL_L,W,get D(){return D},BX,BY,size,walkMap,actOf}})();
 
 /* ===== 내 방 (선으로 그린 3D) · 돌려 보기 · 가구 배치 · 가구 보관함 ===== */
 const RV={ang:Math.PI/4,sel:null,edit:false,cv:null,key:"",pick:null,L:null,saveT:0,raf:0,anim:0,arm:0,zoom:1,px:0,py:0,harm:0};
 const IC_ROTL="M5 12a7 7 0 1 0 2.2-5.1M5 4.5v3.4h3.4",IC_ROTR="M19 12a7 7 0 1 1-2.2-5.1M19 4.5v3.4h-3.4",IC_NE="M7 17L17 7M9 7h8v8",IC_SE="M7 7l10 10M17 9v8H9",IC_SW="M17 7L7 17M7 9v8h8",IC_NW="M17 17L7 7M7 15V7h8",IC_TURN="M20 7a8 8 0 1 0 1 6M20 3v4h-4",IC_ZIN="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M15.2 15.2L20 20M10.5 7.8v5.4M7.8 10.5h5.4",IC_ZOUT="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M15.2 15.2L20 20M7.8 10.5h5.4";
-function roomL(){Room3D.size(!!(me&&me.house));if(RV.L)return RV.L;let R=me&&me.room3;
+function roomL(){Room3D.size(!!(me&&me.house));if(RV.L)return RV.L;return roomFix(roomL0())}
+function roomFix(L){(L.items||[]).forEach(it=>{if(it.k==="glass"&&!it.r&&Math.abs(it.x-(Room3D.BX+.15))<.01&&Math.abs(it.y-2.65)<.01)it.x=Room3D.W-2.0});return L}
+function roomL0(){let R=me&&me.room3;
  if(me&&me.house){const a=me.room3h,P=chars[me.house.w],b=P&&P.house&&P.house.w===uid?P.room3h:null;R=!a?b:!b?a:((b.t||0)>(a.t||0)?b:a)}
  return clone(R&&Array.isArray(R.items)?{items:R.items,store:R.store||[]}:Room3D.DEF_ROOM)}
-function roomSave(L){RV.L=L;clearTimeout(RV.saveT);RV.saveT=setTimeout(async()=>{const x=RV.L;if(!x)return;try{const o={items:x.items.map(it=>{const o={...it};delete o._z;return o}),store:x.store||[]};if(me.house){o.t=Date.now();await upd({room3h:o})}else await upd({room3:o})}catch(e){toast("방 저장에 실패했어요")}RV.L=null},700);roomDraw(true)}
-function roomDraw(force,fast){const cv=RV.cv;if(!cv||!cv.isConnected||!me)return;const L=roomL(),bgv=getComputedStyle(cv).getPropertyValue("--bg"),key=JSON.stringify(L)+"|"+RV.ang.toFixed(3)+"|"+RV.sel+"|"+bgv+"|"+cv.clientWidth+"|"+(fast?1:0)+"|"+(me.house?2:1)+"|"+RV.zoom.toFixed(3)+","+RV.px.toFixed(1)+","+RV.py.toFixed(1)+"|"+(RV.man?RV.man.x.toFixed(2)+","+RV.man.y.toFixed(2)+","+RV.man.h.toFixed(2)+","+RV.man.ph.toFixed(2):"");
- if(!force&&key===RV.key)return;RV.key=key;cancelAnimationFrame(RV.raf);RV.raf=requestAnimationFrame(()=>{try{Room3D.size(!!me.house);if(!RV.man||RV.man.y>Room3D.D||RV.man.big!==!!me.house)manInit(L);RV.pick=Room3D.draw(cv,Room3D.buildRoom(RV.ang,L,RV.sel,RV.man),RV.ang,{dpr:fast?1:Math.min(2,window.devicePixelRatio||1),zoom:RV.zoom,px:RV.px,py:RV.py})}catch(e){}})}
+function roomSave(L){RV.L=L;manStand();clearTimeout(RV.saveT);RV.saveT=setTimeout(async()=>{const x=RV.L;if(!x)return;try{const o={items:x.items.map(it=>{const o={...it};delete o._z;return o}),store:x.store||[]};if(me.house){o.t=Date.now();await upd({room3h:o})}else await upd({room3:o})}catch(e){toast("방 저장에 실패했어요")}RV.L=null},700);roomDraw(true)}
+function roomDraw(force,fast){const cv=RV.cv;if(!cv||!cv.isConnected||!me)return;const L=roomL(),bgv=getComputedStyle(cv).getPropertyValue("--bg"),key=JSON.stringify(L)+"|"+RV.ang.toFixed(3)+"|"+RV.sel+"|"+bgv+"|"+cv.clientWidth+"|"+(fast?1:0)+"|"+(me.house?2:1)+"|"+RV.zoom.toFixed(3)+","+RV.px.toFixed(1)+","+RV.py.toFixed(1)+"|"+(RV.man?RV.man.x.toFixed(2)+","+RV.man.y.toFixed(2)+","+RV.man.h.toFixed(2)+","+RV.man.ph.toFixed(2)+","+(RV.man.pose||"")+RV.man.act+","+RV.man.doors.b.toFixed(2)+RV.man.doors.m.toFixed(2):"");
+ if(!force&&key===RV.key)return;RV.key=key;cancelAnimationFrame(RV.raf);RV.raf=requestAnimationFrame(()=>{try{Room3D.size(!!me.house);if(!RV.man||RV.man.y>Room3D.D||RV.man.big!==!!me.house)manInit(L);RV.pick=Room3D.draw(cv,Room3D.buildRoom(RV.ang,L,RV.sel,RV.man),RV.ang,{dpr:fast?1:Math.min(2,window.devicePixelRatio||1),zoom:RV.zoom,px:RV.px,py:RV.py});roomWxMask(RV.pick)}catch(e){}})}
 /* 픽토그램 사람: 누른 바닥으로 걸어감 (벽 · 가구는 돌아감) */
 function manFree(M,x,y,ok){let best=null,bd=1e9;for(let j=0;j<M.ny;j++)for(let i=0;i<M.nx;i++){const id=j*M.nx+i;if(M.b[id]||(ok&&!ok(id)))continue;const cx=(i+.5)*M.c,cy=(j+.5)*M.c,d=(cx-x)**2+(cy-y)**2;if(d<bd){bd=d;best=[cx,cy,id]}}return best}
-function manInit(L){const M=Room3D.walkMap(L||roomL()),p=manFree(M,Room3D.W-2.2,9.1)||[Room3D.W-2.2,9.1];RV.man={x:p[0],y:p[1],h:Math.PI,ph:0,big:!!(me&&me.house)};RV.mpath=[]}
+function manInit(L){const M=Room3D.walkMap(L||roomL()),p=manFree(M,Room3D.W-2.2,9.1)||[Room3D.W-2.2,9.1];RV.man={x:p[0],y:p[1],h:Math.PI,ph:0,big:!!(me&&me.house),doors:{b:0,m:0},act:null};RV.mpath=[];RV.mthen=null}
 function manPath(tx,ty){const M=Room3D.walkMap(roomL()),m=RV.man,{nx,ny,b,c}=M,cl=v=>Math.max(0,v);let si=Math.min(nx-1,Math.floor(cl(m.x)/c)),sj=Math.min(ny-1,Math.floor(cl(m.y)/c));
  if(b[sj*nx+si]){const f=manFree(M,m.x,m.y);if(!f)return[];si=f[2]%nx;sj=(f[2]-si)/nx}
  const par=new Int32Array(nx*ny).fill(-2),q=[sj*nx+si];par[q[0]]=-1;
@@ -3515,19 +3545,54 @@ function manPath(tx,ty){const M=Room3D.walkMap(roomL()),m=RV.man,{nx,ny,b,c}=M,c
  const ok=(a,z)=>{const L2=Math.hypot(z[0]-a[0],z[1]-a[1]),n=Math.max(1,Math.ceil(L2/.08));for(let s2=0;s2<=n;s2++){const x=a[0]+(z[0]-a[0])*s2/n,y=a[1]+(z[1]-a[1])*s2/n,i=Math.floor(x/c),j=Math.floor(y/c);if(i<0||j<0||i>=nx||j>=ny||b[j*nx+i])return false}return true};
  const out=[];let cur=[m.x,m.y],k=0;while(k<P.length-1){let f=P.length-1;while(f>k+1&&!ok(cur,P[f]))f--;out.push(P[f]);cur=P[f];k=f}
  if(!out.length&&P.length&&Math.hypot(P[0][0]-m.x,P[0][1]-m.y)>.05)out.push(P[0]);return out}
-function manWalk(tx,ty){if(!RV.man)manInit();const path=manPath(tx,ty);if(!path.length)return;RV.mpath=path;if(RV.mwalk)return;RV.mwalk=1;let last=performance.now();
- const st=now=>{const dt=Math.min(.05,(now-last)/1000),m=RV.man;last=now;let d=3.4*dt;
+function manWalk(tx,ty){if(!RV.man)manInit();const path=manPath(tx,ty);RV.mpath=path;if(!path.length&&RV.mthen){const f=RV.mthen;RV.mthen=null;f()}manLoop()}
+/* 하던 것 그만두고 일어나기 (다가갔던 곳으로) */
+function manStand(){const m=RV.man;if(!m||m.act==null)return;if(m.ax!=null){m.x=m.ax;m.y=m.ay}m.pose=null;m.act=null;m.water=null;m.z=0}
+function manAct(idx){const A=Room3D.actOf(roomL(),idx);if(!A)return false;if(!RV.man)manInit();if(RV.man.act===idx)return true;manStand();
+ RV.mthen=()=>{const m=RV.man;m.ax=m.x;m.ay=m.y;m.x=A.p[0];m.y=A.p[1];m.h=A.h;m.pose=A.pose;m.z=A.z;m.water=A.water||null;m.act=idx;m.ph=0};manWalk(A.a[0],A.a[1]);return true}
+/* 걷기 · 문 열고 닫기 (사람이 문 가까이 오면 열림) */
+const DOORS={b:[14.65,6.43],m:[12.44,7.85]};
+function manLoop(){if(RV.mwalk)return;RV.mwalk=1;let last=performance.now();
+ const st=now=>{const dt=Math.min(.05,(now-last)/1000),m=RV.man;last=now;if(!m||!RV.cv||!RV.cv.isConnected){RV.mwalk=0;if(m)m.ph=0;return}let d=3.4*dt;
   while(d>0&&RV.mpath.length){const t=RV.mpath[0],dx=t[0]-m.x,dy=t[1]-m.y,l=Math.hypot(dx,dy);if(l<1e-4){RV.mpath.shift();continue}const s2=Math.min(d,l);m.x+=dx/l*s2;m.y+=dy/l*s2;m.h=Math.atan2(dy,dx);m.ph+=s2*2.6;d-=s2;if(s2>=l-1e-6)RV.mpath.shift()}
-  if(!RV.cv||!RV.cv.isConnected){RV.mwalk=0;m.ph=0;return}
-  if(RV.mpath.length){roomDraw(true,true);RV.mraf=requestAnimationFrame(st)}else{m.ph=0;RV.mwalk=0;roomDraw(true)}};RV.mraf=requestAnimationFrame(st)}
+  const walking=RV.mpath.length>0;if(!walking){m.ph=0;if(RV.mthen){const f=RV.mthen;RV.mthen=null;f()}}
+  let moving=false;for(const k in DOORS){const c=DOORS[k],near=m.act==null&&Math.hypot(m.x-c[0],m.y-c[1])<1.8?1:0,o=m.doors[k],n=o+Math.sign(near-o)*Math.min(Math.abs(near-o),dt*3);m.doors[k]=n;if(Math.abs(near-n)>1e-3)moving=true}
+  if(walking||moving){roomDraw(true,true);RV.mraf=requestAnimationFrame(st)}else{RV.mwalk=0;roomDraw(true)}};RV.mraf=requestAnimationFrame(st)}
 function roomFloorAt(e){const P=RV.pick,cv=RV.cv;if(!P||!P.C)return null;const r=cv.getBoundingClientRect(),k=P.Wp/r.width,sx=(e.clientX-r.left)*k,sy=(e.clientY-r.top)*k,a=RV.ang,PHI=Math.asin(1/Math.sqrt(3)),cf=Math.cos(PHI),sf=Math.sin(PHI);
  const A=(sx-P.ox)/P.sc,B=-(sy-P.oy)/P.sc,K=-(B+cf*P.C[2])/sf;return[P.C[0]+A*Math.sin(a)+K*Math.cos(a),P.C[1]-A*Math.cos(a)+K*Math.sin(a)]}
+/* ===== 창밖 날씨: 창문 유리에 보이는 곳(가구에 가리지 않은 곳)만 그림 ===== */
+function roomWxMask(P){if(!P)return;const L=roomL(),set=new Set();for(const o in P.map){const it=L.items[P.map[o]];if(it&&it.k==="window")set.add(+o)}const{Wp,Hp,idb}=P,mc=RV.wxm||(RV.wxm=document.createElement("canvas"));mc.width=Wp;mc.height=Hp;const bb={};
+ if(set.size){const mx=mc.getContext("2d"),img=mx.createImageData(Wp,Hp),d=img.data;for(let i=0;i<Wp*Hp;i++){const o=idb[i];if(o&&set.has(o)){d[i*4+3]=255;const x=i%Wp,y=(i-x)/Wp,b=bb[o]||(bb[o]={x0:x,y0:y,x1:x,y1:y});if(x<b.x0)b.x0=x;if(x>b.x1)b.x1=x;if(y<b.y0)b.y0=y;if(y>b.y1)b.y1=y}}mx.putImageData(img,0,0)}
+ RV.wxb=Object.values(bb).filter(b=>b.x1-b.x0>6&&b.y1-b.y0>6);RV.wxW=Wp;RV.wxH=Hp;roomWxStart()}
+function roomWxStart(){if(RV.wxr)return;let last=0;const st=t=>{if(!RV.wxc||!RV.wxc.isConnected){RV.wxr=0;return}RV.wxr=requestAnimationFrame(st);if(t-last<50)return;last=t;try{roomWxFrame(t)}catch(e){}};RV.wxr=requestAnimationFrame(st)}
+const wxH=i=>{let x=Math.imul(i^0x9e3779b9,0x85ebca6b);x^=x>>>13;x=Math.imul(x,0xc2b2ae35);x^=x>>>16;return(x>>>0)/4294967296};
+function roomWxFrame(t){const c=RV.wxc;if(c.width!==RV.wxW||c.height!==RV.wxH){c.width=RV.wxW||1;c.height=RV.wxH||1}const x=c.getContext("2d");x.clearRect(0,0,c.width,c.height);const B=RV.wxb||[];if(!B.length)return;
+ const cs=getComputedStyle(RV.cv),a=(cs.getPropertyValue("--ac")||"#fff").trim(),bg=(cs.getPropertyValue("--bg")||"#000").trim(),dp=c.width/(RV.cv.clientWidth||1),w=wxNow(),nt=isNight(),U={x0:1e9,y0:1e9,x1:-1,y1:-1};B.forEach(b=>{U.x0=Math.min(U.x0,b.x0);U.y0=Math.min(U.y0,b.y0);U.x1=Math.max(U.x1,b.x1);U.y1=Math.max(U.y1,b.y1)});
+ const UW=U.x1-U.x0,UH=U.y1-U.y0,big=B.slice().sort((p,q)=>(q.x1-q.x0)*(q.y1-q.y0)-(p.x1-p.x0)*(p.y1-p.y0))[0],bw=big.x1-big.x0,bh=big.y1-big.y0,R0=Math.max(4*dp,Math.min(bw,bh)*.17),sx=big.x0+bw*.68,sy=big.y0+bh*.32;
+ x.strokeStyle=a;x.fillStyle=a;x.lineCap="round";const A=v=>{x.globalAlpha=v};
+ const sun=()=>{A(.85);x.lineWidth=1.3*dp;x.beginPath();x.arc(sx,sy,R0,0,7);x.stroke();A(.25);x.beginPath();x.arc(sx,sy,R0*.72,0,7);x.fill();A(.7);x.beginPath();for(let i=0;i<10;i++){const q=i/10*Math.PI*2+t*.0003;x.moveTo(sx+Math.cos(q)*R0*1.35,sy+Math.sin(q)*R0*1.35);x.lineTo(sx+Math.cos(q)*R0*1.85,sy+Math.sin(q)*R0*1.85)}x.stroke()};
+ const moon=()=>{A(.9);x.lineWidth=1.2*dp;x.beginPath();x.arc(sx,sy,R0*.85,.6,Math.PI*2-.6+Math.PI*0);x.stroke();x.save();x.globalCompositeOperation="destination-out";A(1);x.beginPath();x.arc(sx+R0*.45,sy-R0*.2,R0*.75,0,7);x.fill();x.restore();
+  for(let i=0;i<22;i++){const px=U.x0+wxH(i*7+1)*UW,py=U.y0+wxH(i*7+2)*UH*.8,tw=.5+.45*Math.abs(Math.sin(t*.002+i));A(tw);x.fillRect(px,py,2*dp,2*dp)}};
+ const clouds=(n,al,dark)=>{for(let i=0;i<n;i++){const sp=.004+wxH(i+50)*.006,cx=U.x0+((wxH(i+40)*UW+t*sp*dp)%(UW+R0*6))-R0*2,cy=U.y0+UH*(.15+wxH(i+60)*.45),r=R0*(.8+wxH(i+70)*.7);A(al);x.beginPath();x.arc(cx,cy,r,0,7);x.arc(cx+r*.9,cy+r*.25,r*.75,0,7);x.arc(cx-r*.9,cy+r*.3,r*.65,0,7);x.arc(cx+r*.2,cy+r*.45,r*.8,0,7);x.fill();
+   if(!dark){A(al*2.2);x.lineWidth=dp;x.beginPath();x.arc(cx,cy,r,Math.PI*1.05,Math.PI*1.95);x.stroke()}}};
+ const rain=(n,sp)=>{A(.6);x.lineWidth=1*dp;x.beginPath();for(let i=0;i<n;i++){const px=U.x0+((wxH(i*3+1)*UW*1.3+t*sp*.25*dp)%(UW*1.3))-UW*.15,py=U.y0+((wxH(i*3+2)*UH+t*sp*dp)%(UH+12*dp))-12*dp;x.moveTo(px,py);x.lineTo(px-3*dp,py+11*dp)}x.stroke()};
+ const fog=()=>{A(.14);x.fillRect(U.x0,U.y0,UW,UH);A(.16);for(let k=0;k<4;k++){const yy=U.y0+UH*(.2+k*.22),o=Math.sin(t*.0005+k)*UW*.15;x.beginPath();x.ellipse(U.x0+UW*.5+o,yy,UW*.55,UH*.07,0,0,7);x.fill()}};
+ if(w==="solar"){A(.9);x.fillStyle=bg;x.beginPath();x.arc(sx,sy,R0,0,7);x.fill();x.fillStyle=a;x.lineWidth=2*dp;x.beginPath();x.arc(sx,sy,R0*1.05,0,7);x.stroke();A(.3);x.lineWidth=5*dp;x.beginPath();x.arc(sx,sy,R0*1.25,0,7);x.stroke()}
+ else if(w==="clear"||w==="heat"||w==="lunar"){if(nt&&w!=="lunar")moon();else{sun();if(w==="heat"){A(.35);x.lineWidth=dp;x.beginPath();for(let k=0;k<3;k++){const yy=U.y1-UH*(.12+k*.1);for(let xx=U.x0;xx<U.x1;xx+=2*dp){const v=yy+Math.sin(xx*.08/dp+t*.004+k)*2*dp;xx===U.x0?x.moveTo(xx,v):x.lineTo(xx,v)}}x.stroke()}}}
+ else if(w==="cloudy"){if(!nt){x.globalAlpha=.3;sun()}clouds(6,.24,false)}
+ else if(w==="fog")fog();
+ else if(w==="rain"){clouds(3,.12,true);rain(Math.round(UW*UH/(260*dp*dp)),.22)}
+ else if(w==="rainfog"){rain(Math.round(UW*UH/(320*dp*dp)),.2);fog()}
+ else if(w==="snow"){A(.85);for(let i=0;i<Math.round(UW*UH/(380*dp*dp));i++){const px=U.x0+((wxH(i*5+1)*UW+Math.sin(t*.001+i)*6*dp)%UW),py=U.y0+((wxH(i*5+2)*UH+t*.03*dp)%(UH+4*dp))-2*dp;x.beginPath();x.arc(px,py,(1+wxH(i)*1)*dp,0,7);x.fill()}}
+ else if(w==="storm"){clouds(4,.2,true);rain(Math.round(UW*UH/(200*dp*dp)),.3);const per=Math.floor(t/2600),ph=t-per*2600,on=wxH(per)<.55;
+  if(on&&ph<420){const f=ph<90?1:ph<160?.2:ph<260?.8:Math.max(0,1-(ph-260)/160);A(.55*f);x.fillRect(U.x0,U.y0,UW,UH);if(ph<300){A(.95);x.lineWidth=1.6*dp;x.beginPath();let bx=U.x0+UW*(.2+wxH(per+9)*.6),by=U.y0;x.moveTo(bx,by);while(by<U.y1){by+=UH*.12;bx+=(wxH(per*13+by)-.5)*UW*.18;x.lineTo(bx,by)}x.stroke()}}}
+ A(1);x.globalCompositeOperation="destination-in";x.drawImage(RV.wxm,0,0);x.globalCompositeOperation="source-over"}
 /* 확대: 기준점(화면 위 m, 캔버스 중심 기준)이 그대로 있도록 */
 function roomZoomAt(z,mx,my){const z0=RV.zoom;z=Math.max(1,Math.min(4,z));const vx=(mx-RV.px)/z0,vy=(my-RV.py)/z0;RV.zoom=z;RV.px=mx-vx*z;RV.py=my-vy*z;roomPanClamp()}
 function roomPanClamp(){const cv=RV.cv;if(!cv)return;if(RV.zoom<=1.001){RV.zoom=1;RV.px=RV.py=0}else{const lx=cv.clientWidth*RV.zoom*.45,ly=cv.clientHeight*RV.zoom*.45;RV.px=Math.max(-lx,Math.min(lx,RV.px));RV.py=Math.max(-ly,Math.min(ly,RV.py))}
  cv.style.touchAction=RV.edit||RV.zoom>1?"none":"pan-y"}
 function roomZoomBtn(f){roomZoomAt(RV.zoom*f,0,0);roomDraw(true)}
-function roomInitCv(){const cv=h("canvas",{c:"room3"});RV.cv=cv;let dr=null,pin=null;const pts=new Map(),rel=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left-r.width/2,e.clientY-r.top-r.height/2]};
+function roomInitCv(){const cv=h("canvas",{c:"room3"});RV.cv=cv;RV.wxc=h("canvas",{c:"room3wx"});RV.box=h("div",{c:"room3w"},cv,RV.wxc);let dr=null,pin=null;const pts=new Map(),rel=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left-r.width/2,e.clientY-r.top-r.height/2]};
  const pinMid=()=>{const a=[...pts.values()];return{m:[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2],d:Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1}};
  cv.addEventListener("pointerdown",e=>{pts.set(e.pointerId,rel(e));if(pts.size===2){if(dr&&dr.k==="it"&&dr.m)roomSave(RV.L);dr=null;const q=pinMid();pin={d0:q.d,z0:RV.zoom,m0:q.m,px0:RV.px,py0:RV.py}}},true);
  cv.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,rel(e));if(!pin||pts.size<2)return;e.stopImmediatePropagation();const q=pinMid(),z=Math.max(1,Math.min(4,pin.z0*q.d/pin.d0)),vx=(pin.m0[0]-pin.px0)/pin.z0,vy=(pin.m0[1]-pin.py0)/pin.z0;
@@ -3547,7 +3612,7 @@ function roomInitCv(){const cv=h("canvas",{c:"room3"});RV.cv=cv;let dr=null,pin=
   if(K.win){const w=it.w||0,dd=w%2===0?wy:wx;it.pos=Math.max(.3,Math.min(Room3D.WALL_L[w]-K.len-.3,q(dr.o.pos+dd)))}
   else{const[w,d]=Room3D.dims(it);it.x=Math.max(0,Math.min(Room3D.W-w,q(dr.o.x+wx)));it.y=Math.max(0,Math.min(Room3D.D-d,q(dr.o.y+wy)))}
   roomDraw(true,true)});
- const up=e=>{if(!dr)return;const d=dr;dr=null;if(d.k==="v"){if(!d.m&&!RV.edit&&e&&e.type==="pointerup"){const f=roomFloorAt(e);if(f)manWalk(f[0],f[1])}if(!d.m&&RV.edit&&RV.sel!=null){RV.sel=null;render(true)}roomDraw(true);return}
+ const up=e=>{if(!dr)return;const d=dr;dr=null;if(d.k==="v"){if(!d.m&&!RV.edit&&e&&e.type==="pointerup"){const ix=hit(e);if(ix==null||!manAct(ix)){const f=roomFloorAt(e);if(f){manStand();RV.mthen=null;manWalk(f[0],f[1])}}}if(!d.m&&RV.edit&&RV.sel!=null){RV.sel=null;render(true)}roomDraw(true);return}
   if(d.m)roomSave(RV.L);else if(d.was===d.idx){RV.sel=null;RV.L=null}render(true);roomDraw(true)};
  cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up)}
 function roomTurn(dir){const from=RV.ang,to=Math.round((RV.ang+dir*Math.PI/2-Math.PI/4)/(Math.PI/2))*(Math.PI/2)+Math.PI/4,t0=performance.now();cancelAnimationFrame(RV.anim);
@@ -3567,7 +3632,7 @@ function roomTake(i){const L=roomL(),s=(L.store||[])[i];if(!s)return;const K=Roo
  const it=K.win?{k:s.k,w:0,pos:4.2,r:0}:{k:s.k,x:Math.round((Room3D.BX/2-K.w/2)*2)/2,y:Math.round((Room3D.D/2-K.d/2)*2)/2,r:0};L.items.push(it);RV.sel=L.items.length-1;roomSave(L);toast(K.n+"을(를) 꺼냈어요 · 화살표로 옮겨 보세요");render(true)}
 function roomReset(){if(Date.now()-RV.arm>4000){RV.arm=Date.now();return toast("한 번 더 누르면 처음 배치로 되돌려요")}RV.arm=0;RV.sel=null;roomSave(clone(Room3D.DEF_ROOM));render(true)}
 function rMyRoom(v){if(!RV.cv)roomInitCv();const L=roomL(),ib=(p,fn,t)=>h("button",{c:"rvb",type:"button",title:t,"aria-label":t,onclick:()=>wrap(fn)},svgI(p));
- const c=h("div",{c:"card roomc"},h("div",{c:"row sb"},h("h3",{t:me.house?"우리 집":"내 방"}),h("span",{c:"xs mt",t:RV.edit?"가구를 눌러서 고르세요":"눌러서 걷기 · 끌어서 돌리기 · 두 손가락 확대"})),RV.cv,
+ const c=h("div",{c:"card roomc"},h("div",{c:"row sb"},h("h3",{t:me.house?"우리 집":"내 방"}),h("span",{c:"xs mt",t:RV.edit?"가구를 눌러서 고르세요":"바닥·가구를 눌러 보기 · 끌어서 돌리기 · 두 손가락 확대"})),RV.box,
   h("div",{c:"rvbar"},ib(IC_ROTL,()=>roomTurn(1),"왼쪽으로 돌리기"),ib(IC_ROTR,()=>roomTurn(-1),"오른쪽으로 돌리기"),ib(IC_ZIN,()=>roomZoomBtn(1.4),"확대"),ib(IC_ZOUT,()=>roomZoomBtn(1/1.4),"축소"),h("span",{c:"grow"}),btn(RV.edit?"배치 끝내기":"가구 배치",()=>{RV.edit=!RV.edit;RV.sel=null;render(true)},"sm"+(RV.edit?" pri":""))));
  roomPanClamp();
  if(RV.edit){const it=RV.sel!=null&&L.items[RV.sel],K=it&&Room3D.FK[it.k];
