@@ -65,7 +65,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 .mb{flex:1;height:8px;background:var(--sf);border:1px solid var(--ln);border-radius:4px;overflow:hidden}.mb i{display:block;height:100%;background:var(--ac)}
 .stat button{width:38px;padding:6px 0}
 .mapw{border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:8px}
-.holow{position:relative}.holow canvas.holo{display:block;width:100%;height:min(56vh,500px);min-height:300px;touch-action:none;cursor:grab}
+.holow{position:relative}.holow canvas.holo{display:block;width:100%;height:min(44vh,400px);min-height:250px;touch-action:none;cursor:grab}
 .hmt{position:absolute;right:8px;top:8px;display:flex;gap:5px;z-index:2}.hmb{display:flex;align-items:center;justify-content:center;min-width:30px;height:28px;padding:0 8px;font-size:11px;font-weight:500;letter-spacing:.04em;border-radius:3px;border:1px solid rgba(var(--acr),.55);background:rgba(var(--acr),.08);color:var(--ac);box-shadow:0 0 8px rgba(var(--acr),.25) inset}.hmb svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
 .mapw .ms{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.map{display:block;height:min(86vw,40vh);width:auto;max-width:none}
 .nd{cursor:pointer}
@@ -415,7 +415,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114015921";
+const BUILD="20261114035516";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -966,7 +966,7 @@ async function doCreate(){
  const s0=await db.doc("chars/"+uid).get(),rd=s0.exists?s0.data():null;if(rd&&!rd.reset)return crErr("이미 캐릭터가 있습니다 — 새로고침해 주세요");
  const s=ROLE[cr.role].base.map((b,i)=>b+cr.pts[i]);
  const c={name,role:cr.role,s,sp:0,sv:3,gear:[],attr:rd?rd.attr:ATTR[ri(7)],rv:2,grade:rd?rd.grade:pickW(GR.map((g,i)=>[g,GW[i]])),asub:(rd&&rd.asub)||0,born:Date.now(),dose:(rd&&rd.dose)||0,doseStep:(rd&&rd.doseStep)||0,od:(rd&&rd.od)||null,ail:{},lv:1,exp:0,tan:100,bank:0,blog:[],memos:[],num:rd&&rd.num?rd.num:newNum(),inv:{bandage:2},eq:{},loc:"base",spot:"plaza",trip:null,guild:null,party:null,bio:"",photo:"",lastB:0,con:0,quar:false,ts:Date.now()};
- c.hp=maxHp(c);c.en=MAXEN;c.mp=maxMp(c);{let a=null;try{a=localStorage.getItem(agreeKey())}catch(e){}if(a)c.agree=+a||Date.now()}await db.doc("chars/"+uid).set(c);toast("각성: "+c.attr+" 속성 "+c.grade+"등급! 내 번호 "+fnum(c.num));tab="me";
+ c.hp=maxHp(c);c.en=MAXEN;c.mp=maxMp(c);{let a=null;try{a=localStorage.getItem(agreeKey())}catch(e){}if(!a&&typeof resetDoc!=="undefined"&&resetDoc&&resetDoc.agree)a=resetDoc.agree;if(a)c.agree=+a||Date.now()}await db.doc("chars/"+uid).set(c);toast("각성: "+c.attr+" 속성 "+c.grade+"등급! 내 번호 "+fnum(c.num));tab="me";
 }
 let migr=false;
 function migrate(){if(!me||migr)return;const p={};
@@ -1927,7 +1927,7 @@ function resetCard(){return h("div",{c:"card",style:"border-color:var(--bad)"},h
 async function doReset(){if(inB())return toast("전투 중에는 초기화할 수 없습니다");if(me.trip)return toast("이동 중에는 초기화할 수 없습니다");
  if(me.party&&parties[me.party])await leaveParty().catch(()=>{});
  if(me.guild&&guilds[me.guild]){const gid=me.guild,g=guilds[gid];await gmut(gid,q=>{q.members=q.members.filter(x=>x!==uid);q.officers=(q.officers||[]).filter(x=>x!==uid);if(q.leader===uid&&q.members.length)q.leader=q.members[0]});if(g.members.filter(x=>x!==uid).length===0)await db.doc("guilds/"+gid).delete()}
- const keep={reset:true,attr:me.attr,grade:me.grade,num:me.num,t:Date.now(),asub:me.asub||0,dose:me.dose||0,doseStep:me.doseStep||0,od:me.od||null};await db.doc("chars/"+uid).set(keep);
+ const keep={reset:true,agree:me.agree||null,attr:me.attr,grade:me.grade,num:me.num,t:Date.now(),asub:me.asub||0,dose:me.dose||0,doseStep:me.doseStep||0,od:me.od||null};await db.doc("chars/"+uid).set(keep);
  cr={name:"",role:"tank",pts:[0,0,0,0,0,0],ok:false};resetArm=false;hidePhone();closeAsk();tab="map";msub="info";toast("캐릭터를 초기화했습니다. 처음부터 다시 만들어 주세요.")}
 function statCards(v){
  const cp=capOf(me.lv),sp=me.sp||0,st=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"스탯"}),h("span",{c:"sm "+(sp?"gold":"mt"),t:"포인트 "+sp})));
@@ -3189,7 +3189,7 @@ async function relRun(now){
 /* 운영자: 캐릭터 살리기 (실종·격리 해제, HP·MP·에너지 가득, 중앙 거점으로) */
 async function gmRevive(id){const c=id===uid?me:chars[id];if(!c)return toast("캐릭터가 없어요");const p={mis:null,hosp:null,loc:"base",spot:"plaza",sg:null,trip:null,gx:null};
  const m=c.mis;if(m&&m.kr&&m.kr.length&&!gates[krpId(id,m.t)])p.krs=(c.krs||[]).concat(m.kr.map(k=>{const z={id:"k"+Date.now().toString(36)+ri(1e5),b:k.b};if(k.pm)z.pm=k.pm;return z}));
- if(id===uid)await upd(Object.assign(p,{ts:Date.now()}));else await db.doc("chars/"+id).update(Object.assign(p,{hp:maxHp(c),mp:maxMp(c),en:MAXEN,ts:Date.now()}));
+ if(id===uid)await upd(Object.assign(p,{ts:Date.now()}));else{await db.doc("chars/"+id).update(Object.assign(p,{hp:maxHp(c),mp:maxMp(c),en:MAXEN,ts:Date.now()}));if(window.__pubPick)db.doc("pub/"+id).update(Object.assign(__pubPick(p),{pt:Date.now()})).catch(()=>{})}
  if(id===uid)await db.doc("chars/"+uid).update({hp:maxHp(me),mp:maxMp(me),en:MAXEN,ts:Date.now()});toast(c.name+" 캐릭터를 살렸어요 · 중앙 거점 광장")}
 /* ===== 집세 (매주 월요일 0시 청구 · 은행 앱에서 납부) · 은행 예금 이자 (하루 5%) ===== */
 const RENT=300,BINT=.05,kweek=t=>Math.floor((kday(t)+3)/7),wkStart=w=>(w*7-3)*DAY_MS-KO;
@@ -3640,6 +3640,8 @@ function roomWxFrame(t){const c=RV.wxc;if(c.width!==RV.wxW||c.height!==RV.wxH){c
  else if(w==="storm"){clouds(4,.2,true);rain(Math.round(UW*UH/(200*dp*dp)),.3);const per=Math.floor(t/2600),ph=t-per*2600,on=wxH(per)<.55;
   if(on&&ph<420){const f=ph<90?1:ph<160?.2:ph<260?.8:Math.max(0,1-(ph-260)/160);A(.55*f);x.fillRect(U.x0,U.y0,UW,UH);if(ph<300){A(.95);x.lineWidth=1.6*dp;x.beginPath();let bx=U.x0+UW*(.2+wxH(per+9)*.6),by=U.y0;x.moveTo(bx,by);while(by<U.y1){by+=UH*.12;bx+=(wxH(per*13+by)-.5)*UW*.18;x.lineTo(bx,by)}x.stroke()}}}
  A(1);x.globalCompositeOperation="destination-in";x.drawImage(RV.wxm,0,0);x.globalCompositeOperation="source-over"}
+/* 방 바닥 가운데의 화면 위치 (CSS px) · 바닥 원이 납작해 보이는 비율 */
+function roomCtr(){const P=RV.pick,cv=RV.cv;if(!P||!P.C||!cv)return null;const r=cv.getBoundingClientRect(),k=P.Wp/r.width,PHI=Math.asin(1/Math.sqrt(3));return[r.left+P.ox/k,r.top+(P.oy+P.C[2]*Math.cos(PHI)*P.sc)/k,Math.sin(PHI)]}
 /* 확대: 기준점(화면 위 m, 캔버스 중심 기준)이 그대로 있도록 */
 function roomZoomAt(z,mx,my){const z0=RV.zoom;z=Math.max(1,Math.min(4,z));const vx=(mx-RV.px)/z0,vy=(my-RV.py)/z0;RV.zoom=z;RV.px=mx-vx*z;RV.py=my-vy*z;roomPanClamp()}
 function roomPanClamp(){const cv=RV.cv;if(!cv)return;if(RV.zoom<=1.001){RV.zoom=1;RV.px=RV.py=0}else{const lx=cv.clientWidth*RV.zoom*.45,ly=cv.clientHeight*RV.zoom*.45;RV.px=Math.max(-lx,Math.min(lx,RV.px));RV.py=Math.max(-ly,Math.min(ly,RV.py))}
@@ -3657,9 +3659,9 @@ function roomInitCv(){const cv=h("canvas",{c:"room3"});RV.cv=cv;RV.wxc=h("canvas
   for(let k=0;k<=4;k++)for(let dy=-k;dy<=k;dy++)for(let dx=-k;dx<=k;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==k)continue;const xx=x+dx,yy=y+dy;if(xx<0||yy<0||xx>=P.Wp||yy>=P.Hp)continue;const o=P.idb[yy*P.Wp+xx];if(P.map[o]!=null)return P.map[o]}return null};
  cv.addEventListener("pointerdown",e=>{if(pin||pts.size>1)return;const idx=RV.edit?hit(e):null;try{cv.setPointerCapture(e.pointerId)}catch(_){}
   if(idx!=null){const L=roomL(),it=L.items[idx];RV.L=L;dr={k:"it",x:e.clientX,y:e.clientY,idx,o:{...it},m:false,was:RV.sel};if(RV.sel!==idx){RV.sel=idx;roomDraw(true,true)}}
-  else dr={k:"v",x:e.clientX,y:e.clientY,a:RV.ang,m:false}});
+  else{const c=roomCtr(),th=c?Math.atan2((e.clientY-c[1])/c[2],e.clientX-c[0]):0,far=c&&Math.hypot(e.clientX-c[0],(e.clientY-c[1])/c[2])>28;dr={k:"v",x:e.clientX,y:e.clientY,a:RV.ang,m:false,c,th,acc:0,far}}});
  cv.addEventListener("pointermove",e=>{if(!dr||pin)return;if(Math.hypot(e.clientX-dr.x,e.clientY-dr.y)>5)dr.m=true;if(!dr.m)return;
-  if(dr.k==="v"){RV.ang=dr.a+(e.clientX-dr.x)*.012;return roomDraw(false,true)}
+  if(dr.k==="v"){if(dr.far){const th=Math.atan2((e.clientY-dr.c[1])/dr.c[2],e.clientX-dr.c[0]);let d=th-dr.th;if(d>Math.PI)d-=Math.PI*2;if(d<-Math.PI)d+=Math.PI*2;dr.acc+=d;dr.th=th;RV.ang=dr.a-dr.acc}else RV.ang=dr.a+(e.clientX-dr.x)*.012;return roomDraw(false,true)}
   const P=RV.pick,L=RV.L,it=L&&L.items[dr.idx];if(!P||!it)return;const r=cv.getBoundingClientRect(),k=P.Wp/r.width,Xn=(e.clientX-dr.x)*k/P.sc,Yn=(e.clientY-dr.y)*k/P.sc,a=RV.ang,sf=1/Math.sqrt(3),
    wx=Math.sin(a)*Xn+Math.cos(a)*Yn/sf,wy=-Math.cos(a)*Xn+Math.sin(a)*Yn/sf,q=v=>Math.round(v*4)/4,K=Room3D.FK[it.k];
   if(K.win){const w=it.w||0,dd=w%2===0?wy:wx;it.pos=Math.max(.3,Math.min(Room3D.WALL_L[w]-K.len-.3,q(dr.o.pos+dd)))}
@@ -3928,7 +3930,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;const k=V.dist/cv.clientHeight*1.1,ca=Math.cos(V.yaw),sa=Math.sin(V.yaw);
    V.x=Math.max(0,Math.min(W0.MW,g0.x-(dx*ca+dy*sa/Math.sin(V.pitch))*k));V.y=Math.max(0,Math.min(W0.MH,g0.y-(-dx*sa+dy*ca/Math.sin(V.pitch))*k))}
   else if(a.length===2){moved=true;const d0=Math.hypot(g0.a[0][0]-g0.a[1][0],g0.a[0][1]-g0.a[1][1]),d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),an0=Math.atan2(g0.a[1][1]-g0.a[0][1],g0.a[1][0]-g0.a[0][0]),an1=Math.atan2(a[1][1]-a[0][1],a[1][0]-a[0][0]),my0=(g0.a[0][1]+g0.a[1][1])/2,my1=(a[0][1]+a[1][1])/2;
-   V.dist=Math.max(18,Math.min(150,g0.dist*d0/Math.max(20,d1)));V.yaw=g0.yaw-(an1-an0);V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+(my1-my0)*.004))}});
+   V.dist=Math.max(18,Math.min(150,g0.dist*d0/Math.max(20,d1)));V.yaw=g0.yaw+(an1-an0);V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+(my1-my0)*.004))}});
  const up=e=>{const was=pts.has(e.pointerId);pts.delete(e.pointerId);g0=snap();if(was&&!moved&&e.type==="pointerup"&&!pts.size){const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=28;pk.forEach(q=>{const d=Math.hypot(q.x-mx,q.y-my)-(q.g?8:0);if(d<bd){bd=d;best=q}});if(best&&o.onPick)o.onPick(best.k,best.id)}};
  cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
  cv.addEventListener("wheel",e=>{e.preventDefault();V.dist=Math.max(18,Math.min(150,V.dist*Math.exp(e.deltaY*.0012)))},{passive:false});
@@ -3955,14 +3957,16 @@ function mapLive(){if(!me)return{};const sel=selReg||me.loc,lk={},nb={};Object.k
 function mapHolo(){if(MAPH)return MAPH;const cv=h("canvas",{c:"holo"});MAPH=Holo.create(cv,{REG,CONT,ROADS,MW},{live:mapLive,onPick:(k,id)=>{if(k==="reg")pickRegion(id);else if(k==="gate"){const g=liveGates().find(x=>x.id===id);if(g)gatePop(g)}else if(k==="surv")survPop()}});return MAPH}
 function mapBox(sel){const H=mapHolo(),go=()=>{const R=REG[me.trip?me.trip.to:me.loc]||REG.base;Object.assign(H.V,{x:R.x,y:R.y+4,dist:Math.min(Math.max(H.V.dist,40),75),yaw:0,pitch:.92})};if(!H.init){H.init=1;go()}H.start();
  const ib=(p,fn,t)=>h("button",{c:"hmb",type:"button",title:t,"aria-label":t,onclick:fn},svgI(p));
- const tools=h("div",{c:"hmt"},h("button",{c:"hmb",type:"button",onclick:go,t:"내 위치"}),ib(IC_ROTL,()=>{H.V.yaw+=Math.PI/6},"왼쪽으로 돌리기"),ib(IC_ROTR,()=>{H.V.yaw-=Math.PI/6},"오른쪽으로 돌리기"),ib(IC_ZIN,()=>{H.V.dist=Math.max(18,H.V.dist/1.3)},"확대"),ib(IC_ZOUT,()=>{H.V.dist=Math.min(150,H.V.dist*1.3)},"축소"));
+ const tools=h("div",{c:"hmt"},h("button",{c:"hmb",type:"button",onclick:go,t:"내 위치"}),ib(IC_ROTL,()=>{H.V.yaw-=Math.PI/6},"왼쪽으로 돌리기"),ib(IC_ROTR,()=>{H.V.yaw+=Math.PI/6},"오른쪽으로 돌리기"),ib(IC_ZIN,()=>{H.V.dist=Math.max(18,H.V.dist/1.3)},"확대"),ib(IC_ZOUT,()=>{H.V.dist=Math.min(150,H.V.dist*1.3)},"축소"));
  const lg=h("div",{c:"legend"});[["안전",0],["Lv1~2",1],["Lv3~5",3],["Lv6~9",6],["Lv10~29",10],["Lv30~59",30],["Lv60+",60]].forEach(([n,l])=>lg.append(h("span",{},h("i",{style:"border:1px solid "+dcol(l)}),n)));
  return h("div",{c:"mapw holow"},H.cv,tools,lg)}
 let mySubs=()=>{},needMarket=()=>{},needWar=()=>{},lazyTick=()=>{};
+/* 공개 요약에서 빼는 것 (자주 바뀌거나 나만 쓰는 것) */
+const PUB_SKIP=new Set(["inv","gear","tan","bank","en","mp","hp","con","ts","exp","gx","loan","debt","rent","rdebt","bint","certs","memos","mq","dose","doseStep","store","room3","beads","sp","claim","eco","lastEco"]);
 /* ===== 채팅 열람 동의 (처음 한 번 · 동의해야 플레이) ===== */
 const AGREE_T="안전한 서비스 운영과 신고 처리를 위해 채팅 내역이 열람될 수 있습니다. 다만, 열람은 신고 접수 시에만 제한적으로 진행되며 평상시에는 어떠한 경우에도 임의로 열람하거나 감시하지 않습니다.",AGREE_S="안전한 서비스 운영과 신고 처리를 위해 관련 신고 접수 시 채팅 내역이 열람될 수 있습니다.";
 const agreeKey=()=>"af_agree_"+(uid||"");
-function agreedNow(){if(me)return!!me.agree;try{return!!localStorage.getItem(agreeKey())}catch(e){return false}}
+function agreedNow(){if(me)return!!me.agree;if(typeof resetDoc!=="undefined"&&resetDoc&&resetDoc.agree)return true;try{return!!localStorage.getItem(agreeKey())}catch(e){return false}}
 function agreeCheck(){if(!uid||(window.__gmView&&__gmView()))return;let o=document.getElementById("agree");if(agreedNow()){if(o)o.remove();return}if(o)return;
  const ck=h("input",{type:"checkbox",id:"agck"}),ok=h("button",{c:"pri full",type:"button",disabled:true,t:"확인",onclick:()=>wrap(async()=>{if(!ck.checked)return;try{localStorage.setItem(agreeKey(),String(Date.now()))}catch(e){}if(me&&!me.agree)await upd({agree:Date.now()});const x=document.getElementById("agree");if(x)x.remove();render(true)})});
  ck.onchange=()=>{ok.disabled=!ck.checked;ok.classList.toggle("on",ck.checked)};
@@ -4059,12 +4063,24 @@ initRadio();
  uid=await user.id();canGM=!!user.canEdit();const er=e=>note("데이터를 불러오지 못했습니다: "+errT(e));
  claude.use("room").then(r=>{if(!r)return;rm=r;try{rm.on("call",onCall,()=>{});rm.onPeers(c=>{peerSet=new Set(c.peers.map(p=>p.by||(p.presence&&p.presence.u)).filter(Boolean));calcOnline();phRefresh();if(rdOn&&rc.st==="idle")rdRender();if(tab==="guild"||tab==="map")rq()},()=>{});rm.presence({u:uid}).catch(()=>{})}catch(e){rm=null}}).catch(()=>{});
  const lst=(path,lim,fn,ids)=>db.collection(path).orderBy("t","desc").limit(lim).onSnapshot(s=>fn(s.docs.map(d=>ids?Object.assign({id:d.id},d.data()):d.data()).reverse()),er);
- db.collection("chars").onSnapshot(s=>{const mine=s.docChanges().some(c=>c.doc.id===uid);chars={};let m0=null;s.docs.forEach(d=>{const x=d.data();if(d.id===uid)m0=x;if(!x.reset)chars[d.id]=x});me=m0&&!m0.reset?m0:null;resetDoc=m0&&m0.reset?m0:null;ld.c=1;
+ /* 캐릭터: 내 문서는 실시간 · 남의 캐릭터는 접속할 때 한 번 받고, 바뀌는 건 공개 요약(pub)으로만 받음
+    (가방 · 돈 · HP·MP·에너지 · 경험치처럼 자주 바뀌는 건 공개 요약에 안 올림 → 내가 움직일 때마다 모두에게 읽기가 생기지 않음) */
+ const BASE={},PUB={};let meDoc,lastPubSig="",pubT=0;const usePub=typeof db.collection("chars").where==="function";
+ const pubPick=x=>{const o={};for(const k in x)if(!PUB_SKIP.has(k))o[k]=x[k];if(x.hp!=null)o.hp=Math.round(x.hp);return o};
+ const pubSync=()=>{if(!usePub||!meDoc)return;const o=pubPick(meDoc),{hp,...rest}=o,sig=JSON.stringify(rest);if(sig===lastPubSig)return;lastPubSig=sig;clearTimeout(pubT);pubT=setTimeout(()=>{db.doc("pub/"+uid).set(Object.assign(o,{pt:Date.now()})).catch(()=>{lastPubSig=""})},700)};
+ window.__pubPick=pubPick;
+ const charsIn=(mine)=>{if(meDoc===undefined)return;chars={};const ids=new Set([...Object.keys(BASE),...Object.keys(PUB)]);ids.forEach(id=>{if(id===uid)return;const x=Object.assign({},BASE[id]||{},PUB[id]||{});if(x.reset||!x.name)return;chars[id]=x});
+  const m0=meDoc||null;if(m0&&!m0.reset)chars[uid]=m0;me=m0&&!m0.reset?m0:null;resetDoc=m0&&m0.reset?m0:null;if(meDoc!==undefined)ld.c=1;charsAfter(mine)};
+ if(usePub){db.collection("chars").get().then(sn=>{sn.docs.forEach(d=>{if(d.id!==uid)BASE[d.id]=d.data()});charsIn(false)}).catch(er);
+  db.doc("chars/"+uid).onSnapshot(d=>{meDoc=d.exists?d.data():null;charsIn(true);pubSync()},er);
+  db.collection("pub").onSnapshot(sn=>{for(const k in PUB)delete PUB[k];sn.docs.forEach(d=>{if(d.id!==uid)PUB[d.id]=d.data()});charsIn(false)},er)}
+ else db.collection("chars").onSnapshot(sn=>{const mine=sn.docChanges().some(c=>c.doc.id===uid);sn.docs.forEach(d=>{if(d.id===uid)meDoc=d.data();else BASE[d.id]=d.data()});if(!sn.docs.some(d=>d.id===uid))meDoc=null;charsIn(mine)},er);
+ function charsAfter(mine){
   if(me){if(me.loc!==lastLoc){const first=lastLoc===null;lastLoc=me.loc;selReg=me.loc;mapCont=null;showSpots=false;
     if(phoneOn&&ph.scr==="chat"&&ph.room==="rp")phRender()}
    migrate();if(freqs.length)procFreq().catch(()=>{});if(claimExp!==null&&me.bank===claimExp)claimExp=null;claimPayouts();
    if(pendEnc&&me.loc===pendEnc&&!me.trip){pendEnc=null;encounter().catch(e=>toast("전투 오류: "+errT(e)))}}
-  phRefresh();updDot();bsub();settleCheck();syncSoon();mySubs();if(mine||["guild","battle"].includes(tab)||!me)rq()},er);
+  phRefresh();updDot();bsub();settleCheck();syncSoon();mySubs();if(mine||["guild","battle"].includes(tab)||!me)rq()}
  db.collection("guilds").onSnapshot(s=>{guilds={};s.docs.forEach(d=>guilds[d.id]=d.data());ld.g=1;mySubs();syncSoon();phRefresh();if(tab==="guild")rq()},er);
  db.collection("parties").onSnapshot(s=>{parties={};s.docs.forEach(d=>parties[d.id]=d.data());ld.p=1;mySubs();syncSoon();phRefresh();if(tab==="battle")rq()},er);
  lst("rp",80,a=>{rp=a;onMsg()});
