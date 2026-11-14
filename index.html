@@ -78,7 +78,10 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 #view{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 12px}
 #view.chat{display:flex;flex-direction:column;overflow:hidden}
 #view.anim>*{animation:fi .25s ease}@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-#nav{display:none;border-top:1px solid var(--bd);background:var(--bg)}
+#nav{display:none;border-top:1px solid var(--bd);background:var(--bg);position:relative;z-index:9}
+#dtabs{display:none;flex:none;gap:5px;padding:0 10px;height:32px;align-items:flex-end;background:transparent;position:relative;z-index:10;margin-bottom:-1px}
+#dtabs>button{position:relative!important;left:auto!important;top:auto!important;right:auto!important;width:58px!important;height:30px!important;margin:0!important;padding:0!important;display:flex!important;align-items:center;justify-content:center;border:1px solid var(--bd)!important;border-bottom:1px solid var(--bg)!important;border-radius:10px 10px 0 0!important;background:var(--sf);box-shadow:none!important;touch-action:manipulation!important;transform:none!important}
+#dtabs>button svg{width:20px!important;height:20px!important}#dtabs>button.act{background:rgba(var(--acr),.2)}#dtabs>button i{top:3px!important;right:6px!important}
 #nav button{flex:1;border:0;border-radius:0;background:transparent;padding:14px 2px;font-size:13px;color:var(--mt);font-weight:600}
 #nav button.on{color:var(--ac2);background:rgba(var(--acr),.12)}
 .card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
@@ -448,6 +451,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 <div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button></header>
 <div id="notice"></div>
 <main id="view"><p class="mt">불러오는 중…</p></main>
+<div id="dtabs"></div>
 <nav id="nav"></nav>
 <div id="toast"></div>
 <div id="ask"></div>
@@ -473,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114163633";
+const BUILD="20261114173205";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -737,14 +741,18 @@ function applySet(){const L=!SET.night;if(!LTH[SET.lth])SET.lth="sand";if(!NTH[S
  const th=CU?(L?"sand":""):L?SET.lth:SET.theme==="red"?"":SET.theme,ch=document.documentElement.dataset.th!==th,LL=L&&!DARKL.includes(th);document.documentElement.dataset.th=th;CKA=LL?"120,110,100":"150,150,155";CKB=LL?"80,72,64":"205,205,210";$("#crack").classList.toggle("off",!SET.crack);if(ch&&$("#crsvg"))try{drawCracks()}catch(e){}}
 let actx=null;
 function beep(f,d,v,type,delay){if(!SET.sfx)return;beep0(f,d,v,type,delay)}
-function beep0(f,d,v,type,delay){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t=actx.currentTime+(delay||0),o=actx.createOscillator(),g=actx.createGain();o.type=type||"square";o.frequency.value=f;g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
+function aCx(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}return actx}
+["pointerdown","touchend","keydown"].forEach(ev=>addEventListener(ev,()=>{const c=aCx();if(!c)return;if(c.state!=="running")c.resume().catch(()=>{});if(!c._u){c._u=1;try{const b=c.createBuffer(1,1,22050),q=c.createBufferSource();q.buffer=b;q.connect(c.destination);q.start(0)}catch(e){}}},{capture:true,passive:true}));
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&actx&&actx.state!=="running")actx.resume().catch(()=>{})});
+function beep0(f,d,v,type,delay){const c=aCx();if(!c)return;if(c.state!=="running"){c.resume().then(()=>beep1(f,d,v,type,delay)).catch(()=>{});return}beep1(f,d,v,type,delay)}
+function beep1(f,d,v,type,delay){try{const t=actx.currentTime+(delay||0),o=actx.createOscillator(),g=actx.createGain();o.type=type||"square";o.frequency.value=f;g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
 /* 휴대폰 · 무전기 · 삐삐 소리: 소리(소리+진동) · 진동(진동만) · 무음 */
 const pMode=()=>SET.pmode||"snd";
 const pbeep=(f,d,v,type,delay)=>{if(pMode()==="snd")beep0(f,d,v,type,delay)};
 const pvib=p=>{if(pMode()==="mute")return;try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 const sKey=d=>pbeep(700+("123456789*0#".indexOf(d)+1)*45,.07,.03);
-const pTap=()=>pbeep(1250,.035,.022,"sine"),rTap=()=>pbeep(620,.03,.03,"square"),gTap=()=>pbeep(1900,.025,.018,"square");
-function noise(d,f,v,delay){if(pMode()!=="snd")return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const n=Math.round(actx.sampleRate*d),b=actx.createBuffer(1,n,actx.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=(Math.random()*2-1)*(1-i/n);
+const sDevOn=()=>{pbeep(1480,.08,.04,"square");pvib(15)},pTap=()=>pbeep(1250,.035,.022,"sine"),rTap=()=>pbeep(620,.03,.03,"square"),gTap=()=>pbeep(1900,.025,.018,"square");
+function noise(d,f,v,delay){if(pMode()!=="snd")return;try{actx=aCx();if(!actx)return;if(actx.state!=="running")actx.resume().catch(()=>{});const n=Math.round(actx.sampleRate*d),b=actx.createBuffer(1,n,actx.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=(Math.random()*2-1)*(1-i/n);
  const s=actx.createBufferSource(),bp=actx.createBiquadFilter(),g=actx.createGain(),t=actx.currentTime+(delay||0);s.buffer=b;bp.type="bandpass";bp.frequency.value=f;bp.Q.value=.9;g.gain.value=v;s.connect(bp).connect(g).connect(actx.destination);s.start(t)}catch(e){}}
 const sRadio=()=>{noise(.07,2600,.5);noise(.12,1700,.55,.1)};/* 치칙 */
 const sAnswer=()=>pbeep(1600,.13,.05,"square");/* 삑 */
@@ -1071,16 +1079,16 @@ function applyTop(){$("#top").classList.toggle("min",topMin);$("#tgl").setAttrib
 $("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
 /* 휴대폰 아이콘: 끌어서 아무 데나 옮기기 · 위치는 이 기기에 저장 · 휴대폰은 아이콘 옆에 열림 */
 let ptPos=null;try{ptPos=JSON.parse(localStorage.getItem("af_ptab")||"null")}catch(e){}
-function applyPtab(){const t=$("#ptab");if(!t)return;if(!ptPos||typeof ptPos.x!=="number"){t.classList.remove("free");t.style.left=t.style.top="";return}
+const TAB_DOCK=true;
+function applyPtab(){if(TAB_DOCK)ptPos=null;const t=$("#ptab");if(!t)return;if(!ptPos||typeof ptPos.x!=="number"){t.classList.remove("free");t.style.left=t.style.top="";return}
  t.classList.add("free");t.classList.toggle("sl",ptPos.side==="l");t.classList.toggle("sr",ptPos.side==="r");const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;
  t.style.left=(ptPos.side==="l"?0:ptPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,ptPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,ptPos.y*H)))+"px"}
 function placePhone(){const P=$("#phone"),t=$("#ptab");if(!P||!t||P.style.display!=="block")return;if(devFix("phone"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw=P.offsetWidth,phh=P.offsetHeight;
- let x=r.right+6;if(x+pw>W-4){x=r.left-6-pw;if(x<4)x=Math.max(4,Math.min(W-pw-4,r.left+r.width/2-pw/2))}
- const y=Math.max(4,Math.min(H-phh-4,r.top+r.height/2-phh/2));P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
+ const x=Math.max(4,Math.min(W-pw-4,r.left)),y=Math.max(4,r.top-phh-6);P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
 function resetPtab(){ptPos=null;try{localStorage.removeItem("af_ptab")}catch(e){}applyPtab();placePhone()}
 (()=>{const t=$("#ptab");let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
- t.addEventListener("pointermove",e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;
+ t.addEventListener("pointermove",e=>{if(!st||TAB_DOCK)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;
   if(!moved){moved=true;t.classList.add("drag")}ptPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyPtab();placePhone()});
  const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();/* 화면 가장자리 근처에 놓으면 찰싹 붙음 */
   const r=t.getBoundingClientRect(),W=innerWidth;if(r.left<40||r.right>W-40){ptPos.side=r.left+r.width/2<W/2?"l":"r";t.classList.add("snap");applyPtab();placePhone();setTimeout(()=>{t.classList.remove("snap");placePhone()},200)}
@@ -1099,8 +1107,8 @@ function render(force){try{agreeCheck()}catch(e){}try{tutCheck()}catch(e){}try{f
  if(force!==true&&me&&$("#feed")&&tab==="guild"){updFeed();return}
  const sc=v.scrollTop,pk=chatKey,pv=$("#msg")?$("#msg").value:"",tc=lastTab!==tab;lastTab=tab;chatKey=null;v.textContent="";v.className="";
  if(window.__gmRender&&__gmRender(v)){nav.style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";return}
- if(!me){nav.style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";if(ld.c)rCreate(v);return}
- nav.style.display="flex";$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
+ if(!me){nav.style.display="none";$("#dtabs").style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";if(ld.c)rCreate(v);return}
+ nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));
  v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();return}if(chatHub){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle")?rLock:{map:rMap,battle:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab])(v);if(tc)v.classList.add("anim");
  if(me.trip&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")}),h("span",{t:"도착할 때까지 채팅만 할 수 있어요"})))}
@@ -2016,9 +2024,25 @@ function itemPop(k){const i=IT[k],n=me.inv[k]||0;if(!n)return closePop();
  if(i.learn&&(me.rcp||[]).includes(i.learn)&&mmRcpR(i.learn)!=null)acts.append(btn("분해",()=>wrap(async()=>{await dismRcp(k);me.inv[k]?itemPop(k):closePop()}),"grow"));
  if(i.slot)acts.append(btn("장착",async()=>{await equipItem(k);closePop()},"pri grow"));
  acts.append(btn("닫기",closePop,"grow"));
+ const acts2=h("div",{style:"display:flex;flex-direction:column;gap:6px;margin-top:12px"});
+ if(atBase()){acts2.append(btn("보관함에 수납 ("+n+"개 전부)",()=>{closePop();wrap(()=>stoMove(k,n,true))},"full"));if(myG()&&!i.noex)acts2.append(btn("길드 창고에 수납 ("+n+"개 전부)",()=>{closePop();wrap(()=>gStoMove(k,n,true))},"full"))}
+ if(sellP(k))acts2.append(btn("상점에 판매 · 개당 "+won(sellP(k))+"환",()=>sellPop(k),"full"));
  const src=itemSrc(k);
  openPop(i.ico?h("div",{c:"pico"},svgI(SYR)):null,h("div",{c:"h0",t:i.n}),h("div",{c:"sm mt",t:"보유 "+n+"개"}),st?h("p",{c:"sm",t:st}):null,src?h("div",{c:"isrc"},h("span",{c:"k",t:"얻는 곳"}),src):null,
-  i.dose?h("p",{c:"xs "+(doseArm?"bad":"mt"),t:"누적 투약 "+(me.dose||0)+"회 · 현재 "+gradeL(me)+"등급 · "+doseNext(me)+(doseArm?" · 불법 약물입니다. 정말 맞으시겠어요?":"")}):null,acts)}
+  i.dose?h("p",{c:"xs "+(doseArm?"bad":"mt"),t:"누적 투약 "+(me.dose||0)+"회 · 현재 "+gradeL(me)+"등급 · "+doseNext(me)+(doseArm?" · 불법 약물입니다. 정말 맞으시겠어요?":"")}):null,acts2.childNodes.length?acts2:null,acts)}
+/* 상점 판매가: 일반 최대 100 · 고급 최대 300 · 희귀 최대 500 · 전설 최대 600 (얻기 어려울수록 최대선에 가깝게) */
+const SELL_G=["일반","고급","희귀","전설"],SELL={};
+[[0,"scrap:3 wire:4 cloth:3 water:2 herb:3 mush:4 glass:4 salt:2 rice:6 can:10 batt:20 hide:12 core:35 kit:50 bandage:8 ration:10 purified:10 riceball:5 lunch:5 bread:5 stew:20 detox:80 hpot:3 mpot:5 amp1:20 amp_mp:70 amp_pure:100 helm1:60 shirt1:60 pants1:60 boots1:50 arm1:50 ring1:90 neck1:90 pipe:70 shield1:60 dagger:60 sword:60 vest:80 rifle:100 gmask:100 med_pk:80 med_fever:80 med_gauze:80 med_wrap:90 med_burn:100 med_anti:100 med_abx:100 med_splint:100 mm_fluid:30 mm_fang:30 mm_scale:30 f_meat:15 u_plank:4 u_nail:3 fd_skewer:60 fish_meat:15 fish_fin:20 fish_scale:25 seaweed:4 shell:5 drift:5 net:8 reed:4 fclam:6 pebble:3 moss:4 rod1:20 rod2:40 deco_p:100 deco_s:100 rc_fd_skewer:50 rc_fu_chair:50 fu_chair:90"],
+ [1,"plate:200 mm_nerve:120 mm_shell:120 mm_voice:120 f_egg:40 f_honey:45 u_resin:50 whale_oil:80 shark_tooth:90 rod3:120 fd_mstew:110 fd_honeyball:100 fd_eggsteam:130 fu_bed:150 fu_sofa:160 amp2:120 rc_fd_mstew:120 rc_fd_honeyball:120 rc_fd_eggsteam:140 rc_fu_bed:140 rc_fu_sofa:150 rm_mg_spear:200 rm_mg_dagger:180 rm_mg_scalemail:220 rm_mg_shellhelm:200 rm_mg_shellboots:180 rm_mg_nervering:230 rm_mg_voiceneck:230 rm_gmask:220"],
+ [2,"rcore:500 mm_heart:300 mm_lens:300 f_truffle:150 u_ivory:200 alloy:250 crystal:300 cell:400 rod4:350 rod5:500 fd_risotto:350 fu_closet:300 fu_cabinet:450 amp3:280 rc_fd_risotto:350 rc_fu_closet:300 rc_fu_cabinet:400 rm_mg_heartblade:450 rm_mg_lensplate:450 rm_mg_heartring:450 rp_xblade:450 rp_xhelm:400 rp_xvest:450 rp_xboots:400"],
+ [3,"mm_gene:550 mm_crown:600 rp_lsword:600 rp_lring:600 rp_larmor:600"]].forEach(([g,t])=>t.split(" ").forEach(x=>{const[k,p]=x.split(":");SELL[k]={g,p:Math.min([100,300,500,600][g],+p)}}));
+const sellP=k=>SELL[k]&&IT[k]?SELL[k].p:0;
+function sellPop(k){const n=me.inv[k]||0,p=sellP(k);if(!n||!p)return closePop();const S=SELL[k];
+ openPop(h("div",{c:"h0",t:IT[k].n+" 판매"}),h("p",{c:"sm mt",t:SELL_G[S.g]+" · 개당 "+won(p)+"환 · 보유 "+n+"개"}),
+  h("div",{c:"row",style:"gap:6px;margin-top:10px;flex-wrap:wrap"},...[1,5,10].filter(q=>q<n).map(q=>btn(q+"개 · "+won(p*q)+"환",()=>wrap(()=>sellItem(k,q)),"grow")),btn("전부 "+n+"개 · "+won(p*n)+"환",()=>wrap(()=>sellItem(k,n)),"pri grow")),
+  btn("닫기",()=>itemPop(k),"full",{style:"margin-top:8px"}))}
+async function sellItem(k,q){if(inB())return toast("전투 중에는 팔 수 없어요");const p=sellP(k),inv={...me.inv};q=Math.min(q,inv[k]||0);if(!p||q<=0)return;inv[k]-=q;if(!inv[k])delete inv[k];
+ await upd({inv,tan:me.tan+p*q});toast(IT[k].n+" ×"+q+" 판매 · +"+won(p*q)+"환");if(inv[k])itemPop(k);else closePop()}
 /* 이미 익힌 몬스터 장비 제작법 → 분해 (제작법 등급과 같은 몬스터 재료 1개) */
 function mmRcpR(t){const x=MRC[t]||HRC[t];if(!x||!x.need||!Object.keys(x.need).some(k=>k.indexOf("mm_")===0))return null;return x.r}
 async function dismRcp(id){const i=IT[id];if(!i||!i.learn||!(me.rcp||[]).includes(i.learn))return;const r=mmRcpR(i.learn);if(r==null)return;const pool=MM.filter(x=>x[1]===r);if(!pool.length)return;
@@ -2236,7 +2260,7 @@ const TUT=[
  {t:"제작",i:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",
   L:["정비소 · 치료소 · 주점에서 가능합니다. 중앙 거점에서 제작할 경우 가방과 보관함 재료를 함께 사용할 수 있습니다.","제작 시 등급은 랜덤입니다.","제작의 성공은 손재주 스탯에 영향을 받습니다."]},
  {t:"핸드폰",i:"M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM9.5 6h5v5h-5zM11 18h2",
-  L:["앱: 문자 · 헌터 온라인 · 전화 · 협회 · 연락처 · 날씨 · 메모장 · 은행 · 길드 · 도감 · 환경설정.","게이트 안에서는 신호가 잡히지 않아 핸드폰 사용이 제한됩니다.","도감: 얻은 적 있는 아이템이 기록됩니다.","테마 · 소리 · 기기 색은 내 정보에서 변경 가능합니다.","버튼과 기기 화면은 끌어서 원하는 곳에 둘 수 있습니다."]},
+  L:["앱: 문자 · 헌터 온라인 · 전화 · 협회 · 연락처 · 날씨 · 메모장 · 은행 · 길드 · 도감 · 환경설정.","게이트 안에서는 신호가 잡히지 않아 핸드폰 사용이 제한됩니다.","도감: 얻은 적 있는 아이템이 기록됩니다.","테마 · 소리 · 기기 색은 내 정보에서 변경 가능합니다.","기기 화면은 끌어서 원하는 곳에 둘 수 있습니다."]},
  {t:"무전기 · 삐삐",i:"M7 8h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1zM9 8V3M9 12h6M9 15h6",
   L:["무전기: 길드에 들어가면 내선번호 3자리가 지정됩니다. 게이트 안에서 사용 가능합니다.","삐삐: 파티원과 원활한 소통을 위해 사용합니다. 채널을 만들어 여러 명과 대화하고, 채널 사람들을 파티에 일괄 초대할 수 있습니다.","상단 상태창의 채팅 아이콘: 전체 · 지역 · 1:1 · 그룹 · 오너방."]}];
 let tutOn=false,tutAuto=false;
@@ -2451,7 +2475,7 @@ function dexItem(B,hd){const k=ph.room,i=IT[k];if(!i){ph.scr="dex";return phRend
 const APPS=[["msg","문자","M4 5h16v11H9l-4 3.5V16H4zM8 9h8M8 12h5"],["hon","헌터 온라인","M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM3.5 12h17M12 3c2.5 2.6 3.6 5.6 3.6 9s-1.1 6.4-3.6 9c-2.5-2.6-3.6-5.6-3.6-9S9.5 5.6 12 3z"],["dial","전화","M6.5 3.5l3 .5 1.2 4-2.2 1.4a11 11 0 0 0 5.6 5.6l1.4-2.2 4 1.2.5 3-2 2C11 19 5 13 4.5 5.5z"],["assoc","협회","M12 3l7 3v5.5c0 4.6-3 7.8-7 9.5-4-1.7-7-4.9-7-9.5V6zM9 12l2 2 4-4"],
  ["contacts","연락처","M6 3h12a1.5 1.5 0 0 1 1.5 1.5v15A1.5 1.5 0 0 1 18 21H6zM12 7.8a2.2 2.2 0 1 0 0 4.4a2.2 2.2 0 1 0 0-4.4zM8.5 17c.6-2 2-3 3.5-3s2.9 1 3.5 3M4 7h2M4 12h2M4 17h2"],["weather","날씨","M8 6.5a3 3 0 0 1 5.6-1.2M6 9.5V8M3.5 8.5l1 .8M9 3V1.8M7 18h10a3.5 3.5 0 0 0 .3-7A5 5 0 0 0 7.6 11.8A3.1 3.1 0 0 0 7 18z"],["memo","메모장","M6 3h9l4 4v14H6zM15 3v4h4M9 11h7M9 14h7M9 17h4"],
  ["bank","은행","M3 9.5L12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"],["guild","길드","M6 21V4M6 4h11l-2.5 3.5L17 11H6"],["dex","도감","M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5zM12 6v13.5M15 9.5h3M15 12.5h3"],["set","환경설정","M12 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"]];
-const IC_CALL=APPS[1][2],IC_BACK="M9 14L4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11",IC_END="M3 14.5c5-4.6 13-4.6 18 0l-2.4 2.6-3.6-1.4V13a12 12 0 0 0-6 0v2.7L5.4 17z";
+const IC_CALL=APPS.find(a=>a[0]==="dial")[2],IC_BACK="M9 14L4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11",IC_END="M3 14.5c5-4.6 13-4.6 18 0l-2.4 2.6-3.6-1.4V13a12 12 0 0 0-6 0v2.7L5.4 17z";
 const NUMSCR=["dial","bdep","bwd","btr1","btr2","bloan","brep"],AUTO=["home","msg","contacts","person","assoc","bank","blog","con","weather","set","memo","dial","guild"];
 let ph={scr:"home",stack:[],room:null,buf:"",sub:"f",sel:null},seen={};
 /* 친구: 요청 → 상대 수락 → 서로의 연락처에 등록 */
@@ -2506,7 +2530,7 @@ const two=n=>String(n).padStart(2,"0"),kst=()=>new Date(Date.now()+9*3600e3),clo
 /* 두 손가락으로 지도·방을 돌리거나 확대할 때 페이지 전체가 확대되지 않게 (아이폰 사파리) → 방향 반대·화질 떨어짐 막음 */
 function noPageZoom(el){if(!el||el.dataset.npz)return;el.dataset.npz="1";const pv=e=>{if(e.touches&&e.touches.length>1&&e.cancelable)e.preventDefault()};el.addEventListener("touchstart",pv,{passive:false});el.addEventListener("touchmove",pv,{passive:false});["gesturestart","gesturechange","gestureend"].forEach(t=>el.addEventListener(t,e=>e.preventDefault(),{passive:false}))}
 document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest("button");if(!b)return;
- if(b.closest("#phone")){if(b.classList.contains("k"))return;pTap()}else if(b.id==="ptab")pTap();else if(b.closest("#radio")||b.id==="rtab")rTap();else if(b.closest("#pager")||b.id==="gtab")gTap()},true);
+ if(b.closest("#phone")){if(b.classList.contains("k"))return;pTap()}else if(b.id==="ptab"){if(phoneOn)pTap()}else if(b.closest("#radio")||b.id==="rtab")rTap();else if(b.closest("#pager"))gTap();else if(b.id==="gtab"){if(pgOn)gTap()}},true);
 function kbtn(cls,content,short,long,label){let t=null,fired=false;
  return h("button",{c:cls,type:"button","aria-label":label||null,onpointerdown:e=>{e.preventDefault();fired=false;clearTimeout(t);if(long)t=setTimeout(()=>{fired=true;long()},450)},
   onpointerup:()=>clearTimeout(t),onpointerleave:()=>clearTimeout(t),onmousedown:e=>e.preventDefault(),onclick:()=>{if(fired){fired=false;return}short()}},content)}
@@ -2522,14 +2546,14 @@ function devInit(id){const P=$("#"+id);if(!P||P.dataset.dv)return;P.dataset.dv="
   if(!mv){mv=true;P.classList.add("dmov");try{P.setPointerCapture(e.pointerId)}catch(_){}}devPos[id]={x:(st.l+dx)/innerWidth,y:(st.t+dy)/innerHeight};devFix(id);e.preventDefault()});
  const end=()=>{if(st&&mv){P.classList.remove("dmov");try{localStorage.setItem("af_devpos",JSON.stringify(devPos))}catch(_){}}st=null};P.addEventListener("pointerup",end);P.addEventListener("pointercancel",end)}
 function devReset(){devPos={};try{localStorage.removeItem("af_devpos")}catch(e){}try{placePhone();placeRadio();placePager()}catch(e){}}
-function openPhone(scr,room){if(inGateNow())setTimeout(()=>{try{gateSigTick()}catch(e){}},0);if(scr==="pchat"&&!(me&&me.party&&parties[me.party])){toast("PCHAT은 파티 통화 앱이에요 · 파티에 들어가야 열 수 있어요");scr=undefined;room=undefined}phoneOn=true;const P=$("#phone");P.textContent="";
+function openPhone(scr,room){const phoneOn0=phoneOn&&$("#phone").style.display==="block";if(inGateNow())setTimeout(()=>{try{gateSigTick()}catch(e){}},0);if(scr==="pchat"&&!(me&&me.party&&parties[me.party])){toast("PCHAT은 파티 통화 앱이에요 · 파티에 들어가야 열 수 있어요");scr=undefined;room=undefined}phoneOn=true;const P=$("#phone");P.textContent="";
  const kp=h("div",{c:"kp"});[["1","ㅣ"],["2","ㆍ"],["3","ㅡ"],["4","ㄱㅋ"],["5","ㄴㄹ"],["6","ㄷㅌ"],["7","ㅂㅍ"],["8","ㅅㅎ"],["9","ㅈㅊ"],["*","( )"],["0","ㅇㅁ"],["#","띄움"]]
   .forEach(([d,l])=>kp.append(kbtn("k",[h("b",{t:d}),h("small",{t:l})],()=>keyPress(d,false),()=>keyPress(d,true),d)));
  P.append(h("div",{c:"spk"}),h("div",{c:"brand",t:"EMBER"}),h("div",{c:"scr",id:"pscr"}),
   nav5(),h("div",{c:"fk"},kbtn("call",svgI(IC_CALL),()=>wrap(callKey),null,"통화"),kbtn("",svgI(IC_BACK),backKey,phBack,"뒤로 (길게: 이전 화면)"),kbtn("end",svgI(IC_END),endKey,null,"끊기")),kp);
  ph.scr=scr||"home";ph.room=room||null;ph.buf="";ph.sel=null;ph.stack=!scr||scr==="home"?[]:scr==="chat"?[["home",null],["msg",null]]:[["home",null]];
  if(call.st==="in"||(call.st!=="idle"&&!scr)){ph.scr="incall";ph.stack=[["home",null]]}
- P.style.display="block";$("#ptab").classList.add("act");devInit("phone");devTop("phone");phRender();placePhone()}
+ if(!phoneOn0)sDevOn();P.style.display="block";$("#ptab").classList.add("act");devInit("phone");devTop("phone");phRender();placePhone()}
 function nav5(){const side=(t,k)=>kbtn("",svgI(appEnt(APPS.find(a=>a[0]===k))[2]),()=>sideApp(k),null,appEnt(APPS.find(a=>a[0]===k))[1]),ar=(d,lab,fn)=>kbtn("ar",svgI(d),fn,null,lab);
  return h("div",{c:"nav5"},h("div",{c:"side"},side("문자","msg"),side("연락처","contacts")),
   h("div",{c:"dpad"},ar("M6 15l6-6 6 6","위",()=>navMove("u")),ar("M15 6l-6 6 6 6","왼쪽",()=>navMove("l")),kbtn("ok","확인",()=>wrap(navOk),null,"확인"),ar("M9 6l6 6-6 6","오른쪽",()=>navMove("r")),ar("M6 9l6 6 6-6","아래",()=>navMove("d"))),
@@ -2715,8 +2739,6 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   tg("테마 · 소리 · 기기 색","내 정보에서",()=>{closePhone();tab="me";render(true);setTimeout(()=>{const c=document.querySelector(".setc");if(c)c.scrollIntoView({block:"start",behavior:"smooth"})},60)});
   tg("배경화면",wallUrl()?"바꾸기":"사진 고르기",pickWall);if(wallUrl())tg("배경화면 지우기","기본으로",()=>{try{localStorage.removeItem("af_wall")}catch(e){}phRender()});
   if(Object.keys(devPos).length)tg("기기 화면 위치","옮김 · 초기화",()=>{devReset();phRender()});
-  if(gtPos)tg("삐삐 아이콘 위치","옮김 · 초기화",()=>{gtPos=null;try{localStorage.removeItem("af_gtab")}catch(e){}applyGtab();phRender()});
-  tg("휴대폰 아이콘 위치",ptPos?"옮김 · 초기화":"기본",()=>{if(ptPos){resetPtab();phRender()}else toast("휴대폰 아이콘을 끌어서 원하는 곳에 두세요")});
   tg("깨진 화면 효과",SET.crack?"켜짐":"꺼짐",()=>{SET.crack=!SET.crack;saveSet();phRender()});
   if(!me.hqOut)tg("협회 공지 알림",SET.hqn===false?"끔":"켬",()=>{SET.hqn=SET.hqn===false;saveSet();updDot();phRender()});
   tg("상단 상태창",topMin?"접힘":"펼침",()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}phRender()});
@@ -2941,25 +2963,25 @@ function rdRender(){const L=$("#rlcd");if(!L||!rdOn||!me)return;if(rd.err&&Date.
   Lg.forEach(c=>{const out=c.from===uid,who=c.kind==="one"?[out?c.to:c.from]:(c.mem||[]).filter(x=>x!==uid),miss=c.st==="missed"&&!out&&c.kind==="one";
    B.append(h("button",{c:"ri"+(miss?" miss":""),type:"button",onclick:()=>wrap(()=>c.kind==="all"?rPlace("all",gMates()):rPlace(c.kind,who))},h("b",{t:c.kind==="one"?extOf(who[0]):c.kind==="all"?"ALL":"GRP"}),h("span",{t:who.map(dName).join(", ")}),h("small",{t:(miss?"부재중":out?"발신":"수신")+" · "+ago(c.t)})))})}
  else B.append(h("div",{c:"rh",t:"주소록에서 길드원을 고르거나, 내선번호 3자리를 누르고 초록 키로 호출하세요."}),h("div",{c:"rh",t:"접속 중 길드원 "+onl.length+"명"+(rMissed()?" · 부재중 "+rMissed()+"건":"")}))}
-function applyRtab(){const t=$("#rtab");if(!t)return;if(!rtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",rtPos.side==="l");t.classList.toggle("sr",rtPos.side==="r");
+function applyRtab(){if(TAB_DOCK)rtPos=null;const t=$("#rtab");if(!t)return;if(!rtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",rtPos.side==="l");t.classList.toggle("sr",rtPos.side==="r");
  const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(rtPos.side==="l"?0:rtPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,rtPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,rtPos.y*H)))+"px"}
 function placeRadio(){const P=$("#radio"),t=$("#rtab");if(!P||!t||P.style.display!=="block")return;if(devFix("radio"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw2=P.offsetWidth,ph2=P.offsetHeight;
- let x=r.right+6;if(x+pw2>W-4){x=r.left-6-pw2;if(x<4)x=Math.max(4,Math.min(W-pw2-4,r.left+r.width/2-pw2/2))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(40,Math.min(H-ph2-4,r.top+r.height/2-ph2/2)))+"px"}
+ const x=Math.max(4,Math.min(W-pw2-4,r.left));P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(4,r.top-ph2-6))+"px"}
 /* ===== 삐삐 (채널 채팅 · 기록 남음 · 채널 사람들 한꺼번에 파티 초대) ===== */
 let pgOn=false,pg={scr:"list",id:null,sel:[]};
 let gtPos=null;try{gtPos=JSON.parse(localStorage.getItem("af_gtab")||"null")}catch(e){}
-function applyGtab(){const t=$("#gtab");if(!t)return;if(!gtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",gtPos.side==="l");t.classList.toggle("sr",gtPos.side==="r");
+function applyGtab(){if(TAB_DOCK)gtPos=null;const t=$("#gtab");if(!t)return;if(!gtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",gtPos.side==="l");t.classList.toggle("sr",gtPos.side==="r");
  const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(gtPos.side==="l"?0:gtPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,gtPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,gtPos.y*H)))+"px"}
 function placePager(){const P=$("#pager"),t=$("#gtab");if(!P||!t||P.style.display!=="block")return;if(devFix("pager"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw2=P.offsetWidth,ph2=P.offsetHeight;
- let x=r.right+6;if(x+pw2>W-4){x=r.left-6-pw2;if(x<4)x=Math.max(4,Math.min(W-pw2-4,r.left+r.width/2-pw2/2))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(40,Math.min(H-ph2-4,r.top+r.height/2-ph2/2)))+"px"}
+ const x=Math.max(4,Math.min(W-pw2-4,r.left));P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(4,r.top-ph2-6))+"px"}
 function initPager(){if($("#gtab"))return;const t=h("button",{id:"gtab",type:"button","aria-label":"삐삐"},svgI("M3.5 7h17a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1zM5.5 9.5h9v5h-9zM17 10h1.5M17 12.5h1.5M17 15h1.5M15 7V4.5"),h("i",{id:"gdot"}));
  document.body.append(t,h("div",{id:"pager"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
- t.addEventListener("pointermove",e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}gtPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyGtab();placePager()});
+ t.addEventListener("pointermove",e=>{if(!st||TAB_DOCK)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}gtPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyGtab();placePager()});
  const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();const r=t.getBoundingClientRect();if(r.left<40||r.right>innerWidth-40){gtPos.side=r.left+r.width/2<innerWidth/2?"l":"r";applyGtab();placePager()}try{localStorage.setItem("af_gtab",JSON.stringify(gtPos))}catch(_){}}st=null};
  t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);t.addEventListener("click",()=>{if(Date.now()-dEnd<250)return;pgOn?closePager():openPager()});
  addEventListener("resize",()=>{applyGtab();placePager()});applyGtab()}
-function openPager(){pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");devInit("pager");devTop("pager");pgRender();placePager()}
+function openPager(){if(!pgOn)sDevOn();pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");devInit("pager");devTop("pager");pgRender();placePager()}
 function closePager(){pgOn=false;$("#pager").style.display="none";$("#gtab").classList.remove("act")}
 const pgList=()=>myGroups(true);
 const pgUnread=id=>unreadOf("grp:"+id);
@@ -3001,10 +3023,11 @@ async function pgInvite(){const g=groups[pg.id];if(!g)return;let pid=me.party&&p
 function pinvEl(m,pager){const p=parties[m.pid],mine=(m.uid||m.from)===uid,inP=p&&p.members.includes(uid),full=p&&p.members.length>=4;const lab=!p?"끝난 초대":mine?"보낸 초대":inP?"참가함":full?"자리 없음":"참가";
  const b=h("button",{type:"button",c:pager?"gjoin":"sm",t:lab,disabled:!p||mine||inP||full,onclick:()=>wrap(async()=>{if(inB())return toast("전투 중에는 파티를 옮길 수 없어요");if(me.party&&me.party!==m.pid){if(isTmpP(me.party))await tmpLeave();else return toast("지금 파티에서 먼저 나와 주세요")}await joinParty(m.pid);toast("파티에 참가했어요")})});
  return h("div",{c:pager?"gl inv":"m pinv"},h("small",{t:"파티 초대"}),h("span",{t:m.text+(p?" · "+p.members.length+"/4":"")}),b)}
+function dockTabs(){const d=$("#dtabs");if(!d)return;["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
 function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"button","aria-label":"길드 수신기"},svgI("M9 8V2.5M7 8h10a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 17 22H7a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 7 8zM9 11h6v4H9zM9 18h.01M12 18h.01M15 18h.01"),h("i",{id:"rdot"}));
  document.body.append(t,h("div",{id:"radio"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
- t.addEventListener("pointermove",e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}rtPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyRtab();placeRadio()});
+ t.addEventListener("pointermove",e=>{if(!st||TAB_DOCK)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}rtPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyRtab();placeRadio()});
  const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();const r=t.getBoundingClientRect();if(r.left<40||r.right>innerWidth-40){rtPos.side=r.left+r.width/2<innerWidth/2?"l":"r";applyRtab();placeRadio()}try{localStorage.setItem("af_rtab",JSON.stringify(rtPos))}catch(_){}}st=null};
  t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);t.addEventListener("click",()=>{if(Date.now()-dEnd<250)return;rdOn?closeRadio():openRadio()});
  addEventListener("resize",()=>{applyRtab();placeRadio()});applyRtab()}
@@ -5206,7 +5229,7 @@ let sy;function syncSoon(){clearTimeout(sy);sy=setTimeout(()=>{if(!me||!ld.g||!l
  if(Object.keys(p).length)db.doc("chars/"+uid).update(p)},2500)}
 function navDots(){const hb=nav&&nav.querySelector('[data-k="home"]');if(hb)hb.classList.toggle("unr",!!(me&&mails().length));const gb=nav&&nav.querySelector('[data-k="guild"]');if(gb)gb.classList.toggle("unr",!!(me&&myG()&&(unreadOf("g")+unreadOf("owner"))>0&&!(tab==="guild"&&$("#feed"))))}
 function onMsg(){phRefresh();updDot();if($("#feed"))updFeed();try{const d=$("#tcdot");if(d&&me){const n=unreadOf("wc")+dmPartners().reduce((a,id)=>a+unreadOf("dm:"+id),0)+myGroups().reduce((a,id)=>a+unreadOf("grp:"+id),0);setCnt(d,chatHub?0:n)}}catch(e){}try{pgUpd()}catch(e){}}
-initRadio();initPager();
+initRadio();initPager();dockTabs();
 (async()=>{await window.__fbReady;
  const t=setTimeout(()=>{if(!db)note("연결이 지연됩니다. 인터넷 연결을 확인하세요.")},10000);let user;
  try{if(window.claude){db=await claude.use("db");user=await claude.use("user")}}catch(e){}
