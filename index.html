@@ -477,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114173205";
+const BUILD="20261114173932";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4442,7 +4442,7 @@ function drawDrape(S,k,tf0,mode){const D0=drapeSim(k,mode===2);if(!D0)return;con
  const N=new Float64Array(n*3);const pt=a=>[P[a*3],P[a*3+1],P[a*3+2]];
  for(let j=0;j+1<ny;j++)for(let i=0;i+1<nx;i++){const q=[id(i,j),id(i+1,j),id(i+1,j+1),id(i,j+1)],nn=newell(q.map(pt));q.forEach(a=>{N[a*3]+=nn[0];N[a*3+1]+=nn[1];N[a*3+2]+=nn[2]})}
  const Vo=[],Vi=[];for(let a=0;a<n;a++){const l=Math.hypot(N[a*3],N[a*3+1],N[a*3+2])||1,p=pt(a);Vo.push(S.v(tf(p)));Vi.push(S.v(tf([p[0]-N[a*3]/l*th,p[1]-N[a*3+1]/l*th,p[2]-N[a*3+2]/l*th])))}
- const g1=++S.g,g2=++S.g,push=(v,g,flip)=>{let P2=v.map(i=>S.V[i]),nn=newell(P2);if(flip!==mir){v=v.slice().reverse();nn=nn.map(x=>-x)}S.F.push({v,n:nn,g,solid:1,o:S.o})};
+ const g1=++S.g,g2=++S.g,push=(v,g,flip)=>{let P2=v.map(i=>S.V[i]),nn=newell(P2);if(!!flip!==!!mir){v=v.slice().reverse();nn=nn.map(x=>-x)}S.F.push({v,n:nn,g,solid:1,o:S.o})};
  for(let j=0;j+1<ny;j++)for(let i=0;i+1<nx;i++){const q=[id(i,j),id(i+1,j),id(i+1,j+1),id(i,j+1)];push(q.map(a=>Vo[a]),g1,0);push(q.map(a=>Vi[a]),g2,1)}
  /* 가장자리 띠: 바깥쪽으로 향하게 */
  const rim=[];for(let i=0;i<nx-1;i++)rim.push([id(i,0),id(i+1,0)]);for(let j=0;j<ny-1;j++)rim.push([id(nx-1,j),id(nx-1,j+1)]);for(let i=nx-1;i>0;i--)rim.push([id(i,ny-1),id(i-1,ny-1)]);for(let j=ny-1;j>0;j--)rim.push([id(0,j),id(0,j-1)]);
