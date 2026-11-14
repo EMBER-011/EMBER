@@ -443,7 +443,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114081200";
+const BUILD="20261114082223";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -964,7 +964,7 @@ function updTop(){if(!me)return;const c=cur(me);let hp=c.hp,mp=c.mp;const mh=max
  const loc=me.sg?(me.sg==="sv"?"외딴 섬 · 연구실의 생존자":gateById(me.sg)?gLabel(gateById(me.sg))+" 내부":"게이트"):me.auto?REG[me.loc].n+" · 자동 전투 중":me.trip?"이동 중 → "+REG[me.trip.to].n+" ("+fmt(Math.max(0,Math.ceil((me.trip.at-Date.now())/1000)))+")":REG[me.loc].n+" · "+spotName(me.loc,spot());
  $("#tloc").textContent=me.mis?"실종 · "+me.mis.lab+" 안":me.hosp&&Date.now()<me.hosp?"중앙 거점 · 격리실 입원 중":loc;
  {const tm=$("#tme");if(tm){const top=me.lv>=MAXLV,need=me.lv*60,pct=top?100:Math.min(100,me.exp/need*100),nM=mails().length,k=[(me.photo||"").length+(me.photo||"").slice(-32),me.name,me.lv,gradeL(me),me.attr,me.exp,me.tan,me.bank||0,nM].join("|");
-  if(tm.dataset.k!==k){tm.dataset.k=k;tm.textContent="";tm.append(h("div",{c:"tph"},me.photo?h("img",{src:me.photo,alt:""}):null),h("div",{c:"tin"},h("div",{c:"tnm"},h("b",{t:me.name}),nM?h("button",{c:"tmail",type:"button","aria-label":"우편 "+nM+"통",title:"우편 "+nM+"통",onclick:()=>{chatHub=false;tab="home";homeSub="mail";hidePhone();render(true)}},svgI("M3.5 6h17v12h-17zM3.5 6.5l8.5 6.5 8.5-6.5")):null,h("em",{t:"Lv"+me.lv})),h("div",{c:"tsb",t:"등급 "+gradeL(me)+" · 능력 "+me.attr}),h("div",{c:"twal",t:"지갑 "+won(me.tan)+"환"+(me.bank?" · 은행 "+won(me.bank)+"환":"")}),h("div",{c:"txp"},h("div",{c:"thin"},h("i",{style:"width:"+pct+"%"})),h("small",{t:top?"최고 레벨":"EXP "+me.exp+" / "+need}))))}}}
+  if(tm.dataset.k!==k){tm.dataset.k=k;tm.textContent="";tm.append(h("div",{c:"tph"},me.photo?h("img",{src:me.photo,alt:""}):null),h("div",{c:"tin"},h("div",{c:"tnm"},h("b",{t:me.name}),nM?h("button",{c:"tmail",type:"button","aria-label":"우편 "+nM+"통",title:"우편 "+nM+"통",onclick:()=>{chatHub=false;tab="home";homeSub="mail";hidePhone();render(true);setTimeout(()=>{const m=document.getElementById("mailbox");if(m)m.scrollIntoView({behavior:"smooth",block:"start"})},50)}},svgI("M3.5 6h17v12h-17zM3.5 6.5l8.5 6.5 8.5-6.5")):null,h("em",{t:"Lv"+me.lv})),h("div",{c:"tsb",t:"등급 "+gradeL(me)+" · 능력 "+me.attr}),h("div",{c:"twal",t:"지갑 "+won(me.tan)+"환"+(me.bank?" · 은행 "+won(me.bank)+"환":"")}),h("div",{c:"txp"},h("div",{c:"thin"},h("i",{style:"width:"+pct+"%"})),h("small",{t:top?"최고 레벨":"EXP "+me.exp+" / "+need}))))}}}
  const L=ailList(me),O=odState(me),ts=$("#tst");
  if(ts){ts.textContent="";if(L.length)ts.append(h("span",{},h("span",{c:"k",t:"부상·질병"}),L.map(k=>AIL[k].n+(k==="fracture"&&me.ail[k].sp?"(부목)":"")).join(", ")));
   if(ovfOn())ts.append(h("span",{},h("span",{c:"k",t:"게이트"}),h("span",{c:"perm",t:"폭주 중"})));
@@ -2640,9 +2640,26 @@ async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("�
 /* 우편함: 협회(게이트 보상)에서 온 우편은 직접 받아야 함 */
 const mails=()=>payouts.filter(x=>x.to===uid&&(x.from==="hq"||x.k==="kr")).sort((a,b)=>b.t-a.t);
 let kdraft=[],homeSub="room";
-function rHome(v){
- const seg=h("div",{c:"seg",style:"margin-bottom:10px"});ensureRno();v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:rnoOf()?rnoOf()+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:rnoOf()?Math.floor(rnoOf()/100)+"층"+(me.house?" · 2인실":""):""})));[["room","방"],["mail","우편함"+(mails().length?" "+mails().length:"")]].forEach(([k,n])=>seg.append(h("button",{c:homeSub===k?"on":"",onclick:()=>{homeSub=k;render(true)},t:n})));v.append(seg);
- if(homeSub==="store")homeSub="room";if(homeSub==="room"){rMyRoom(v);return rStore(v)}return rMail(v)}
+function rHome(v){ensureRno();
+ if(RV.mode==="vis"&&RV.vid){if(!visOk()){toast("집주인이 접속을 끊어서 숙소로 돌아왔어요");roomMode("room")}else{v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"방문 중"}),h("b",{t:RV.vno+"호"}),h("span",{c:"xs mt",t:visNames()+"의 집"})));RV.visFor=1;rMyRoom(v);return}}
+ v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:rnoOf()?rnoOf()+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:rnoOf()?Math.floor(rnoOf()/100)+"층"+(me.house?" · 2인실":""):""})));
+ rMyRoom(v);rStore(v);v.append(h("div",{id:"mailbox"}));rMail(v);visitCard(v)}
+/* ===== 방문하기: 다른 헌터의 방에 놀러 감 (집주인이 접속 중일 때만) ===== */
+const visOwners=()=>{const c=chars[RV.vid];if(!c)return[];const L=[RV.vid];if(c.house&&c.house.w&&chars[c.house.w])L.push(c.house.w);return L};
+const visOk=()=>visOwners().some(id=>online.has(id));
+const visNames=()=>visOwners().map(id=>chars[id].name).join(" · ");
+function visitCard(v){const mine=new Set([uid]);if(me.house&&me.house.w)mine.add(me.house.w);const M=new Map();
+ Object.entries(chars).forEach(([id,c])=>{if(mine.has(id))return;const no=c.house&&c.house.no?c.house.no:c.rno;if(!no)return;const e=M.get(no)||{no,ids:[]};e.ids.push(id);M.set(no,e)});
+ const L=[...M.values()].sort((a,b)=>(b.ids.some(x=>online.has(x))-a.ids.some(x=>online.has(x)))||a.no-b.no),c=h("div",{c:"card"},h("h3",{t:"방문하기"}),h("p",{c:"xs mt",style:"margin:0 0 6px",t:"호실을 누르면 그 집에 놀러 가요 · 집주인이 접속 중일 때만 들어갈 수 있어요"}));
+ if(!L.length)c.append(h("p",{c:"sm mt",t:"다른 헌터의 방이 아직 없어요."}));
+ L.forEach(e=>{const on=e.ids.some(x=>online.has(x));c.append(h("div",{c:"lrow"},h("span",{c:"dot"+(on?" on":"")}),h("div",{c:"grow"},h("b",{c:"sm",t:e.no+"호"+(e.ids.length>1?" · 2인실":"")}),h("div",{c:"xs mt",t:e.ids.map(x=>chars[x].name).join(" · ")+(on?" · 집에 있음":" · 부재중")})),btn("방문",()=>visitGo(e.ids.find(x=>online.has(x))||e.ids[0],e.no),"sm"+(on?" pri":""),{disabled:!on})))});
+ v.append(c)}
+async function visitGo(id,no){if(!online.has(id)&&!(chars[id]&&chars[id].house&&online.has(chars[id].house.w)))return toast("집주인이 접속 중일 때만 방문할 수 있어요");
+ const c=chars[id];let L=null,big=false;try{const d=(await db.doc("chars/"+id).get()).data()||{};big=!!d.house;let R=big?d.room3h:d.room3;
+  if(big&&d.house.w){try{const d2=(await db.doc("chars/"+d.house.w).get()).data()||{};const b=d2.room3h;if(b&&(!R||(b.t||0)>(R.t||0)))R=b}catch(e){}}
+  L=R&&Array.isArray(R.items)?{items:R.items,store:[]}:null}catch(e){return toast("그 방을 불러오지 못했어요")}
+ roomMode("vis",id);RV.vid=id;RV.vno=no;RV.vbig=big;Room3D.size(big);RV.vL=clone(L||Room3D.DEF_ROOM);RV.vL.store=[];tab="home";stoOpen=false;render(true);toast(no+"호에 들어왔어요")}
+function visitLeave(){roomMode("room");render(true)}
 /* 내 방 (가구 자리는 아직 없음 · 빈 방) */
 function myRoomSvg(){const v=svE("svg",{viewBox:"0 0 320 210",class:"roomsv",role:"img","aria-label":"빈 방"});
  svE("rect",{x:0,y:0,width:320,height:210,fill:"var(--rmw)"},v);
@@ -3080,10 +3097,13 @@ async function stoMove(id,n,put){if(!atBase())return toast("보관함은 중앙 
  await upd({inv,store:st});toast(IT[id].n+" ×"+k+(put?" 보관함에 넣었어요":" 가방으로 꺼냈어요"))}
 function stoPop(id,put){const n=(put?me.inv:me.store||{})[id]||0;openPop(h("div",{c:"h0",t:IT[id].n}),h("div",{c:"sm mt",t:(put?"가방에 ":"보관함에 ")+n+"개"}),
  h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn(put?"1개 넣기":"1개 꺼내기",()=>{closePop();wrap(()=>stoMove(id,1,put))},"grow"),btn(put?"전부 넣기":"전부 꺼내기",()=>{closePop();wrap(()=>stoMove(id,n,put))},"pri grow"),btn("닫기",closePop,"grow")))}
-function rStore(v){const S=me.store||{},here=atBase(),grid=(o,put)=>{const g=h("div",{c:"stog"});Object.keys(o).filter(k=>o[k]>0&&IT[k]).sort((a,b)=>IT[a].n.localeCompare(IT[b].n)).forEach(k=>g.append(h("button",{c:"stoi",onclick:()=>here?stoPop(k,put):toast("보관함은 중앙 거점 숙소에서만 쓸 수 있어요")},h("b",{t:IT[k].n}),h("small",{t:"×"+o[k]}))));if(!g.childNodes.length)g.append(h("p",{c:"sm mt",style:"grid-column:1/-1;margin:4px 0",t:put?"가방이 비어 있어요.":"보관함이 비어 있어요."}));return g};
+let stoOpen=false;
+function rStore(v){const S=me.store||{},here=atBase();
+ if(!stoOpen){v.append(h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:"보관함"}),h("span",{c:"sm mt",t:kinds(S)+" / "+stoCap()+" 칸"})),btn("물건 넣기",()=>{stoOpen=true;render(true)},"pri full",{style:"margin-top:8px"})));return}
+ const grid=(o,put)=>{const g=h("div",{c:"stog"});Object.keys(o).filter(k=>o[k]>0&&IT[k]).sort((a,b)=>IT[a].n.localeCompare(IT[b].n)).forEach(k=>g.append(h("button",{c:"stoi",onclick:()=>here?(put?wrap(()=>stoMove(k,o[k],true)):stoPop(k,put)):toast("보관함은 중앙 거점 숙소에서만 쓸 수 있어요")},h("b",{t:IT[k].n}),h("small",{t:"×"+o[k]}))));if(!g.childNodes.length)g.append(h("p",{c:"sm mt",style:"grid-column:1/-1;margin:4px 0",t:put?"가방이 비어 있어요.":"보관함이 비어 있어요."}));return g};
  if(!here)v.append(h("div",{c:"card"},h("p",{c:"sm bad",style:"margin:0",t:"보관함은 중앙 거점 숙소에서만 넣고 꺼낼 수 있어요. 지금은 볼 수만 있어요."})));
- v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"보관함"}),h("span",{c:"sm "+(kinds(S)>=stoCap()?"bad":"mt"),t:kinds(S)+" / "+stoCap()+" 칸"})),grid(S,false),h("p",{c:"xs mt",style:"margin:8px 0 0",t:(me.stx||0)>=STO_X.length?"보관함은 최대 크기예요.":"보관함 확장은 목공소에 전화해서 맡겨요 · ☎ 133"})));
- v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"가방"}),h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"})),h("p",{c:"xs mt",style:"margin:-2px 0 6px",t:"누르면 보관함에 넣어요"}),grid(me.inv,true)))}
+ v.append(h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:"보관함"}),h("span",{c:"sm "+(kinds(S)>=stoCap()?"bad":"mt"),t:kinds(S)+" / "+stoCap()+" 칸"}),btn("닫기",()=>{stoOpen=false;render(true)},"sm")),grid(S,false),h("p",{c:"xs mt",style:"margin:8px 0 0",t:(me.stx||0)>=STO_X.length?"보관함은 최대 크기예요.":"보관함 확장은 목공소에 전화해서 맡겨요 · ☎ 133"})));
+ v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"가방"}),h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"})),h("p",{c:"xs mt",style:"margin:-2px 0 6px",t:"누르면 그 물건을 전부 보관함에 넣어요 · 보관함 물건을 누르면 꺼내요"}),grid(me.inv,true)))}
 /* ===== 협회 가입 상태 · 비상구조요청송신기 ===== */
 IT.sos_tx={n:"비상구조요청송신기",d:"헌터 협회가 지급하는 송신기. 받으면 장비 화면에 돌아가요."};
 const sosAvail=()=>!!me&&!me.hqOut&&!me.sosOff;
@@ -3993,7 +4013,8 @@ window.Room3D={setDims,drapeSim,viewer,thumb,buildRoom,draw,Scene,FK,DEF_ROOM,di
 /* ===== 내 방 (선으로 그린 3D) · 돌려 보기 · 가구 배치 · 가구 보관함 ===== */
 const RV={ang:Math.PI/4,sel:null,edit:false,cv:null,key:"",pick:null,L:null,saveT:0,raf:0,anim:0,arm:0,zoom:1,px:0,py:0,harm:0};
 const IC_ROTL="M5 12a7 7 0 1 0 2.2-5.1M5 4.5v3.4h3.4",IC_ROTR="M19 12a7 7 0 1 1-2.2-5.1M19 4.5v3.4h-3.4",IC_NE="M7 17L17 7M9 7h8v8",IC_SE="M7 7l10 10M17 9v8H9",IC_SW="M17 7L7 17M7 9v8h8",IC_NW="M17 17L7 7M7 15V7h8",IC_TURN="M20 7a8 8 0 1 0 1 6M20 3v4h-4",IC_ZIN="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M15.2 15.2L20 20M10.5 7.8v5.4M7.8 10.5h5.4",IC_ZOUT="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M15.2 15.2L20 20M7.8 10.5h5.4";
-function roomL(){if(RV.mode==="gh"){Room3D.setDims(Room3D.GH.W,Room3D.GH.D);if(RV.L)return RV.L;return ghL0()}Room3D.size(!!(me&&me.house));if(RV.L)return RV.L;return roomFix(roomL0())}
+const bigNow=()=>RV.mode==="vis"?!!RV.vbig:!!(me&&me.house);
+function roomL(){if(RV.mode==="vis"){Room3D.size(!!RV.vbig);if(RV.L)return RV.L;return roomFix(clone(RV.vL||Room3D.DEF_ROOM))}if(RV.mode==="gh"){Room3D.setDims(Room3D.GH.W,Room3D.GH.D);if(RV.L)return RV.L;return ghL0()}Room3D.size(!!(me&&me.house));if(RV.L)return RV.L;return roomFix(roomL0())}
 /* 길드 건물 배치: 층마다 가구 · 보관함은 같이 씀 */
 function ghL0(){const g=guilds[RV.gid]||{},G=g.gh||{},f=G["f"+RV.fl],it=f&&Array.isArray(f.items)?f.items:Room3D.GH.f[RV.fl].items;return clone({items:it,store:G.store||[]})}
 const ghCan=()=>{const g=guilds[RV.gid];return !!(g&&isOff(g))};
@@ -4004,10 +4025,10 @@ function roomFix(L){(L.items||[]).forEach(it=>{if(it.k==="glass"&&!it.r&&Math.ab
 function roomL0(){let R=me&&me.room3;
  if(me&&me.house){const a=me.room3h,P=chars[me.house.w],b=P&&P.house&&P.house.w===uid?P.room3h:null;R=!a?b:!b?a:((b.t||0)>(a.t||0)?b:a)}
  return clone(R&&Array.isArray(R.items)?{items:R.items,store:R.store||[]}:Room3D.DEF_ROOM)}
-function roomSave(L,keep){RV.L=L;if(!keep)manStand();clearTimeout(RV.saveT);const md=RV.mode,gid=RV.gid,fl=RV.fl;RV.saveT=setTimeout(async()=>{const x=RV.L;if(!x)return;try{const o={items:x.items.map(it=>{const o={...it};delete o._z;return o}),store:x.store||[]};
+function roomSave(L,keep){RV.L=L;if(!keep)manStand();if(RV.mode==="vis"){roomDraw(true);return}clearTimeout(RV.saveT);const md=RV.mode,gid=RV.gid,fl=RV.fl;RV.saveT=setTimeout(async()=>{const x=RV.L;if(!x)return;try{const o={items:x.items.map(it=>{const o={...it};delete o._z;return o}),store:x.store||[]};
   if(md==="gh"){const ok=await gmut(gid,g=>{g.gh=g.gh||{};g.gh["f"+fl]={items:o.items};g.gh.store=o.store});if(!ok)toast("길드 건물 저장에 실패했어요")}else if(me.house){o.t=Date.now();await upd({room3h:o})}else await upd({room3:o})}catch(e){toast("방 저장에 실패했어요")}if(RV.L===x)RV.L=null},700);roomDraw(true)}
 function roomDraw(force,fast){const cv=RV.cv;if(!cv||!cv.isConnected||!me)return;const L=roomL(),bgv=getComputedStyle(cv).getPropertyValue("--bg"),key=JSON.stringify(L)+"|"+RV.ang.toFixed(3)+"|"+RV.sel+"|"+bgv+"|"+cv.clientWidth+"|"+(fast?1:0)+"|"+(me.house?2:1)+"|"+RV.zoom.toFixed(3)+","+RV.px.toFixed(1)+","+RV.py.toFixed(1)+"|"+(RV.man?RV.man.x.toFixed(2)+","+RV.man.y.toFixed(2)+","+RV.man.h.toFixed(2)+","+RV.man.ph.toFixed(2)+","+(RV.man.pose||"")+RV.man.act+","+RV.man.doors.b.toFixed(2)+RV.man.doors.m.toFixed(2):"");
- if(!force&&key===RV.key)return;RV.key=key;cancelAnimationFrame(RV.raf);RV.raf=requestAnimationFrame(()=>{try{const gh=RV.mode==="gh";if(gh)Room3D.setDims(Room3D.GH.W,Room3D.GH.D);else Room3D.size(!!me.house);if(!RV.man||RV.man.y>Room3D.D||RV.man.x>Room3D.W||(!gh&&RV.man.big!==!!me.house)||RV.man.mode!==RV.mode||RV.man.fl!==RV.fl)manInit(L);
+ if(!force&&key===RV.key)return;RV.key=key;cancelAnimationFrame(RV.raf);RV.raf=requestAnimationFrame(()=>{try{const gh=RV.mode==="gh";if(gh)Room3D.setDims(Room3D.GH.W,Room3D.GH.D);else Room3D.size(bigNow());if(!RV.man||RV.man.y>Room3D.D||RV.man.x>Room3D.W||(!gh&&RV.man.big!==bigNow())||RV.man.mode!==RV.mode||RV.man.fl!==RV.fl)manInit(L);
   const O=Object.values(RV.oth||{}).map(o=>o.m),S=gh?Room3D.buildPlan(RV.ang,RV.fl,L,RV.sel,RV.man,O):Room3D.buildRoom(RV.ang,L,RV.sel,RV.man,O);RV.pick=Room3D.draw(cv,S,RV.ang,{dpr:fast?1:Math.min(2,window.devicePixelRatio||1),zoom:RV.zoom,px:RV.px,py:RV.py});RV.scr=S.scr||{};roomWxMask(RV.pick);roomLabels(RV.pick)}catch(e){}})}
 /* 머리 위 이름 (같은 곳에 다른 사람이 있을 때) */
 function roomLabels(P){const ids=Object.keys(RV.oth||{});if(!P||!P.C||!ids.length)return;const cv=RV.cv,x=cv.getContext("2d"),a=RV.ang,PHI=Math.asin(1/Math.sqrt(3)),cf=Math.cos(PHI),sf=Math.sin(PHI),r=[Math.sin(a),-Math.cos(a)],u=[-sf*Math.cos(a),-sf*Math.sin(a),cf],dp=P.Wp/(cv.clientWidth||1),cs=getComputedStyle(cv),ac=(cs.getPropertyValue("--ac")||"#fff").trim(),bg=(cs.getPropertyValue("--bg")||"#000").trim();
@@ -4016,7 +4037,7 @@ function roomLabels(P){const ids=Object.keys(RV.oth||{});if(!P||!P.C||!ids.lengt
  one(RV.man,me.name,1);ids.forEach(id=>{const o=RV.oth[id];one(o.m,(chars[id]&&chars[id].name)||"?",0)})}
 /* 픽토그램 사람: 누른 바닥으로 걸어감 (벽 · 가구는 돌아감) */
 function manFree(M,x,y,ok){let best=null,bd=1e9;for(let j=0;j<M.ny;j++)for(let i=0;i<M.nx;i++){const id=j*M.nx+i;if(M.b[id]||(ok&&!ok(id)))continue;const cx=(i+.5)*M.c,cy=(j+.5)*M.c,d=(cx-x)**2+(cy-y)**2;if(d<bd){bd=d;best=[cx,cy,id]}}return best}
-function manInit(L){const gh=RV.mode==="gh",M=walkCur(L||roomL()),s0=gh?(RV.fl?[21.6,13.4]:[20,26.4]):[Room3D.W-2.2,9.1],p=manFree(M,s0[0],s0[1])||s0;RV.man={x:p[0],y:p[1],h:gh&&!RV.fl?-Math.PI/2:Math.PI,ph:0,big:!!(me&&me.house),mode:RV.mode,fl:RV.fl,doors:{b:0,m:0},act:null};RV.mpath=[];RV.mthen=null;presSend()}
+function manInit(L){const gh=RV.mode==="gh",M=walkCur(L||roomL()),s0=gh?(RV.fl?[21.6,13.4]:[20,26.4]):[Room3D.W-2.2,9.1],p=manFree(M,s0[0],s0[1])||s0;RV.man={x:p[0],y:p[1],h:gh&&!RV.fl?-Math.PI/2:Math.PI,ph:0,big:bigNow(),mode:RV.mode,fl:RV.fl,doors:{b:0,m:0},act:null};RV.mpath=[];RV.mthen=null;presSend()}
 function manPath(tx,ty,m0){const M=walkCur(roomL()),m=m0||RV.man,{nx,ny,b,c}=M,cl=v=>Math.max(0,v);let si=Math.min(nx-1,Math.floor(cl(m.x)/c)),sj=Math.min(ny-1,Math.floor(cl(m.y)/c));
  if(b[sj*nx+si]){const f=manFree(M,m.x,m.y);if(!f)return[];si=f[2]%nx;sj=(f[2]-si)/nx}
  const par=new Int32Array(nx*ny).fill(-2),q=[sj*nx+si];par[q[0]]=-1;
@@ -4124,13 +4145,15 @@ function roomStore(){const L=roomL(),it=L.items[RV.sel];if(!it)return;L.items.sp
 function roomTake(i){const L=roomL(),s=(L.store||[])[i];if(!s)return;const K=Room3D.FK[s.k];if(!K)return;L.store.splice(i,1);const gh=RV.mode==="gh",cx=gh?(RV.man?RV.man.x:26):Room3D.BX/2,cy=gh?(RV.man?RV.man.y-K.d-.6:20):Room3D.D/2;
  const it=K.win?{k:s.k,w:0,pos:4.2,r:0}:{k:s.k,x:Math.max(0,Math.min(Room3D.W-K.w,Math.round((cx-K.w/2)*2)/2)),y:Math.max(0,Math.min(Room3D.D-K.d,Math.round((cy-(gh?0:K.d/2))*2)/2)),r:0};L.items.push(it);RV.sel=L.items.length-1;roomSave(L);toast(K.n+"을(를) 꺼냈어요 · 화살표로 옮겨 보세요");render(true)}
 function roomReset(){if(Date.now()-RV.arm>4000){RV.arm=Date.now();return toast("한 번 더 누르면 처음 배치로 되돌려요")}RV.arm=0;RV.sel=null;const L=roomL(),def=RV.mode==="gh"?clone({items:Room3D.GH.f[RV.fl].items,store:[]}):clone(Room3D.DEF_ROOM);def.store=L.store||[];roomSave(def);render(true)}
-function rMyRoom(v){if(!RV.cv)roomInitCv();if(v&&!RV.gidFor)roomMode("room");RV.gidFor=0;const gh=RV.mode==="gh",L=roomL(),ib=(p,fn,t)=>h("button",{c:"rvb",type:"button",title:t,"aria-label":t,onclick:()=>wrap(fn)},svgI(p));
+function rMyRoom(v){if(!RV.cv)roomInitCv();if(v&&!RV.gidFor&&!RV.visFor)roomMode("room");RV.gidFor=0;RV.visFor=0;const vis=RV.mode==="vis",gh=RV.mode==="gh",L=roomL(),ib=(p,fn,t)=>h("button",{c:"rvb",type:"button",title:t,"aria-label":t,onclick:()=>wrap(fn)},svgI(p));
  const fb=RV.box.querySelector(".ghfl");if(fb)fb.remove();if(gh){const f=h("div",{c:"ghfl"});["1F","2F"].forEach((n,i)=>f.append(h("button",{type:"button",c:RV.fl===i?"on":"",t:n,onclick:()=>ghFloor(i)})));RV.box.append(f)}
- if(gh&&RV.edit&&!ghCan())RV.edit=false;const canEd=!gh||ghCan(),nO=Object.keys(RV.oth||{}).length;
- const c=h("div",{c:"card roomc"},h("div",{c:"row sb"},h("h3",{t:gh?"길드 건물 · "+(RV.fl+1)+"층":me.house?"우리 집":"내 방"}),h("span",{c:"xs mt",t:RV.edit?"가구를 눌러서 고르세요":"바닥·가구를 눌러 보기 · 끌어서 돌리기 · 두 손가락 확대"})),RV.box,
+ if((gh&&RV.edit&&!ghCan())||vis)RV.edit=false;const canEd=vis?false:!gh||ghCan(),nO=Object.keys(RV.oth||{}).length;
+ const c=h("div",{c:"card roomc"},h("div",{c:"row sb"},h("h3",{t:vis?RV.vno+"호 · "+visNames():gh?"길드 건물 · "+(RV.fl+1)+"층":me.house?"우리 집":"내 방"}),h("span",{c:"xs mt",t:RV.edit?"가구를 눌러서 고르세요":"바닥·가구를 눌러 보기 · 끌어서 돌리기 · 두 손가락 확대"})),RV.box,
   h("div",{c:"rvbar"},ib(IC_ROTL,()=>roomTurn(1),"왼쪽으로 돌리기"),ib(IC_ROTR,()=>roomTurn(-1),"오른쪽으로 돌리기"),ib(IC_ZIN,()=>roomZoomBtn(1.4),"확대"),ib(IC_ZOUT,()=>roomZoomBtn(1/1.4),"축소"),h("span",{c:"grow"}),canEd?btn(RV.edit?"배치 끝내기":"가구 배치",()=>{RV.edit=!RV.edit;RV.sel=null;render(true)},"sm"+(RV.edit?" pri":"")):null));
  if(gh)c.append(h("p",{c:"xs mt",style:"margin:6px 2px 0",t:(nO?"지금 이 층에 길드원 "+nO+"명":"이 층에 다른 길드원은 없어요")+" · 왼쪽 위 1F · 2F로 층을 옮겨요"+(canEd?"":" · 가구 배치는 길드장 · 간부만")}));
+ else if(vis)c.append(h("p",{c:"xs mt",style:"margin:6px 2px 0",t:(nO?"집에 "+nO+"명 있어요":"집주인은 지금 방 화면에 없어요")+" · 가구는 써 볼 수 있지만 바꾼 건 저장되지 않아요"}),btn("방에서 나가기",visitLeave,"full",{style:"margin-top:8px"}));
  else if(me.house&&nO)c.append(h("p",{c:"xs mt",style:"margin:6px 2px 0",t:"같이 사는 헌터가 집에 있어요"}));
+ else if(!me.house&&nO)c.append(h("p",{c:"xs mt",style:"margin:6px 2px 0",t:"손님이 "+nO+"명 와 있어요"}));
  roomPanClamp();
  if(RV.edit){const it=RV.sel!=null&&L.items[RV.sel],K=it&&Room3D.FK[it.k];
   if(K)c.append(h("div",{c:"rvsel"},h("b",{c:"sm",t:K.n}),ib(IC_TURN,roomRot,K.win?"다른 벽으로":"돌리기"),h("span",{c:"xs mt",t:K.win?"끌어서 벽을 따라 옮기기 · 버튼: 다른 벽으로":"끌어서 옮기기 · 버튼: 90° 돌리기"})));
@@ -4138,11 +4161,11 @@ function rMyRoom(v){if(!RV.cv)roomInitCv();if(v&&!RV.gidFor)roomMode("room");RV.
   const S=L.store||[];c.append(h("div",{c:"rvst"},h("div",{c:"row sb"},h("b",{c:"sm",t:"가구 보관함 · "+S.length+"개"}),btn("고른 가구 넣기",roomStore,"sm",{disabled:!K})),
    S.length?h("div",{},...S.map((s2,i)=>h("div",{c:"lrow"},h("span",{c:"grow sm",t:(Room3D.FK[s2.k]||{}).n||s2.k}),btn("꺼내기",()=>roomTake(i),"sm")))):h("p",{c:"xs mt",style:"margin:4px 2px",t:"비어 있어요"}),
    btn("처음 배치로 되돌리기",roomReset,"sm",{style:"margin-top:8px"})))}
- v.append(c);if(!gh)v.append(hsCard());presSend();setTimeout(()=>roomDraw(),0)}
+ v.append(c);if(!gh&&!vis)v.append(hsCard());presSend();setTimeout(()=>roomDraw(),0)}
 function rGuildHouse(v,g){roomMode("gh",g.id||me.guild);RV.gidFor=1;rMyRoom(v)}
 /* ===== 같은 곳(우리 집 · 길드 건물 같은 층)에 있는 사람: 접속 표시에 자리만 실어 보냄 (움직일 때 · 하기 시작/끝낼 때만) ===== */
 let peerPl={};
-function placeKey(){if(!RV.cv||!RV.cv.isConnected||!me)return null;if(RV.mode==="gh")return RV.gid?"g:"+RV.gid+":"+RV.fl:null;return me.house?"h:"+me.house.no:null}
+function placeKey(){if(!RV.cv||!RV.cv.isConnected||!me)return null;if(RV.mode==="gh")return RV.gid?"g:"+RV.gid+":"+RV.fl:null;if(RV.mode==="vis")return RV.vbig?"h:"+RV.vno:"r:"+RV.vid;return me.house?"h:"+me.house.no:"r:"+uid}
 function presSend(now,dest){if(!rm||!rm.presence)return;const k=placeKey(),m=RV.man;let o=null;if(k&&m){const p=dest||[m.x,m.y];o={k,x:Math.round(p[0]*100)/100,y:Math.round(p[1]*100)/100,act:m.act==null?null:m.act,side:m.side||0}}
  const sig=JSON.stringify(o);if(sig===RV.plSig)return;RV.plSig=sig;clearTimeout(RV.plT);const go=()=>{try{rm.presence({u:uid,pl:o}).catch(()=>{})}catch(e){}};if(now||!o)go();else RV.plT=setTimeout(go,600)}
 function presCheck(){if(RV.plSig&&RV.plSig!=="null"&&!placeKey())presSend(true)}
