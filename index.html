@@ -42,7 +42,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 #tme{display:flex;gap:9px;align-items:center;margin-bottom:8px}#tme .tph{width:34px;height:42px;flex:none;border:1px solid var(--bd);border-radius:3px;overflow:hidden;background:rgba(var(--acr),.05)}#tme .tph img{width:100%;height:100%;object-fit:cover;display:block}
 #tme .tin{flex:1;min-width:0}#tme .tnm{display:flex;align-items:baseline;gap:6px;min-width:0}#tme .tnm b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}#tme .tnm em{font-style:normal;font-size:11px;color:var(--ac);flex:none;font-weight:700}
 #tme .tsb{font-size:10.5px;color:var(--mt);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#tme .txp{display:flex;align-items:center;gap:6px;margin-top:4px}#tme .txp .thin{flex:1;margin-top:0;height:3px}#tme .txp small{font-size:9.5px;color:var(--mt);flex:none;font-variant-numeric:tabular-nums}
-#top.min #stat{display:none}#top.min #tmini{display:block}
+#top.min #stat,#top.min #tchat{display:none}#top.min #tmini{display:block}
 #tchat{position:absolute;right:12px;top:8px;width:34px;height:30px;padding:0;border-radius:8px;background:var(--sf);display:flex;align-items:center;justify-content:center;z-index:2}#tchat svg{width:19px;height:19px;fill:none;stroke:var(--ac2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}#tcdot{position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--ac);display:none}
 #tme .tin{padding-right:40px}#tme .twal{font-size:10.5px;color:var(--gold);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #tme .tmail{flex:none;width:20px;height:16px;padding:0;border:0;background:transparent;align-self:center;animation:tmb 1.1s steps(2,jump-none) infinite}#tme .tmail svg{width:18px;height:14px;fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linejoin:round;display:block}
@@ -51,6 +51,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 .hubl{display:flex;flex-direction:column;gap:8px}.hubpick{max-height:260px;overflow-y:auto;border:1px solid var(--ln);border-radius:6px;padding:4px 6px}.hubpick .pk{display:flex;gap:8px;align-items:center;padding:4px 0}
 .m.pinv,.feed .pinv{display:flex;align-items:center;gap:8px;border:1px dashed var(--ac2);border-radius:8px;padding:6px 8px;margin:6px 0}.m.pinv small{color:var(--ac2);flex:none}.m.pinv span{flex:1;font-size:13px}
 #gtab{position:fixed;left:0;top:calc(33% + 140px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
+#gtab{touch-action:none;user-select:none;-webkit-user-select:none}#gtab.free{border-left:1px solid var(--bd);border-radius:12px;width:44px;height:52px;box-shadow:0 2px 10px rgba(0,0,0,.35)}#gtab.free.sl{border-left:0;border-radius:0 12px 12px 0;width:40px;height:56px;box-shadow:none}#gtab.free.sr{border-left:1px solid var(--bd);border-right:0;border-radius:12px 0 0 12px;width:40px;height:56px;box-shadow:none}#gtab.drag{opacity:.75}
 #gtab svg{width:24px;height:24px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#gtab.act{background:rgba(var(--acr),.2)}#gdot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--ac);display:none}
 @media (min-width:900px){#gtab{left:max(0px,calc(50% - 480px))}}
 #pager{position:fixed;left:46px;top:max(70px,calc(33% - 40px));width:min(300px,calc(100vw - 58px));background:var(--phb);border:1px solid var(--bd);border-radius:18px;padding:12px 12px 12px;z-index:8;display:none;box-shadow:0 0 0 3px var(--bg),0 0 18px rgba(var(--acr),.22)}
@@ -413,8 +414,8 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 </style></head>
 <body>
 <div id="auth"><div class="acard"><p class="mt sm" style="text-align:center">연결 중…</p></div></div>
-<header id="top"><div id="stat"><div id="tme"></div><div class="bars"><div class="pb"><i id="thb"></i><span id="thp"></span></div><div class="pb mp"><i id="tmb"></i><span id="tmp"></span></div><div class="pb en"><i id="teb"></i><span id="ten"></span></div><div class="pb con"><i id="tcb"></i><span id="tcn"></span></div></div>
-<div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div><div id="tmini" class="sm mt"></div><button id="tchat" type="button" aria-label="채팅" onclick="openHub()"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3.5V16H4zM8 9.5h8M8 12.5h5"/></svg><i id="tcdot"></i></button><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button></header>
+<header id="top"><div id="stat"><button id="tchat" type="button" aria-label="채팅" onclick="openHub()"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-4 3.5V16H4zM8 9.5h8M8 12.5h5"/></svg><i id="tcdot"></i></button><div id="tme"></div><div class="bars"><div class="pb"><i id="thb"></i><span id="thp"></span></div><div class="pb mp"><i id="tmb"></i><span id="tmp"></span></div><div class="pb en"><i id="teb"></i><span id="ten"></span></div><div class="pb con"><i id="tcb"></i><span id="tcn"></span></div></div>
+<div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button></header>
 <div id="notice"></div>
 <main id="view"><p class="mt">불러오는 중…</p></main>
 <nav id="nav"></nav>
@@ -442,7 +443,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114073814";
+const BUILD="20261114081200";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -596,7 +597,7 @@ const BUILD="20261114073814";
   out.push(h("div",{c:"card"},h("h3",{t:"계정"}),h("div",{c:"sm mt",t:"로그인 아이디 "+FB.loginId+(FB.admin?" · 운영자":"")}),h("div",{style:"height:8px"}),
    btn("로그아웃",async()=>{if(FB.dropPresence)await FB.dropPresence();await auth.signOut();location.href=location.pathname},"full")));
   if(!FB.admin)return out;
-  if(!GM.view){out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"초대코드와 회원 관리는 운영 화면에 있어요. 내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full"),h("div",{style:"height:6px"}),btn("내 캐릭터 살리기",()=>wrap(()=>gmRevive(FB.uid)),"full")));return out}
+  if(!GM.view){out.push(h("div",{c:"card"},h("h3",{t:"운영자"}),h("div",{c:"xs mt",style:"margin-bottom:8px",t:"초대코드와 회원 관리는 운영 화면에 있어요. 내 캐릭터는 다른 사람의 접속 목록과 광장 주민 목록에 보이지 않아요."}),btn("운영 화면으로",()=>{GM.view=true;GM.chosen=true;render(true)},"full"),h("div",{style:"height:6px"}),btn("내 캐릭터 살리기",()=>wrap(()=>gmRevive(FB.uid)),"full"),h("div",{style:"height:6px"}),btn("내 캐릭터 레벨 되돌리기",()=>gmLvPop(FB.uid),"full")));return out}
   if(AD.inv===null&&!AD.loading)setTimeout(adLoad,0);
   const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"운영 · 초대코드"}),btn("새로고침",adLoad,"sm")));
   const sel=h("select",{onchange:e=>{AD.exp=+e.target.value}},[[7,"7일"],[30,"30일"],[0,"기한 없음"]].map(([v,n])=>{const o=h("option",{value:v,t:"유효기간 "+n});if(v===AD.exp)o.selected=true;return o}));
@@ -612,8 +613,8 @@ const BUILD="20261114073814";
   const m=h("div",{c:"card"},h("h3",{t:"회원 "+(AD.users?AD.users.length+"명":"")}));
   (AD.users||[]).forEach(u=>{const ch=chars[u.uid],self=u.uid===FB.uid;
    m.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:u.id+(u.owner?" · 운영자":"")}),u.invite?h("span",{c:"xs mt",t:" "+u.invite}):null,h("div",{c:"xs mt",t:(ch?ch.name+" · Lv"+ch.lv:"캐릭터 없음")+" · 가입 "+day(u.t)+(online.has(u.uid)?" · 접속 중":"")})),
-    ch?btn("살리기",()=>wrap(()=>gmRevive(u.uid)),"sm"):null,self?null:btn(AD.arm===u.uid?"정말 차단":"차단",()=>adBlock(u),AD.arm===u.uid?"pri sm":"sm")))});
-  m.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"살리기: 실종·격리를 풀고 HP·MP·에너지를 가득 채워 중앙 거점 광장으로 보내요. "}),h("div",{c:"xs mt",style:"margin-top:4px",t:"아이디 옆 코드는 가입할 때 쓴 초대코드예요. 차단하면 그 회원은 게임에 들어올 수 없어요. 캐릭터는 남아 있어서, 새 초대코드로 다시 입장하면 이어서 할 수 있어요. 비밀번호를 잊은 회원은 새 아이디로 가입해야 합니다."}));
+    ch?btn("살리기",()=>wrap(()=>gmRevive(u.uid)),"sm"):null,ch?btn("레벨",()=>gmLvPop(u.uid),"sm"):null,self?null:btn(AD.arm===u.uid?"정말 차단":"차단",()=>adBlock(u),AD.arm===u.uid?"pri sm":"sm")))});
+  m.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"살리기: 실종·격리를 풀고 HP·MP·에너지를 가득 채워 중앙 거점 광장으로 보내요. 레벨: 레벨·경험치를 원하는 값으로 되돌려요 (스탯은 다시 나눔). "}),h("div",{c:"xs mt",style:"margin-top:4px",t:"아이디 옆 코드는 가입할 때 쓴 초대코드예요. 차단하면 그 회원은 게임에 들어올 수 없어요. 캐릭터는 남아 있어서, 새 초대코드로 다시 입장하면 이어서 할 수 있어요. 비밀번호를 잊은 회원은 새 아이디로 가입해야 합니다."}));
   out.push(m);out.push(cvCard());return out};
  /* ----- 운영자: 대화 열람 (신고 처리용) ----- */
  const CV={u:"",data:null,busy:false};
@@ -647,6 +648,8 @@ function note(t){const n=$("#notice");n.textContent=t;n.style.display=t?"block":
 const errT=e=>(e&&(e.message||e.code))||String(e);
 async function wrap(fn){try{await fn()}catch(e){toast("처리 실패: "+errT(e))}}
 const btn=(t,fn,c,x)=>h("button",Object.assign({c:c||"",t,onclick:()=>wrap(fn)},x||{}));
+/* 전송 버튼: 눌러도 입력칸 초점을 빼앗지 않음 (휴대폰 키패드가 닫히고 화면이 튀는 것 방지) */
+const NF={onmousedown:e=>e.preventDefault(),onpointerdown:e=>{if(e.pointerType==="mouse")e.preventDefault()}};
 const fmt=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 const pbar=(v,mx,c,txt)=>h("div",{c:"pb "+(c||"")},h("i",{style:"width:"+Math.max(0,Math.min(1,v/mx))*100+"%"}),h("span",{t:txt||Math.round(v)+" / "+mx}));
 const mbar=f=>h("div",{c:"mb"},h("i",{style:"width:"+Math.max(0,Math.min(1,f))*100+"%"}));
@@ -671,7 +674,7 @@ function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}c
 /* ===== 데이터 ===== */
 const SN=["힘","행운","민첩","지능","방어","손재주"],SHOW=[0,4,2,3,1,5],SDESC=["최대 HP · 공격력","드랍률 · 채집량","회피 · 스킬 재사용 단축","치유력 · 최대 MP · 치명타","방어력","채집 성공률 · 제작 성공률"];/* 4번 칸은 예전 공격력 → 지금은 방어 */
 const CRP=12;/* 만들 때 나눠 주는 포인트 (시작 스탯 3 + 12 = 15) */
-const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1.5,MAXEN=100,MOVE_EN=10,GATHER_EN=0;
+const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1,MAXEN=100,MOVE_EN=10,GATHER_EN=0;
 const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."},cloudy:{n:"흐림",d:"두꺼운 구름이 하늘을 덮었습니다."},storm:{n:"천둥번개",d:"번개가 치고 비가 쏟아집니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
 function hsh(n){let x=Math.imul(n^0x9e3779b9,0x85ebca6b);x^=x>>>13;x=Math.imul(x,0xc2b2ae35);x^=x>>>16;return (x>>>0)/4294967296}
@@ -714,15 +717,15 @@ const AICO={빛:"M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.6 2.6M16.1 16.
  땅:"M2 20h20M3.5 20l5.5-10 3.4 5 2.6-3.8 5.5 8.8M9 10l1.5 2.3M15 11.2l1 1.4",
  풀:"M5 19.5C5 10.6 10.6 4.5 19.5 4.5c0 9-6 15-14.5 15zM5 19.5l8.8-8.8M9.4 15.1h3.6M12.6 11.9V8.4"};
 /* 부상·질병 (물리적 증상만 치료 가능) · nat=자연 회복 시간(ms) · cl=치료소 진료비 */
-const AIL={bleed:{n:"열상",d:"출혈 · HP 자연 회복 멈춤 · 최대 HP -10% · 오래 두면 감염될 수 있음",cure:"지혈 붕대 · 치료소 봉합",cl:250},
- sprain:{n:"염좌",d:"민첩 -30%",cure:"압박 붕대 · 1시간 뒤 자연 회복",nat:36e5,cl:250},
- fracture:{n:"골절",d:"힘 -40% (공격력도 함께 하락) · 민첩 -30%",cure:"부목 고정 · 도수정복 · 치료소 깁스",cl:700},
- pain:{n:"극심한 통증",d:"행운 -40%",cure:"진통제 · 1시간 뒤 사라짐",nat:36e5,cl:200},
- burn:{n:"화상",d:"최대 HP -12% · HP 회복 절반",cure:"화상 연고 · 1시간 30분 뒤 자연 회복",nat:54e5,cl:350},
- conc:{n:"뇌진탕",d:"명중률 -12% · 지능 -30%",cure:"45분 휴식 · 치료소 진찰",nat:27e5,cl:300},
- poison:{n:"중독",d:"HP 자연 회복 멈춤 · 최대 HP -8%",cure:"항독 혈청 · 40분 뒤 자연 해독",nat:24e5,cl:400},
- infect:{n:"감염",d:"상처 감염으로 고열 · 최대 HP -15% · 에너지 회복 절반",cure:"항생제 · 치료소",cl:500},
- cold:{n:"감기",d:"몸살 · 에너지 회복 -30% · 최대 MP -10%",cure:"해열제 · 1시간 뒤 자연 회복",nat:36e5,cl:150}};
+const AIL={bleed:{n:"열상",d:"출혈 · HP 자연 회복 멈춤 · 최대 HP -10% · 오래 두면 감염될 수 있음",cure:"지혈 붕대 · 치료소 봉합",cl:50},
+ sprain:{n:"염좌",d:"민첩 -30%",cure:"압박 붕대 · 1시간 뒤 자연 회복",nat:36e5,cl:50},
+ fracture:{n:"골절",d:"힘 -40% (공격력도 함께 하락) · 민첩 -30%",cure:"부목 고정 · 도수정복 · 치료소 깁스",cl:50},
+ pain:{n:"극심한 통증",d:"행운 -40%",cure:"진통제 · 1시간 뒤 사라짐",nat:36e5,cl:50},
+ burn:{n:"화상",d:"최대 HP -12% · HP 회복 절반",cure:"화상 연고 · 1시간 30분 뒤 자연 회복",nat:54e5,cl:50},
+ conc:{n:"뇌진탕",d:"명중률 -12% · 지능 -30%",cure:"45분 휴식 · 치료소 진찰",nat:27e5,cl:50},
+ poison:{n:"중독",d:"HP 자연 회복 멈춤 · 최대 HP -8%",cure:"항독 혈청 · 40분 뒤 자연 해독",nat:24e5,cl:50},
+ infect:{n:"감염",d:"상처 감염으로 고열 · 최대 HP -15% · 에너지 회복 절반",cure:"항생제 · 치료소",cl:50},
+ cold:{n:"감기",d:"몸살 · 에너지 회복 -30% · 최대 MP -10%",cure:"해열제 · 1시간 뒤 자연 회복",nat:36e5,cl:50}};
 /* 약물과다 (정신적 증상 · 치료 불가) */
 const OD=["환통","환청","환시","이명","감각과민"],ODE={환통:"명중률·민첩·공격력 하락",환청:"명중률·민첩·공격력 상승 · 높은 확률로 아군이나 자신을 공격",환시:"명중률·민첩·공격력 상승 · 높은 확률로 아군이나 자신을 공격",이명:"명중률·민첩·공격력 하락 · 가끔 자신을 공격 · 가끔 5초간 공격 불가",감각과민:"명중률·민첩·공격력 하락 · 가끔 자신을 공격"};
 const DOSE_NEED={F:10,E:15,D:25,C:40,B:60};
@@ -1538,7 +1541,9 @@ function tavMsgs(){const L=[];reqs.filter(r=>(r.by===uid||(r.pay==="guild"&&me.g
  if(r.st==="paid")L.push({t:r.paidT,uid:"tav",name:"주점 사장",kind:"sys",text:"「"+reqTitle(r)+"」 의뢰비 지불을 확인했소. 고맙소."});
  else if(r.pen)L.push({t:r.billT+864e5,uid:"tav",name:"주점 사장",kind:"sys",text:"「"+reqTitle(r)+"」 의뢰비가 24시간째 밀렸소. 명성이 깎였으니 그리 아시오."})});return L.filter(m=>m.t<=Date.now()).sort((a,b)=>a.t-b.t)}
 /* 자동 전투 */
-const AUTO_D=[[30,"30분"],[60,"1시간"],[120,"2시간"],[180,"3시간"],[480,"8시간"]];let autoSel={d:60,p:""};
+const AUTO_D=[[30,"30분"],[60,"1시간"],[120,"2시간"],[180,"3시간"],[480,"8시간"]];
+/* 자동 전투 보상 비율: 1시간 이하 70% · 2시간 65% · 3시간 60% · 8시간 50% */
+const autoRate=d=>d<=60?.7:d<=120?.65:d<=180?.6:.5;let autoSel={d:60,p:""};
 const healIt=()=>Object.keys(IT).filter(k=>IT[k].use&&IT[k].use.hp);
 async function startAuto(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.auto)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.sg)return toast("게이트(섬) 안에서는 자동 전투를 할 수 없어요");const R=REG[me.loc];if(R.safe)return toast("상시 게이트가 있는 지역에서만 가능합니다");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(isTmpP(me.party))await tmpLeave();await upd({auto:{reg:me.loc,t0:Date.now(),dur:autoSel.d,prio:autoSel.p||""}});toast("자동 전투 시작 · "+AUTO_D.find(x=>x[0]===autoSel.d)[1])}
@@ -1548,7 +1553,7 @@ function simAuto(a,mins){const R=REG[a.reg],hard=!!R.hard,lf=luckF(me),c=clone(m
   hp=Math.min(mh,hp+12)-Math.max(1,matk-D)*(c.role==="tank"?.75:1)*(tk/4.5);
   while(hp<mh*.5){let it=a.prio&&inv[a.prio]>0?a.prio:healIt().filter(k=>inv[k]>0).sort((x,y)=>IT[y].use.hp-IT[x].use.hp)[0];if(!it)break;inv[it]--;used[it]=(used[it]||0)+1;hp=Math.min(mh,hp+IT[it].use.hp)}
   if(hp<=0){dead=true;break}wins++;
-  const e=ml*14*EXPX*.7*(ml<lv-10?.5:1);exp+=e;gx+=e;tan+=(100+ri(51))*(1+.03*baseLv())*(hard?1.8:1)*1.3*.7;
+  const ar=autoRate(a.dur||60),e=ml*14*ar*(ml<lv-10?.5:1);exp+=e;gx+=e;tan+=(100+ri(51))*(1+.03*baseLv())*(hard?1.8:1)*1.3*ar;
   if(rf()<Math.min(.9,.5*lf))add(rollMM(lf),1);if(rf()<.25)add("f_meat",1);if(rf()<.04*lf)add("f_egg",1);if(rf()<.006*lf)add("rm_"+pickW(MRW),1);
   while(lv<MAXLV&&exp>=lv*60){exp-=lv*60;lv++;sp+=spFor(lv);mh=maxHp({...c,lv});hp=mh}}
  return{wins,dead,lv,exp:lv>=MAXLV?0:Math.round(exp),gx:Math.round(gx),tan:Math.round(tan),inv,got,used,hp:Math.max(1,Math.round(hp)),sp}}
@@ -1558,7 +1563,7 @@ async function claimAuto(){const a=me.auto;if(!a)return;const mins=Math.min(a.du
  openPop(h("div",{c:"h0",t:"자동 전투 결과"}),h("p",{c:"sm mt",t:REG[a.reg].n+" 상시 게이트 · "+Math.round(mins)+"분"}),
   h("p",{c:"sm",t:"승리 "+r.wins+"회 · +"+won(r.gx)+" EXP · +"+won(r.tan)+" 환"+(r.lv>me.lv?" · 레벨 업 Lv"+r.lv:"")}),
   h("p",{c:"sm",t:"획득: "+(nm(r.got)||"없음")}),h("p",{c:"sm mt",t:"사용한 회복 아이템: "+(nm(r.used)||"없음")}),
-  r.dead?h("p",{c:"sm bad",t:"HP가 바닥나 쓰러졌습니다. 중앙 거점 치료소로 후송되었어요."}):null,h("p",{c:"xs mt",t:"자동 전투는 수동 사냥의 70%만큼 경험치와 돈을 얻어요."}),btn("확인",closePop,"pri full"))}
+  r.dead?h("p",{c:"sm bad",t:"HP가 바닥나 쓰러졌습니다. 중앙 거점 치료소로 후송되었어요."}):null,h("p",{c:"xs mt",t:"자동 전투는 수동 사냥의 "+Math.round(autoRate(a.dur||60)*100)+"%만큼 경험치와 돈을 얻어요 (오래 돌릴수록 줄어요)."}),btn("확인",closePop,"pri full"))}
 /* S급 게이트 경보 · 이동 */
 function showSWarn(s){if($("#swarn"))return;const tape=()=>{const t=h("div",{c:"swtrk"});for(let i=0;i<16;i++)t.append(h("span",{t:i%2?"S급 게이트 발생":"WARNING"}));return t};
  const ico=svgI("M12 3.2 L21.4 19.8 H2.6 Z M12 9.6 V14.2 M12 16.9 v.3","swico");
@@ -1610,7 +1615,7 @@ function gateCards(v){const R=REG[me.loc],L=liveGates().filter(g=>g.kind==="w"&&
   btn("게이트 진입",()=>wrap(()=>goGate(g)),"pri full")))});
  if(R.safe)return;const a=me.auto,box=h("div",{c:"card gatec perm"},h("div",{c:"row sb"},h("h3",{t:"상시 게이트"}),h("span",{c:"sm mt",t:"Lv "+(R.lv+3)+"~"+(R.lv+4)})),h("p",{c:"xs mt",style:"margin:-2px 0 8px",t:"이 지역 레벨에 맞는 게이트. 환을 더 벌고 몬스터 재료를 얻을 수 있어요. 오래 비우면 자동 전투를 맡겨 두세요."}));
  if(a){const end=a.t0+a.dur*6e4,done=Date.now()>=end;box.append(h("div",{c:"sm"},(a.reg===me.loc?"":REG[a.reg].n+" · ")+"자동 전투 "+(done?"완료":"중 · 남은 시간 "),done?null:h("b",{"data-u":end,t:fmt(Math.ceil((end-Date.now())/1000))})),
-  h("div",{c:"xs mt",style:"margin:4px 0 8px",t:"HP 50% 미만이면 "+(a.prio&&IT[a.prio]?IT[a.prio].n+" 먼저, 없으면 회복량 높은 것부터":"회복량 높은 것부터")+" 자동 사용 · 경험치·돈 70%"}),btn(done?"정산 받기":"중지하고 정산",claimAuto,"pri full"))}
+  h("div",{c:"xs mt",style:"margin:4px 0 8px",t:"HP 50% 미만이면 "+(a.prio&&IT[a.prio]?IT[a.prio].n+" 먼저, 없으면 회복량 높은 것부터":"회복량 높은 것부터")+" 자동 사용 · 경험치·돈 "+Math.round(autoRate(a.dur||60)*100)+"%"}),btn(done?"정산 받기":"중지하고 정산",claimAuto,"pri full"))}
  else{const seg=h("div",{c:"seg"});AUTO_D.forEach(([m,n])=>seg.append(h("button",{c:autoSel.d===m?"on":"",t:n,onclick:()=>{autoSel.d=m;render(true)}})));
   const H=healIt().filter(k=>(me.inv[k]||0)>0),sel=h("select",{onchange:e=>{autoSel.p=e.target.value}},h("option",{value:"",t:"우선 회복 아이템: 자동 (회복량 높은 것부터)"}),H.map(k=>h("option",{value:k,t:"우선: "+IT[k].n+" (보유 "+me.inv[k]+" · HP +"+IT[k].use.hp+")"})));sel.value=H.includes(autoSel.p)?autoSel.p:"";
   box.append(h("div",{c:"row",style:"gap:8px"},btn("직접 전투",()=>startGateBattle({kind:"p"}),"pri grow")),h("div",{c:"sm",style:"margin:10px 0 4px",t:"자동 전투"}),seg,sel,h("div",{style:"height:6px"}),btn("자동 전투 시작",startAuto,"full"))}
@@ -1740,16 +1745,20 @@ function useSk(sk){
   else{const q=Math.round(m.hl*.7);Object.values(b.mem).forEach(x=>{if(x.hp>0)x.hp=Math.min(x.max,x.hp+q)});lg(b,m.n+"의 광역 치유 (전원 +"+q+")")}})
 }
 async function flee(){const m=battle.mem[uid];if(battle.gate&&battle.gate.kind==="r")rescueAfter({gate:battle.gate,st:"fled"}).catch(()=>{});if(battle.gate&&battle.gate.kind!=="p"&&battle.gate.kind!=="gm")pushContrib(battle.gate,m.dmg||0).catch(()=>{});await bmut(b=>{delete b.mem[uid];lg(b,me.name+" 후퇴");if(!Object.keys(b.mem).length)b.st="fled"});await upd({hp:Math.max(1,m.hp),mp:Math.round(memMp(m))});toast("전투에서 이탈했습니다");if(tab==="battle"){tab="map";render(true)}}
-function settleCheck(){if(battle&&battle.st!=="on"&&battle.mem&&battle.mem[uid]&&me&&me.lastB!==battle.t)settle(battle).catch(e=>toast("정산 오류: "+errT(e)))}
+const bDone=()=>{try{return JSON.parse(localStorage.getItem("af_bdone_"+uid)||"[]")}catch(e){return[]}};
+function settleCheck(){if(battle&&battle.st!=="on"&&battle.mem&&battle.mem[uid]&&me&&me.lastB!==battle.t&&!(me.bdone||[]).includes(battle.t)&&!bDone().includes(battle.t)&&Date.now()-(battle.t||0)<6*36e5)settle(battle).catch(e=>toast("정산 오류: "+errT(e)))}
 const conGain=(R,sk)=>Math.round((1+tier(R.lv)*1.2)*1.15*((HSP[sk]||HSP.out).con)*(RF()?1.5:1)*10)/10;
+/* 게이트 전투 1회 보상: 등급(F~S)과 크리처 레벨이 높을수록 최대치에 가깝게 */
+function gateTan(b){const g=b.gate||{},gf=((GRK[g.grade]||1)-1)/6,lf2=Math.min(1,(b.mon&&b.mon.lv||1)/80),f=Math.min(1,.6*gf+.4*lf2)*(.88+rf()*.12);return g.boss?Math.round(1000+300*f):Math.round(300+200*f)}
 async function settle(b){
  if(settling)return;settling=true;
  try{const m=b.mem[uid],c=cur(me),R=(()=>{if(b.gate&&b.gate.kind==="r")return REG[b.gate.reg]&&REG[b.gate.reg].res?REG[b.gate.reg]:REG.ruins;if(b.gate&&b.gate.kind!=="p"){const g=gateById(b.gate.id);if(g)return REG[g.reg||nearReg(g.x,g.y)]}return REG[b.region]})(),H=HSP[b.spot]||HSP.out,cg=b.st==="fled"?0:conGain(R,b.spot);
-  const p={ts:Date.now(),lastB:b.t,en:Math.round(c.en),mp:Math.round(memMp(m)),con:Math.min(100,Math.round((c.con+cg)*10)/10)};
+  const bd=(me.bdone||[]).concat([b.t]).slice(-40);try{localStorage.setItem("af_bdone_"+uid,JSON.stringify(bDone().concat([b.t]).slice(-60)))}catch(e){}
+  const p={ts:Date.now(),lastB:b.t,bdone:bd,en:Math.round(c.en),mp:Math.round(memMp(m)),con:Math.min(100,Math.round((c.con+cg)*10)/10)};
   const eq=clone(me.eq||{});for(const s in eq)if(eq[s]&&eq[s].id)eq[s].dur=Math.max(0,(eq[s].dur||0)-2);p.eq=eq;
   let msg="패배… 중앙 거점 치료소로 후송되었다";
-  if(b.st==="won"){const inv={...me.inv},got=[];let gx=b.mon.lv*14*EXPX*(b.mon.lv<me.lv-10?.5:1)*(RF()?1.2:1),exp=me.exp+Math.round(gx),lv=me.lv;
-   const lf=luckF(me),tan=Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?(b.gate.kind==="p"?1.3:GTAN[b.gate.grade]):1)),add=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(IT[id].n+" ×"+k)};
+  if(b.st==="won"){const inv={...me.inv},got=[];let gx=b.mon.lv*14*(b.mon.lv<me.lv-10?.5:1),exp=me.exp+Math.round(gx),lv=me.lv;
+   const lf=luckF(me),tan=b.gate&&b.gate.kind!=="p"?gateTan(b):Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?1.3:1)),add=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(IT[id].n+" ×"+k)};
    if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
     if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1)}}
    else{/* 게이트: 몬스터를 쓰러뜨려 얻는 재료는 0~3개 (손재주 비례) */const gk=b.gate.kind,boss=!!b.gate.boss,pool=[["hide",3],["res",3]];if(R.lv>=3)pool.push(["core",boss?2:1]);if(gk!=="gm")pool.push(["mm",boss?6:4]);if(R.hard)pool.push(["alloy",1],["crystal",.6],["cell",.25]);
@@ -2019,7 +2028,7 @@ function chatBox(v){
  v.append(h("div",{c:"feed",id:"feed"}));
  const hint=room==="oc"?"RP가 아닌 오너(플레이어)끼리 이야기하는 방 · 모든 유저가 함께 써요":room==="owner"?"RP가 아닌 오너 소통방 · 이 길드에 가입한 유저만 사용할 수 있어요":"(괄호) 안은 지문, 나머지는 대사로 표시됩니다";
  const inp=h("input",{id:"msg",maxlength:400,placeholder:room==="owner"?"오너방 메시지":"안녕하세요. (손을 흔든다)",onkeydown:e=>{if(e.key==="Enter")wrap(sendMsg)}});
- v.append(h("div",{c:"comp"},h("div",{c:"sm mt",style:"margin-bottom:4px",t:hint}),h("div",{c:"row"},inp,btn("전송",sendMsg,"pri"))));updFeed()}
+ v.append(h("div",{c:"comp"},h("div",{c:"sm mt",style:"margin-bottom:4px",t:hint}),h("div",{c:"row"},inp,btn("전송",sendMsg,"pri",NF)),h("div",{c:"pnote",t:AGREE_S})));updFeed()}
 async function postTo(k,t){const [r,id]=splitK(k),b={t:Date.now(),uid,name:me.name,kind:"rp",text:t};
  if(r==="rp")return db.collection("rp").add({...b,reg:me.loc});
  if(r==="wc")return db.collection("wchat").add({...b,reg:me.loc});
@@ -2029,7 +2038,8 @@ async function postTo(k,t){const [r,id]=splitK(k),b={t:Date.now(),uid,name:me.na
  if(r==="pt"){if(!me.party)throw new Error("파티에 참여해야 합니다");return db.collection("pchat").add({...b,party:me.party})}
  if(r==="grp"){const g=groups[id];if(!g||!g.members.includes(uid))throw new Error("참여 중인 채팅방이 아닙니다");return db.collection("gmsg").add({...b,room:id})}
  if(r==="dm")return db.collection("dm").add({...b,from:uid,to:id})}
-async function sendMsg(){const i=$("#msg"),t=i.value.trim();if(!t)return;await postTo(room==="dm"?"dm:"+dmWith:room==="grp"?"grp:"+grpId:room,t);i.value=""}
+/* 보내자마자 입력칸 비우기 (전송 중에 화면이 다시 그려져도 예전 글이 남지 않게) · 실패하면 되돌림 */
+async function sendMsg(){const i=$("#msg"),t=i.value.trim();if(!t)return;i.value="";try{i.focus({preventScroll:true})}catch(e){}try{await postTo(room==="dm"?"dm:"+dmWith:room==="grp"?"grp:"+grpId:room,t)}catch(e){const j=$("#msg");if(j&&!j.value)j.value=t;throw e}}
 
 /* ===== 내 정보 (정보 · 장비 · 프로필) ===== */
 function readPhoto(f){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const x=c.getContext("2d"),s=Math.min(im.width,im.height);x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,96,96);res(c.toDataURL("image/jpeg",.7))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(f)})}
@@ -2063,7 +2073,7 @@ function statCards(v){
  SHOW.forEach(i=>{const n=SN[i],val=me.s[i]||0;st.append(h("div",{c:"stat",style:"margin:4px 0"},h("span",{c:"n sm",t:n,style:i===ROLE[me.role].key?"color:var(--ac2);font-weight:700":""}),mbar(val/cp),h("b",{t:val}),eqStat(me,"s"+i)?h("span",{c:"xs ok",t:"+"+eqStat(me,"s"+i)}):null,
   sp>0?h("button",{t:"+",disabled:val>=cp,onclick:()=>wrap(()=>addStat(i))}):null),h("div",{c:"sdesc",t:SDESC[i]}))});
  st.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"레벨업마다 1포인트 · 100레벨까지 총 "+(15+MAXLV-1)+"포인트 · 스탯 하나당 최대 "+STATMAX+" · 행운: 드랍률·채집량 ×"+luckF(me).toFixed(2)+" · 손재주: 제작 성공률 "+Math.round(craftRate(me)*100)+"%"}));
- v.append(h("div",{c:"card"},h("div",{c:"sm mt",t:me.lv>=MAXLV?"최고 레벨 달성":"Lv"+me.lv+" · 경험치 "+me.exp+" / "+me.lv*60+" (전투 경험치 ×"+EXPX+")"}),h("div",{c:"thin"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(me.lv*60)*100)+"%;background:var(--gold)"})),
+ v.append(h("div",{c:"card"},h("div",{c:"sm mt",t:me.lv>=MAXLV?"최고 레벨 달성":"Lv"+me.lv+" · 경험치 "+me.exp+" / "+me.lv*60}),h("div",{c:"thin"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(me.lv*60)*100)+"%;background:var(--gold)"})),
   h("div",{c:"sm",style:"margin-top:8px",t:"공격 "+pw(me)+" · 치유 "+hl(me)+" · 방어 "+df(me)}),h("div",{c:"sm mt",t:"최대 MP "+maxMp(me)+" · MP 소모 ×"+mpMult(me).toFixed(2)+" · 채집 성공률 "+Math.round(gRate(me)*100)+"%"})),st,eqSummary())}
 function rMe(v){
  v.append(h("div",{c:"card me"},h("div",{c:"row"},avatar(me,"l"),h("div",{c:"grow"},h("div",{c:"h0",t:me.name}),h("div",{c:"mt sm",t:ROLE[me.role].n+" · Lv"+me.lv+" · 번호 "+fnum(me.num)}),h("div",{style:"margin-top:4px"},attrB(me.attr,gradeL(me)),h("span",{c:"sm mt",t:" 변경 불가"}))))));
@@ -2211,12 +2221,12 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   sec("채널");if(!me.hqOut)room("hq","협회 공지");if(tavMsgs().length)room("tav","주점 사장");room("wc","전체 채팅");room("rp","지역 채팅 · "+REG[me.loc].n);room("oc","오너방 (전체)");room("pt","파티 채팅",me.party&&parties[me.party]?null:"파티에 참여하면 사용할 수 있어요");
   room("g","길드 채팅 (RP)",myG()?null:"길드에 가입하면 사용할 수 있어요");room("owner","길드 채팅 (오너)",myG()?null:"길드에 가입하면 사용할 수 있어요");
   sec("1:1 채팅");const ps=dmPartners();if(!ps.length)B.append(h("div",{c:"pe",t:"연락처에서 문자를 보내 보세요."}));ps.forEach(id=>room("dm:"+id,dName(id)));
-  sec("단체 채팅");myGroups().forEach(id=>room("grp:"+id,groups[id].name+" ("+groups[id].members.length+")"));it("+ 새 단체방","",()=>phGo("newgrp"));B.append(h("div",{c:"pnote",t:AGREE_S}))}
+  sec("단체 채팅");myGroups().forEach(id=>room("grp:"+id,groups[id].name+" ("+groups[id].members.length+")"));it("+ 새 단체방","",()=>phGo("newgrp"))}
  else if(s==="chat"){const k=ph.room||"rp",[t,id]=splitK(k);if(!validRoom(k)){ph.scr="msg";return phRender()}
   hd(roomTitle(k),t==="grp"?h("button",{c:"plink",type:"button",t:"나가기",onclick:()=>wrap(async()=>{await leaveGroup(id);ph.stack=[["home",null]];ph.scr="msg";ph.room=null;phRender()})}):null);
   B.classList.add("chat");if(t==="hq"||t==="tav"){B.append(h("div",{id:"pfeed"}));if(t==="tav")reqs.filter(r=>r.st==="billed"&&(r.by===uid||(r.pay==="guild"&&r.gid===me.guild&&isOff(myG())))).forEach(r=>B.append(pb("지불 "+won(r.amt)+"환 · "+reqTitle(r),()=>payBill(r),"pri")));
    else B.append(h("div",{c:"xs mt",style:"text-align:center",t:"협회 공지는 읽기 전용입니다"}));updPhone(true)}
-  else{B.append(h("div",{id:"pfeed"}),h("input",{id:"pmsg",maxlength:400,placeholder:"메시지 (가운데 전송 키)",autocomplete:"off",onkeydown:e=>{if(e.key==="Enter")wrap(sendPhone)}}),h("div",{c:"pnote",t:AGREE_S}));hgReset();updPhone(true)}}
+  else{B.append(h("div",{id:"pfeed"}),h("input",{id:"pmsg",maxlength:400,placeholder:"메시지 (가운데 전송 키)",autocomplete:"off",onkeydown:e=>{if(e.key==="Enter")wrap(sendPhone)}}));hgReset();updPhone(true)}}
  else if(s==="newgrp"){hd("새 단체방");B.append(h("input",{id:"pmsg",maxlength:16,placeholder:"방 이름 (자판 입력 가능)",autocomplete:"off",value:gform.name,oninput:e=>{gform.name=e.target.value}}));
   const box=h("div",{c:"ppick"}),L=Object.entries(chars).filter(([id])=>id!==uid&&isFr(id));if(!L.length)box.append(h("div",{c:"pe",t:"초대할 친구가 없습니다. 연락처에서 친구를 먼저 맺어 주세요."}));
   L.forEach(([id,c])=>{const cb=h("input",{type:"checkbox",onchange:e=>{gform.sel=gform.sel.filter(x=>x!==id);if(e.target.checked)gform.sel.push(id)}});cb.checked=gform.sel.includes(id);box.append(h("label",{c:"pk"},cb,h("span",{t:c.name})))});
@@ -2310,6 +2320,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   else tg("테마",LTH[SET.lth]||"모래",()=>{const K=Object.keys(LTH);SET.lth=K[(K.indexOf(SET.lth)+1)%K.length];saveSet();phRender()});
   B.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.night?"야간 모드: 레드 · 그린 · 블루 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지 · 초원 · 별밤"}));
   tg("배경화면",wallUrl()?"바꾸기":"사진 고르기",pickWall);if(wallUrl())tg("배경화면 지우기","기본으로",()=>{try{localStorage.removeItem("af_wall")}catch(e){}phRender()});
+  if(gtPos)tg("삐삐 아이콘 위치","옮김 · 초기화",()=>{gtPos=null;try{localStorage.removeItem("af_gtab")}catch(e){}applyGtab();phRender()});
   tg("휴대폰 아이콘 위치",ptPos?"옮김 · 초기화":"기본",()=>{if(ptPos){resetPtab();phRender()}else toast("휴대폰 아이콘을 끌어서 원하는 곳에 두세요")});
   tg("깨진 화면 효과",SET.crack?"켜짐":"꺼짐",()=>{SET.crack=!SET.crack;saveSet();phRender()});
   if(!me.hqOut)tg("협회 공지 알림",SET.hqn===false?"끔":"켬",()=>{SET.hqn=SET.hqn===false;saveSet();updDot();phRender()});
@@ -2356,7 +2367,7 @@ function tyShow(){const now=Date.now(),put=(sel,k)=>{const f=$(sel);if(!f)return
  const k=tyKey();if(k)put("#pfeed",k);if(rdOn&&rc.st==="on")put("#rfeed","radio")}
 const lastT=a=>a.length?a[a.length-1].t:0;
 async function sendPhone(){const i=$("#pmsg");if(!i||!me)return;if(i.value!==hg.pre+hgComp())hgReset();hgCommit();hgShow();const t=i.value.trim();if(!t)return;
- await postTo(ph.room||"rp",t);i.value="";hgReset()}
+ i.value="";hgReset();try{await postTo(ph.room||"rp",t)}catch(e){const j=$("#pmsg");if(j&&!j.value)j.value=t;throw e}}
 async function phCreateGroup(){const i=$("#pmsg");if(i){if(i.value!==hg.pre+hgComp())hgReset();hgCommit();hgShow();gform.name=i.value}
  const n=gform.name.trim(),sel=gform.sel.filter(id=>chars[id]);if(!n)return toast("방 이름을 입력하세요");if(!sel.length)return toast("함께할 주민을 1명 이상 고르세요");
  const d={name:n,owner:uid,members:[uid,...sel],t:Date.now()},r=await db.collection("groups").add(d);groups[r.id]=d;gform={name:"",sel:[]};
@@ -2538,9 +2549,19 @@ function placeRadio(){const P=$("#radio"),t=$("#rtab");if(!P||!t||P.style.displa
  let x=r.right+6;if(x+pw2>W-4){x=r.left-6-pw2;if(x<4)x=Math.max(4,Math.min(W-pw2-4,r.left+r.width/2-pw2/2))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(40,Math.min(H-ph2-4,r.top+r.height/2-ph2/2)))+"px"}
 /* ===== 삐삐 (채널 채팅 · 기록 남음 · 채널 사람들 한꺼번에 파티 초대) ===== */
 let pgOn=false,pg={scr:"list",id:null,sel:[]};
+let gtPos=null;try{gtPos=JSON.parse(localStorage.getItem("af_gtab")||"null")}catch(e){}
+function applyGtab(){const t=$("#gtab");if(!t)return;if(!gtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",gtPos.side==="l");t.classList.toggle("sr",gtPos.side==="r");
+ const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(gtPos.side==="l"?0:gtPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,gtPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,gtPos.y*H)))+"px"}
+function placePager(){const P=$("#pager"),t=$("#gtab");if(!P||!t||P.style.display!=="block")return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw2=P.offsetWidth,ph2=P.offsetHeight;
+ let x=r.right+6;if(x+pw2>W-4){x=r.left-6-pw2;if(x<4)x=Math.max(4,Math.min(W-pw2-4,r.left+r.width/2-pw2/2))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(40,Math.min(H-ph2-4,r.top+r.height/2-ph2/2)))+"px"}
 function initPager(){if($("#gtab"))return;const t=h("button",{id:"gtab",type:"button","aria-label":"삐삐"},svgI("M3.5 7h17a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1zM5.5 9.5h9v5h-9zM17 10h1.5M17 12.5h1.5M17 15h1.5M15 7V4.5"),h("i",{id:"gdot"}));
- document.body.append(t,h("div",{id:"pager"}));t.addEventListener("click",()=>pgOn?closePager():openPager())}
-function openPager(){if(rdOn)closeRadio();pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");pgRender()}
+ document.body.append(t,h("div",{id:"pager"}));let st=null,moved=false,dEnd=0;
+ t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
+ t.addEventListener("pointermove",e=>{if(!st)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}gtPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyGtab();placePager()});
+ const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();const r=t.getBoundingClientRect();if(r.left<40||r.right>innerWidth-40){gtPos.side=r.left+r.width/2<innerWidth/2?"l":"r";applyGtab();placePager()}try{localStorage.setItem("af_gtab",JSON.stringify(gtPos))}catch(_){}}st=null};
+ t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);t.addEventListener("click",()=>{if(Date.now()-dEnd<250)return;pgOn?closePager():openPager()});
+ addEventListener("resize",()=>{applyGtab();placePager()});applyGtab()}
+function openPager(){if(rdOn)closeRadio();pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");pgRender();placePager()}
 function closePager(){pgOn=false;$("#pager").style.display="none";$("#gtab").classList.remove("act")}
 const pgList=()=>myGroups(true);
 const pgUnread=id=>unreadOf("grp:"+id);
@@ -2548,7 +2569,7 @@ function pgUpd(){const d=$("#gdot");if(d&&me)d.style.display=pgList().some(id=>p
 function pgCands(){const S=new Set();(me.friends||[]).forEach(x=>S.add(x));const p=me.party&&parties[me.party];if(p)p.members.forEach(x=>S.add(x));const g=myG();if(g)g.members.forEach(x=>S.add(x));Object.entries(chars).forEach(([id,c])=>{if(online.has(id)&&c.loc===me.loc)S.add(id)});S.delete(uid);return[...S].filter(id=>chars[id]).sort((a,b)=>(online.has(b)-online.has(a))||chars[a].name.localeCompare(chars[b].name))}
 function pgRender(){const P=$("#pager");if(!P||!pgOn||!me)return;const ae=document.activeElement,typing=ae&&ae.id==="gmsg"?ae.value:null;P.textContent="";
  const lcd=h("div",{c:"glcd"}),top=h("div",{c:"gtop"},h("i",{c:"gled"+(pgList().some(id=>pgUnread(id))?" on":"")}),h("span",{t:"EMBER · PAGER"}),h("span",{c:"grow"}),h("span",{t:clock()}));
- const keys=h("div",{c:"gkeys"});const K=(t,fn,c)=>keys.append(h("button",{type:"button",c:c||"",t,onclick:()=>wrap(fn)}));
+ const keys=h("div",{c:"gkeys"});const K=(t,fn,c)=>keys.append(h("button",Object.assign({type:"button",c:c||"",t,onclick:()=>wrap(fn)},t==="보내기"?NF:{})));
  if(pg.scr==="list"){const L=pgList();lcd.append(h("div",{c:"gst",t:"채널 "+L.length+"개"}));const B=h("div",{c:"gbody"});if(!L.length)B.append(h("div",{c:"gh",t:"아직 채널이 없어요 · 「새 채널」로 만들어요"}));
   L.forEach(id=>{const g=groups[id],r=roomRows("grp:"+id),l=r[r.length-1],u=pgUnread(id);B.append(h("button",{type:"button",c:"gi"+(u?" new":""),onclick:()=>{pg.scr="ch";pg.id=id;pgRender()}},h("b",{t:(u?"● ":"")+g.name}),h("small",{t:l?(l.name+": "+(l.kind==="pinv"?"[파티 초대]":l.text)):g.members.length+"명"})))});lcd.append(B);
   K("새 채널",()=>{pg.scr="new";pg.sel=[];pgRender()},"pri");K("닫기",closePager)}
@@ -2560,7 +2581,7 @@ function pgRender(){const P=$("#pager");if(!P||!pgOn||!me)return;const ae=docume
   K("파티 초대",pgInvite,"pri");K("보내기",pgSend);K("목록",()=>{pg.scr="list";pgRender()});K("나가기",async()=>{await leaveGroup(pg.id);pg.scr="list";pgRender()})}
  P.append(h("div",{c:"gclip"}),top,lcd,keys);if(pg.scr==="ch"){pgFeed(true);const i=$("#gmsg");if(i&&typing!=null){i.value=typing;i.focus()}}updDot()}
 function pgFeed(force){const f=$("#gfeed");if(!f)return;const r=roomRows("grp:"+pg.id);feedFill(f,r,f=>{if(!r.length)f.append(h("div",{c:"gh",t:"기록이 여기에 남아요"}));r.forEach(m=>{if(m.kind==="pinv")return f.append(pinvEl(m,1));f.append(h("div",{c:"gl"+((m.uid||m.from)===uid?" me":"")},h("small",{t:m.name}),h("span",{t:m.text})))})},force);markSeen("grp:"+pg.id,Date.now())}
-async function pgSend(){const i=$("#gmsg");if(!i)return;const t=i.value.trim();if(!t)return;i.value="";await postTo("grp:"+pg.id,t)}
+async function pgSend(){const i=$("#gmsg");if(!i)return;const t=i.value.trim();if(!t)return;i.value="";try{i.focus({preventScroll:true})}catch(e){}await postTo("grp:"+pg.id,t)}
 /* 채널 사람들 한꺼번에 파티 초대: 내 파티(없으면 새로 만듦) 초대장을 채널에 남김 · 받은 사람은 「참가」 */
 async function pgInvite(){const g=groups[pg.id];if(!g)return;let pid=me.party&&parties[me.party]&&!parties[me.party].tmp?me.party:null;
  if(!pid){if(isTmpP(me.party))await tmpLeave();const r=await db.collection("parties").add({name:me.name+"의 파티",leader:uid,members:[uid],t:Date.now()});await upd({party:r.id});me.party=r.id;pid=r.id}
@@ -3365,6 +3386,12 @@ async function relRun(now){
  else if(!me.pair&&!q){const C=Object.entries(chars).filter(([id,c])=>id!==uid&&((c.pair&&c.pair.w===uid)||(c.pairReq&&c.pairReq.w===uid&&now>=c.pairReq.due))).sort((a,b)=>((a[1].pair?a[1].pair.at:a[1].pairReq.at)-(b[1].pair?b[1].pair.at:b[1].pairReq.at)));for(const[id,c]of C){const cq=c.pairReq;{if(cq&&!c.pair)await pairAnn(cq,id,uid);await upd({pair:{w:id,at:cq?cq.due:c.pair.at}});toast("협회 승인 · "+c.name+" 헌터와 페어가 되었어요");break}}}}
 
 /* 운영자: 캐릭터 살리기 (실종·격리 해제, HP·MP·에너지 가득, 중앙 거점으로) */
+async function gmSetLv(id,lv,exp){lv=Math.max(1,Math.min(MAXLV,Math.floor(lv)||1));exp=Math.max(0,Math.floor(exp)||0);const c=id===uid?me:chars[id];if(!c)return toast("캐릭터가 없어요");
+ const base=(ROLE[c.role]||ROLE.dealer).base,p={lv,exp,s:base.slice(),sp:Math.max(0,15+lv-1-base.reduce((a,b)=>a+b,0)),ts:Date.now()};p.hp=maxHp({...c,...p});p.mp=maxMp({...c,...p});
+ await db.doc("chars/"+id).update(p);if(window.__pubPick)db.doc("pub/"+id).update(Object.assign(__pubPick(p),{pt:Date.now()})).catch(()=>{});toast(c.name+" · Lv"+lv+"로 맞췄어요 · 스탯 포인트는 다시 나눠야 해요")}
+function gmLvPop(id){const c=id===uid?me:chars[id];if(!c)return;const a=h("input",{type:"number",min:1,max:MAXLV,value:c.lv,inputmode:"numeric"}),b=h("input",{type:"number",min:0,value:0,inputmode:"numeric"});
+ openPop(h("div",{c:"h0",t:c.name+" · 레벨 되돌리기"}),h("p",{c:"sm mt",t:"지금 Lv"+c.lv+(c.exp!=null?" · 경험치 "+c.exp:"")}),h("div",{c:"sm",style:"margin:8px 0 4px",t:"레벨"}),a,h("div",{c:"sm",style:"margin:8px 0 4px",t:"경험치"}),b,
+  h("p",{c:"xs mt",style:"margin-top:6px",t:"스탯은 시작 스탯으로 돌아가고, 그 레벨에 맞는 포인트를 다시 받아요."}),h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",closePop,"grow"),btn("적용",()=>wrap(async()=>{await gmSetLv(id,+a.value,+b.value);closePop()}),"pri grow")))}
 async function gmRevive(id){const c=id===uid?me:chars[id];if(!c)return toast("캐릭터가 없어요");const p={mis:null,hosp:null,loc:"base",spot:"plaza",sg:null,trip:null,gx:null};
  const m=c.mis;if(m&&m.kr&&m.kr.length&&!gates[krpId(id,m.t)])p.krs=(c.krs||[]).concat(m.kr.map(k=>{const z={id:"k"+Date.now().toString(36)+ri(1e5),b:k.b};if(k.pm)z.pm=k.pm;return z}));
  if(id===uid)await upd(Object.assign(p,{ts:Date.now()}));else{await db.doc("chars/"+id).update(Object.assign(p,{hp:maxHp(c),mp:maxMp(c),en:MAXEN,ts:Date.now()}));if(window.__pubPick)db.doc("pub/"+id).update(Object.assign(__pubPick(p),{pt:Date.now()})).catch(()=>{})}
@@ -4462,8 +4489,8 @@ function rPlazaChat(v){v.className="chat";v.append(h("div",{c:"row",style:"margi
 /* ===== 전투 중 파티 채팅 ===== */
 function ptFeedUpd(){const f=document.getElementById("ptfeed");if(!f)return;const L=me&&me.party?pchats.filter(m=>m.party===me.party).slice(-40):[];feedFill(f,L,f=>{if(!L.length)f.append(h("p",{c:"mt xs",t:"아직 파티 채팅이 없어요"}));const r0=room;room="pt";L.forEach(m=>f.append(msgEl(m)));room=r0;f.scrollTop=f.scrollHeight})}
 function ptChatCard(){const i=h("input",{id:"ptmsg",maxlength:400,placeholder:"파티 채팅 · (괄호) 안은 지문",autocomplete:"off",onkeydown:e=>{if(e.key==="Enter")wrap(ptSend)}});
- const c=h("div",{c:"card ptc"},h("h3",{t:"파티 채팅"}),h("div",{c:"ptfeed",id:"ptfeed"}),h("div",{c:"row",style:"margin-top:6px"},i,btn("전송",ptSend,"pri")));setTimeout(ptFeedUpd,0);return c}
-async function ptSend(){const i=document.getElementById("ptmsg"),t=i&&i.value.trim();if(!t)return;await postTo("pt",t);i.value=""}
+ const c=h("div",{c:"card ptc"},h("h3",{t:"파티 채팅"}),h("div",{c:"ptfeed",id:"ptfeed"}),h("div",{c:"row",style:"margin-top:6px"},i,btn("전송",ptSend,"pri",NF)));setTimeout(ptFeedUpd,0);return c}
+async function ptSend(){const i=document.getElementById("ptmsg"),t=i&&i.value.trim();if(!t)return;i.value="";try{i.focus({preventScroll:true})}catch(e){}try{await postTo("pt",t)}catch(e){const j=document.getElementById("ptmsg");if(j&&!j.value)j.value=t;throw e}}
 /* ===== 깨진 화면 (금 + 노이즈) ===== */
 function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClientRect(),W=Math.round(r.width)||innerWidth,H=Math.round(r.height)||innerHeight;S.setAttribute("viewBox","0 0 "+W+" "+H);S.textContent="";
  let sd=7;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
