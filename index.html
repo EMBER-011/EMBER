@@ -454,7 +454,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114094627";
+const BUILD="20261114100741";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4491,6 +4491,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
      /* 달 모양 (실제 위상): 해 반대쪽에 그림자 원을 겹쳐 가림 · 빛나는 쪽이 늘 해를 향함 */const kf=V.ecl==="lunar"?1:ph<.5?ph*2:(1-ph)*2;
      if(kf<.97){let dx=p[0]-ps[0],dy=p[1]-ps[1];const dl=Math.hypot(dx,dy)||1;dx/=dl;dy/=dl;x.fillStyle="rgba("+bg.join(",")+",.82)";x.beginPath();x.arc(p[0]+dx*kf*2.1*rm,p[1]+dy*kf*2.1*rm,rm*1.03,0,7);x.fill()}
      x.strokeStyle=rgba(day?.4:.7);x.lineWidth=1.3*dpr;x.beginPath();x.arc(p[0],p[1],rm,0,7);x.stroke()}};
+   skyB();
    /* 지평선 */x.strokeStyle=rgba(.18);x.lineWidth=dpr;x.beginPath();x.moveTo(0,HZ+R0*.2);x.lineTo(Wp,HZ+R0*.2);x.stroke();
    x.restore();x.globalCompositeOperation=ADD}
   /* 바다 바닥 격자 */
@@ -4522,26 +4523,11 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   x.beginPath();W0.ROADS.forEach(([a,b])=>{const A=W0.REG[a],B=W0.REG[b],sea=(A.c||"a")!==(B.c||"a"),n=sea?1:Math.ceil(Math.hypot(B.x-A.x,B.y-A.y)/1.2),L=[];for(let i=0;i<=n;i++){const xx=A.x+(B.x-A.x)*i/n,yy=A.y+(B.y-A.y)*i/n;L.push([xx,yy,sea?.3:W0.hAt(xx,yy)+.12])}pl(L)});x.setLineDash([2*dpr,3*dpr]);st(.35,.9);x.setLineDash([]);
   /* 고른 경로 */
   if(V.route&&V.route.length>1){const L=[];for(let k=0;k+1<V.route.length;k++){const A=W0.REG[V.route[k]],B=W0.REG[V.route[k+1]],n=Math.ceil(Math.hypot(B.x-A.x,B.y-A.y)/1);for(let i=0;i<=n;i++){const xx=A.x+(B.x-A.x)*i/n,yy=A.y+(B.y-A.y)*i/n;L.push([xx,yy,W0.hAt(xx,yy)+.2])}}x.beginPath();pl(L);st(.25,5);st(1,1.6)}
-  /* 종말의 섬 글리치 (예전 지도의 RGB 잡음 그대로: 잔 잡음 두 겹 · 어긋나 번쩍이는 RGB 띠 · 잘린 블록 · 주사선 · 바다 쪽으로 찢긴 띠) */
-  let GLC=null;
-  if(V.hardLk){const X0=99,X1=W0.MW+3,Y0=-3,Y1=W0.MH+3,pts=[];for(const z of[-1.6,7])for(let i=0;i<=10;i++){const f=i/10;[[X0-9,Y0+(Y1-Y0)*f],[X1,Y0+(Y1-Y0)*f],[X0-9+(X1-X0+9)*f,Y0],[X0-9+(X1-X0+9)*f,Y1]].forEach(([a,b])=>{const p=P(a,b,z);if(p)pts.push(p)})}
-   const hu=chull(pts);if(hu.length>2){const c0=P((X0+W0.MW)/2,52,0),c1=P((X0+W0.MW)/2+1,52,0),U=c0&&c1?Math.max(.6,Math.hypot(c1[0]-c0[0],c1[1]-c0[1])):3,bx=hu.reduce((a,p)=>[Math.min(a[0],p[0]),Math.min(a[1],p[1]),Math.max(a[2],p[0]),Math.max(a[3],p[1])],[1e9,1e9,-1e9,-1e9]),BW=bx[2]-bx[0],BH=bx[3]-bx[1],RGB=["#ff1744","#00e676","#2979ff"],ts=t/1000;
-    if(!GL)GL=glInit();
-    const path=()=>{x.beginPath();hu.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();(V.hardOpen||[]).forEach(id=>{const R=W0.REG[id];if(!R)return;const z=W0.hAt(R.x,R.y),L=[];for(let i=0;i<28;i++){const a=i/28*Math.PI*2,p=P(R.x+Math.cos(a)*11,R.y+Math.sin(a)*11,z);if(p)L.push(p)}if(L.length>3){x.moveTo(L[0][0],L[0][1]);L.forEach(p=>x.lineTo(p[0],p[1]));x.closePath()}})};
-    x.save();x.globalCompositeOperation="source-over";
-    /* 바다 쪽 가장자리: 찢긴 가로 띠가 번져 나감 */
-    GL.tear.forEach(b=>{const a=P(X0-4-b.l,b.y,0),e=P(X0+3,b.y,0);if(!a||!e)return;x.globalAlpha=b.o;x.strokeStyle="rgb("+bg.join(",")+")";x.lineWidth=Math.max(1,b.h*U);x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(e[0],e[1]);x.stroke()});x.globalAlpha=1;
-    path();x.fillStyle="rgb("+bg.join(",")+")";x.fill("evenodd");x.clip("evenodd");
-    /* 잔 잡음 두 겹 (조금씩 튀며 움직임) */
-    [[GL.n1,[[0,0],[2.3,.7],[-1.7,1.9],[3.9,-1.4],[-2.8,-.6]],.23],[GL.n2,[[0,0],[-3.1,1.2],[1.4,-.9],[-.6,2.1],[4.2,.4]],.31]].forEach(([tile,J,d])=>{const j=J[Math.floor(ts/d)%J.length],k=U/4,pt=x.createPattern(tile,"repeat");if(!pt)return;x.save();x.translate(bx[0]+j[0]*U,bx[1]+j[1]*U);x.scale(k,k);x.fillStyle=pt;x.fillRect(-10/k,-10/k,(BW+20)/k,(BH+20)/k);x.restore()});
-    /* 주사선 */x.fillStyle=rgba(.06);for(let yy=bx[1];yy<bx[3];yy+=Math.max(2,.9*U))x.fillRect(bx[0],yy,BW,Math.max(.6,.12*U));
-    /* 어긋나 번쩍이는 RGB 띠 */
-    GL.band.forEach(b=>{const ph=((ts+b.p*b.d)/b.d)%1,op=ph<b.k0?0:ph<b.k0+.05?b.o:ph<b.k0+.12?0:b.o*.6;if(!op)return;const xi=Math.floor(ph*4)%4;b.c.forEach(cc=>{x.globalAlpha=op;x.fillStyle=cc.c;x.fillRect(bx[0]+(b.x+cc.dx+b.jx[xi])/100*BW,bx[1]+(b.y+cc.dy)/100*BH,b.w/100*BW,Math.max(1,b.h*U))})});
-    /* 잘린 블록 */
-    GL.blk.forEach((b,i)=>{const ph=(ts/b.d+b.p)%1;const op=ph>=.04&&ph<.09?.22:0;if(!op)return;x.globalAlpha=op;x.fillStyle=RGB[i%3];x.fillRect(bx[0]+b.x/100*BW,bx[1]+b.y/100*BH,b.w/100*BW,b.h*U)});
-    x.globalAlpha=1;x.restore();x.globalCompositeOperation=ADD;
-    const tc=P((X0+W0.MW)/2,52,1);if(tc)GLC={x:tc[0],y:tc[1],U,b:bx}}}
-  if(skyB){x.save();x.globalCompositeOperation="source-over";skyB();x.restore();x.globalCompositeOperation=ADD}
+  /* 종말의 섬 글리치 (예전 2D 지도 그대로 · 지도 바닥에 붙음) */
+  if(V.hardLk){if(!GL)GL=glInit(W0);const op=(V.hardOpen||[]).slice().sort(),lk=Object.keys(V.locked||{}).filter(id=>W0.REG[id]&&W0.REG[id].x>=GL.X0-12),mk=op.join()+"|"+lk.join();if(mk!==GL.mkey){GL.mkey=mk;glMask(GL,W0,op,lk)}
+   const txc=getComputedStyle(cv).getPropertyValue("--tx").trim()||"#eee",tk=txc+"|"+bg.join();if(tk!==GL.tkey){GL.tkey=tk;GL.tl={};GL.last=-1}
+   const ts=t/1000,fr=Math.floor(ts*15);if(fr!==GL.last){GL.last=fr;glTex(GL,ts,bg,txc)}
+   x.save();x.globalCompositeOperation="source-over";x.globalAlpha=1;glPaint(x,GL,P);x.restore();x.globalCompositeOperation=ADD}
   /* 지역 표시: 빛기둥 · 바닥 고리 · 잠긴 곳은 흐리게 */
   pk=[];const LK=V.locked||{},NB=V.nb||{};x.beginPath();for(const id in W0.REG){if(LK[id])continue;const R=W0.REG[id],z=W0.hAt(R.x,R.y),bh=id===V.sel||id===V.here?6:3.6;pl([[R.x,R.y,z],[R.x,R.y,z+bh]]);const ring=[];for(let i=0;i<=24;i++){const a=i/24*Math.PI*2;ring.push([R.x+Math.cos(a)*.9,R.y+Math.sin(a)*.9,z+.05])}pl(ring);
    const s=P(R.x,R.y,z+bh);if(s)pk.push({k:"reg",id,x:s[0]/dpr,y:s[1]/dpr,z:s[2]})}st(.85*fl,1.1);
@@ -4571,12 +4557,6 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   pk.filter(q=>q.k==="reg").sort((a,b)=>b.z-a.z).forEach(q=>{if(q.lock)return;const R=W0.REG[q.id],on=q.id===V.sel||q.id===V.here;x.font=(on?"700 ":"500 ")+(on?fs+2*dpr:fs)+"px system-ui,sans-serif";const yy=q.y*dpr-6*dpr;
    x.fillStyle="rgba("+bg.join(",")+",.7)";const w=x.measureText(R.n).width+8*dpr;x.fillRect(q.x*dpr-w/2,yy-fs,w,fs+4*dpr);x.fillStyle=rgba(on?1:.85);x.fillText(R.n,q.x*dpr,yy);
    if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?" · 권장 Lv "+R.lv:" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
-  /* 신호 없음 (하나만 · RGB 분리 + 깜빡임 + 가로로 잘려 튐) */
-  if(GLC){const ts=t/1000,F=Math.max(12*dpr,Math.min(34*dpr,GLC.U*5.4)),sh=F/5.4,txc=getComputedStyle(cv).getPropertyValue("--tx").trim()||"#eee";x.save();x.globalCompositeOperation="source-over";x.font="200 "+Math.round(F)+"px system-ui,sans-serif";x.textAlign="center";x.textBaseline="middle";
-   const tw=x.measureText("신호 없음").width+F*1.4;const gx0=Math.max(GLC.b[0],0),gx1=Math.min(GLC.b[2],Wp),gy0=Math.max(GLC.b[1],0),gy1=Math.min(GLC.b[3],Hp);if(gx1-gx0<tw||gy1-gy0<F*2){x.restore()}else{GLC.x=Math.max(gx0+tw/2,Math.min(gx1-tw/2,GLC.x));GLC.y=Math.max(gy0+F,Math.min(gy1-F,GLC.y));x.fillStyle="rgba("+bg.join(",")+",.75)";x.filter="blur("+Math.round(F*.35)+"px)";x.fillRect(GLC.x-tw/2,GLC.y-F*.7,tw,F*1.4);x.filter="none";
-   const seq=(v,d)=>v[Math.floor(ts/d)%v.length];x.globalAlpha=.6;[["#ff1744",[-0.9,0.7,-1.6,0.2,-0.4],.37],["#2979ff",[0.8,-0.6,1.3,-0.2,0.5],.29],["#00e676",[0,0.4,0,-0.7,0],.53]].forEach(([c,v,d])=>{x.fillStyle=c;x.fillText("신호 없음",GLC.x+seq(v,d)*sh,GLC.y)});
-   x.globalAlpha=seq([1,.35,1,1,.75,1,0,1],2.1/8);x.fillStyle=txc;x.fillText("신호 없음",GLC.x,GLC.y);x.globalAlpha=1;
-   [[-.55,.26,[0,2.6,-1.8,0,0,3.4,0],.9],[-.1,.19,[0,0,-3.2,1.5,0,0],.7],[.22,.24,[0,-2.2,0,0,2.8,-1,0],1.15]].forEach(([oy,hh,v,d])=>{const dx=seq(v,d/v.length)*sh;if(!dx)return;x.save();x.beginPath();x.rect(GLC.x-tw/2,GLC.y+oy*F,tw,hh*F);x.clip();x.fillStyle="rgb("+bg.join(",")+")";x.fillRect(GLC.x-tw/2,GLC.y+oy*F,tw,hh*F);x.fillStyle=txc;x.fillText("신호 없음",GLC.x+dx,GLC.y);x.restore()});x.restore()}}
   /* 주사선 */
   x.globalCompositeOperation="source-over";x.fillStyle=lite?"rgba(0,0,0,.035)":"rgba(0,0,0,.16)";for(let yy=(t*.03%3)*dpr|0;yy<Hp;yy+=3*dpr)x.fillRect(0,yy,Wp,dpr)}
  /* 특수 구조물 그리기 */
@@ -4621,14 +4601,59 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  cv.addEventListener("wheel",e=>{e.preventDefault();V.dist=Math.max(18,Math.min(150,V.dist*Math.exp(e.deltaY*.0012)))},{passive:false});
  cv.style.touchAction="none";
  return{V,start,stop:()=>{cancelAnimationFrame(raf);raf=0},turn:d=>{V.yaw+=d},frame,cv}}
-/* 글리치 재료 (한 번 만듦 · 항상 같은 무늬) */
+/* 종말의 섬 글리치: 예전 2D 지도의 글리치를 그대로 (지도 좌표에 그린 뒤 홀로 지도 바닥에 원근으로 붙임)
+   잔 RGB 잡음 두 겹 · 주사선 · 어긋나 번쩍이는 RGB 띠 · 잘린 블록 · 바다 쪽으로 찢긴 띠 · 흐린 테두리 · 신호 없음(그 자리에 고정) */
 let GL=null;
-function glInit(){let sd=11;const rr=()=>{sd=(sd*16807)%2147483647;return sd/2147483647},RGB=["#ff1744","#00e676","#2979ff"],X0=99,MW=200,AW=MW-X0+12;
- const tile=(pw,ph,nr)=>{const c=document.createElement("canvas"),K=4;c.width=pw*K;c.height=ph*K;const g=c.getContext("2d");for(let i=0;i<nr;i++){const w=.2+rr()*(rr()<.12?6:1.6);g.globalAlpha=.25+rr()*.6;g.fillStyle=rr()<.18?"#e9e4e4":RGB[i%3];g.fillRect(rr()*pw*K,rr()*ph*K,w*K,(.08+rr()*.22)*K)}return c};
- const n1=tile(13,7,90),n2=tile(23,11,120),tear=[];for(let i=0;i<26;i++)tear.push({y:rr()*100,l:3+rr()*12,h:.3+rr()*1.8,o:.3+rr()*.6});
- const band=[];for(let i=0;i<34;i++){const y=rr()*100,w=10+rr()*(MW-X0-10),xx=-12+rr()*(MW-X0+12-w),h=.12+rr()*.55,d=.6+rr()*2.4,o=.5+rr()*.5,k0=rr()*.7,c=[0,1,2].map(j=>({c:RGB[j],dx:(j-1)*(.4+rr()*1.4)/AW*100,dy:(j-1)*.18})),jx=[0,-3-rr()*9,2+rr()*7,0].map(v=>v/AW*100);band.push({y,x:(xx+12)/AW*100,w:w/AW*100,h,d,o,k0,c,jx,p:rr()})}
- const blk=[];for(let i=0;i<10;i++){const w=6+rr()*24;blk.push({y:rr()*96,h:1+rr()*3,w:w/AW*100,x:(12+rr()*(MW-X0-w))/AW*100,d:1.5+rr()*3,p:rr()})}
- return{n1,n2,tear,band,blk}}
+function glInit(W0){let sd=11;const rr=()=>{sd=(sd*16807)%2147483647;return sd/2147483647},X0=99,MW=W0.MW,K=6,XA=X0-16,YA=-2,WU=MW+2-XA,HU=104;
+ const tile=(pw,ph,nr)=>{const L=[];for(let i=0;i<nr;i++){const w=.2+rr()*(rr()<.12?6:1.6);L.push({x:rr()*pw,y:rr()*ph,w,h:.08+rr()*.22,c:rr()<.18?-1:i%3,o:.25+rr()*.6})}return{pw,ph,L}};
+ const tear=[];for(let i=0;i<26;i++){const y=rr()*100,l=3+rr()*12;tear.push({x:X0-4-l,y,w:l+6,h:.3+rr()*1.8,o:.3+rr()*.6})}
+ const n1=tile(13,7,90),n2=tile(23,11,120);
+ const band=[];for(let i=0;i<34;i++){const y=rr()*100,w=10+rr()*(MW-X0-10),x=X0-12+rr()*(MW-X0+12-w),hh=.12+rr()*.55,d=.6+rr()*2.4,o=.5+rr()*.5,k0=rr()*.7;
+  const ch=[0,1,2].map(j=>{const dx=(j-1)*(.4+rr()*1.4);return{j,y:y+(j-1)*.18,xs:[x+dx,x+dx-3-rr()*9,x+dx+2+rr()*7,x+dx]}});band.push({w,hh,d,o,k0,ch})}
+ const blk=[];for(let i=0;i<10;i++){const y=rr()*96,hh=1+rr()*3,w=6+rr()*24,x=X0+rr()*(MW-X0-w);blk.push({x,y,w,hh,d:1.5+rr()*3,c:i%3})}
+ let zH=0;for(let y=0;y<=100;y+=2)for(let xx=X0-10;xx<=MW;xx+=2)zH=Math.max(zH,W0.hAt(xx,y));
+ const mk=()=>{const c=document.createElement("canvas");c.width=Math.round(WU*K);c.height=Math.round(HU*K);return c};
+ return{X0,MW,K,XA,YA,WU,HU,n1,n2,tear,band,blk,zH:zH+.3,tex:mk(),msk:mk(),tl:{},mkey:"",tkey:"",last:-1}}
+/* 잡음 무늬 타일 (테마 글자색 섞임) */
+function glTile(G,T,tx){const RGB=["#ff1744","#00e676","#2979ff"],c=document.createElement("canvas");c.width=Math.round(T.pw*G.K);c.height=Math.round(T.ph*G.K);const g=c.getContext("2d");g.scale(G.K,G.K);
+ T.L.forEach(r=>{g.globalAlpha=r.o;g.fillStyle=r.c<0?tx:RGB[r.c];g.fillRect(r.x,r.y,r.w,r.h);if(r.x+r.w>T.pw)g.fillRect(r.x-T.pw,r.y,r.w,r.h)});return c}
+/* 가림막: 바다 쪽은 흐리게 번지고, 해금된 지역 둘레만 걷어냄 */
+function glMask(G,W0,open,locked){const m=G.msk.getContext("2d"),K=G.K,F=typeof m.filter==="string";m.setTransform(1,0,0,1,0,0);m.clearRect(0,0,G.msk.width,G.msk.height);m.setTransform(K,0,0,K,-G.XA*K,-G.YA*K);
+ if(F)m.filter="blur("+(.9*K)+"px)";m.globalCompositeOperation="source-over";
+ const lg=m.createLinearGradient(G.X0-9,0,G.X0+5,0);lg.addColorStop(0,"rgba(255,255,255,0)");lg.addColorStop(.55,"rgba(255,255,255,.55)");lg.addColorStop(1,"#fff");m.fillStyle=lg;m.fillRect(G.X0-9,-2,G.MW-G.X0+11,104);
+ m.fillStyle="#fff";G.tear.forEach(t=>{m.globalAlpha=t.o;m.fillRect(t.x,t.y,t.w,t.h)});m.globalAlpha=1;
+ const disc=(R,r,out)=>{m.globalCompositeOperation=out?"destination-out":"source-over";if(F){m.fillStyle="#fff";m.beginPath();m.arc(R.x,R.y,r,0,7);m.fill()}else{const g=m.createRadialGradient(R.x,R.y,r*.75,R.x,R.y,r*1.12);g.addColorStop(0,"#fff");g.addColorStop(1,"rgba(255,255,255,0)");m.fillStyle=g;m.beginPath();m.arc(R.x,R.y,r*1.12,0,7);m.fill()}};
+ open.forEach(id=>{const R=W0.REG[id];if(R)disc(R,11,1)});locked.forEach(id=>{const R=W0.REG[id];if(R)disc(R,6,0)});
+ m.globalCompositeOperation="source-over";if(F)m.filter="none"}
+/* 한 장면 그리기 (지도 좌표 · 예전 SVG 애니메이션과 같은 박자) */
+function glTex(G,ts,bg,tx){const g=G.tex.getContext("2d"),K=G.K,X0=G.X0,MW=G.MW,RGB=["#ff1744","#00e676","#2979ff"],B="rgb("+bg.join(",")+")",F=typeof g.filter==="string";
+ g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation="source-over";g.globalAlpha=1;g.clearRect(0,0,G.tex.width,G.tex.height);g.setTransform(K,0,0,K,-G.XA*K,-G.YA*K);
+ g.fillStyle=B;g.fillRect(G.XA,G.YA,G.WU,G.HU);
+ const step=(v,d)=>v[Math.floor(ts/d*v.length)%v.length];
+ [[G.n1,"n1",[[0,0],[2.3,.7],[-1.7,1.9],[3.9,-1.4],[-2.8,-.6]],.23],[G.n2,"n2",[[0,0],[-3.1,1.2],[1.4,-.9],[-.6,2.1],[4.2,.4]],.31]].forEach(([T,k,J,d])=>{const tc=G.tl[k]||(G.tl[k]=glTile(G,T,tx)),p=g.createPattern(tc,"repeat"),j=step(J,d);if(!p)return;
+  g.save();g.translate(j[0],j[1]);g.scale(1/K,1/K);g.fillStyle=p;g.fillRect((G.XA-j[0])*K,(G.YA-j[1])*K,G.WU*K,G.HU*K);g.restore()});
+ /* 주사선 */g.fillStyle=tx;g.globalAlpha=.06;for(let y=0;y<100;y+=.9)g.fillRect(X0-14,y,MW-X0+14,.12);g.globalAlpha=1;
+ /* 찢어진 RGB 띠 */G.band.forEach(b=>{const ph=(ts%b.d)/b.d,o=ph<b.k0?0:ph<b.k0+.05?b.o:ph<b.k0+.12?0:b.o*.6;if(!o)return;const xi=Math.floor(ph*4)%4;g.globalAlpha=o;b.ch.forEach(c=>{g.fillStyle=RGB[c.j];g.fillRect(c.xs[xi],c.y,b.w,b.hh)})});
+ /* 잘린 블록 */G.blk.forEach(b=>{const ph=(ts%b.d)/b.d;if(ph<.04||ph>=.09)return;g.globalAlpha=.22;g.fillStyle=RGB[b.c];g.fillRect(b.x,b.y,b.w,b.hh)});g.globalAlpha=1;
+ /* 신호 없음: 지도 위 그 자리에 고정 · RGB 분리 + 깜빡임 + 가로로 잘려 튐 */
+ const cx=(X0+MW)/2,ty=52;g.font="200 5.4px system-ui,-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif";g.textAlign="center";g.textBaseline="alphabetic";try{g.letterSpacing="1.4px"}catch(e){}
+ if(!G.bk||G.bkc!==B){G.bkc=B;const c=document.createElement("canvas"),pad=8;c.width=Math.round((44+pad*2)*K);c.height=Math.round((9+pad*2)*K);const q=c.getContext("2d");q.scale(K,K);q.fillStyle=B;
+  if(typeof q.filter==="string"){q.filter="blur("+(2.2*K)+"px)";q.fillRect(pad,pad,44,9)}else{for(let i=0;i<6;i++){q.globalAlpha=.18;q.fillRect(pad-i,pad-i*.7,44+i*2,9+i*1.4)}}G.bk=c;G.bkp=pad}
+ g.globalAlpha=.75;g.drawImage(G.bk,cx-22-G.bkp,ty-7-G.bkp,44+G.bkp*2,9+G.bkp*2);g.globalAlpha=1;
+ [["#ff1744",[-0.9,0.7,-1.6,0.2,-0.4],.37],["#2979ff",[0.8,-0.6,1.3,-0.2,0.5],.29],["#00e676",[0,0.4,0,-0.7,0],.53]].forEach(([c,v,d])=>{g.globalAlpha=.6;g.fillStyle=c;g.fillText("신호 없음",cx+step(v,d),ty)});
+ g.globalAlpha=step([1,.35,1,1,.75,1,0,1],2.1);g.fillStyle=tx;g.fillText("신호 없음",cx,ty);g.globalAlpha=1;
+ [[46.6,1.4,[0,2.6,-1.8,0,0,3.4,0],.9],[49.1,1,[0,0,-3.2,1.5,0,0],.7],[50.8,1.3,[0,-2.2,0,0,2.8,-1,0],1.15]].forEach(([y,hh,v,d])=>{g.save();g.beginPath();g.rect(X0,y,MW-X0,hh);g.clip();g.fillStyle=tx;g.fillText("신호 없음",cx+step(v,d),ty);g.restore()});
+ try{g.letterSpacing="0px"}catch(e){}
+ g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation="destination-in";g.drawImage(G.msk,0,0);g.globalCompositeOperation="source-over"}
+/* 지도 바닥에 원근으로 붙이기 (삼각형 조각마다 아핀 변환) */
+function glPaint(x,G,P){const NX=9,NY=8,xa=G.X0-20,xb=G.MW+2,ya=G.YA,yb=G.YA+G.HU,K=G.K,Q=[];
+ for(let j=0;j<=NY;j++){const r=[];for(let i=0;i<=NX;i++){const X=xa+(xb-xa)*i/NX,Y=ya+(yb-ya)*j/NY,p=P(X,Y,G.zH);r.push(p?[p[0],p[1],(X-G.XA)*K,(Y-G.YA)*K]:null)}Q.push(r)}
+ const tri=(a,b,c)=>{if(!a||!b||!c)return;const cx=(a[0]+b[0]+c[0])/3,cy=(a[1]+b[1]+c[1])/3,ex=p=>{const dx=p[0]-cx,dy=p[1]-cy,l=Math.hypot(dx,dy)||1;return[p[0]+dx/l*.8,p[1]+dy/l*.8]};
+  const u0=a[2],v0=a[3],u1=b[2],v1=b[3],u2=c[2],v2=c[3],den=(u1-u0)*(v2-v0)-(u2-u0)*(v1-v0);if(!den)return;
+  const A=((b[0]-a[0])*(v2-v0)-(c[0]-a[0])*(v1-v0))/den,C=((c[0]-a[0])*(u1-u0)-(b[0]-a[0])*(u2-u0))/den,Bq=((b[1]-a[1])*(v2-v0)-(c[1]-a[1])*(v1-v0))/den,D=((c[1]-a[1])*(u1-u0)-(b[1]-a[1])*(u2-u0))/den,E=a[0]-A*u0-C*v0,Fq=a[1]-Bq*u0-D*v0;
+  const e0=ex(a),e1=ex(b),e2=ex(c);x.save();x.beginPath();x.moveTo(e0[0],e0[1]);x.lineTo(e1[0],e1[1]);x.lineTo(e2[0],e2[1]);x.closePath();x.clip();x.setTransform(A,Bq,C,D,E,Fq);
+  const sx=Math.max(0,Math.floor(Math.min(u0,u1,u2))-2),sy=Math.max(0,Math.floor(Math.min(v0,v1,v2))-2),sw=Math.min(G.tex.width,Math.ceil(Math.max(u0,u1,u2))+2)-sx,sh=Math.min(G.tex.height,Math.ceil(Math.max(v0,v1,v2))+2)-sy;if(sw>0&&sh>0)x.drawImage(G.tex,sx,sy,sw,sh,sx,sy,sw,sh);x.restore()};
+ for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){const p00=Q[j][i],p10=Q[j][i+1],p01=Q[j+1][i],p11=Q[j+1][i+1];tri(p00,p10,p11);tri(p00,p11,p01)}}
 function chull(P){const p=P.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]),cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]),lo=[],up=[];for(const q of p){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],q)<=0)lo.pop();lo.push(q)}for(let i=p.length-1;i>=0;i--){const q=p[i];while(up.length>=2&&cr(up[up.length-2],up[up.length-1],q)<=0)up.pop();up.push(q)}up.pop();lo.pop();return lo.concat(up)}
 window.Holo={create,RT,TN}})();
 
