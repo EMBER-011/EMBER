@@ -443,7 +443,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114082223";
+const BUILD="20261114084827";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2412,7 +2412,7 @@ async function placeCall(num){num=(num||"").replace(/\D/g,"");if(inGateNow())ret
  await cEmit({ty:"ring",to:e[0],cid,name:me.name,num:me.num});
  clearTimeout(callTo);callTo=setTimeout(()=>{if(call.st==="out"&&call.cid===cid){logCall("missed");cEmit({ty:"end",to:call.peer,cid});endCall("응답이 없습니다")}},25000)}
 function onCall(msg){const d=msg.data||{};if(d.to!==uid)return;const from=msg.by||d.from;if(!from||from===uid)return;
- if(typeof d.ty==="string"&&d.ty[1]==="_"){if(d.ty[0]==="r")return onRadio(msg);if(d.ty[0]==="p")return onPchat(msg);if(d.ty[0]==="t")return onTyping(msg);return}
+ if(typeof d.ty==="string"&&d.ty[1]==="_"){if(d.ty[0]==="r")return onRadio(msg);if(d.ty[0]==="p")return onPchat(msg);if(d.ty[0]==="t")return onTyping(msg);if(d.ty[0]==="k")return onKnock(msg);return}
  if(d.ty==="ring"){if(call.st!=="idle"||isBlk(from)||inGateNow()){cEmit({ty:"busy",to:from,cid:d.cid});return}
   call={st:"in",dir:"in",peer:from,cid:d.cid,t0:Date.now(),msgs:[]};phShow("incall");startRing();
   clearTimeout(callTo);callTo=setTimeout(()=>{if(call.st==="in"&&call.cid===d.cid)endCall("부재중 전화")},27000);return}
@@ -2650,11 +2650,34 @@ const visOk=()=>visOwners().some(id=>online.has(id));
 const visNames=()=>visOwners().map(id=>chars[id].name).join(" · ");
 function visitCard(v){const mine=new Set([uid]);if(me.house&&me.house.w)mine.add(me.house.w);const M=new Map();
  Object.entries(chars).forEach(([id,c])=>{if(mine.has(id))return;const no=c.house&&c.house.no?c.house.no:c.rno;if(!no)return;const e=M.get(no)||{no,ids:[]};e.ids.push(id);M.set(no,e)});
- const L=[...M.values()].sort((a,b)=>(b.ids.some(x=>online.has(x))-a.ids.some(x=>online.has(x)))||a.no-b.no),c=h("div",{c:"card"},h("h3",{t:"방문하기"}),h("p",{c:"xs mt",style:"margin:0 0 6px",t:"호실을 누르면 그 집에 놀러 가요 · 집주인이 접속 중일 때만 들어갈 수 있어요"}));
+ const L=[...M.values()].sort((a,b)=>(b.ids.some(x=>online.has(x))-a.ids.some(x=>online.has(x)))||a.no-b.no),c=h("div",{c:"card"},h("h3",{t:"방문하기"}),h("p",{c:"xs mt",style:"margin:0 0 6px",t:"노크해서 집주인이 문을 열어 주면 들어가요 · 집주인이 숙소(방 화면)에 있을 때만 받을 수 있어요"}));
  if(!L.length)c.append(h("p",{c:"sm mt",t:"다른 헌터의 방이 아직 없어요."}));
- L.forEach(e=>{const on=e.ids.some(x=>online.has(x));c.append(h("div",{c:"lrow"},h("span",{c:"dot"+(on?" on":"")}),h("div",{c:"grow"},h("b",{c:"sm",t:e.no+"호"+(e.ids.length>1?" · 2인실":"")}),h("div",{c:"xs mt",t:e.ids.map(x=>chars[x].name).join(" · ")+(on?" · 집에 있음":" · 부재중")})),btn("방문",()=>visitGo(e.ids.find(x=>online.has(x))||e.ids[0],e.no),"sm"+(on?" pri":""),{disabled:!on})))});
- v.append(c)}
-async function visitGo(id,no){if(!online.has(id)&&!(chars[id]&&chars[id].house&&online.has(chars[id].house.w)))return toast("집주인이 접속 중일 때만 방문할 수 있어요");
+ L.forEach(e=>{const on=e.ids.some(x=>online.has(x)),st=e.ids.map(homeSt),lab=st.includes("home")?"집에 있음":st.includes("hosp")?"입원 중":on?"외출 중":"접속 안 함",kw=knk.no===e.no;
+  c.append(h("div",{c:"lrow"},h("span",{c:"dot"+(on?" on":"")}),h("div",{c:"grow"},h("b",{c:"sm",t:e.no+"호"+(e.ids.length>1?" · 2인실":"")}),h("div",{c:"xs mt",t:e.ids.map(x=>chars[x].name).join(" · ")+" · "+lab})),btn(kw?"노크 중…":"노크하기",()=>knock(e),"sm"+(on?" pri":""),{disabled:!on||kw})))});
+ c.append(btn("부재중 안내 설정",awayPop,"full",{style:"margin-top:8px"}));v.append(c)}
+/* 노크: 집주인이 방에 있으면 「문을 열어주시겠습니까?」 · 외출 중 · 입원 중이면 안내 */
+let knk={no:null,to:null,t:0},knkT=null;
+const homeKey=id=>{const c=chars[id];return c&&c.house&&c.house.no?"h:"+c.house.no:"r:"+id};
+function homeSt(id){const c=chars[id];if(!c||!online.has(id))return"off";if((c.hosp&&Date.now()<c.hosp)||c.quar)return"hosp";const p=peerPl[id];return p&&p.k===homeKey(id)?"home":"out"}
+/* 부재중 안내: 집주인이 직접 적은 문구 (없으면 기본 문구) */
+const awayDef=(nm,st)=>nm+(st==="hosp"?"헌터는 현재 입원 중입니다. 잠시 후 다시 방문 바랍니다.":"헌터는 현재 외출 중입니다. 잠시 후 다시 방문 바랍니다.");
+const awayTxt=(id,st)=>{const c=chars[id]||{},a=c.away||{},t=(a[st==="hosp"?"hosp":"out"]||"").trim();return t||awayDef(c.name||"",st)};
+function awayPop(){const a=me.away||{},o=h("textarea",{rows:3,maxlength:100,placeholder:awayDef(me.name,"out")}),p=h("textarea",{rows:3,maxlength:100,placeholder:awayDef(me.name,"hosp")});o.value=a.out||"";p.value=a.hosp||"";
+ openPop(h("div",{c:"h0",t:"부재중 안내 설정"}),h("p",{c:"xs mt",style:"margin:4px 0 10px",t:"내가 숙소 방 화면에 없을 때 노크한 헌터에게 보여 줄 문구예요. 비워 두면 기본 문구가 나가요."}),
+  h("div",{c:"sm",style:"margin:4px 0"},"외출 중일 때"),o,h("div",{c:"sm",style:"margin:10px 0 4px"},"입원 중일 때"),p,
+  h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn("기본으로",()=>{o.value="";p.value=""},"grow"),btn("취소",closePop,"grow"),btn("저장",()=>wrap(async()=>{await upd({away:{out:o.value.trim().slice(0,100),hosp:p.value.trim().slice(0,100)}});closePop();toast("부재중 안내를 저장했어요")}),"pri grow")))}
+function knock(e){if(knk.no)return toast("이미 노크하고 기다리는 중이에요");const S=e.ids.map(x=>[x,homeSt(x)]),hm=S.find(x=>x[1]==="home");
+ if(!hm){const hp=S.find(x=>x[1]==="hosp"),on=S.find(x=>x[1]==="out"),w=hp||on||S[0],nm=chars[w[0]].name;return openPop(h("div",{c:"h0",t:e.no+"호"}),h("p",{c:"sm",style:"margin:8px 0 12px;white-space:pre-line",t:w[1]==="off"?nm+"헌터는 지금 접속 중이 아닙니다.":awayTxt(w[0],w[1])}),btn("확인",closePop,"pri full"))}
+ knk={no:e.no,to:hm[0],t:Date.now()};sig(hm[0],{ty:"k_knock",no:e.no});toast("똑똑… "+e.no+"호 문을 두드렸어요");render(true);
+ clearTimeout(knkT);knkT=setTimeout(()=>{if(knk.no===e.no){knk={no:null};toast("아무도 문을 열어주지 않았어요");render(true)}},30000)}
+function onKnock(msg){const d=msg.data||{},from=msg.by||d.from;if(!me||!chars[from])return;const nm=chars[from].name;
+ if(d.ty==="k_knock"){if(homeSt(uid)!=="home"){sig(from,{ty:"k_away",st:(me.hosp&&Date.now()<me.hosp)||me.quar?"hosp":"out"});return}sRing&&sRing();vibe&&vibe();
+  openPop(h("div",{c:"h0",t:"똑똑"}),h("p",{c:"sm",style:"margin:8px 0 12px",t:nm+"헌터가 숙소에 찾아온 듯합니다. 문을 열어주시겠습니까?"}),h("div",{c:"row",style:"gap:6px"},btn("모른 척하기",()=>{closePop();sig(from,{ty:"k_no"})},"grow"),btn("문 열기",()=>{closePop();sig(from,{ty:"k_open",no:d.no})},"pri grow")));return}
+ if(!knk.no||from!==knk.to)return;const no=knk.no;clearTimeout(knkT);knk={no:null};
+ if(d.ty==="k_open"){visitGo(from,no,true);return}
+ if(d.ty==="k_no"){toast("문이 열리지 않았어요");render(true);return}
+ if(d.ty==="k_away"){render(true);openPop(h("div",{c:"h0",t:no+"호"}),h("p",{c:"sm",style:"margin:8px 0 12px;white-space:pre-line",t:awayTxt(from,d.st)}),btn("확인",closePop,"pri full"))}}
+async function visitGo(id,no,ok){if(!ok)return toast("먼저 노크해 주세요");if(!online.has(id)&&!(chars[id]&&chars[id].house&&online.has(chars[id].house.w)))return toast("집주인이 접속 중일 때만 방문할 수 있어요");
  const c=chars[id];let L=null,big=false;try{const d=(await db.doc("chars/"+id).get()).data()||{};big=!!d.house;let R=big?d.room3h:d.room3;
   if(big&&d.house.w){try{const d2=(await db.doc("chars/"+d.house.w).get()).data()||{};const b=d2.room3h;if(b&&(!R||(b.t||0)>(R.t||0)))R=b}catch(e){}}
   L=R&&Array.isArray(R.items)?{items:R.items,store:[]}:null}catch(e){return toast("그 방을 불러오지 못했어요")}
