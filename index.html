@@ -68,6 +68,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
  #view.desk .holow canvas.holo{height:min(58vh,560px)}
 }
 /* 두 상자를 한 줄에 (ㅁㅁ) */
+.gbox{display:flex;flex-direction:column;gap:6px;margin:-4px 0 12px;width:max-content;max-width:100%}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;align-items:start}.pair2>.card{margin:0;min-width:0}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
@@ -529,7 +530,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115152901";
+const BUILD="20261115155855";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -830,7 +831,7 @@ function vibe(){try{if(navigator.vibrate)navigator.vibrate([70,110,70,110,70])}c
 /* ===== 데이터 ===== */
 const SN=["힘","행운","민첩","지능","방어","손재주"],SHOW=[0,4,2,3,1,5],SDESC=["최대 HP · 공격력","드랍률 · 채집량","회피 · 스킬 재사용 단축","치유력 · 최대 MP · 치명타 · 오염 저항","방어력","채집 성공률 · 제작 성공률 · 제작 장비 등급"];/* 4번 칸은 예전 공격력 → 지금은 방어 */
 const CRP=12;/* 만들 때 나눠 주는 포인트 (시작 스탯 3 + 12 = 15) */
-const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1,MAXEN=100,MOVE_EN=10,GATHER_EN=0;
+const MAXLV=100,STATMAX=50,capOf=lv=>STATMAX,spFor=lv=>1,EXPX=1,MAXEN=100,MOVE_EN=10,GATHER_EN=5;
 const WX={clear:{n:"쾌청",d:"맑고 시야가 트였습니다."},heat:{n:"폭염",d:"숨이 막히는 열기가 이어집니다."},snow:{n:"폭설",d:"눈보라가 몰아칩니다."},rain:{n:"소나기",d:"갑작스러운 비가 쏟아집니다."},fog:{n:"안개",d:"짙은 안개로 앞이 흐립니다."},solar:{n:"일식",d:"24시간 동안 밤이 이어집니다."},lunar:{n:"월식",d:"24시간 동안 낮이 이어집니다."},rainfog:{n:"비 + 안개",d:"비와 안개가 동시에 덮쳤습니다."},cloudy:{n:"흐림",d:"두꺼운 구름이 하늘을 덮었습니다."},storm:{n:"천둥번개",d:"번개가 치고 비가 쏟아집니다."}};
 const dayIdx=t=>Math.floor((t+9*3600e3)/864e5);
 function hsh(n){let x=Math.imul(n^0x9e3779b9,0x85ebca6b);x^=x>>>13;x=Math.imul(x,0xc2b2ae35);x^=x>>>16;return (x>>>0)/4294967296}
@@ -896,7 +897,7 @@ const IT={scrap:{n:"고철"},wire:{n:"전선"},cloth:{n:"천 조각"},water:{n:"
  pants1:{n:"작업복 바지",slot:"legs",def:2},boots1:{n:"고무 장화",slot:"feet",def:1},arm1:{n:"가죽 토시",slot:"acc",def:1,atk:1},
  ring1:{n:"녹슨 반지",slot:"acc",atk:2},neck1:{n:"방진 목걸이",slot:"acc",def:2},
  pipe:{n:"쇠파이프",slot:"main",atk:4},sword:{n:"고철 검",slot:"main",atk:6},rifle:{n:"전지 소총",slot:"main",atk:12},
- shield1:{n:"판자 방패",slot:"sub",def:3},dagger:{n:"보조 단검",slot:"sub",atk:2},
+ shield1:{n:"판자 방패",slot:"sub",def:3},pickaxe:{n:"곡괭이",slot:"sub",atk:1,tool:"mine",d:"보조 장비에 착용하면 채광할 수 있어요"},axe:{n:"도끼",slot:"sub",atk:1,tool:"wood",d:"보조 장비에 착용하면 벌목할 수 있어요"},dagger:{n:"보조 단검",slot:"sub",atk:2},
  eb0k14:{n:"EB-0K14",dose:1,bound:1,ico:"SYR",d:"출처 불명의 주사 앰플. 맞을수록 각성 등급이 오른다는 불법 약물 · 거래 불가(귀속) · S등급은 될 수 없음 · 80회부터 약물과다 위험"},
  med_pk:{n:"진통제",med:"pk",d:"극심한 통증을 없애고 30분 동안 골절·염좌 증상을 절반으로 줄임"},med_fever:{n:"해열제",med:["cold"],d:"감기 치료"},
  med_gauze:{n:"지혈 붕대",med:["bleed"],d:"열상(출혈) 치료"},med_wrap:{n:"압박 붕대",med:["sprain"],d:"염좌 치료"},med_burn:{n:"화상 연고",med:["burn"],d:"화상 치료"},
@@ -923,7 +924,7 @@ const HRC={xblade:{r:2,need:{alloy:4,crystal:1,scrap:8}},xhelm:{r:2,need:{alloy:
 Object.keys(HRC).forEach(k=>IT["rp_"+k]={n:"제작서: "+IT[k].n,learn:k,d:"사용하면 "+(HRC[k].r===3?"전설":"희귀")+" 장비 「"+IT[k].n+"」 제작법을 익힙니다"});
 const RC={amp2:{mm_voice:1,herb:2,water:1},amp3:{mm_nerve:1,mm_heart:1,herb:3},bandage:{herb:2,cloth:1},purified:{water:2,glass:1},ration:{mush:2,herb:1},riceball:{rice:2,salt:1},stew:{can:1,rice:1,salt:1},
  sword:{scrap:6,wire:2},vest:{hide:4,cloth:3},rifle:{scrap:8,wire:4,batt:2},plate:{core:2,hide:5,scrap:6}};
-const SHOP={helm1:150,shirt1:150,pants1:150,boots1:120,arm1:120,ring1:220,neck1:220,pipe:180,shield1:150,dagger:150,kit:120,gmask:400};
+const SHOP={pickaxe:200,axe:200,helm1:150,shirt1:150,pants1:150,boots1:120,arm1:120,ring1:220,neck1:220,pipe:180,shield1:150,dagger:150,kit:120,gmask:400};
 const MED_SHOP={med_pk:200,med_fever:200,med_gauze:200,med_wrap:250,med_burn:300,med_anti:350,med_abx:500,med_splint:450};
 IT.hpot={n:"회복약",use:{hp:30},d:"HP 30 회복 · 전투 중에도 사용 가능"};const HPOT_P=5;IT.mpot={n:"마나 회복약",use:{mp:20},d:"MP 20 회복 · 전투 중에도 사용 가능"};const MPOT_P=10;
 IT.pure_all={n:"오염 정화제",use:{con:-100},d:"오염도를 모두 없애요 · 협회 임무 보상"};
@@ -942,7 +943,7 @@ Object.assign(RC,MED_RC);const MEDW={herb:1.8,cloth:1.8,water:1.8},medW=o=>Objec
 Object.assign(IT,{sd_carrot:{n:"당근 씨앗",d:"주택 마당 밭에 심어요 · 1시간"},sd_potato:{n:"감자 씨앗",d:"주택 마당 밭에 심어요 · 1시간"},sd_cabbage:{n:"배추 씨앗",d:"주택 마당 밭에 심어요 · 1시간"},sd_tomato:{n:"토마토 씨앗",d:"주택 마당 밭에 심어요 · 1시간"},sd_corn:{n:"옥수수 씨앗",d:"주택 마당 밭에 심어요 · 2시간"},sd_wheat:{n:"밀 씨앗",d:"주택 마당 밭에 심어요 · 2시간"},
  c_carrot:{n:"당근",d:"수확물 · 요리 재료"},c_potato:{n:"감자",d:"수확물 · 요리 재료"},c_cabbage:{n:"배추",d:"수확물 · 요리 재료"},c_tomato:{n:"토마토",d:"수확물 · 요리 재료"},c_corn:{n:"옥수수",d:"수확물 · 요리 재료"},c_wheat:{n:"밀",d:"수확물 · 요리 재료"},
  egg:{n:"달걀",d:"요리 재료"},milk:{n:"우유",d:"요리 재료"},sugar:{n:"설탕",d:"요리 재료"},
- fd_cornsilk:{n:"옥수수 수염차",use:{mp:20},d:"구수하고 맑은 차 · MP +20"},fd_potsoup:{n:"감자 스프",use:{hp:30},d:"당근이 들어가 달큰하다 · HP +30"},fd_tomsoup:{n:"토마토 스프",use:{hp:30},d:"새콤하고 따뜻하다 · HP +30"},fd_kimchi:{n:"배추 절임",use:{hp:40},d:"소금에 절여 오래 둬도 된다 · HP +40"},fd_ccake:{n:"당근 케이크",use:{hp:50},d:"달걀 대신 괴조 알을 써도 된다 · HP +50"}});
+ fd_cornsilk:{n:"옥수수 수염차",use:{mp:20},d:"구수하고 맑은 차 · MP +20"},fd_potsoup:{n:"감자 스프",use:{hp:30},d:"당근이 들어가 달큰하다 · HP +30"},fd_tomsoup:{n:"토마토 스프",use:{hp:30},d:"새콤하고 따뜻하다 · HP +30"},fd_kimchi:{n:"배추 절임",use:{hp:40},d:"소금에 절여 오래 둬도 된다 · HP +40"},fd_ebar:{n:"에너지바",use:{en:30},d:"감자와 당근을 눌러 굳힌 바 · 에너지 +30"},fd_ccake:{n:"당근 케이크",use:{hp:50},d:"달걀 대신 괴조 알을 써도 된다 · HP +50"}});
 const SEED_SHOP={sd_carrot:5,sd_cabbage:5,sd_potato:8,sd_tomato:8,sd_corn:12,sd_wheat:12};
 const MARKET={lunch:10,riceball:10,bread:10,can:20,rice:12,batt:40,amp1:45},MAT_SHOP={herb:6,water:4,cloth:6,scrap:6,wire:8,glass:8,mush:8,salt:4,egg:6,milk:8,sugar:5,u_plank:8,u_nail:5};
 const MAT=["scrap","wire","cloth","water","herb","mush","glass","batt"];
@@ -1067,7 +1068,7 @@ const TABS=[["map","지도"],["bag","가방"],["eq","장비"],["home","숙소"],
 
 /* ===== 장비 등급 · 드랍 ===== */
 const RAR=[{n:"일반",c:"var(--r0)"},{n:"고급",c:"var(--r1)"},{n:"희귀",c:"var(--r2)"},{n:"전설",c:"var(--r3)"}];
-const GEARS=Object.keys(IT).filter(k=>IT[k].slot&&!IT[k].cr),MAXGEAR=30;
+const GEARS=Object.keys(IT).filter(k=>IT[k].slot&&!IT[k].cr&&!IT[k].tool),MAXGEAR=30;
 const OPTK=[["atk","추가 공격"],["def","추가 방어"],["hp","최대 HP"],["mp","최대 MP"],["s0","힘"],["s1","행운"],["s2","민첩"],["s3","지능"],["s4","방어"],["s5","손재주"]];
 const optName=k=>(OPTK.find(x=>x[0]===k)||[k,k])[1];
 /* 행운·손재주 비례 배율 (드랍률·수확률 공통) */
@@ -1320,9 +1321,13 @@ function rMap(v){
  bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc)})));
  if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&bHere(battle))bar.append(btn("파티 전투",()=>{tab="battle";render(true)},canJ(battle)?"pri":""));
-  if(me.ag){}else{if(!R.safe)bar.append(btn("채집",gather,"pri"));if(!R.safe&&R.res)bar.append(btn("자동 채집",agPop));if(fishKind(me.loc))bar.append(btn("낚시",()=>wrap(fish),"pri"))}}
+}
  v.append(bar);
- if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 채집 중 · "+d+" / "+a.n+"번"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
+ if(!me.ag&&!inB()&&!pvpCur()&&!R.safe&&(R.res||fishKind(me.loc))){const g=h("div",{c:"gbox"}),r3=h("div",{c:"g3"});
+  Object.keys(GK).forEach(k=>{const has=R.res&&Object.keys(gkRes(R,k)).length;r3.append(btn(GK[k].n,()=>wrap(()=>gather(k)),hasTool(k)&&has?"pri sm":"sm",{disabled:!has,title:has?(hasTool(k)?"":IT[GK[k].tool].n+" 필요"):"여기엔 없어요"}))});
+  r3.append(btn("낚시",()=>wrap(fish),fishKind(me.loc)?"pri sm":"sm",{disabled:!fishKind(me.loc)}));g.append(r3);
+  if(R.res)g.append(btn("자동 채집",agPop,"sm"));v.append(g)}
+ if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 "+((GK[a.k]||GK.mine).n)+" 중 · "+d+" / "+a.n+"회"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
  if(R.safe&&!inB()&&!R.home){const s=h("div",{c:"fac"});(R.arena?ARSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
  else if(!inB()&&!R.home){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
  if(R.home){if(!inB())v.append(homeFac(me.loc))}
@@ -1333,7 +1338,7 @@ function rMap(v){
  else{const H=HSP[sp];v.append(h("div",{c:"card"},h("h3",{t:H.n+" — "+H.d}),
   h("div",{c:"sm mt",t:"크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 "+(H.con<1?"낮음":H.con>1?"높음":"보통")+(H.loot?" · 전리품 증가":"")}),
   h("div",{style:"margin-top:6px"},h("span",{c:"xs mt",style:"margin-right:4px",t:isNight()?"밤 크리처":"낮 크리처"}),((isNight()?R.monN:R.mon)||[]).map(m=>h("span",{c:"chip",style:"border-color:"+ACOL[m[1]],t:m[0]})),(R.monW||[]).length?h("span",{c:"xs mt",style:"margin:0 4px 0 6px",t:R.wt==="f"?"민물":"바다"}):null,(R.monW||[]).map(m=>h("span",{c:"chip",style:"border-color:"+ACOL[m[1]],t:m[0]}))),
-  h("div",{c:"sm mt",style:"margin-top:6px",t:"채집 자원: "+Object.keys(R.res).map(k=>IT[k].n).join(", ")+" · 성공률 "+Math.round(gRate(me)*100)+"%"}),
+  h("div",{c:"sm mt",style:"margin-top:6px",t:Object.keys(GK).map(k=>{const o=gkRes(R,k);return Object.keys(o).length?GK[k].n+": "+Object.keys(o).map(x=>IT[x].n).join(", "):null}).filter(Boolean).join(" · ")+" · 성공률 "+Math.round(gRate(me)*100)+"% · 1회 에너지 "+GATHER_EN}),
   conBlocked()?h("p",{c:"bad sm",t:"오염도 100% — 이곳에서는 활동할 수 없습니다. 중앙 거점 격리실에서 치료하세요."}):null))}
  if(!inB())gateCards(v)
 }
@@ -1375,35 +1380,45 @@ async function moveSpot(k){if(hospBlock())return;
  if(!safe)toast(again?spotName(me.loc,k)+" 더 깊이 탐색":spotName(me.loc,k)+"(으)로 이동");if(got)setTimeout(()=>toastG(gd),900);
  if(!REG[me.loc].safe&&rf()<encRate(HSP[k].enc))await encounter(k)}
 const gRate=c=>Math.min(.95,.45+(c.s?es(c,5):0)*.03);
-async function gather(){if(hospBlock())return;
+/* 채광: 고철 · 전선 · 유리 · 전지 · 변이핵 · 천 조각 (+ 못 · 합금 · 결정) / 벌목: 약초 · 버섯 · 오염수 (+ 판자 · 송진 · 꿀 · 송로) */
+const GK={mine:{n:"채광",tool:"pickaxe",res:["scrap","wire","glass","batt","core","cloth"],fb:"scrap",ex:[["u_nail",.12]],hx:[["alloy",.04],["crystal",.02]]},wood:{n:"벌목",tool:"axe",res:["herb","mush","water"],fb:"u_plank",ex:[["f_honey",.05],["u_resin",.035],["f_truffle",.012]],hx:[]}};
+const hasTool=k=>Object.values((me&&me.eq)||{}).some(q=>q&&q.id===GK[k].tool);
+const gkRes=(R,k)=>{const o={};if(R&&R.res){for(const id in R.res)if(GK[k].res.includes(id))o[id]=R.res[id];if(!Object.keys(o).length)o[GK[k].fb]=1}return o};
+const NOGOT="아무 것도 획득하지 못했습니다.";
+let gKind="mine";
+async function gather(k){k=k||gKind;if(!GK[k])k="mine";gKind=k;if(hospBlock())return;
+ if(!hasTool(k))return toast(IT[GK[k].tool].n+"를 보조 장비에 착용해야 "+GK[k].n+"할 수 있어요 · 정비소에서 팔아요");
+ {const R0=REG[me.loc];if(R0&&R0.res&&!Object.keys(gkRes(R0,k)).length)return toast("여기에는 "+GK[k].n+"할 거리가 없어요")}
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");
  if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const R=REG[me.loc];if(!R.res)return toast(R.n+"에서는 채집할 수 없습니다");if(Date.now()<gcd)return;
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const c=cur(me);if(c.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+1500;
- const H=HSP[spot()],inv={...me.inv},gc={},ok=gRoll(inv,gc,R,H);
+ const H=HSP[spot()],inv={...me.inv},gc={},ok=gRoll(inv,gc,R,H,k);
  const got=Object.entries(gc).map(([id,q])=>IT[id].n+" ×"+q);
  await upd({inv,en:Math.round(c.en-GATHER_EN)});
- toast(!ok?"채집 실패 (성공률 "+Math.round(gRate(me)*100)+"%)":got.length?"채집: "+got.join(", "):"가방이 가득 찼습니다");
+ toast(!ok?NOGOT:got.length?GK[k].n+": "+got.join(", "):"가방이 가득 찼습니다");
  if(rf()<encRate(H.enc+.1))await encounter()}
-function gRoll(inv,gc,R,H){const ok=rf()<gRate(me);
- const lf=luckF(me);if(ok){for(let i=0;i<2+H.loot;i++){const id=pickW(medW(R.res));const q=addInv(inv,id,1+(rf()<Math.min(.9,.4*lf)?1:0)+(rf()<Math.min(.9,.06*lf)?1:0));if(q)gc[id]=(gc[id]||0)+q}
-  if(R.hard)[["alloy",.04],["crystal",.02]].forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
-  [["u_plank",.2],["u_nail",.12],["f_honey",.05],["u_resin",.035],["f_truffle",.012]].forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
+function gRoll(inv,gc,R,H,k){k=GK[k]?k:"mine";const RS=gkRes(R,k);const ok=rf()<gRate(me)&&Object.keys(RS).length>0;
+ const lf=luckF(me);if(ok){for(let i=0;i<2+H.loot;i++){const id=pickW(medW(RS));const q=addInv(inv,id,1+(rf()<Math.min(.9,.4*lf)?1:0)+(rf()<Math.min(.9,.06*lf)?1:0));if(q)gc[id]=(gc[id]||0)+q}
+  if(R.hard)GK[k].hx.forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
+  GK[k].ex.forEach(([id,p])=>{if(rf()<p*lf){const q=addInv(inv,id,1);if(q)gc[id]=(gc[id]||0)+q}});
   if(rf()<.02*lf){const id="rc_"+pickW(RCW);if(addInv(inv,id,1))gc[id]=(gc[id]||0)+1}}
  return ok}
 /* 자동 채집: 10 · 20 · 30번 · 1번에 에너지 1 (시작할 때 미리 씀 · 그만두면 남은 만큼 돌려받음) · 10초에 1번 · 크리처는 안 만남 */
 const AG_IV=10000,AG_MAX=30,AG_N=[10,20,30];let agBusy=0;
 function agPop(){if(hospBlock())return;const R=REG[me.loc];if(R.safe||!R.res)return toast("채집할 수 있는 지역에서만 돼요");if(me.ag)return toast("이미 자동 채집 중이에요");
- const en=Math.floor(cur(me).en);openPop(h("div",{c:"h0",t:"자동 채집"}),h("p",{c:"sm mt",t:R.n+" · "+spotName(me.loc,spot())+" · 10초에 1번 · 1번에 에너지 1 · 크리처는 만나지 않아요"}),h("p",{c:"xs mt",t:"지금 에너지 "+en+" · 그만두면 못 한 횟수만큼 에너지를 돌려받아요"}),
-  h("div",{c:"row",style:"gap:6px;margin-top:10px"},...AG_N.map(n=>btn(n+"번 · "+fmt(n*AG_IV/1000),()=>{closePop();wrap(()=>agStart(n))},"pri grow",{disabled:en<n}))),btn("닫기",closePop,"full",{style:"margin-top:8px"}))}
-async function agStart(n){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}n=Math.max(1,Math.min(AG_MAX,Math.floor(n)||0));if(me.ag)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
- const R=REG[me.loc];if(R.safe||!R.res)return toast(R.n+"에서는 채집할 수 없습니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");const c=cur(me);if(c.en<n)return toast("에너지가 부족합니다 ("+n+" 필요)");
- await upd({ag:{reg:me.loc,spot:spot(),t0:Date.now(),n},en:Math.round(c.en-n)});toast("자동 채집 시작 · "+n+"번 ("+fmt(n*AG_IV/1000)+")");render(true)}
+ const en=Math.floor(cur(me).en),ks=Object.keys(GK).filter(k=>Object.keys(gkRes(R,k)).length);if(!ks.includes(gKind))gKind=ks[0]||"mine";
+ const seg=h("div",{c:"seg",style:"display:grid;grid-template-columns:repeat("+Math.max(1,ks.length)+",1fr);gap:6px;margin-top:8px"});ks.forEach(k=>seg.append(h("button",{c:gKind===k?"on":"",t:GK[k].n+(hasTool(k)?"":" (도구 없음)"),onclick:()=>{gKind=k;agPop()}})));
+ openPop(h("div",{c:"h0",t:"자동 채집"}),h("p",{c:"sm mt",t:R.n+" · "+spotName(me.loc,spot())+" · 10초에 1번 · 1번에 에너지 "+GATHER_EN+" · 크리처는 만나지 않아요"}),seg,h("p",{c:"xs mt",t:"지금 에너지 "+en+" · 그만두면 못 한 횟수만큼 에너지를 돌려받아요"+(hasTool(gKind)?"":" · "+IT[GK[gKind].tool].n+"를 보조 장비에 착용해야 해요")}),
+  h("div",{c:"row",style:"gap:6px;margin-top:10px"},...AG_N.map(n=>btn(n+"회",()=>{closePop();wrap(()=>agStart(n,gKind))},"pri grow",{disabled:en<n*GATHER_EN||!hasTool(gKind)}))),btn("닫기",closePop,"full",{style:"margin-top:8px"}))}
+async function agStart(n,k){k=GK[k]?k:"mine";if(!hasTool(k))return toast(IT[GK[k].tool].n+"를 보조 장비에 착용해야 "+GK[k].n+"할 수 있어요");if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}n=Math.max(1,Math.min(AG_MAX,Math.floor(n)||0));if(me.ag)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
+ const R=REG[me.loc];if(R.safe||!R.res)return toast(R.n+"에서는 채집할 수 없습니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");const c=cur(me);if(c.en<n*GATHER_EN)return toast("에너지가 부족합니다 ("+n*GATHER_EN+" 필요)");
+ await upd({ag:{reg:me.loc,spot:spot(),t0:Date.now(),n,k},en:Math.round(c.en-n*GATHER_EN)});toast("자동 "+GK[k].n+" 시작 · "+n+"회 ("+fmt(n*AG_IV/1000)+")");render(true)}
 const agDone=a=>Math.max(0,Math.min(a.n,Math.floor((Date.now()-a.t0)/AG_IV)));
 async function agClaim(){const a=me.ag;if(!a||agBusy)return;agBusy=1;try{const k=agDone(a),R=REG[a.reg]||REG[me.loc],H=HSP[a.spot]||HSP.out,inv={...me.inv},gc={};let ok=0;
-  if(R&&R.res)for(let i=0;i<k;i++)if(gRoll(inv,gc,R,H))ok++;const back=a.n-k,c=cur(me);
-  await upd({ag:null,inv,en:Math.round(Math.min(MAXEN,c.en+back))});const got=Object.entries(gc).map(([id,q])=>IT[id].n+" ×"+q);
-  openPop(h("div",{c:"h0",t:"자동 채집 결과"}),h("p",{c:"sm mt",t:(R?R.n:"")+" · "+k+"번 중 "+ok+"번 성공"+(back?" · 에너지 "+back+" 돌려받음":"")}),h("p",{c:"sm",t:"얻은 것: "+(got.join(", ")||"없음")}),btn("확인",closePop,"pri full"));render(true)}
+  if(R&&R.res)for(let i=0;i<k;i++)if(gRoll(inv,gc,R,H,a.k))ok++;const back=a.n-k,c=cur(me);
+  await upd({ag:null,inv,en:Math.round(Math.min(MAXEN,c.en+back*GATHER_EN))});const got=Object.entries(gc).map(([id,q])=>IT[id].n+" ×"+q);
+  openPop(h("div",{c:"h0",t:"자동 "+((GK[a.k]||GK.mine).n)+" 결과"}),h("p",{c:"sm mt",t:(R?R.n:"")+" · "+k+"회 중 "+ok+"회 성공"+(back?" · 에너지 "+back*GATHER_EN+" 돌려받음":"")}),h("p",{c:"sm",t:got.length?"얻은 것: "+got.join(", "):NOGOT}),btn("확인",closePop,"pri full"));render(true)}
  finally{agBusy=0}}
 /* 자동 전투가 회복 아이템 없이 HP 40% 이하가 되는 시점이 지나면 저절로 끝내고 정산 */
 let autoBusy=0;function autoTick(){const a=me&&me.auto;if(!a||autoBusy||!a.sd||$("#pop").style.display==="flex")return;const el=Math.min(a.dur,(Date.now()-a.t0)/6e4);let r;try{r=simAuto(a,el)}catch(e){return}
@@ -1682,7 +1697,7 @@ const MRC={mg_spear:{r:1,need:{mm_fang:5,mm_fluid:3,scrap:6}},mg_dagger:{r:1,nee
  mg_shellboots:{r:1,need:{mm_shell:2,hide:3}},mg_nervering:{r:1,need:{mm_nerve:2,wire:3}},mg_voiceneck:{r:1,need:{mm_voice:2,glass:3}},
  mg_heartblade:{r:2,need:{mm_heart:2,mm_nerve:3,mm_fang:6}},mg_lensplate:{r:2,need:{mm_lens:2,mm_shell:4,mm_scale:6}},mg_heartring:{r:2,need:{mm_heart:1,mm_lens:1,mm_voice:2}}};
 MRC.gmask={r:1,need:{mm_shell:2,mm_lens:1,mm_fluid:2,cloth:3}};
-const FRC={fd_cornsilk:{c_corn:1,water:1},bread:{c_wheat:2,water:1},fd_potsoup:{c_potato:2,c_carrot:1,water:1},fd_tomsoup:{c_tomato:2,water:1,salt:1},fd_kimchi:{c_cabbage:1,salt:2},fd_ccake:{c_wheat:2,c_carrot:2,egg:1,milk:1,salt:1,sugar:1},fd_skewer:{f_meat:2,salt:1},fd_mstew:{f_meat:2,mush:2,water:1},fd_honeyball:{rice:2,f_honey:1},fd_eggsteam:{f_egg:2,salt:1,water:1},fd_risotto:{f_truffle:1,rice:2,f_meat:1}};
+const FRC={fd_ebar:{c_potato:1,c_carrot:1},fd_cornsilk:{c_corn:1,water:1},bread:{c_wheat:2,water:1},fd_potsoup:{c_potato:2,c_carrot:1,water:1},fd_tomsoup:{c_tomato:2,water:1,salt:1},fd_kimchi:{c_cabbage:1,salt:2},fd_ccake:{c_wheat:2,c_carrot:2,egg:1,milk:1,salt:1,sugar:1},fd_skewer:{f_meat:2,salt:1},fd_mstew:{f_meat:2,mush:2,water:1},fd_honeyball:{rice:2,f_honey:1},fd_eggsteam:{f_egg:2,salt:1,water:1},fd_risotto:{f_truffle:1,rice:2,f_meat:1}};
 /* ===== 가구점 (시장) · 산 가구는 가구 보관함으로 · 길드 건물로도 보낼 수 있음 ===== */
 const FSHOP=[["bed1",220],["bed2",420],["bedLow",360],["sofa1",140],["sofa2",210],["sofa",280],["sofaC",480],["table",80],["tableR",100],["dining",150],["chairD",35],["desk",130],["laptop",240],
  ["wardrobe",180],["fridge",200],["fridge2",360],["kitchen",400],["induction",90],["vanity",120],["toilet",100],["tub",260],["shower",140],["glass",60],
@@ -1935,8 +1950,8 @@ const rodTier=()=>{let t=0;for(let i=1;i<=5;i++)if(me&&me.inv&&me.inv["rod"+i]>0
 async function rodMod(){if(hospBlock())return;const N=ROD_MOD.need,inv={...me.inv};for(const k in N)if((inv[k]||0)<N[k])return toast("재료가 모자라요: "+IT[k].n+" "+(inv[k]||0)+"/"+N[k]);if(me.tan<ROD_MOD.cost)return toast("환이 부족합니다");
  for(const k in N){inv[k]-=N[k];if(inv[k]<=0)delete inv[k]}if(addInv(inv,"rod5",1)<1)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-ROD_MOD.cost});toast("정비공이 낚시대를 개조했다 · 강태공용 낚시대 ×1")}
 async function fish(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
- const k=fishKind(me.loc);if(!k)return toast("여기에는 낚시할 물가가 없어요");const rt=rodTier();if(!rt)return toast("낚시대가 필요해요 · 시장에서 사거나 물가를 조사해 보세요");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;gcd=Date.now()+2000;
- if(rf()<ROD_MISS[rt])return toast("찌가 움직이지 않는다… 다시 던져 보자 ("+IT["rod"+rt].n+")");
+ const k=fishKind(me.loc);if(!k)return toast("여기에는 낚시할 물가가 없어요");const rt=rodTier();if(!rt)return toast("낚시대가 필요해요 · 시장에서 사거나 물가를 조사해 보세요");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;{const c0=cur(me);if(c0.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+2000;await upd({en:Math.round(c0.en-GATHER_EN)})}
+ if(rf()<ROD_MISS[rt])return toast(NOGOT);
  if(await startBattle(true,null,k)){hidePhone();closeAsk();tab="battle";render(true);toast(k==="sea"?"거대한 그림자가 낚싯줄을 끌어당긴다!":"수면 아래에서 무언가 낚싯줄을 물었다!")}}
 async function startBattle(enc,spk,fishK){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} const R=REG[me.loc];if(R.safe)return toast(R.n+"에서는 크리처가 나타나지 않습니다");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
@@ -3728,7 +3743,7 @@ async function ensureRno(){if(!me||me.rno||me.house)return;const used=new Set(Ob
 const atBase=()=>me&&me.loc==="base"&&!me.trip&&!lockMsg();
 const atHomeIsl=()=>{if(!me||me.trip||typeof myHomeId!=="function")return false;const id=myHomeId();return!!(id&&hmLot(id)&&hmLot(id).isl===me.loc)&&!lockMsg()},atSto=()=>atBase()||atHomeIsl(),stoWhere=()=>{const id=me&&typeof myHomeId==="function"&&myHomeId();return id?"집("+REG[hmLot(id).isl].n+") · 중앙 거점":"중앙 거점 숙소"};
 /* 제작 재료: 중앙 거점에서는 가방 + 숙소 보관함 (가방 먼저 씀) */
-const RCP0=new Set(["fd_cornsilk","bread","fd_potsoup","fd_tomsoup","fd_kimchi","fd_ccake"]),knowsR=id=>RCP0.has(id)||(me.rcp||[]).includes(id);
+const RCP0=new Set(["fd_ebar","fd_cornsilk","bread","fd_potsoup","fd_tomsoup","fd_kimchi","fd_ccake"]),knowsR=id=>RCP0.has(id)||(me.rcp||[]).includes(id);
 const haveM1=k=>((me.inv||{})[k]||0)+(atSto()?((me.store||{})[k]||0):0),haveM=k=>k==="egg"?haveM1("egg")+haveM1("f_egg"):haveM1(k);
 const haveAll=need=>Object.keys(need).every(k=>haveM(k)>=need[k]);
 function matTake(need,half){const inv={...me.inv},b=atSto(),st=b?{...(me.store||{})}:null;const one=(k,q)=>{const a=Math.min(inv[k]||0,q);inv[k]=(inv[k]||0)-a;q-=a;if(q>0&&st){const c=Math.min(st[k]||0,q);st[k]=(st[k]||0)-c;if(!st[k])delete st[k];q-=c}return q};for(const k in need){let q=half?Math.ceil(need[k]/2):need[k];q=one(k,q);if(q>0&&k==="egg")one("f_egg",q)}for(const k in inv)if(!inv[k])delete inv[k];const p={inv};if(st)p.store=st;return p}
