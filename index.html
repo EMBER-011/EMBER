@@ -122,10 +122,12 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .skb>*{position:relative}.skb small{font-weight:400;font-size:calc(11px*var(--fz,1));opacity:.8}.skb .mpc{color:var(--ac2);font-weight:700;opacity:1}.skb .fill{position:absolute;left:0;bottom:0;width:100%;height:0;background:rgba(var(--acr),.28)}
 .mem{margin-top:8px}.mem .row{margin-bottom:2px}
 #toast{position:fixed;left:0;right:0;margin:0 auto;bottom:100px;width:fit-content;max-width:min(620px,calc(100% - 24px));box-sizing:border-box;background:var(--sf);color:var(--tx);border:1px solid var(--bd);padding:9px 18px;border-radius:2px;font-size:calc(13px*var(--fz,1));font-weight:500;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;display:none;text-align:center;z-index:22}
-#ask{position:fixed;right:14px;bottom:84px;animation:askIn .32s cubic-bezier(.2,.85,.25,1);width:min(260px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:12px;z-index:20;display:none}
-#ask p{margin:0 0 4px;font-weight:600}#ask p.an{font-size:calc(16px*var(--fz,1));font-weight:800;margin:0 0 2px}#ask p.sub{margin:0 0 6px;font-size:calc(13px*var(--fz,1));font-weight:400;color:var(--mt)}#ask p.q{margin:0 0 10px}
+#ask{position:fixed;right:14px;bottom:84px;animation:askIn .32s cubic-bezier(.2,.85,.25,1);width:min(310px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:15px 16px;z-index:20;display:none}
+#ask .tr{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 8px}#ask .tr i{font-style:normal;font-size:calc(11.5px*var(--fz,1));padding:2px 8px;border:1px solid var(--ln);border-radius:10px;color:var(--ac2)}
+#ask .vrow{display:flex;gap:6px;margin:4px 0 8px}#ask .vrow button{flex:1;width:auto;height:auto;min-height:36px;padding:6px 6px;font-size:calc(12px*var(--fz,1));font-weight:600;color:var(--mt);line-height:1.3}#ask .vrow button.on{border-color:var(--ac2);color:var(--ac2);background:rgba(var(--acr),.1)}#ask .vrow button:disabled{opacity:.45}
+#ask p{margin:0 0 4px;font-weight:600}#ask p.an{font-size:calc(18px*var(--fz,1));font-weight:800;margin:0 0 2px}#ask p.sub{margin:0 0 6px;font-size:calc(13px*var(--fz,1));font-weight:400;color:var(--mt)}#ask p.q{margin:0 0 10px}
 #ask .btns{display:flex;gap:8px;justify-content:flex-end}
-#ask button{width:46px;height:36px;padding:0;border-radius:2px;display:flex;align-items:center;justify-content:center}
+#ask button{width:52px;height:40px;padding:0;border-radius:2px;display:flex;align-items:center;justify-content:center}
 #ask button.yes{background:var(--ac);border-color:var(--ac)}
 #ask svg{width:18px;height:18px;fill:none;stroke:var(--tx);stroke-width:2.2;stroke-linecap:square;stroke-linejoin:miter}#ask button.yes svg{stroke:var(--on)}
 #notice{padding:6px 14px;color:var(--ac2);font-size:calc(13px*var(--fz,1));display:none}
@@ -367,6 +369,7 @@ textarea#pmsg{flex:1;resize:none;font-size:calc(12px*var(--fz,1))}
 #pager .bell{width:20px;height:18px;color:var(--rlf)}#pager .bell svg{width:13px;height:13px}.profp{display:flex;flex-direction:column;align-items:center;text-align:center}.profp .av.l{width:72px;height:72px}
 #lpm{position:fixed;z-index:19;min-width:112px;background:var(--sf);border:1px solid var(--bd);border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.35);padding:4px;display:flex;flex-direction:column;gap:2px}
 #lpm button{border:0;background:transparent;text-align:left;font-size:calc(13px*var(--fz,1));padding:8px 12px;border-radius:7px;font-weight:500}#lpm button:hover{background:rgba(var(--acr),.1)}#lpm button.bad{color:var(--bad,#d0463a)}#view.tripblk>*:not(.tripbar):not(.tripok){pointer-events:none;opacity:.42;filter:grayscale(.4)}
+.vehic{width:30px;height:30px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .tripbar{position:sticky;top:0;z-index:6;display:flex;flex-direction:column;gap:2px;padding:10px 12px;margin:-2px 0 10px;border:1px solid var(--ln);border-radius:6px;background:var(--bg);font-size:calc(12.5px*var(--fz,1))}.tripbar b{color:var(--ac2);font-weight:600}.tripbar span{color:var(--mt);font-size:calc(11.5px*var(--fz,1))}
 .ptrb{font:inherit;font-size:calc(12px*var(--fz,1));background:none;color:inherit;border:1px solid currentColor;border-radius:4px;padding:5px 16px;opacity:.8;cursor:pointer}
 .room3w{position:relative;margin-top:8px}
@@ -477,7 +480,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115063400";
+const BUILD="20261115105710";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -763,7 +766,7 @@ const sKey=d=>pbeep(700+("123456789*0#".indexOf(d)+1)*45,.07,.03);
 const sDevOn=()=>{pbeep(1480,.08,.04,"square");pvib(15)},pTap=()=>pbeep(1250,.035,.022,"sine"),rTap=()=>pbeep(620,.03,.03,"square"),gTap=()=>pbeep(1900,.025,.018,"square");
 function noise(d,f,v,delay){if(pMode()!=="snd")return;try{actx=aCx();if(!actx)return;if(actx.state!=="running")actx.resume().catch(()=>{});const n=Math.round(actx.sampleRate*d),b=actx.createBuffer(1,n,actx.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=(Math.random()*2-1)*(1-i/n);
  const s=actx.createBufferSource(),bp=actx.createBiquadFilter(),g=actx.createGain(),t=actx.currentTime+(delay||0);s.buffer=b;bp.type="bandpass";bp.frequency.value=f;bp.Q.value=.9;g.gain.value=v;s.connect(bp).connect(g).connect(actx.destination);s.start(t)}catch(e){}}
-const sRadio=()=>{noise(.07,2600,.5);noise(.12,1700,.55,.1)};/* 치칙 */
+const sRadio=()=>{noise(.07,2600,.16);noise(.12,1700,.18,.1)};/* 치칙 */
 const sAnswer=()=>pbeep(1600,.13,.05,"square");/* 삑 */
 const sHang=()=>{[784,988,1318].forEach((f,i)=>pbeep(f,.11,.045,"sine",i*.11))};/* 띠로롱 */
 const sBusy=()=>{[0,.6,1.2].forEach(d=>pbeep(480,.36,.05,"sine",d))};/* 뚜- 뚜- 뚜- */
@@ -974,7 +977,7 @@ const locked=id=>!!(REG[id]&&REG[id].hard&&me&&(me.lv||1)<REG[id].lv);
 function findRoute(a,b){const d={},pv={},q=new Set(Object.keys(REG));Object.keys(REG).forEach(k=>d[k]=Infinity);d[a]=0;
  while(q.size){let u=null;q.forEach(k=>{if(u===null||d[k]<d[u])u=k});if(d[u]===Infinity)break;q.delete(u);if(u===b)break;(ADJ[u]||[]).filter(v=>!locked(v)).forEach(v=>{const nd=d[u]+tsec(u,v);if(nd<d[v]){d[v]=nd;pv[v]=u}})}
  if(d[b]===Infinity)return null;const r=[b];while(r[0]!==a)r.unshift(pv[r[0]]);return{path:r,sec:d[b]}}
-const BASESP=[["plaza","광장","주민이 모이는 만남의 장소"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작"],["clinic","치료소","부상·질병 진료 · 약품 · 휴식"],["market","시장","식재료·재료 구입, 유저 거래소"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","의뢰 게시판 · 음식 · 조리실"]];
+const BASESP=[["plaza","광장","주민이 모이는 만남의 장소"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단"],["clinic","치료소","부상·질병 진료 · 약품 · 휴식"],["market","시장","식재료·재료 구입, 유저 거래소"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","의뢰 게시판 · 음식"]];
 const HSP={out:{n:"외곽",lv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,enc:.25,con:1,loot:0,d:"크리처가 자주 지나다니는 곳"},deep:{n:"심부",lv:5,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
  rlab:{n:"무너진 연구소",lv:6,enc:.3,con:1.6,loot:1,bld:1,d:"불법 약물을 만들던 지하 연구 시설의 잔해"}};
 const FACI={plaza:"M3 20h18M5 20v-5h14v5M12 15V9M8.5 9h7M10 9V6.5a2 2 0 0 1 4 0V9M7 15v-2M17 15v-2",shop:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",clinic:"M9 4h6v5h5v6h-5v5H9v-5H4V9h5z",market:"M4 9l2-5h12l2 5M4 9h16v1.5a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 10.5zM5 12v8h14v-8M10 20v-5h4v5",quar:"M4 4h16v16H4zM4 9h16M9 9v11M15 9v11M12 9v11",tavern:"M5 7h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM15 9h2.5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H15M7 4c0 1 1 1 1 2M10.5 4c0 1 1 1 1 2M8 11v6M11.5 11v6",rlab:"M2.5 21h19M4.5 21V10l4.5-3.5V21M9 21V6.5l3.5-2 1 2.2L15 5.2V21M15 21v-9.5h4.5V21M11 9.5h1.5M11 13h1.5M11 16.5h1.5M6.3 13h1M6.3 16.5h1M16.8 14.5h1"};
@@ -1097,7 +1100,7 @@ function applyTop(){$("#top").classList.toggle("min",topMin);$("#tgl").setAttrib
 $("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
 /* 휴대폰 아이콘: 끌어서 아무 데나 옮기기 · 위치는 이 기기에 저장 · 휴대폰은 아이콘 옆에 열림 */
 let ptPos=null;try{ptPos=JSON.parse(localStorage.getItem("af_ptab")||"null")}catch(e){}
-const TAB_DOCK=true;
+const TAB_DOCK=!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches);
 function applyPtab(){if(TAB_DOCK)ptPos=null;const t=$("#ptab");if(!t)return;if(!ptPos||typeof ptPos.x!=="number"){t.classList.remove("free");t.style.left=t.style.top="";return}
  t.classList.add("free");t.classList.toggle("sl",ptPos.side==="l");t.classList.toggle("sr",ptPos.side==="r");const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;
  t.style.left=(ptPos.side==="l"?0:ptPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,ptPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,ptPos.y*H)))+"px"}
@@ -1129,7 +1132,7 @@ function render(force){try{agreeCheck()}catch(e){}try{tutCheck()}catch(e){}try{f
  nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));
  v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();return}if(chatHub){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle")?rLock:{map:rMap,battle:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab])(v);if(tc)v.classList.add("anim");
- if(me.trip&&tab!=="me"&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")}),h("span",{t:"도착할 때까지 채팅 · 내 정보만 쓸 수 있어요"})))}
+ if(me.trip&&tab!=="me"&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")+(me.trip.veh&&VEH[me.trip.veh.k]?" · "+VEH[me.trip.veh.k].n+(me.trip.ride&&chars[me.trip.ride]?" ("+chars[me.trip.ride].name+"님 운전)":""):"")}),h("span",{t:"도착할 때까지 채팅 · 내 정보만 쓸 수 있어요"})))}
  if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;
  v.scrollTop=tc?0:sc;updTop();
 }
@@ -1283,24 +1286,29 @@ function pickRegion(id){
  if(me.trip)return toast("이동 중입니다");
  if(inB())return toast("전투 중에는 이동할 수 없습니다");
  selReg=id;render(true);if(isAdj(me.loc,id))askTravel(id,tsec(me.loc,id));else askRoute(id)}
+/* 지역 특색: 지형 + 바다에 닿아 있으면 「해안」 (해안 · 바다 인접은 하나로) */
+function regTraits(id){const T=window.Holo&&Holo.RT[id];if(!T)return[];const N=Holo.TN,a=[];if(T.t&&T.t!=="coast"&&T.t!=="base")a.push(N[T.t]);if(T.t==="coast"||T.sea)a.push(N.coast);return a}
+const trEl=id=>{const L=regTraits(id);return L.length?h("div",{c:"tr"},...L.map(t=>h("i",{t}))):null};
 function askRoute(to){const rt=findRoute(me.loc,to),a=$("#ask");a.textContent="";if(!rt)return toast("갈 수 있는 길이 없습니다");const ne=MOVE_EN*(rt.path.length-1);
- a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:(rt.path.length-2)+"곳을 거쳐 가요 · 이동 시간 "+fmt(rt.sec)+" · 에너지 "+ne+(REG[to].safe?"":" · "+regLv(to))}),
-  h("p",{c:"sub",t:"경로: "+rt.path.map(k=>REG[k].n).join(" → ")}),h("p",{c:"q",t:"이동하시겠습니까?"}),
-  h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,rt.sec))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
+ let vk=null;const tline=h("p",{c:"sub",t:""}),setT=()=>{tline.textContent=(rt.path.length-2)+"곳을 거쳐 가요 · 이동 시간 "+fmt(vk?Math.round(rt.sec*VEH[vk].sp):rt.sec)+" · 에너지 "+ne+(REG[to].safe?"":" · "+regLv(to))};setT();
+ a.append(h("p",{c:"an",t:REG[to].n}),trEl(to),tline,
+  h("p",{c:"sub",t:"경로: "+rt.path.map(k=>REG[k].n).join(" → ")}),vehRow(rt.path,rt.sec,k=>{vk=k;setT()}),h("p",{c:"q",t:"이동하시겠습니까?"}),
+  h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,rt.sec,vk))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
  showAsk(a)}
 const ICK="M4 12.5l5 5L20 6.5",ICX="M5 5l14 14M19 5L5 19";
 let askT=0;function closeAsk(){const a=$("#ask");if(!a||a.style.display!=="block")return;clearTimeout(askT);a.classList.add("out");askT=setTimeout(()=>{a.style.display="none";a.classList.remove("out")},200)}
 function showAsk(a){clearTimeout(askT);const was=a.style.display==="block"&&!a.classList.contains("out");a.classList.remove("out");if(!was){a.style.display="none";void a.offsetWidth}a.style.display="block"}
 function askTravel(to,s){
  const a=$("#ask");a.textContent="";
- a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:"이동 시간 "+fmt(s)+(contOf(to)!==contOf(me.loc)?" (대륙 간)":"")+" · 에너지 "+MOVE_EN+(REG[to].safe?"":" · "+regLv(to)+(isHard(to)?" · 하드":""))}),h("p",{c:"q",t:"이동하시겠습니까?"}),
-  h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,s))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
+ let vk=null;const tline=h("p",{c:"sub",t:""}),setT=()=>{tline.textContent="이동 시간 "+fmt(vk?Math.round(s*VEH[vk].sp):s)+(contOf(to)!==contOf(me.loc)?" (대륙 간)":"")+" · 에너지 "+MOVE_EN+(REG[to].safe?"":" · "+regLv(to)+(isHard(to)?" · 하드":""))};setT();
+ a.append(h("p",{c:"an",t:REG[to].n}),trEl(to),tline,vehRow([me.loc,to],s,k=>{vk=k;setT()}),h("p",{c:"q",t:"이동하시겠습니까?"}),
+  h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,s,vk))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
  showAsk(a)}
-async function travel(to,s){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur())return toast("결투 중에는 이동할 수 없어요");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");const RT=isAdj(me.loc,to)?{path:[me.loc,to],sec:s}:findRoute(me.loc,to);if(!RT)return toast("갈 수 있는 길이 없습니다");s=RT.sec;const NE=MOVE_EN*(RT.path.length-1);if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
+async function travel(to,s,vk){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur())return toast("결투 중에는 이동할 수 없어요");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");const RT=isAdj(me.loc,to)?{path:[me.loc,to],sec:s}:findRoute(me.loc,to);if(!RT)return toast("갈 수 있는 길이 없습니다");s=RT.sec;const NE=MOVE_EN*(RT.path.length-1);let VS=1,vp=null;if(vk){const e=vehErr(RT.path);if(e)return toast(e);const V=VEH[vk],hops=RT.path.length-1;VS=V.sp;s=Math.round(s*VS);vp=Object.assign({},me.veh,{fuel:me.veh.fuel-V.fuel*hops,dur:Math.max(0,me.veh.dur-V.wear*hops)})}if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
  const c=cur(me);if(c.en<NE)return toast("에너지가 부족합니다 ("+NE+" 필요)");
- selReg=to;showSpots=false;const tp={trip:Object.assign({to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},RT.path.length>2?{path:RT.path,segs:RT.path.slice(1).map((k,i)=>tsec(RT.path[i],k)*1000)}:{}),quar:false,en:Math.round(c.en-NE)},sick=["snow","rain","rainfog","storm"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
+ selReg=to;showSpots=false;const tp={trip:Object.assign({to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},RT.path.length>2?{path:RT.path,segs:RT.path.slice(1).map((k,i)=>Math.round(tsec(RT.path[i],k)*1000*VS))}:{},vk?{veh:{k:vk,by:uid}}:{}),quar:false,en:Math.round(c.en-NE)},sick=["snow","rain","rainfog","storm"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
  if(sick){const A=clone(me.ail||{});A.cold={t:Date.now(),u:Date.now()+AIL.cold.nat};tp.ail=A}
- await upd(tp);toast(REG[to].n+"(으)로 출발"+(RT.path.length>2?" · "+RT.path.slice(1,-1).map(k=>REG[k].n).join(" · ")+" 경유":"")+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
+ if(vp)tp.veh=vp;await upd(tp);toast(REG[to].n+"(으)로 출발"+(vk?" · "+VEH[vk].n:"")+(RT.path.length>2?" · "+RT.path.slice(1,-1).map(k=>REG[k].n).join(" · ")+" 경유":"")+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
 async function moveSpot(k){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const again=k===spot();if(again&&REG[me.loc].safe)return;if(again){if(Date.now()<gcd)return;gcd=Date.now()+1200}
  const c=cur(me),safe=REG[me.loc].safe,cost=0;if(c.en<cost)return toast("에너지가 부족합니다 ("+cost+" 필요)");
@@ -1365,14 +1373,15 @@ function facility(sp){
   const here=Object.entries(chars).filter(([id,c])=>!(window.__hideGM&&__hideGM(id))&&c.loc==="base"&&(c.spot||"plaza")==="plaza"&&!c.trip);
   box.append(btn("광장 채팅",()=>{plazaChat=true;render(true)},"pri full"),h("div",{c:"sm mt",style:"margin:10px 0 4px",t:"광장에 있는 주민 "+here.length+"명"}));
   here.forEach(([id,c])=>box.append(row(h("span",{c:"dot"+(online.has(id)?" on":"")}),h("span",{c:"grow sm",t:c.name+" · "+ROLE[c.role].n+" Lv"+c.lv+(isFr(id)?" · 친구":"")}),id===uid?null:btn("프로필",()=>openPhone("person","dm:"+id),"sm"))))}
- else if(sp==="shop"){box.append(wal);const t=subs("shop",[["buy","구매"],["fix","수리·강화"],["craft","제작"],["dlv","납품"]]);
+ else if(sp==="shop"){box.append(wal);const t=subs("shop",[["buy","구매"],["fix","수리·강화"],["veh","이동수단"],["craft","제작"],["dlv","납품"]]);
   if(t==="craft"){const N=ROD_MOD.need;box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"낚시대 개조 → "+IT.rod5.n}),h("div",{c:"xs mt",t:IT.rod5.d}),h("div",{c:"xs mt",t:Object.keys(N).map(k=>IT[k].n+" "+((me.inv||{})[k]||0)+"/"+N[k]).join(" · ")})),h("span",{c:"sm gold",t:ROD_MOD.cost}),btn("개조",()=>wrap(rodMod),"sm")))}
-  if(t==="buy")Object.entries(SHOP).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:""):i.d||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>buy(id,p),"sm")))});
+  if(t==="buy")Object.entries(SHOP).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.cres?" · 오염 저항 "+Math.round(CRES[0]*100)+"%":""):i.d||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>buy(id,p),"sm")))});
   else if(t==="fix"){const eq=me.eq||{},ks=SLOTS.filter(([s])=>eq[s]&&eq[s].id);if(!ks.length)box.append(h("p",{c:"sm mt",t:"장착한 장비가 없습니다. 하단 장비 탭에서 장착하세요."}));
    let tot=0;ks.forEach(([s,n])=>{const q=eq[s],i=IT[q.id],rc=Math.ceil((100-q.dur)*3),up=q.up||0,need=up+1,rate=Math.max(.3,1-up*.07);tot+=rc;
     box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:n+" · "+i.n+(up?" +"+up:"")}),h("div",{c:"xs "+(q.dur<30?"bad":"mt"),t:"내구도 "+q.dur+"%"}),h("div",{c:"xs mt",t:"강화: 강화 부품 "+need+" · "+won(ENH_P[q.r||0]*need)+"환 · 성공률 "+Math.round(rate*100)+"%"})),
      btn("수리 "+rc,()=>repair([s]),"sm",{disabled:q.dur>=100}),btn("강화",()=>enhance(s),"sm",{disabled:up>=10})))});
    if(tot>0)box.append(btn("전체 수리 ("+tot+" 환)",()=>repair(ks.map(x=>x[0])),"pri full",{style:"margin-top:8px"}))}
+  else if(t==="veh")vehShop(box);
   else if(t==="dlv")shopDlv(box,row);
   else{Object.entries(RC).filter(([id])=>!MED_RC[id]).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>haveM(k)>=need[k]),i=IT[id];
    box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n+(i.slot?" · 등급 랜덤":"")}),h("div",{c:"xs "+(ok?"ok":"mt"),t:Object.entries(need).map(([k,q])=>IT[k].n+" "+haveM(k)+"/"+q).join(" · ")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.d?" · "+i.d:"")})),btn("제작",()=>craft(id),"pri sm",{disabled:!ok})))});
@@ -1473,11 +1482,13 @@ async function buyListing(m,n){if(hospBlock())return;n=Math.floor(n)||0;if(n<1)r
  const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매된 매물입니다");const d=s.data();
  if(n>d.qty)return toast("남은 수량은 "+d.qty+"개예요");const u=unitOf(d),cost=u*n;
  if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+" 환 필요)");
- if(d.kr){await ref.delete();const rr=krRecvP(d.kr);await upd({...rr.p,tan:me.tan-cost});const po={t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:krName(d.kr)+" 판매 (수수료 5%)"};if(d.kr.own===uid)po.rep5=true;await db.collection("payouts").add(po);return toast(rr.msg+" (-"+won(cost)+" 환)")}
+ if(d.seller===uid)return toast("내가 올린 매물이에요");
+ if(d.kr){const po={t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:krName(d.kr)+" 판매 (수수료 5%)"};if(d.kr.own===uid)po.rep5=true;await mkBuy(ref,m.id,d,1,po);const rr=krRecvP(d.kr);await upd({...rr.p,tan:me.tan-cost});return toast(rr.msg+" (-"+won(cost)+" 환)")}
  const inv={...me.inv};if(d.gear){n=1;if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다")}else if(addInv(inv,d.item,n)<n)return toast("가방 공간이 부족합니다");
- if(n>=d.qty)await ref.delete();else await ref.update({qty:d.qty-n,unit:u});
- await upd(d.gear?{gear:(me.gear||[]).concat([d.gear]),tan:me.tan-cost}:{inv,tan:me.tan-cost});
- await db.collection("payouts").add({t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:IT[d.item].n+" ×"+n+" 판매 (개당 "+won(u)+" · 수수료 5%)"});toast(IT[d.item].n+" ×"+n+" 구매 완료 (-"+won(cost)+" 환)")}
+ await mkBuy(ref,m.id,d,n,{t:Date.now(),to:d.seller,from:uid,amt:Math.floor(cost*.95),k:"sale",memo:IT[d.item].n+" ×"+n+" 판매 (개당 "+won(u)+" · 수수료 5%)"});
+ await upd(d.gear?{gear:(me.gear||[]).concat([d.gear]),tan:me.tan-cost}:{inv,tan:me.tan-cost});toast(IT[d.item].n+" ×"+n+" 구매 완료 (-"+won(cost)+" 환)")}
+/* 매물 수량 줄이기(또는 지우기) + 판매자 대금 우편: 한 묶음으로 저장 · 우편 이름은 「ms_매물_남은수량」 */
+async function mkBuy(ref,mid,d,n,po){const left=Math.max(0,d.qty-n),b=db.batch();if(left<=0)b.delete(ref);else b.update(ref,{qty:left,unit:unitOf(d)});b.set(db.doc("payouts/ms_"+mid+"_"+left),po);await b.commit()}
 async function cancelListing(m){const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매되었습니다");const d=s.data();if(d.kr){await ref.delete();await upd({fkr:(me.fkr||[]).concat([d.kr])});return toast("키링을 회수했어요")}if(d.gear){if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");await ref.delete();await upd({gear:(me.gear||[]).concat([d.gear])});return toast("장비를 회수했습니다")}const inv={...me.inv};if(addInv(inv,d.item,d.qty)<d.qty)return toast("가방 공간이 부족합니다");await ref.delete();await upd({inv});toast("판매를 취소했습니다")}
 
 
@@ -1772,13 +1783,17 @@ function gateCards(v){const R=REG[me.loc],L=liveGates().filter(g=>g.kind==="w"&&
  v.append(box)}
 
 Object.keys(MRC).forEach(k=>IT["rm_"+k]={n:"제작법: "+IT[k].n,learn:k,bound:1,rar:MRC[k].r,d:(MRC[k].r===2?"희귀":"고급")+" 이상 몬스터 장비 「"+IT[k].n+"」 제작법 · 손재주가 높을수록 높은 등급 · 거래 불가 · 만든 장비는 거래소에서 팔 수 있음"});
-Object.keys(FRC).forEach(k=>IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"주점 조리실에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
+Object.keys(FRC).forEach(k=>IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"숙소 부엌 인덕션에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
 Object.keys(URC).forEach(k=>IT["rc_"+k]={n:"가구 도면: "+IT[k].n,learn:k,bound:1,d:"정비소에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
 function gateMarks(E){const sv=survAt();if(sv){const I=survIsle(sv.s),gg=E("g",{class:"gmk sv"});gg.onclick=e=>{e.stopPropagation();survPop()};E("circle",{cx:I.x,cy:I.y,r:2.4},gg);const t=E("text",{x:I.x,y:I.y+.8},gg);t.textContent="生"}
  liveGates().forEach(g=>{const ov=g.st==="ovf";if(g.kind==="w"){const P=mapP(g.reg),x=P.x+3.2,y=P.y-3.4,gg=E("g",{class:"gmk"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};
   E("rect",{x:x-1.5,y:y-1.5,width:3,height:3,transform:"rotate(45 "+x+" "+y+")"},gg);const t=E("text",{x,y:y+.72},gg);t.textContent=g.grade}
  else{const gg=E("g",{class:"gmk s"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};E("circle",{cx:g.x,cy:g.y,r:2.6},gg);const t=E("text",{x:g.x,y:g.y+.8},gg);t.textContent="S"}})}
 /* 제작 (음식 · 가구 · 몬스터 장비) */
+/* 숙소 부엌: 인덕션 앞에 서면 요리 창 (익힌 요리법 · 거점에선 보관함 재료도 씀) */
+function cookPop(){if(inHosp())return hospBlock();const box=h("div",{style:"max-height:58vh;overflow:auto;margin-top:8px"}),row=(...k)=>h("div",{c:"lrow"},...k);
+ rcpRows(box,row,FRC,id=>wrap(async()=>{await craftFU(id);setTimeout(()=>{if($("#pop").style.display==="flex"&&$("#popb .cookp"))cookPop()},500)}),"요리법");
+ openPop(h("div",{c:"h0 cookp",t:"부엌 · 요리"}),h("p",{c:"xs mt",style:"margin:4px 0 0",t:"익힌 요리법으로 만들어요 · 중앙 거점에선 숙소 보관함 재료도 같이 써요"}),box,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
 async function craftFU(id){if(hospBlock())return;const need=FRC[id]||URC[id];if(!(me.rcp||[]).includes(id))return toast("레시피를 먼저 익히세요");if(!haveAll(need))return toast("재료 부족");
  {const f=craftBad(need);if(f){await upd(f);return toast("만들다 망쳤어요… 재료 절반을 잃었어요 (성공률 "+Math.round(craftRate(me)*100)+"%)")}}
  const p=cntAdd(matTake(need),"cr");if(addInv(p.inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(IT[id].n+" 완성")}
@@ -1793,7 +1808,7 @@ function dlvHead(box,want){const d=myDlv(),g=myG();box.append(h("div",{c:"sm",st
 async function setMyDlv(k){if(myG())return toast("길드에 소속돼 있어 길드 납품처를 따릅니다");await upd({dlv:k});toast("개인 납품처: "+DLV[k].n)}
 function dlvPick(box){if(myG())return;const s=h("div",{c:"seg"});Object.entries(DLV).forEach(([k,x])=>s.append(h("button",{c:me.dlv===k?"on":"",t:x.n,onclick:()=>wrap(()=>setMyDlv(k))})));box.append(h("div",{c:"sm",style:"margin:4px 0",t:"개인 납품처 정하기"}),s)}
 function marketDlv(box,row){dlvPick(box);if(myDlv()==="furn"){dlvHead(box,["furn"]);box.append(h("p",{c:"sm mt",t:"가구 납품은 시장 「가구점」 탭에서 해요."}));return}if(!dlvHead(box,["food"])){box.append(h("p",{c:"sm mt",t:"시장 납품 탭에는 음식을 납품해요. 지금 납품처가 달라요."}));return}const d=myDlv(),L=Object.keys(IT).filter(k=>IT[k].dv&&(d==="food"?FRC[k]:URC[k])&&(me.inv[k]||0)>0);
- if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 "+DLV[d].n+"이(가) 없습니다. "+(d==="food"?"주점 조리실에서 요리하세요.":"정비소 제작 탭에서 가구를 만드세요.")}));
+ if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 "+DLV[d].n+"이(가) 없습니다. "+(d==="food"?"숙소 부엌 인덕션에서 요리하세요.":"정비소 제작 탭에서 가구를 만드세요.")}));
  L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[k].n+" ×"+me.inv[k]}),h("div",{c:"xs mt",t:"개당 "+won(IT[k].dv)+" 환 · 명성 +"+(d==="food"?1:2)})),btn("1개",()=>deliverItem(k,1),"sm"),btn("전부",()=>deliverItem(k,me.inv[k]),"sm"))))}
 function shopDlv(box,row){dlvPick(box);if(!dlvHead(box,["arms"])){box.append(h("p",{c:"sm mt",t:"정비소에는 무기·장비·악세서리를 납품해요. 지금 납품처가 달라요."}));return}const G=me.gear||[];if(!G.length)box.append(h("p",{c:"sm mt",t:"가방의 장비 칸이 비어 있어요. 장착 중인 장비는 납품할 수 없어요."}));
  G.slice().sort((a,b)=>b.r-a.r).forEach(q=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"xs mt",t:RAR[q.r].n+" · Lv"+q.lv+" · 납품가 "+won(gearVal(q))+" 환 · 명성 +3"})),btn("납품",()=>deliverGear(q.gid),"sm"))))}
@@ -1801,9 +1816,9 @@ function shopDlv(box,row){dlvPick(box);if(!dlvHead(box,["arms"])){box.append(h("
 const SURV=[["rm_mg_heartblade",3,1],["rm_mg_lensplate",3,1],["rm_mg_heartring",3,1],["mm_heart",1,2],["mm_lens",1,2]];
 async function survBuy(id,cost,q){if(hospBlock())return;if(!survAt())return toast("생존자가 떠났습니다");if(me.sg!=="sv")return toast("섬으로 먼저 건너가세요");if((me.inv.rcore||0)<cost)return toast("희귀한 핵이 "+cost+"개 필요해요");const inv={...me.inv};inv.rcore-=cost;if(addInv(inv,id,q)<q)return toast("가방 공간이 부족합니다");await upd({inv});toast("교환: "+IT[id].n+" ×"+q)}
 let rform={kind:"mat",grade:"D",item:"scrap",qty:5,amt:500,pay:"me"};
-function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=subs("tavern",[["board","의뢰 게시판"],["food","음식"],["cook","조리실"]]),g=myG(),hd=x=>box.append(h("div",{c:"sm",style:"margin:12px 0 4px;color:var(--ac2)",t:x}));
+function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=subs("tavern",[["board","의뢰 게시판"],["food","음식"]]),g=myG(),hd=x=>box.append(h("div",{c:"sm",style:"margin:12px 0 4px;color:var(--ac2)",t:x}));
  if(t==="cook"){rcpRows(box,row,FRC,craftFU,"요리법");return}
- if(t==="food"){box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"주점 사장이 만든 음식이에요 · 조리실에서 직접 만들면 더 싸요"}));Object.entries(TAV_SHOP).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:(IT[id].d||"")+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),h("span",{c:"sm gold",t:won(p)}),btn("1개",()=>buy(id,p),"sm"),btn("5개",()=>buy(id,p,5),"sm"))));return}
+ if(t==="food"){box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"주점 사장이 만든 음식이에요 · 숙소 부엌 인덕션에서 직접 만들면 더 싸요"}));Object.entries(TAV_SHOP).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:(IT[id].d||"")+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),h("span",{c:"sm gold",t:won(p)}),btn("1개",()=>buy(id,p),"sm"),btn("5개",()=>buy(id,p,5),"sm"))));return}
  const mine=reqs.filter(r=>r.acc===uid&&r.st==="acc");if(mine.length){hd("맡은 의뢰");
   mine.forEach(r=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+" · "+won(r.amt)+" 환"})),r.kind==="mat"?btn("재료 전달",()=>handReq(r),"pri sm"):h("span",{c:"xs mt",t:"진행 중"}))))}
  const C=me.certs||[];if(C.length){hd("임무완수증서 "+C.length+"장");C.forEach(c=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:c.ti}),h("div",{c:"xs mt",t:c.byn+" · "+won(c.amt)+" 환"})),btn("제출",()=>submitCert(c),"pri sm"))))}
@@ -2071,7 +2086,7 @@ async function sellItem(k,q){if(hospBlock())return;if(inB())return toast("전투
 function mmRcpR(t){const x=MRC[t]||HRC[t];if(!x||!x.need||!Object.keys(x.need).some(k=>k.indexOf("mm_")===0))return null;return x.r}
 async function dismRcp(id){if(hospBlock())return;const i=IT[id];if(!i||!i.learn||!(me.rcp||[]).includes(i.learn))return;const r=mmRcpR(i.learn);if(r==null)return;const pool=MM.filter(x=>x[1]===r);if(!pool.length)return;
  const inv={...me.inv};if(!inv[id])return;inv[id]--;if(!inv[id])delete inv[id];const m=pool[ri(pool.length)][0];if(!addInv(inv,m,1))return toast("가방이 가득 찼어요");await upd({inv});toast(i.n+" 분해 → "+IT[m].n+" ×1 ("+RAR[r].n+")")}
-async function learnRcp(id){if(hospBlock())return;const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (주점 · 조리실)":" (정비소 · 제작)"))}
+async function learnRcp(id){if(hospBlock())return;const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (숙소 · 부엌 인덕션)":" (정비소 · 제작)"))}
 async function craftH(id){if(hospBlock())return;const r=HRC[id];if(!(me.rcp||[]).includes(id))return toast("제작서를 먼저 익히세요");if(!haveAll(r.need))return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const p=cntAdd(matTake(r.need),"cr"),g=mkGear(Math.max(60,me.lv),craftRar(r.r),id);addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
 async function useItem(id){if(hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
@@ -2280,9 +2295,9 @@ const TUT=[
  {t:"숙소",i:"M3.5 11 12 4l8.5 7M5.5 9.5V20h13V9.5M10 20v-5.5h4V20",
   L:["내 방 · 보관함 · 우편","가구점에서 판매하는 가구로 인테리어가 가능합니다.","보관함: 가방에 든 물건을 보관할 수 있습니다.","우편: 우편이 오면 상단 상태창에 우편 아이콘이 깜빡입니다.","집세: 매주 월요일에 300환이 청구되며 핸드폰에 있는 은행 어플로 납부가 가능합니다.","방문하기: 가고 싶은 호실을 골라 노크하면 이웃집에 놀러갈 수 있습니다. 단, 방의 주인이 외출 중이거나 게이트에 있을 시엔 방문이 제한됩니다."]},
  {t:"중앙 거점",i:"M3 20h18M5 20v-5h14v5M12 15V9M8.5 9h7M10 9V6.5a2 2 0 0 1 4 0V9M7 15v-2M17 15v-2",
-  L:["대륙에 얼마 없는 안전지대입니다. 의태종이 나타나지 않습니다.","광장: 헌터들이 모이는 만남의 장소.","정비소:  장비 구매· 수리 · 강화 · 제작 · 납품","치료소 : 부상 · 질병 진료, HP 회복, 휴식(에너지 · MP), 약품(회복약 · MP 앰플 · 정화 앰플)","시장 : 상점, 재료 판매, 가구점, 거래소, 납품","격리실: 오염도 치료을 위한 입원","주점 : 의뢰 게시판 · 음식 · 조리실","아레나: pvp · 길드전"]},
+  L:["대륙에 얼마 없는 안전지대입니다. 의태종이 나타나지 않습니다.","광장: 헌터들이 모이는 만남의 장소.","정비소:  장비 구매· 수리 · 강화 · 제작 · 납품","치료소 : 부상 · 질병 진료, HP 회복, 휴식(에너지 · MP), 약품(회복약 · MP 앰플 · 정화 앰플)","시장 : 상점, 재료 판매, 가구점, 거래소, 납품","격리실: 오염도 치료을 위한 입원","주점 : 의뢰 게시판 · 음식","숙소 : 부엌 인덕션에서 요리","아레나: pvp · 길드전"]},
  {t:"제작",i:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",
-  L:["정비소 · 치료소 · 주점에서 가능합니다. 중앙 거점에서 제작할 경우 가방과 보관함 재료를 함께 사용할 수 있습니다.","제작 시 등급은 랜덤입니다.","제작의 성공은 손재주 스탯에 영향을 받습니다."]},
+  L:["정비소 · 치료소 · 숙소 부엌(인덕션)에서 가능합니다. 중앙 거점에서 제작할 경우 가방과 보관함 재료를 함께 사용할 수 있습니다.","제작 시 등급은 랜덤입니다.","제작의 성공은 손재주 스탯에 영향을 받습니다."]},
  {t:"핸드폰",i:"M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM9.5 6h5v5h-5zM11 18h2",
   L:["앱: 문자 · 헌터 온라인 · 전화 · 협회 · 연락처 · 날씨 · 메모장 · 은행 · 길드 · 도감 · 환경설정.","게이트 안에서는 신호가 잡히지 않아 핸드폰 사용이 제한됩니다.","도감: 얻은 적 있는 아이템이 기록됩니다.","테마 · 소리 · 기기 색은 내 정보에서 변경 가능합니다.","기기 화면은 끌어서 원하는 곳에 둘 수 있습니다."]},
  {t:"무전기 · 삐삐",i:"M7 8h10a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1zM9 8V3M9 12h6M9 15h6",
@@ -2699,7 +2714,7 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
  else if(s==="contacts"){hd("연락처",h("span",{c:"xs"},h("button",{c:"plink"+(ph.sub==="f"?" on":""),type:"button",t:"친구",onclick:()=>{ph.sub="f";phRender()}})," ",h("button",{c:"plink"+(ph.sub==="g"?" on":""),type:"button",t:"길드",onclick:()=>{ph.sub="g";phRender()}})," ",h("button",{c:"plink"+(ph.sub==="b"?" on":""),type:"button",t:"차단",onclick:()=>{ph.sub="b";phRender()}})));
   if(ph.sub==="b"){const L=Object.keys(me.blk||{}).filter(id=>chars[id]);sec("스팸 등록 "+L.length);if(!L.length)B.append(h("div",{c:"pe",t:"차단한 사람이 없어요. 연락처에서 사람을 눌러 스팸 등록할 수 있어요."}));
    L.forEach(id=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:dName(id)}),h("small",{t:fnum(chars[id].num)+" · "+ago(me.blk[id])+" 등록"})),h("button",{c:"plink",type:"button",t:"정보",onclick:()=>phGo("person","dm:"+id)}),h("button",{c:"plink",type:"button",t:"해제",onclick:()=>wrap(()=>toggleBlk(id))}))));return}
-  sec("기관");[["133","목공","목공소 · 보관함 확장"],["115","헌터 협회","협회 가입 · 탈퇴 · 상담"]].forEach(([n,nm,d])=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:nm}),h("small",{t:"☎ "+n+" · "+d})),h("button",{c:"plink",type:"button",t:"전화",onclick:()=>placeCall(n)}))));
+  sec("기관");[["133","목공","목공소 · 보관함 확장"],["115","헌터 협회","협회 가입 · 탈퇴 · 상담 · 이동수단"]].forEach(([n,nm,d])=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:nm}),h("small",{t:"☎ "+n+" · "+d})),h("button",{c:"plink",type:"button",t:"전화",onclick:()=>placeCall(n)}))));
   if(ph.sub==="f"){const IN=frIn(),OUT=frOut(),L=(me.friends||[]).filter(id=>id!==uid&&chars[id]).map(id=>[id,chars[id]]).sort((a,b)=>(online.has(b[0])-online.has(a[0]))||a[1].name.localeCompare(b[1].name,"ko"));
    const fq=(q,id,btns)=>B.append(h("div",{c:"pfrq"},h("div",{},h("b",{t:chars[id].name}),h("small",{t:fnum(chars[id].num)+" · "+ROLE[chars[id].role].n+" Lv"+chars[id].lv})),...btns.map(([t,fn])=>h("button",{c:"plink",type:"button",t,onclick:()=>wrap(fn)}))));
    if(IN.length){sec("받은 친구 요청 "+IN.length);IN.forEach(q=>fq(q,q.from,[["수락",()=>frAccept(q)],["거절",()=>frDecline(q)]]))}
@@ -3052,7 +3067,7 @@ async function pgInvite(){if(hospParty())return;const g=groups[pg.id];if(!g)retu
 function pinvEl(m,pager){const p=parties[m.pid],mine=(m.uid||m.from)===uid,inP=p&&p.members.includes(uid),full=p&&p.members.length>=4;const lab=!p?"끝난 초대":mine?"보낸 초대":inP?"참가함":full?"자리 없음":"참가";
  const b=h("button",{type:"button",c:pager?"gjoin":"sm",t:lab,disabled:!p||mine||inP||full,onclick:()=>wrap(async()=>{if(inB())return toast("전투 중에는 파티를 옮길 수 없어요");if(me.party&&me.party!==m.pid){if(isTmpP(me.party))await tmpLeave();else return toast("지금 파티에서 먼저 나와 주세요")}await joinParty(m.pid);toast("파티에 참가했어요")})});
  return h("div",{c:pager?"gl inv":"m pinv"},h("small",{t:"파티 초대"}),h("span",{t:m.text+(p?" · "+p.members.length+"/4":"")}),b)}
-function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
+function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;if(!TAB_DOCK){d.style.display="none";return}["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
 function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"button","aria-label":"길드 수신기"},svgI("M9 8V2.5M7 8h10a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 17 22H7a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 7 8zM9 11h6v4H9zM9 18h.01M12 18h.01M15 18h.01"),h("i",{id:"rdot"}));
  document.body.append(t,h("div",{id:"radio"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
@@ -3106,7 +3121,7 @@ let kdraft=[],homeSub="room";
 function rHome(v){ensureRno();
  if(RV.mode==="vis"&&RV.vid){if(!visOk()){toast("집주인이 접속을 끊어서 숙소로 돌아왔어요");roomMode("room")}else{v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"방문 중"}),h("b",{t:RV.vno+"호"}),h("span",{c:"xs mt",t:visNames()+"의 집"})));RV.visFor=1;rMyRoom(v);return}}
  v.append(h("div",{c:"rnob"},h("span",{c:"xs mt",t:"중앙 거점 숙소"}),h("b",{t:rnoOf()?rnoOf()+"호":"방 배정 중…"}),h("span",{c:"xs mt",t:rnoOf()?Math.floor(rnoOf()/100)+"층"+(me.house?" · 2인실":""):""})));
- rMyRoom(v);rStore(v);v.append(h("div",{id:"mailbox"}));rMail(v);visitCard(v)}
+ rMyRoom(v);rStore(v);v.append(h("div",{id:"mailbox"}));rMail(v);vehCard(v);visitCard(v)}
 /* ===== 방문하기: 다른 헌터의 방에 놀러 감 (집주인이 접속 중일 때만) ===== */
 const visOwners=()=>{const c=chars[RV.vid];if(!c)return[];const L=[RV.vid];if(c.house&&c.house.w&&chars[c.house.w])L.push(c.house.w);return L};
 const visOk=()=>visOwners().some(id=>online.has(id));
@@ -3604,7 +3619,7 @@ function gateSigTick(){const g=inGateNow(),pt=$("#ptab");if(pt)pt.classList.togg
 const BAG_BASE=20,BAG_X=[1000,3000,6000],STO_BASE=50,STO_X=[5000,6000,7000],STACK=99;
 const kinds=o=>Object.keys(o||{}).filter(k=>o[k]>0).length;
 const stoCap=()=>STO_BASE+(me.stx||0)*10;
-function addTo(o,id,n,capN){const k=o[id]>0?Math.min(n,STACK-o[id]):kinds(o)<capN?Math.min(n,STACK):0;if(k>0)o[id]=(o[id]||0)+k;return Math.max(0,k)}
+function addTo(o,id,n,capN,mx){mx=mx||STACK;const k=o[id]>0?Math.min(n,mx-o[id]):kinds(o)<capN?Math.min(n,mx):0;if(k>0)o[id]=(o[id]||0)+k;return Math.max(0,k)}
 async function bagExpand(){if(hospBlock())return;const n=me.bagx||0;if(n>=BAG_X.length)return toast("가방은 최대 "+(BAG_BASE+BAG_X.length*10)+"칸까지예요");const price=BAG_X[n];if(me.tan<price)return toast("환이 부족합니다 ("+won(price)+"환)");
  await upd({tan:me.tan-price,bagx:n+1});toast("가방 확장 · "+(BAG_BASE+(n+1)*10)+"칸이 됐어요")}
 async function ensureRno(){if(!me||me.rno||me.house)return;const used=new Set(Object.values(chars).flatMap(c=>[c.rno,c.house&&c.house.no]).filter(Boolean));let no=0;for(let i=0;i<300&&!no;i++){const f=2+ri(11),x=f*100+1+ri(20);if(!used.has(x))no=x}if(no)await upd({rno:no}).catch(()=>{})}
@@ -3621,7 +3636,7 @@ const crCnt=(p,g)=>{if(g.r>=2)cntAdd(p,"crR");if(g.r>=3)cntAdd(p,"crL");return p
 function toastC(g){toast("제작 완료! ["+RAR[g.r].n+"] "+IT[g.id].n);const t=$("#toast");t.style.borderColor=RAR[g.r].c;t.style.color=RAR[g.r].c;setTimeout(()=>{t.style.borderColor="";t.style.color=""},3300)}
 const FAILT=()=>"제작 실패… 재료 절반을 잃었어요 (성공률 "+Math.round(craftRate(me)*100)+"%)";
 async function stoMove(id,n,put){if(!atBase())return toast("보관함은 중앙 거점 숙소에서만 쓸 수 있어요");const inv={...me.inv},st={...(me.store||{})},from=put?inv:st,to=put?st:inv;n=Math.min(n,from[id]||0);if(n<=0)return;
- const k=addTo(to,id,n,put?stoCap():cap());if(k<=0)return toast(put?"보관함이 가득 찼어요":"가방이 가득 찼어요");from[id]-=k;if(!from[id])delete from[id];
+ const k=put?addTo(to,id,n,stoCap(),1e9):addTo(to,id,n,cap());if(k<=0)return toast(put?"보관함이 가득 찼어요":"가방이 가득 찼어요");from[id]-=k;if(!from[id])delete from[id];
  await upd({inv,store:st});toast(IT[id].n+" ×"+k+(put?" 보관함에 넣었어요":" 가방으로 꺼냈어요"))}
 function stoPop(id,put){const n=(put?me.inv:me.store||{})[id]||0;openPop(h("div",{c:"h0",t:IT[id].n}),h("div",{c:"sm mt",t:(put?"가방에 ":"보관함에 ")+n+"개"}),
  h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn(put?"1개 넣기":"1개 꺼내기",()=>{closePop();wrap(()=>stoMove(id,1,put))},"grow"),btn(put?"전부 넣기":"전부 꺼내기",()=>{closePop();wrap(()=>stoMove(id,n,put))},"pri grow"),btn("닫기",closePop,"grow")))}
@@ -3637,13 +3652,52 @@ IT.sos_tx={n:"비상구조요청송신기",d:"헌터 협회가 지급하는 송�
 const sosAvail=()=>!!me&&!me.hqOut&&!me.sosOff;
 const KD=t=>{const d=new Date(t+9*36e5);return{y:d.getUTCFullYear(),m:d.getUTCMonth()+1,d:d.getUTCDate(),hh:d.getUTCHours(),mm:d.getUTCMinutes()}};
 const fmtD=t=>{const k=KD(t);return k.y+"년 "+k.m+"월 "+k.d+"일"},fmtDT=t=>{const k=KD(t);return fmtD(t)+" "+String(k.hh).padStart(2,"0")+":"+String(k.mm).padStart(2,"0")};
+/* ===== 이동수단: 협회(☎115)에 전화해 구매 · 1인 1대 · 정비소에서 정비 · 휘발유 ===== */
+const VEH={car:{n:"군용차",seat:4,sp:.7,fuel:5,wear:2,multi:true,d:"최대 4인 탑승 · 이동 시간 30% 단축 · 먼 지역도 한 번에"},bike:{n:"오토바이",seat:2,sp:.5,fuel:3,wear:2,multi:false,d:"최대 2인 탑승 · 이동 시간 50% 단축 · 한 번에 한 지역씩"}};
+const VEH_PRICE=15000,VEH_FUEL_P=4,VEH_FIX_P=8;/* 휘발유 1 = 4환 · 내구도 1 = 8환 (가득 채우면 최대 400환 · 800환) */
+const VEH_IC={car:"M2.5 15.5V11l2.2-4.2h9.6l3.2 4.2h3.5v4.5h-2M2.5 15.5h2M9 15.5h6.5M7 15.5a2 2 0 1 0-4 0 2 2 0 0 0 4 0zM19 15.5a2 2 0 1 0-4 0 2 2 0 0 0 4 0zM5.3 11h12.4M11 6.8V11",bike:"M5 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM5 14l4-6h4l2.5 6M13 8h3l1.5 2M9 8l1.5-2.5H8M15.5 14H9"};
+function vehErr(path){const v=me.veh,V=v&&VEH[v.k];if(!V)return"이동수단이 없어요";const hops=path.length-1;
+ if(!V.multi&&hops>1)return V.n+"는 한 번에 한 지역씩만 갈 수 있어요";
+ for(let i=0;i<hops;i++)if(contOf(path[i])!==contOf(path[i+1]))return"바다를 건너는 길은 "+V.n+"로 갈 수 없어요";
+ if((v.dur||0)<=0)return V.n+" 내구도가 바닥났어요 · 정비소에서 정비하세요";
+ if((v.fuel||0)<V.fuel*hops)return"휘발유가 부족해요 (필요 "+V.fuel*hops+" · 남음 "+(v.fuel||0)+")";return null}
+function vehRow(path,sec,onSel){const v=me.veh,V=v&&VEH[v.k];if(!V)return null;const err=vehErr(path);
+ const b1=h("button",{type:"button",t:"걸어서\n"+fmt(sec)}),b2=h("button",{type:"button",t:V.n+"\n"+fmt(Math.round(sec*V.sp)),disabled:!!err});[b1,b2].forEach(b=>b.style.whiteSpace="pre-line");
+ const pick=k=>{b1.classList.toggle("on",!k);b2.classList.toggle("on",!!k);onSel(k)};b1.onclick=()=>pick(null);b2.onclick=()=>{if(!err)pick(v.k)};
+ setTimeout(()=>pick(err?null:v.k),0);return h("div",{},h("div",{c:"vrow"},b1,b2),err?h("p",{c:"sub",style:"color:var(--bad,#c0473b)",t:err}):null)}
+function vehBar(lab,n,col){return h("div",{style:"margin-top:6px"},h("div",{c:"row sb xs"},h("span",{c:"mt",t:lab}),h("b",{t:n+" / 100"})),h("div",{style:"height:6px;border-radius:3px;background:rgba(var(--acr),.12);overflow:hidden;margin-top:3px"},h("i",{style:"display:block;height:100%;width:"+Math.max(0,Math.min(100,n))+"%;background:"+(n<25?"var(--bad,#c0473b)":col)})))}
+function vehInfo(box){const v=me.veh,V=v&&VEH[v.k];if(!V){box.append(h("p",{c:"sm mt",t:"아직 이동수단이 없어요. 휴대폰으로 헌터 협회(☎ 115)에 전화해 5번 「이동수단 구매」를 누르세요 · "+won(VEH_PRICE)+"환 · 1인 1대"}));return}
+ box.append(h("div",{c:"row",style:"gap:12px;align-items:center"},h("div",{style:"width:52px;height:52px;flex:none;border:1px solid var(--ln);border-radius:8px;display:flex;align-items:center;justify-content:center"},svgI(VEH_IC[v.k],"vehic")),
+  h("div",{c:"grow"},h("b",{t:V.n}),h("div",{c:"xs mt",t:V.d}),h("div",{c:"xs mt",t:"한 번 이동(구간)마다 휘발유 "+V.fuel+" · 내구도 "+V.wear+" 닳아요"}))),
+  vehBar("내구도",v.dur||0,"var(--ac2)"),vehBar("휘발유",v.fuel||0,"var(--gold,#b08a2e)"))}
+function vehCard(v){const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 이동수단"}),me.veh?h("span",{c:"xs mt",t:"정비 · 휘발유는 정비소에서"}):null));vehInfo(c);v.append(c)}
+async function vehFix(){if(hospBlock())return;const v=me.veh;if(!v)return;const cost=Math.ceil((100-(v.dur||0))*VEH_FIX_P);if(!cost)return toast("이미 내구도가 가득해요");if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+"환)");
+ await upd({tan:me.tan-cost,veh:Object.assign({},v,{dur:100})});toast(VEH[v.k].n+" 정비 완료 · "+won(cost)+"환")}
+async function vehFuel(){if(hospBlock())return;const v=me.veh;if(!v)return;const cost=Math.ceil((100-(v.fuel||0))*VEH_FUEL_P);if(!cost)return toast("이미 휘발유가 가득해요");if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+"환)");
+ await upd({tan:me.tan-cost,veh:Object.assign({},v,{fuel:100})});toast("휘발유 가득 · "+won(cost)+"환")}
+function vehShop(box){if(!me.veh){vehInfo(box);return}vehInfo(box);const v=me.veh,fc=Math.ceil((100-(v.dur||0))*VEH_FIX_P),uc=Math.ceil((100-(v.fuel||0))*VEH_FUEL_P);
+ box.append(h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn("정비 ("+won(fc)+"환)",()=>wrap(vehFix),"pri grow",{disabled:!fc}),btn("휘발유 ("+won(uc)+"환)",()=>wrap(vehFuel),"grow",{disabled:!uc})),
+  h("p",{c:"xs mt",style:"margin-top:6px",t:"정비는 내구도를, 휘발유는 기름을 가득 채워요 · 내구도 1당 "+VEH_FIX_P+"환 · 휘발유 1당 "+VEH_FUEL_P+"환 · 내구도가 0이 되면 정비할 때까지 탈 수 없어요"}))}
+/* 같은 파티원이 이동수단으로 출발하면 (1분 안 · 같은 지역 · 빈자리) 같이 탈지 물어봄 */
+const rideAsk=new Set();
+const rideSeats=(id,t)=>1+Object.entries(chars).filter(([k,c])=>k!==id&&c&&c.trip&&c.trip.ride===id&&c.trip.at===t.at).length;
+function rideTick(){if(!me||!me.party||me.trip||inHosp()||inB()||me.ag||me.auto||me.sg||$("#pop").style.display==="flex")return;const P=parties[me.party];if(!P)return;const now=Date.now();
+ for(const id of P.members||[]){if(id===uid)continue;const c=chars[id],t=c&&c.trip;if(!t||!t.veh||t.veh.by!==id||t.ride||t.from!==me.loc)continue;
+  if(now-(t.at-t.dur)>60000||t.at-now<5000)continue;const key=id+":"+t.at;if(rideAsk.has(key))continue;const V=VEH[t.veh.k];if(!V||rideSeats(id,t)>=V.seat)continue;rideAsk.add(key);
+  const hops=t.path?t.path.length-1:1;
+  openPop(h("div",{c:"h0",t:c.name+"님의 "+V.n}),h("p",{c:"sm mt",t:REG[t.to].n+"(으)로 막 출발했어요. 같이 타시겠어요? (자리 "+rideSeats(id,t)+"/"+V.seat+")"}),h("p",{c:"xs mt",t:"운전하는 헌터와 같은 시각에 도착해요 · 에너지 "+MOVE_EN*hops}),
+   h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn("타기",()=>{closePop();wrap(()=>rideJoin(id))},"pri grow"),btn("괜찮아요",closePop,"grow")));return}}
+async function rideJoin(id){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");if(me.ag||me.auto||me.sg)return toast("지금은 탈 수 없어요");
+ const c=chars[id],t=c&&c.trip;if(!t||!t.veh||t.from!==me.loc||Date.now()>t.at-3000)return toast("이미 떠났어요");const V=VEH[t.veh.k];if(rideSeats(id,t)>=V.seat)return toast("자리가 다 찼어요");if(locked(t.to))return toast("Lv "+REG[t.to].lv+"이 되면 해금되는 지역입니다");
+ const hops=t.path?t.path.length-1:1,NE=MOVE_EN*hops,cc=cur(me);if(cc.en<NE)return toast("에너지가 부족합니다 ("+NE+" 필요)");
+ const tr=Object.assign({},t,{ride:id,veh:{k:t.veh.k,by:id}});selReg=t.to;showSpots=false;await upd({trip:tr,quar:false,en:Math.round(cc.en-NE)});toast(c.name+"님의 "+V.n+"에 탔어요 · "+REG[t.to].n+"(으)로")}
 /* ===== NPC 전화 (133 목공 · 115 헌터 협회) ===== */
 const NPCN={carp:"목공",hq:"헌터 협회"},NPC_NUM={"133":"carp","115":"hq"};let npcT=[];
 function npcClear(){npcT.forEach(clearTimeout);npcT=[]}
 function npcCall(num){if(call.st!=="idle")return toast("이미 통화 중입니다");const k=NPC_NUM[num];npcClear();
  call={st:"out",dir:"out",peer:"npc:"+k,npc:k,num,cid:"n"+Date.now().toString(36),t0:Date.now(),msgs:[],step:"menu",busy:false};phShow("incall");startRB();
  const cid=call.cid;npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="out")return;call.st="on";call.t0=Date.now();phShow("incall");phRender();
-  npcSay(k==="carp"?["무엇을 도와드릴까요?","보관함 확장은 1, 용건 없음은 2, 기타는 3을 눌려주세요"]:["안녕하세요, 헌터 협회입니다. 무엇을 도와드릴까요?\n1. 헌터 협회 가입\n2. 헌터 협회 탈퇴\n3. 사담\n4. 페어 서류 요청\n5. 용건 없음"])},3000))}
+  npcSay(k==="carp"?["무엇을 도와드릴까요?","보관함 확장은 1, 용건 없음은 2, 기타는 3을 눌려주세요"]:["안녕하세요, 헌터 협회입니다. 무엇을 도와드릴까요?\n1. 헌터 협회 가입\n2. 헌터 협회 탈퇴\n3. 사담\n4. 페어 서류 요청\n5. 이동수단 구매\n6. 용건 없음"])},3000))}
 function npcSay(lines,then){const cid=call.cid;call.busy=true;let d=900;lines.forEach(l=>{const at=d;npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="on")return;call.msgs.push({me:false,t:Date.now(),text:l});try{sMsg()}catch(e){}updCall()},at));d+=Math.min(3200,1000+l.length*30)});
  npcT.push(setTimeout(()=>{if(call.cid!==cid||call.st!=="on")return;call.busy=false;if(then)then();else if(call.pend){const x=call.pend;call.pend=null;npcIn(x)}},d+400))}
 function npcEnd(){npcClear();if(call.npc)endCall("상대가 전화를 끊었습니다","peer")}
@@ -3658,6 +3712,15 @@ async function npcIn(t){const k=call.npc,c=(t.match(/[0-9]/)||[""])[0],nm=me.nam
   return npcSay(["1, 2, 3 중에 눌러 주세요."])}
  if(call.step==="quit"){if(c==="1"){call.step="done";const now=Date.now();return npcSay([fmtDT(now)+"부로 "+nm+"헌터는 헌터 협회에서 탈퇴되었습니다. 개인정보는 법에 따라 일정기간 보관 후 폐기됨을 알려드리며, 비상구조요청송신기는 회수하도록 하겠습니다."],async()=>{npcEnd();await upd({hqOut:now,sosOff:true});toast("헌터 협회에서 탈퇴했어요 · 비상구조요청송신기 회수")})}
   if(c==="2"){call.step="done";return npcSay(["동의하지 않을 시 탈퇴가 불가능합니다. 감사합니다."],npcEnd)}return npcSay(["1. 동의 · 2. 동의하지 않음 중에 눌러 주세요."])}
+ if(call.step==="veh"){if(c==="1"){call.step="vehcar";return npcSay(["군용차는 최대 4인까지 탑승 가능하며, 먼 거리에 있는 지역도 한 번에 갈 수 있습니다. 군용차를 구매하시겠습니까?\n1. 예\n2. 아니오"])}
+  if(c==="2"){call.step="vehbike";return npcSay(["오토바이는 최대 2인까지 탑승 가능하며, 짧은 거리에 특화되어 있습니다. 오토바이를 구매하시겠습니까?\n1. 예\n2. 아니오"])}return npcSay(["군용차는 1번, 오토바이는 2번을 입력해주세요."])}
+ if(call.step==="vehcar"||call.step==="vehbike"){const vk=call.step==="vehcar"?"car":"bike",V=VEH[vk];
+  if(c==="2"){call.step="done";return npcSay(["구매를 취소하셨습니다. 헌터 협회였습니다. 감사합니다."],npcEnd)}
+  if(c!=="1")return npcSay(["1. 예 · 2. 아니오 중에 눌러 주세요."]);
+  call.step="done";if(me.veh)return npcSay(["이미 이동수단을 보유하고 계십니다. 감사합니다."],npcEnd);const q=payWB(VEH_PRICE,"헌터 협회 · "+V.n+" 구매");
+  if(!q)return npcSay(["죄송합니다. 지갑과 은행 잔액을 합쳐도 "+won(VEH_PRICE)+"환이 되지 않아 구매가 어렵습니다. 감사합니다."],npcEnd);
+  return npcSay([V.n+" 요청 확인하였습니다. 가격은 15000환입니다. 구매에 필요한 서류 작성은 온라인으로 이루어지며, 최대 3일 안에 헌터님의 숙소 건물 앞으로 배송될 예정입니다. 감사합니다."],async()=>{npcEnd();
+   await upd(Object.assign(q,{veh:{k:vk,dur:100,fuel:100,t:Date.now()}}));toast(V.n+" 구매 · "+won(VEH_PRICE)+"환 · 숙소 화면 「내 이동수단」에서 확인하세요")})}
  if(call.step!=="menu")return;
  if(c==="1"){call.step="done";const out=me.hqOut;if(!out)return npcSay([nm+" 헌터께선 이미 협회에 가입되신 것으로 확인됩니다.\n감사합니다. "+nm+" 헌터님, 좋은 하루 되십시오."],npcEnd);
   if(Date.now()<out+7*DAY_MS)return npcSay([nm+"께선 "+fmtDT(out)+"경에 협회를 탈퇴하신 것으로 확인됩니다. 재가입이 가능한 날은 "+fmtD(out+7*DAY_MS)+"부터입니다. 참고 바랍니다."],npcEnd);
@@ -3668,8 +3731,10 @@ async function npcIn(t){const k=call.npc,c=(t.match(/[0-9]/)||[""])[0],nm=me.nam
  if(c==="3"){call.step="done";return npcSay([nm+"님, 게이트를 공략하시느라 언제나 고생 많으십니다. 감사합니다."],npcEnd)}
  if(c==="4"){call.step="done";if(me.hqOut)return npcSay(["페어 서류는 협회에 가입된 헌터만 신청하실 수 있습니다. 감사합니다."],npcEnd);if(me.pair)return npcSay([nm+" 헌터께선 이미 페어가 등록되어 있습니다. 감사합니다."],npcEnd);if(me.pairReq)return npcSay(["이미 접수된 페어 요청서가 심사 중입니다. 승인까지 조금만 기다려 주십시오. 감사합니다."],npcEnd);
   return npcSay(["네, 접수되었습니다. 3일 이내로 헌터님의 숙소 우편함으로 배송될 예정이니, 작성하신 후 협회에 제출 바랍니다.","서류가 접수되더라도 페어 승인까지는 최대 3일이 소요될 수 있는 점 참고 바랍니다."],async()=>{npcEnd();await db.collection("payouts").add({t:Date.now(),to:uid,from:"hq",amt:0,k:"item",item:"pair_doc",qty:1,memo:"헌터 협회 · 페어 요청 서류"});toast("숙소 우편함에 페어 요청 서류가 도착했어요")})}
- if(c==="5"){call.step="done";return npcSay(["헌터 협회였습니다. 전화 주셔서 감사합니다."],npcEnd)}
- return npcSay(["1, 2, 3, 4, 5 중에 눌러 주세요."])}
+ if(c==="5"){if(me.veh){call.step="done";return npcSay([nm+" 헌터께선 이미 "+VEH[me.veh.k].n+"을(를) 보유하고 계십니다. 이동수단은 헌터 1인당 1대만 구매하실 수 있습니다. 감사합니다."],npcEnd)}
+  call.step="veh";return npcSay(["현재 이동수단으로는 군용차와 오토바이가 있습니다. 군용차를 원하실 경우 1번, 오토바이를 원하실 경우 2번을 입력해주세요."])}
+ if(c==="6"){call.step="done";return npcSay(["헌터 협회였습니다. 전화 주셔서 감사합니다."],npcEnd)}
+ return npcSay(["1, 2, 3, 4, 5, 6 중에 눌러 주세요."])}
 /* 전파 없음 */
 const inGateC=c=>!!c&&((c.mis&&Date.now()<c.mis.t+MIS_MAX)||(c.sg&&c.sg!=="sv"&&visitAlive(c.sg)));
 function phMsg(t){const S=$("#pscr");if(!S)return;const o=h("div",{c:"pnone"},h("p",{t}));S.append(o);setTimeout(()=>{o.classList.add("out");setTimeout(()=>o.remove(),400)},2600)}
@@ -4678,7 +4743,7 @@ function manAct(idx){const L=roomL(),it=L.items[idx];if(!it)return false;let sid
  const oc=Object.values(RV.oth||{}).filter(o=>o.m.act===idx);if(oc.length&&!A0.tog){if(it.k==="bed2"&&oc.length===1&&A0.pose==="lie")side=oc[0].m.side===1?0:1;else{toast("다른 헌터가 쓰고 있어요");return true}}
  const A=side?Room3D.actOf(L,idx,side):A0;manStand();
  RV.mthen=()=>{const m=RV.man;if(A.tog){const L2=roomL(),it2=L2.items[idx];if(!it2)return;it2[A.tog]=!it2[A.tog];m.h=A.h;m.arms=A.arms;m.ph=0;roomSave(L2,true);clearTimeout(RV.tgT);RV.tgT=setTimeout(()=>{if(RV.man===m&&m.act==null){m.arms=null;roomDraw(true)}},800);return}
-  m.ax=m.x;m.ay=m.y;m.x=A.p[0];m.y=A.p[1];m.h=A.h;m.pose=A.pose;m.z=A.z;m.water=A.water||null;m.arms=A.arms||null;m.prop=A.prop||null;m.side=side;m.act=idx;m.ph=0;m.tt=0;presSend();manAnim()};manWalk(A.a[0],A.a[1]);return true}
+  m.ax=m.x;m.ay=m.y;m.x=A.p[0];m.y=A.p[1];m.h=A.h;m.pose=A.pose;m.z=A.z;m.water=A.water||null;m.arms=A.arms||null;m.prop=A.prop||null;m.side=side;m.act=idx;m.ph=0;m.tt=0;presSend();manAnim();if(it.k==="induction"&&RV.mode!=="vis"&&RV.mode!=="gh")setTimeout(()=>{if(RV.man===m&&m.act===idx)cookPop()},450)};manWalk(A.a[0],A.a[1]);return true}
 /* 요리 · 물 주기처럼 움직이는 동작 (초당 12번만 다시 그림) */
 function manAnim(){if(RV.anm)return;RV.anm=1;let last=0;const t0=performance.now(),st=now=>{const all=[RV.man].concat(Object.values(RV.oth||{}).map(o=>o.m)).filter(m=>m&&m.prop);if(!all.length||!RV.cv||!RV.cv.isConnected){RV.anm=0;roomDraw(true);return}RV.anm=requestAnimationFrame(st);if(now-last<80)return;last=now;all.forEach(m=>m.tt=now-t0);roomDraw(true,true)};RV.anm=requestAnimationFrame(st)}
 /* 걷기 · 문 열고 닫기 (사람이 문 가까이 오면 열림) */
@@ -4883,7 +4948,7 @@ const RT={
  h1:{t:"coast",sea:1,sp:"breakwater"},h2:{t:"forest",sea:1,sp:"iron"},h3:{t:"plain"},h4:{t:"city",sea:1,sp:"cathedral"},
  h5:{t:"coast",sea:1,sp:"lighthouse"},h6:{t:"city",sp:"sky"},h7:{t:"desert"},h8:{t:"mount",sp:"spire"},h9:{t:"forest"},h10:{t:"mount",sp:"rift"},
  h11:{t:"coast",sea:1,sp:"fleet"},h12:{t:"city",sp:"throne"},h13:{t:"plain",sp:"garden"}};
-const TN={mount:"산맥",plain:"평지",city:"옛 도시",forest:"숲",desert:"사막",coast:"해안",base:"거점"};
+const TN={mount:"산맥",plain:"평지",city:"도시",forest:"숲",desert:"사막",coast:"해안",base:"거점"};
 
 /* ---- 난수 · 잡음 ---- */
 function rng(seed){let a=0;for(const c of String(seed))a=(a*31+c.charCodeAt(0))|0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -5036,7 +5101,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   pk.filter(q=>q.k==="reg").sort((a,b)=>b.z-a.z).forEach(q=>{if(q.lock)return;const R=W0.REG[q.id],on=q.id===V.sel||q.id===V.here;x.font=(on?"700 ":"500 ")+(on?fs+2*dpr:fs)+"px system-ui,sans-serif";const yy=q.y*dpr-6*dpr;
    x.fillStyle="rgba("+bg.join(",")+",.7)";const w=x.measureText(R.n).width+8*dpr;x.fillRect(q.x*dpr-w/2,yy-fs,w,fs+4*dpr);x.fillStyle=rgba(on?1:.85);x.fillText(R.n,q.x*dpr,yy);
    {const lt=V.lvr?V.lvr(q.id):"";if(lt){const f2=Math.round(9*dpr);x.font="600 "+f2+"px system-ui,sans-serif";const w2=x.measureText(lt).width+6*dpr,y2=yy+f2+3*dpr;x.fillStyle="rgba("+bg.join(",")+",.7)";x.fillRect(q.x*dpr-w2/2,y2-f2,w2,f2+3*dpr);x.fillStyle=rgba(on?.95:.8);x.fillText(lt,q.x*dpr,y2)}}
-   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?"":" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
+   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText([T.t&&T.t!=="coast"?TN[T.t]:"",T.t==="coast"||T.sea?TN.coast:""].filter(Boolean).join(" · ")+(R.lv?"":" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
   /* 주사선 */
   x.globalCompositeOperation="source-over";x.fillStyle=lite?"rgba(0,0,0,.035)":"rgba(0,0,0,.16)";for(let yy=(t*.03%3)*dpr|0;yy<Hp;yy+=3*dpr)x.fillRect(0,yy,Wp,dpr)}
  /* 특수 구조물 그리기 */
@@ -5337,7 +5402,7 @@ initRadio();initPager();dockTabs();
   document.querySelectorAll("[data-u]").forEach(e=>e.textContent=fmt(Math.max(0,Math.ceil((+e.dataset.u-now)/1000))));
   const td=$("#tdot");if(td&&me.trip){const T=tripNow(me.trip,now),a=mapP(T.from),b=mapP(T.to),f=T.f;td.setAttribute("cx",a.x+(b.x-a.x)*f);td.setAttribute("cy",a.y+(b.y-a.y)*f)}
   if(battle&&battle.st==="on"&&battle.mem&&battle.mem[uid]&&battle.mon.nextAt<=now&&!mt){mt=1;bmut(monTick).finally(()=>mt=0)}
-  if(now-tk5>5000){tk5=now;lazyTick();agTick();autoTick();dexSync();quarTick();loanTick();if(calcOnline())phRefresh();updDot();if(phoneOn&&ph.scr==="chat"&&(ph.room==="hq"||ph.room==="tav"))updPhone();
+  if(now-tk5>5000){tk5=now;lazyTick();agTick();autoTick();try{rideTick()}catch(e){}dexSync();quarTick();loanTick();if(calcOnline())phRefresh();updDot();if(phoneOn&&ph.scr==="chat"&&(ph.room==="hq"||ph.room==="tav"))updPhone();
    const sd=kday(now);for(const d of[sd-1,sd]){const sg=sGate(d);if(gState(sg,now)==="open"){let sw={};try{sw=JSON.parse(localStorage.getItem("af_sw")||"{}")}catch(e){}if(!sw[sg.id]){sw[sg.id]=1;try{localStorage.setItem("af_sw",JSON.stringify(sw))}catch(e){}showSWarn(sg)}}}
    if(me.sg&&!inB()&&!sgx&&!visitAlive(me.sg)){sgx=1;const was=me.sg;upd({sg:null}).then(()=>toast(was==="sv"?"생존자가 떠나 원래 자리로 돌아왔습니다":"게이트가 닫혀 원래 자리로 돌아왔습니다")).finally(()=>sgx=0)}
    if(me.auto&&now>=me.auto.t0+me.auto.dur*6e4&&autoNote!==me.auto.t0){autoNote=me.auto.t0;toast("자동 전투가 끝났어요 · 상시 게이트에서 정산 받으세요")}}
