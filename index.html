@@ -477,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115041701";
+const BUILD="20261115042059";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1124,7 +1124,7 @@ function render(force){try{agreeCheck()}catch(e){}try{tutCheck()}catch(e){}try{f
  nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));
  v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();return}if(chatHub){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle")?rLock:{map:rMap,battle:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab])(v);if(tc)v.classList.add("anim");
- if(me.trip&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")}),h("span",{t:"도착할 때까지 채팅만 할 수 있어요"})))}
+ if(me.trip&&tab!=="me"&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")}),h("span",{t:"도착할 때까지 채팅 · 내 정보만 쓸 수 있어요"})))}
  if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;
  v.scrollTop=tc?0:sc;updTop();
 }
