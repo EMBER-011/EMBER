@@ -477,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115035610";
+const BUILD="20261115041701";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -981,7 +981,7 @@ const LV_BANDS=[[1,2],[3,5],[6,9],[10,29],[30,59],[60,999]];
 function lvLegend(dcol){const lg=h("div",{c:"legend"});lg.append(h("span",{},h("i",{style:"background:"+dcol(0)+";border:1px solid "+dcol(0)}),"안전"));
  LV_BANDS.forEach(([a,b])=>{let lo=1e9,hi=0;Object.keys(REG).forEach(id=>{const R=REG[id];if(R.safe||R.lv<a||R.lv>b)return;const r=regRng(id);lo=Math.min(lo,r[0]);hi=Math.max(hi,r[1])});if(!hi)return;
   lg.append(h("span",{},h("i",{style:"background:"+dcol(a)+";border:1px solid "+dcol(a)}),"Lv"+lo+"~"+hi))});
- lg.append(h("span",{c:"xs mt",style:"flex-basis:100%;opacity:.75",t:"색 옆 숫자는 그 지역들에서 실제로 나오는 크리처 레벨이에요 (외곽 ~ 심부)"}));return lg}
+ lg.append(h("span",{c:"xs mt",style:"flex-basis:100%;opacity:.75",t:"색 옆 숫자는 같은 색 지역들을 묶은 레벨대예요 · 지역 이름 아래 숫자가 그 지역에서 실제로 나오는 크리처 레벨이에요 (외곽 ~ 심부)"}));return lg}
 const spotsOf=loc=>REG[loc].arena?ARSP.map(x=>x[0]):REG[loc].safe?BASESP.map(x=>x[0]):["out","mid","deep"].concat(REG[loc].bld?[REG[loc].bld]:[]);
 const spotName=(loc,s)=>REG[loc].arena?((ARSP.find(x=>x[0]===s)||ARSP[0])[1]):REG[loc].safe?((BASESP.find(x=>x[0]===s)||BASESP[0])[1]):(HSP[s]||HSP.out).n;
 const defSpot=loc=>REG[loc].arena?"colo":REG[loc].safe?"plaza":"out";
@@ -1235,6 +1235,7 @@ function mapBoxSvg(sel){
   if(here){const p=E("circle",{cx:P.x,cy:P.y,r:1.6,fill:"none",style:"stroke:var(--ac2);stroke-width:.25"},g);E("animate",{attributeName:"r",values:"1.6;4.6",dur:"1.8s",repeatCount:"indefinite"},p);E("animate",{attributeName:"opacity",values:"1;0",dur:"1.8s",repeatCount:"indefinite"},p);E("path",{d:"M"+P.x+" "+(P.y-2.2)+"l-1.2-2h2.4z",style:"fill:var(--ac2)"},g)}
   E("circle",{cx:P.x,cy:P.y,r:1,fill:nb?col:"none",style:"fill-opacity:.35;stroke:"+col+";stroke-width:"+(isSel?.5:.25)},g);
   const w=R.n.length*2.9,lx=Math.max(w/2,Math.min(MW-w/2,P.x)),t=E("text",{x:lx,y:P.y+5,style:"font-size:2.8px;text-anchor:middle;fill:var(--tx);paint-order:stroke;stroke:var(--bg);stroke-width:.9px;font-weight:"+(here||isSel?700:400)},g);t.textContent=R.n;
+  {const r=regRng(id);if(r){const t2=E("text",{x:lx,y:P.y+7.6,style:"font-size:2.2px;text-anchor:middle;fill:var(--mt);paint-order:stroke;stroke:var(--bg);stroke-width:.8px;font-weight:600"},g);t2.textContent="Lv"+r[0]+"~"+r[1]}}
  });
  gateMarks(E);glitchMap(E,defs);
  const lg=lvLegend(dcol);
@@ -5022,7 +5023,8 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   x.globalCompositeOperation="source-over";const fs=Math.round(10.5*dpr);x.textAlign="center";
   pk.filter(q=>q.k==="reg").sort((a,b)=>b.z-a.z).forEach(q=>{if(q.lock)return;const R=W0.REG[q.id],on=q.id===V.sel||q.id===V.here;x.font=(on?"700 ":"500 ")+(on?fs+2*dpr:fs)+"px system-ui,sans-serif";const yy=q.y*dpr-6*dpr;
    x.fillStyle="rgba("+bg.join(",")+",.7)";const w=x.measureText(R.n).width+8*dpr;x.fillRect(q.x*dpr-w/2,yy-fs,w,fs+4*dpr);x.fillStyle=rgba(on?1:.85);x.fillText(R.n,q.x*dpr,yy);
-   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?" · "+(V.lvr?V.lvr(q.id):"적정 Lv "+R.lv+"~"+(R.lv+7)):" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
+   {const lt=V.lvr?V.lvr(q.id):"";if(lt){const f2=Math.round(9*dpr);x.font="600 "+f2+"px system-ui,sans-serif";const w2=x.measureText(lt).width+6*dpr,y2=yy+f2+3*dpr;x.fillStyle="rgba("+bg.join(",")+",.7)";x.fillRect(q.x*dpr-w2/2,y2-f2,w2,f2+3*dpr);x.fillStyle=rgba(on?.95:.8);x.fillText(lt,q.x*dpr,y2)}}
+   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?"":" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
   /* 주사선 */
   x.globalCompositeOperation="source-over";x.fillStyle=lite?"rgba(0,0,0,.035)":"rgba(0,0,0,.16)";for(let yy=(t*.03%3)*dpr|0;yy<Hp;yy+=3*dpr)x.fillRect(0,yy,Wp,dpr)}
  /* 특수 구조물 그리기 */
@@ -5142,7 +5144,7 @@ function mapLive(){if(!me)return{};const sel=selReg||me.loc,lk={},nb={};Object.k
  const d0=dayIdx(Date.now());if(!mlW||mlW.d!==d0){mlW={d:d0,w:{},n:{}};Object.keys(REG).forEach(id=>{const k=wxOfR(d0,id);mlW.w[id]=k;mlW.n[id]=WX[k].n})}
  const hk=Object.keys(lk).length>0,ho=hk?Object.keys(REG).filter(id=>isHard(id)&&!lk[id]):[];
  const wg=wxOf(dayIdx(Date.now()));
- return{ecl:wg==="solar"||wg==="lunar"?wg:null,hardLk:hk,hardOpen:ho,here:me.loc,sel,route,trip,gates:G,locked:lk,nb,wx:mlW.w,wxn:mlW.n,lvr:regLv,lcol:l=>L[l===0?0:l<=2?1:l<=5?2:l<=9?3:l<=29?4:l<=59?5:6],gold:cs.getPropertyValue("--gold").trim()}}
+ return{ecl:wg==="solar"||wg==="lunar"?wg:null,hardLk:hk,hardOpen:ho,here:me.loc,sel,route,trip,gates:G,locked:lk,nb,wx:mlW.w,wxn:mlW.n,lvr:id=>{const r=regRng(id);return r?"Lv"+r[0]+"~"+r[1]:""},lcol:l=>L[l===0?0:l<=2?1:l<=5?2:l<=9?3:l<=29?4:l<=59?5:6],gold:cs.getPropertyValue("--gold").trim()}}
 function mapHolo(){if(MAPH)return MAPH;const cv=h("canvas",{c:"holo"});MAPH=Holo.create(cv,{REG,CONT,ROADS,MW},{live:mapLive,onPick:(k,id)=>{if(k==="reg")pickRegion(id);else if(k==="gate"){const g=liveGates().find(x=>x.id===id);if(g)gatePop(g)}else if(k==="surv")survPop()}});return MAPH}
 function mapBox(sel){const H=mapHolo(),go=()=>{const R=REG[me.trip?me.trip.to:me.loc]||REG.base;Object.assign(H.V,{x:R.x,y:R.y+4,dist:Math.min(Math.max(H.V.dist,40),75),yaw:0,pitch:.92})};if(!H.init){H.init=1;go()}H.start();
  const ib=(p,fn,t)=>h("button",{c:"hmb",type:"button",title:t,"aria-label":t,onclick:fn},svgI(p));
