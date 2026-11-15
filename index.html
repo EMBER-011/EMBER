@@ -529,7 +529,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115150808";
+const BUILD="20261115152901";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1707,7 +1707,7 @@ function furnShop(box,row){const g=myG(),gb=!!g;if(!gb&&furnTo==="g")furnTo="me"
    box.append(row(furnThumb(kk),h("div",{c:"grow"},h("b",{c:"sm",t:"카펫 ("+"SML"[rugSz]+")"}),h("div",{c:"xs mt",t:"같은 무늬 · 크기를 골라요"}),sg),h("span",{c:"sm gold",t:p[rugSz]}),btn("구매",()=>furnBuy(kk,p[rugSz]),"sm")));return}
   const K=Room3D.FK[k];if(!K)return;box.append(row(furnThumb(k),h("div",{c:"grow"},h("b",{c:"sm",t:K.n}),h("div",{c:"xs mt",t:FDESC[k]||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>furnBuy(k,p),"sm")))});
  box.append(h("div",{c:"sm",style:"margin:14px 0 6px;font-weight:600",t:"가구 납품"}));furnDlv(box,row)}
-const FDESC={bed1:"눕기",bed2:"눕기 · 둘이 같이 누울 수 있어요",bedLow:"눕기",sofa1:"앉기",sofa2:"앉기",sofa:"앉기",sofaC:"앉기 · ㄱ자",chairD:"앉기",laptop:"책상·테이블 위에 놓기 · 눌러서 켜고 끄기",fridge:"문 열기",fridge2:"문 열기",kitchen:"프라이팬 요리",induction:"요리",vanity:"물 틀기",
+const FDESC={bed1:"눕기",bed2:"눕기 · 둘이 같이 누울 수 있어요",bedLow:"눕기",sofa1:"앉기",sofa2:"앉기",sofa:"앉기",sofaC:"앉기 · ㄱ자",chairD:"앉기",laptop:"책상·테이블 위에 놓기 · 눌러서 켜고 끄기",fridge:"문 열기",fridge2:"문 열기",kitchen:"누르면 요리 창",induction:"누르면 요리 창",vanity:"물 틀기",
  toilet:"앉기",tub:"목욕",shower:"샤워",slippers:"밟고 지나가요",plant:"물 주기",frame:"벽에 걸기",tv:"벽에 걸기 · 눌러서 켜고 끄기",curtain:"벽에 걸기 · 눌러서 걷고 치기",window:"눌러서 열고 닫기",confTable:"길드 건물 전용",wardrobe:"수납",desk:"노트북을 올려요",dining:"식탁 의자와 같이",tableR:"",table:"",glass:"샤워 칸막이",otable:"마당 · 주택 전용",ochair:"마당 · 앉기 · 주택 전용",parasol:"마당 · 주택 전용"};
 function furnDlv(box,row){if(!dlvHead(box,["furn"])){box.append(h("p",{c:"sm mt",t:"가구점에는 가구를 납품해요. 지금 납품처가 달라요."}));return}const L=Object.keys(IT).filter(k=>IT[k].dv&&URC[k]&&(me.inv[k]||0)>0);
  if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 가구가 없습니다. 정비소 제작 탭에서 가구를 만드세요."}));
@@ -5006,11 +5006,13 @@ function manPath(tx,ty,m0){const M=walkCur(roomL()),m=m0||RV.man,{nx,ny,b,c}=M,c
 function manWalk(tx,ty){if(!RV.man)manInit();const path=manPath(tx,ty);RV.mpath=path;presSend(false,path.length?path[path.length-1]:null);if(!path.length&&RV.mthen){const f=RV.mthen;RV.mthen=null;f()}manLoop()}
 /* 하던 것 그만두고 일어나기 (다가갔던 곳으로) */
 function manStand(){const m=RV.man;if(!m)return;m.arms=null;m.prop=null;if(m.act==null)return;if(m.ax!=null){m.x=m.ax;m.y=m.ay}m.pose=null;m.act=null;m.water=null;m.z=0;m.side=0;presSend()}
-function manAct(idx){const L=roomL(),it=L.items[idx];if(!it)return false;let side=0;const A0=Room3D.actOf(L,idx);if(!A0)return false;if(!RV.man)manInit();if(RV.man.act===idx)return true;
+/* 요리: 인덕션이나 부엌(싱크대 · 아일랜드)을 누르면 · 남의 방 · 남의 집 방문 중엔 안 됨 */
+const cookOk=it=>!!it&&(it.k==="induction"||it.k==="kitchen")&&RV.mode!=="vis"&&!(RV.mode==="hm"&&RV.hvis);
+function manAct(idx){const L=roomL(),it=L.items[idx];if(!it)return false;if(cookOk(it)){cookPop();return true}let side=0;const A0=Room3D.actOf(L,idx);if(!A0)return false;if(!RV.man)manInit();if(RV.man.act===idx){if(cookOk(it))cookPop();return true}
  const oc=Object.values(RV.oth||{}).filter(o=>o.m.act===idx);if(oc.length&&!A0.tog){if(it.k==="bed2"&&oc.length===1&&A0.pose==="lie")side=oc[0].m.side===1?0:1;else{toast("다른 헌터가 쓰고 있어요");return true}}
  const A=side?Room3D.actOf(L,idx,side):A0;manStand();
  RV.mthen=()=>{const m=RV.man;if(A.tog){const L2=roomL(),it2=L2.items[idx];if(!it2)return;it2[A.tog]=!it2[A.tog];m.h=A.h;m.arms=A.arms;m.ph=0;roomSave(L2,true);clearTimeout(RV.tgT);RV.tgT=setTimeout(()=>{if(RV.man===m&&m.act==null){m.arms=null;roomDraw(true)}},800);return}
-  m.ax=m.x;m.ay=m.y;m.x=A.p[0];m.y=A.p[1];m.h=A.h;m.pose=A.pose;m.z=A.z;m.water=A.water||null;m.arms=A.arms||null;m.prop=A.prop||null;m.side=side;m.act=idx;m.ph=0;m.tt=0;presSend();manAnim();if(it.k==="induction"&&RV.mode!=="vis"&&RV.mode!=="gh"&&!(RV.mode==="hm"&&RV.hvis))setTimeout(()=>{if(RV.man===m&&m.act===idx)cookPop()},450)};manWalk(A.a[0],A.a[1]);return true}
+  m.ax=m.x;m.ay=m.y;m.x=A.p[0];m.y=A.p[1];m.h=A.h;m.pose=A.pose;m.z=A.z;m.water=A.water||null;m.arms=A.arms||null;m.prop=A.prop||null;m.side=side;m.act=idx;m.ph=0;m.tt=0;presSend();manAnim();if(cookOk(it))setTimeout(()=>{if(RV.man===m&&m.act===idx)cookPop()},450)};manWalk(A.a[0],A.a[1]);return true}
 /* 요리 · 물 주기처럼 움직이는 동작 (초당 12번만 다시 그림) */
 function manAnim(){if(RV.anm)return;RV.anm=1;let last=0;const t0=performance.now(),st=now=>{const all=[RV.man].concat(Object.values(RV.oth||{}).map(o=>o.m)).filter(m=>m&&m.prop);if(!all.length||!RV.cv||!RV.cv.isConnected){RV.anm=0;roomDraw(true);return}RV.anm=requestAnimationFrame(st);if(now-last<80)return;last=now;all.forEach(m=>m.tt=now-t0);roomDraw(true,true)};RV.anm=requestAnimationFrame(st)}
 /* 걷기 · 문 열고 닫기 (사람이 문 가까이 오면 열림) */
