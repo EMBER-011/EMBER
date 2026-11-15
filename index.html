@@ -52,7 +52,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 .hubl{display:flex;flex-direction:column;gap:8px}.hubpick{max-height:260px;overflow-y:auto;border:1px solid var(--ln);border-radius:6px;padding:4px 6px}.hubpick .pk{display:flex;gap:8px;align-items:center;padding:4px 0}
 .m.pinv,.feed .pinv{display:flex;align-items:center;gap:8px;border:1px dashed var(--ac2);border-radius:8px;padding:6px 8px;margin:6px 0}.m.pinv small{color:var(--ac2);flex:none}.m.pinv span{flex:1;font-size:13px}
 #gtab{position:fixed;left:0;top:calc(33% + 140px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
-#phone,#radio,#pager{touch-action:none}#phone.dmov,#radio.dmov,#pager.dmov{opacity:.93;cursor:grabbing;transition:none}
+#phone,#radio,#pager{touch-action:none;color:var(--tx)}#phone.dmov,#radio.dmov,#pager.dmov{opacity:.93;cursor:grabbing;transition:none}
 #gtab{touch-action:none;user-select:none;-webkit-user-select:none}#gtab.free{border-left:1px solid var(--bd);border-radius:12px;width:44px;height:52px;box-shadow:0 2px 10px rgba(0,0,0,.35)}#gtab.free.sl{border-left:0;border-radius:0 12px 12px 0;width:40px;height:56px;box-shadow:none}#gtab.free.sr{border-left:1px solid var(--bd);border-right:0;border-radius:12px 0 0 12px;width:40px;height:56px;box-shadow:none}#gtab.drag{opacity:.75}
 #gtab svg{width:24px;height:24px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#gtab.act{background:rgba(var(--acr),.2)}#gdot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--ac);display:none}
 @media (min-width:900px){#gtab{left:max(0px,calc(50% - 480px))}}
@@ -477,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114173932";
+const BUILD="20261114235649";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -730,14 +730,18 @@ function hex2hsl(x){x=(x||"#7c4dff").replace("#","");if(x.length===3)x=x.split("
  if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s*100,l*100]}
 function hsl2rgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[f(0),f(8),f(4)].map(v=>Math.round(v*255))}
 const hslc=(h,s,l)=>"#"+hsl2rgb(h,Math.max(0,Math.min(100,s)),Math.max(0,Math.min(100,l))).map(v=>v.toString(16).padStart(2,"0")).join("");
-function custVars(c,dark){const[H,S0]=hex2hsl(c.hex),q=[.35,.65,1,1.45,1.95][(c.k||3)-1],S=Math.max(S0,8),A=Math.min(90,Math.max(52,S)),V={};
+function custVars(c,dark){const[H,S0]=hex2hsl(c.hex),q=[.35,.65,1,1.45,1.95][(c.k||3)-1],S=Math.max(S0,8),A=c.neu&&S0<12?6:Math.min(90,Math.max(52,S)),V={};
  if(!dark){Object.assign(V,{"--bg":hslc(H,S*.22*q,93.5-q*1.5),"--sf":hslc(H,S*.25*q,97.8-q*.6),"--sf2":hslc(H,S*.2*q,91.5-q*1.5),"--scr":hslc(H,S*.24*q,89.5-q*2),"--phb":hslc(H,S*.2*q,84-q*2.5),"--tx":hslc(H,14,15),"--mt":hslc(H,9,44),"--bd":hslc(H,S*.28*q,79-q*2),"--pbt":"var(--tx)","--gold":"#9a7424","color-scheme":"light"});
   const rgb=hsl2rgb(H,A,40);V["--ac"]=hslc(H,A,40);V["--ac2"]=hslc(H,A,50);V["--acr"]=rgb.join(",");V["--ln"]="rgba("+hsl2rgb(H,30,35).join(",")+",.22)";V["--onac"]="#fff"}
  else{Object.assign(V,{"--bg":hslc(H,S*.32*q,4+q*1.6),"--sf":hslc(H,S*.32*q,4+q*1.6),"--sf2":hslc(H,S*.3*q,7+q*1.8),"--scr":hslc(H,S*.36*q,3.5+q*1.4),"--phb":hslc(H,S*.25*q,3+q*1.2),"--tx":hslc(H,18,93),"--mt":hslc(H,10,66),"--pbt":"#fff","--gold":"#e6b450","color-scheme":"dark"});
   const rgb=hsl2rgb(H,A,58),lum=(.299*rgb[0]+.587*rgb[1]+.114*rgb[2])/255;V["--ac"]=hslc(H,A,58);V["--ac2"]=hslc(H,A,67);V["--bd"]=V["--ac"];V["--acr"]=rgb.join(",");V["--ln"]="rgba("+rgb.join(",")+",.28)";V["--onac"]=lum>.62?"#111":"#fff"}
  return V}
+/* 기기 테마: 휴대폰 · 무전기 · 삐삐 안에서만 쓰는 색 한 벌 (진하기 · 밝게/어둡게) */
+const hexLum=x=>{const n=parseInt((x||"#000000").slice(1),16);return(.299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255))/255};
+function applyDev(){const D=SET.dev||{},on=D.on&&/^#[0-9a-f]{6}$/i.test(D.hex||"");["phone","radio","pager"].forEach(id=>{const e=document.getElementById(id);if(!e)return;CUSTV.forEach(k=>e.style.removeProperty(k));
+  if(on){const V=custVars({hex:D.hex,k:D.k||3,neu:1},D.dk!=null?!!D.dk:hexLum(D.hex)<.45);for(const k in V)e.style.setProperty(k,V[k])}})}
 function applySet(){const L=!SET.night;if(!LTH[SET.lth])SET.lth="sand";if(!NTH[SET.theme])SET.theme="red";const CU=SET.cust&&SET.cust.on;
- {const st=document.documentElement.style;CUSTV.forEach(k=>st.removeProperty(k));if(CU){const V=custVars(SET.cust,!L);for(const k in V)st.setProperty(k,V[k])}if(SET.dev&&SET.dev.on&&/^#[0-9a-f]{6}$/i.test(SET.dev.hex||""))st.setProperty("--phb",SET.dev.hex)}
+ {const st=document.documentElement.style;CUSTV.forEach(k=>st.removeProperty(k));if(CU){const V=custVars(SET.cust,!L);for(const k in V)st.setProperty(k,V[k])}}applyDev();
  const th=CU?(L?"sand":""):L?SET.lth:SET.theme==="red"?"":SET.theme,ch=document.documentElement.dataset.th!==th,LL=L&&!DARKL.includes(th);document.documentElement.dataset.th=th;CKA=LL?"120,110,100":"150,150,155";CKB=LL?"80,72,64":"205,205,210";$("#crack").classList.toggle("off",!SET.crack);if(ch&&$("#crsvg"))try{drawCracks()}catch(e){}}
 let actx=null;
 function beep(f,d,v,type,delay){if(!SET.sfx)return;beep0(f,d,v,type,delay)}
@@ -969,6 +973,7 @@ const BASESP=[["plaza","광장","주민이 모이는 만남의 장소"],["shop",
 const HSP={out:{n:"외곽",lv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,enc:.25,con:1,loot:0,d:"크리처가 자주 지나다니는 곳"},deep:{n:"심부",lv:5,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
  rlab:{n:"무너진 연구소",lv:6,enc:.3,con:1.6,loot:1,bld:1,d:"불법 약물을 만들던 지하 연구 시설의 잔해"}};
 const FACI={plaza:"M3 20h18M5 20v-5h14v5M12 15V9M8.5 9h7M10 9V6.5a2 2 0 0 1 4 0V9M7 15v-2M17 15v-2",shop:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",clinic:"M9 4h6v5h5v6h-5v5H9v-5H4V9h5z",market:"M4 9l2-5h12l2 5M4 9h16v1.5a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 10.5zM5 12v8h14v-8M10 20v-5h4v5",quar:"M4 4h16v16H4zM4 9h16M9 9v11M15 9v11M12 9v11",tavern:"M5 7h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM15 9h2.5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H15M7 4c0 1 1 1 1 2M10.5 4c0 1 1 1 1 2M8 11v6M11.5 11v6",rlab:"M2.5 21h19M4.5 21V10l4.5-3.5V21M9 21V6.5l3.5-2 1 2.2L15 5.2V21M15 21v-9.5h4.5V21M11 9.5h1.5M11 13h1.5M11 16.5h1.5M6.3 13h1M6.3 16.5h1M16.8 14.5h1"};
+const regLv=id=>{const R=REG[id];if(!R||R.safe)return"";const mx=Math.max(0,...spotsOf(id).map(k=>(HSP[k]||{}).lv||0));return"적정 Lv "+R.lv+"~"+(R.lv+mx+2)};
 const spotsOf=loc=>REG[loc].arena?ARSP.map(x=>x[0]):REG[loc].safe?BASESP.map(x=>x[0]):["out","mid","deep"].concat(REG[loc].bld?[REG[loc].bld]:[]);
 const spotName=(loc,s)=>REG[loc].arena?((ARSP.find(x=>x[0]===s)||ARSP[0])[1]):REG[loc].safe?((BASESP.find(x=>x[0]===s)||BASESP[0])[1]):(HSP[s]||HSP.out).n;
 const defSpot=loc=>REG[loc].arena?"colo":REG[loc].safe?"plaza":"out";
@@ -1239,7 +1244,7 @@ function rMap(v){
  v.append(h("div",{c:"xs mt",style:"margin:-2px 0 8px",t:"한 손가락: 옮기기 · 두 손가락: 확대·돌리기·기울이기 · 지역을 누르면 이동. 멀리 있는 지역은 사이 지역을 거쳐 한 번에 가요(시간은 구간 합). 오른쪽 바다 건너 종말의 섬(하드)은 내 레벨이 지역 레벨(60~100)에 닿을 때마다 노이즈가 걷히며 해금돼요. 검은 바다에서 배로 건너가고, 두 섬 사이도 배로 오가요. 크리처가 강한 대신 환 보상이 1.8배예요."}));
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
- bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":"권장 Lv "+R.lv})));
+ bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc)})));
  if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&bHere(battle))bar.append(btn("파티 전투",()=>{tab="battle";render(true)},canJ(battle)?"pri":""));
   if(me.ag){}else{if(!R.safe)bar.append(btn("채집",gather,"pri"));if(!R.safe&&R.res)bar.append(btn("자동 채집",agPop));if(fishKind(me.loc))bar.append(btn("낚시",()=>wrap(fish),"pri"))}}
@@ -1265,7 +1270,7 @@ function pickRegion(id){
  if(inB())return toast("전투 중에는 이동할 수 없습니다");
  selReg=id;render(true);if(isAdj(me.loc,id))askTravel(id,tsec(me.loc,id));else askRoute(id)}
 function askRoute(to){const rt=findRoute(me.loc,to),a=$("#ask");a.textContent="";if(!rt)return toast("갈 수 있는 길이 없습니다");const ne=MOVE_EN*(rt.path.length-1);
- a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:(rt.path.length-2)+"곳을 거쳐 가요 · 이동 시간 "+fmt(rt.sec)+" · 에너지 "+ne+(REG[to].safe?"":" · 권장 Lv "+REG[to].lv)}),
+ a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:(rt.path.length-2)+"곳을 거쳐 가요 · 이동 시간 "+fmt(rt.sec)+" · 에너지 "+ne+(REG[to].safe?"":" · "+regLv(to))}),
   h("p",{c:"sub",t:"경로: "+rt.path.map(k=>REG[k].n).join(" → ")}),h("p",{c:"q",t:"이동하시겠습니까?"}),
   h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,rt.sec))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
  showAsk(a)}
@@ -1274,15 +1279,15 @@ let askT=0;function closeAsk(){const a=$("#ask");if(!a||a.style.display!=="block
 function showAsk(a){clearTimeout(askT);const was=a.style.display==="block"&&!a.classList.contains("out");a.classList.remove("out");if(!was){a.style.display="none";void a.offsetWidth}a.style.display="block"}
 function askTravel(to,s){
  const a=$("#ask");a.textContent="";
- a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:"이동 시간 "+fmt(s)+(contOf(to)!==contOf(me.loc)?" (대륙 간)":"")+" · 에너지 "+MOVE_EN+(REG[to].safe?"":" · 권장 Lv "+REG[to].lv+(isHard(to)?" · 하드":""))}),h("p",{c:"q",t:"이동하시겠습니까?"}),
+ a.append(h("p",{c:"an",t:REG[to].n}),h("p",{c:"sub",t:"이동 시간 "+fmt(s)+(contOf(to)!==contOf(me.loc)?" (대륙 간)":"")+" · 에너지 "+MOVE_EN+(REG[to].safe?"":" · "+regLv(to)+(isHard(to)?" · 하드":""))}),h("p",{c:"q",t:"이동하시겠습니까?"}),
   h("div",{c:"btns"},h("button",{c:"yes","aria-label":"이동 확인",onclick:()=>{closeAsk();wrap(()=>travel(to,s))}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>{closeAsk();if(tab==="map"){selReg=me.loc;render(true)}}},svgI(ICX))));
  showAsk(a)}
-async function travel(to,s){{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur())return toast("결투 중에는 이동할 수 없어요");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");const RT=isAdj(me.loc,to)?{path:[me.loc,to],sec:s}:findRoute(me.loc,to);if(!RT)return toast("갈 수 있는 길이 없습니다");s=RT.sec;const NE=MOVE_EN*(RT.path.length-1);if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
+async function travel(to,s){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(pvpCur())return toast("결투 중에는 이동할 수 없어요");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중에는 이동할 수 없어요");if(me.sg)return toast("게이트(섬) 안에 있습니다. 먼저 나가세요");if(to===me.loc)return toast("이미 이 지역에 있습니다");const RT=isAdj(me.loc,to)?{path:[me.loc,to],sec:s}:findRoute(me.loc,to);if(!RT)return toast("갈 수 있는 길이 없습니다");s=RT.sec;const NE=MOVE_EN*(RT.path.length-1);if(locked(to))return toast("Lv "+REG[to].lv+"이 되면 해금되는 지역입니다");if(inB())return toast("전투 중에는 이동할 수 없습니다");
  const c=cur(me);if(c.en<NE)return toast("에너지가 부족합니다 ("+NE+" 필요)");
  selReg=to;showSpots=false;const tp={trip:Object.assign({to,at:Date.now()+s*1000,from:me.loc,dur:s*1000},RT.path.length>2?{path:RT.path,segs:RT.path.slice(1).map((k,i)=>tsec(RT.path[i],k)*1000)}:{}),quar:false,en:Math.round(c.en-NE)},sick=["snow","rain","rainfog","storm"].includes(wxNow())&&!ailOn(me,"cold")&&rf()<.05;
  if(sick){const A=clone(me.ail||{});A.cold={t:Date.now(),u:Date.now()+AIL.cold.nat};tp.ail=A}
  await upd(tp);toast(REG[to].n+"(으)로 출발"+(RT.path.length>2?" · "+RT.path.slice(1,-1).map(k=>REG[k].n).join(" · ")+" 경유":"")+(sick?" · 궂은 날씨에 감기에 걸렸다":""))}
-async function moveSpot(k){
+async function moveSpot(k){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const again=k===spot();if(again&&REG[me.loc].safe)return;if(again){if(Date.now()<gcd)return;gcd=Date.now()+1200}
  const c=cur(me),safe=REG[me.loc].safe,cost=0;if(c.en<cost)return toast("에너지가 부족합니다 ("+cost+" 필요)");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
@@ -1291,7 +1296,7 @@ async function moveSpot(k){
  if(!safe)toast(again?spotName(me.loc,k)+" 더 깊이 탐색":spotName(me.loc,k)+"(으)로 이동");if(got)setTimeout(()=>toastG(gd),900);
  if(!REG[me.loc].safe&&rf()<encRate(HSP[k].enc))await encounter(k)}
 const gRate=c=>Math.min(.95,.45+(c.s?es(c,5):0)*.03);
-async function gather(){
+async function gather(){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");
  if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");const R=REG[me.loc];if(!R.res)return toast(R.n+"에서는 채집할 수 없습니다");if(Date.now()<gcd)return;
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
@@ -1309,10 +1314,10 @@ function gRoll(inv,gc,R,H){const ok=rf()<gRate(me);
  return ok}
 /* 자동 채집: 10 · 20 · 30번 · 1번에 에너지 1 (시작할 때 미리 씀 · 그만두면 남은 만큼 돌려받음) · 10초에 1번 · 크리처는 안 만남 */
 const AG_IV=10000,AG_MAX=30,AG_N=[10,20,30];let agBusy=0;
-function agPop(){const R=REG[me.loc];if(R.safe||!R.res)return toast("채집할 수 있는 지역에서만 돼요");if(me.ag)return toast("이미 자동 채집 중이에요");
+function agPop(){if(hospBlock())return;const R=REG[me.loc];if(R.safe||!R.res)return toast("채집할 수 있는 지역에서만 돼요");if(me.ag)return toast("이미 자동 채집 중이에요");
  const en=Math.floor(cur(me).en);openPop(h("div",{c:"h0",t:"자동 채집"}),h("p",{c:"sm mt",t:R.n+" · "+spotName(me.loc,spot())+" · 10초에 1번 · 1번에 에너지 1 · 크리처는 만나지 않아요"}),h("p",{c:"xs mt",t:"지금 에너지 "+en+" · 그만두면 못 한 횟수만큼 에너지를 돌려받아요"}),
   h("div",{c:"row",style:"gap:6px;margin-top:10px"},...AG_N.map(n=>btn(n+"번 · "+fmt(n*AG_IV/1000),()=>{closePop();wrap(()=>agStart(n))},"pri grow",{disabled:en<n}))),btn("닫기",closePop,"full",{style:"margin-top:8px"}))}
-async function agStart(n){{const _l=lockMsg();if(_l)return toast(_l)}n=Math.max(1,Math.min(AG_MAX,Math.floor(n)||0));if(me.ag)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
+async function agStart(n){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}n=Math.max(1,Math.min(AG_MAX,Math.floor(n)||0));if(me.ag)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  const R=REG[me.loc];if(R.safe||!R.res)return toast(R.n+"에서는 채집할 수 없습니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");const c=cur(me);if(c.en<n)return toast("에너지가 부족합니다 ("+n+" 필요)");
  await upd({ag:{reg:me.loc,spot:spot(),t0:Date.now(),n},en:Math.round(c.en-n)});toast("자동 채집 시작 · "+n+"번 ("+fmt(n*AG_IV/1000)+")");render(true)}
 const agDone=a=>Math.max(0,Math.min(a.n,Math.floor((Date.now()-a.t0)/AG_IV)));
@@ -1323,7 +1328,7 @@ async function agClaim(){const a=me.ag;if(!a||agBusy)return;agBusy=1;try{const k
  finally{agBusy=0}}
 function agTick(){if(me&&me.ag&&!agBusy&&agDone(me.ag)>=me.ag.n&&$("#pop").style.display!=="flex")agClaim().catch(()=>{})}
 const INV_EN=0;
-async function investigate(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(Date.now()<gcd)return;
+async function investigate(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(Date.now()<gcd)return;
  const c=cur(me);if(c.en<INV_EN)return toast("에너지가 부족합니다 ("+INV_EN+" 필요)");gcd=Date.now()+1500;
  const inv={...me.inv},lf=luckF(me);let msg="아무것도 찾지 못했다";
  if(rf()<Math.min(.06,.02*lf)){msg=addInv(inv,"eb0k14",1)?"깨진 냉장 보관함에서 수상한 주사 앰플을 찾았다… EB-0K14 ×1":"가방이 가득 차서 앰플을 챙기지 못했다"}
@@ -1331,7 +1336,7 @@ async function investigate(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.tr
  else if(rf()<.5){const id=pickW([["glass",4],["batt",3],["scrap",3],["herb",3],["med_pk",1.2],["med_gauze",1.2],["hpot",1.5]]),q=addInv(inv,id,1);msg=q?"조사: "+IT[id].n+" ×1":"가방이 가득 찼습니다"}
  await upd({inv,en:Math.round(c.en-INV_EN)});toast(msg);
  if(rf()<encRate(HSP.rlab.enc))await encounter("rlab")}
-async function encounter(sp){if(!me||inB()||me.trip||me.auto||me.sg||REG[me.loc].safe||conBlocked())return;if(await startBattle(true,sp)){hidePhone();closeAsk();tab="battle";render(true);toast(RF()?"비와 안개 속에서 크리처가 나타났다!":"크리처가 나타났다!")}}
+async function encounter(sp){if(hospBlock())return;if(!me||inB()||me.trip||me.auto||me.sg||REG[me.loc].safe||conBlocked())return;if(await startBattle(true,sp)){hidePhone();closeAsk();tab="battle";render(true);toast(RF()?"비와 안개 속에서 크리처가 나타났다!":"크리처가 나타났다!")}}
 
 /* ===== 중앙 시설 ===== */
 function facility(sp){
@@ -1398,17 +1403,17 @@ function facility(sp){
  else if(sp==="tavern")tavernFac(box,subs,row,wal);
  else if(sp==="quar"){const c=cur(me);box.append(pbar(c.con,100,"con","오염도 "+c.con.toFixed(1)+"%"),
   h("p",{c:"sm mt",t:me.quar?"치료 중 · 완치까지 약 "+fmt(Math.ceil(c.con/(100/1800)))+" (100% 기준 30분)":"입원하면 오염도가 빠르게 내려갑니다. 100%에서 완치까지 30분, 언제든 퇴원할 수 있어요."}),
-  me.quar?btn("퇴원",()=>upd({quar:false}).then(()=>toast("퇴원했습니다")),"full"):btn("입원 치료 시작",()=>upd(cntAdd({quar:true},"quar")).then(()=>toast("격리 치료를 시작합니다")),"pri full",{disabled:c.con<=0}))}
+  me.quar?h("div",{},h("p",{c:"xs mt",style:"margin:0 0 6px",t:"입원 치료 중에는 숙소 · 길드 건물 꾸미기 · 휴대폰 채팅만 할 수 있어요 (전투 · 제작 · 아이템 사용 · 사고팔기 · 이동 불가)"}),btn("퇴원",()=>upd({quar:false}).then(()=>toast("퇴원했습니다")),"full")):btn("입원 치료 시작",()=>upd(cntAdd({quar:true},"quar")).then(()=>toast("격리 치료를 시작합니다")),"pri full",{disabled:c.con<=0}))}
  return box}
-async function buy(id,p,n){n=n||1;const cost=p*n;if(me.tan<cost)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,id,n)<n)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-cost});toast(IT[id].n+" ×"+n+" 구매")}
-async function clinicCure(k){const cost=AIL[k].cl;if(me.tan<cost)return toast("환이 부족합니다");const A=clone(me.ail||{});delete A[k];if(k==="fracture")delete A.pain;await upd({ail:A,tan:me.tan-cost});toast(AIL[k].n+" 진료 완료 (-"+won(cost)+" 환)")}
+async function buy(id,p,n){if(hospBlock())return;n=n||1;const cost=p*n;if(me.tan<cost)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,id,n)<n)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-cost});toast(IT[id].n+" ×"+n+" 구매")}
+async function clinicCure(k){if(hospBlock())return;const cost=AIL[k].cl;if(me.tan<cost)return toast("환이 부족합니다");const A=clone(me.ail||{});delete A[k];if(k==="fracture")delete A.pain;await upd({ail:A,tan:me.tan-cost});toast(AIL[k].n+" 진료 완료 (-"+won(cost)+" 환)")}
 const redRate=c=>Math.min(.85,.2+(rawS(c,1)+rawS(c,0))*.012);
 function redBtn(){return btn(redArm?"정말 도수정복을 시도합니다":"도수정복 시도 · 성공률 "+Math.round(redRate(me)*100)+"% · HP -30%",async()=>{if(!redArm){redArm=true;render(true);return}redArm=false;await reduceFx()},redArm?"pri full":"full")}
 async function reduceFx(){if(inB())return toast("전투 중에는 할 수 없습니다");if(!ailOn(me,"fracture"))return toast("골절이 없습니다");
  const A=clone(me.ail||{}),now=Date.now(),c=cur(me),mh=maxHp(me),ok=rf()<redRate(me),hp=Math.max(1,Math.round(c.hp-mh*.3));
  if(ok)delete A.fracture;else A.pain={t:now,u:now+36e5};
  await upd({ail:A,hp});toast(ok?"도수정복 성공! 어긋난 뼈를 맞췄다 · HP -30%":"도수정복 실패… 극심한 통증 (1시간 · 행운 하락) · HP -30%")}
-async function useMed(k){if(inB())return toast("전투 중에는 사용할 수 없습니다");const i=IT[k],inv={...me.inv};if(!inv[k])return;const A=clone(me.ail||{}),now=Date.now(),on=x=>ailOn(me,x),p={};
+async function useMed(k){if(hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const i=IT[k],inv={...me.inv};if(!inv[k])return;const A=clone(me.ail||{}),now=Date.now(),on=x=>ailOn(me,x),p={};
  if(i.med==="pk"){if(!on("pain")&&!on("fracture")&&!on("sprain"))return toast("가라앉힐 통증이 없습니다");delete A.pain;p.pk=now+18e5}
  else if(i.med==="splint"){if(!on("fracture"))return toast("골절이 없습니다");if(A.fracture.sp)return toast("이미 부목으로 고정했습니다");A.fracture.sp=1;A.fracture.u=now+18e5}
  else{const hit=i.med.filter(on);if(!hit.length)return toast("치료할 증상이 없습니다");hit.forEach(x=>delete A[x])}
@@ -1421,7 +1426,7 @@ function odEpisode(x){const now=Date.now(),o=clone(me.od||{}),log=(o.log||[]).fi
  if(gr==="A"&&asub>=1)perm=OD.slice();
  log.push(now);const np=perm.length>(o.perm||[]).length,lose=np?50:20;o.tmp=tmp;o.perm=perm;o.log=log;
  setTimeout(()=>toast("약물과다! "+pick.join(", ")+(np?" · 영구 증상 발생":" (2시간)")+" · 명성 -"+lose),1200);return{od:o,rep:Math.max(0,repOf(me)-lose)}}
-async function useDose(k){if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[k])return;inv[k]--;
+async function useDose(k){if(hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[k])return;inv[k]--;
  const dose=(me.dose||0)+1;let step=(me.doseStep||0)+1,grade=me.grade,asub=me.asub||0,msg="EB-0K14 투약 "+dose+"회째 — 혈관을 타고 뜨거운 것이 번진다";
  if(DOSE_NEED[grade]&&step>=DOSE_NEED[grade]){grade=GR[GR.indexOf(grade)-1];step=0;msg="등급 상승! "+grade+"등급 · "+msg}
  else if(grade==="A"&&asub<5&&step>=100){asub++;step=0;msg="등급 상승! A"+SUP[asub]+" · "+msg}
@@ -1430,22 +1435,22 @@ async function useDose(k){if(inB())return toast("전투 중에는 사용할 수 
  if(grade==="A"&&asub>=1){const o=p.od||clone(me.od||{}),had=((me.od&&me.od.perm)||[]).length;o.perm=OD.slice();p.od=o;if(had<OD.length){p.rep=Math.max(0,repOf(me)-50);setTimeout(()=>toast("영구 약물과다 · 명성 -50"),2400)}}
  await upd(p);toast(msg)}
 function doseNext(c){const st=c.doseStep||0;if(DOSE_NEED[c.grade])return c.grade+"→"+GR[GR.indexOf(c.grade)-1]+"까지 "+(DOSE_NEED[c.grade]-st)+"회";if(c.grade==="A"&&(c.asub||0)<5)return "A"+SUP[(c.asub||0)+1]+"까지 "+(100-st)+"회";return "더 오를 수 없음"}
-async function clinic(k,cost){if(me.tan<cost)return toast("환이 부족합니다");const p={tan:me.tan-cost};if(k==="heal")p.hp=maxHp(me);else{p.en=MAXEN;p.mp=maxMp(me)}await upd(p);toast(k==="heal"?"치료 완료":"충분히 쉬었습니다")}
-async function repair(ss){const eq=clone(me.eq||{});let cost=0;ss.forEach(s=>{if(eq[s]){cost+=Math.ceil((100-eq[s].dur)*3);eq[s].dur=100}});if(!cost)return;if(me.tan<cost)return toast("환이 부족합니다");await upd({eq,tan:me.tan-cost});toast("수리 완료 (-"+cost+" 환)")}
-async function enhance(s){const eq=clone(me.eq||{}),q=eq[s];if(!q)return;const up=q.up||0,need=up+1,cost=150*need,rate=Math.max(.3,1-up*.07);
+async function clinic(k,cost){if(hospBlock())return;if(me.tan<cost)return toast("환이 부족합니다");const p={tan:me.tan-cost};if(k==="heal")p.hp=maxHp(me);else{p.en=MAXEN;p.mp=maxMp(me)}await upd(p);toast(k==="heal"?"치료 완료":"충분히 쉬었습니다")}
+async function repair(ss){if(hospBlock())return;const eq=clone(me.eq||{});let cost=0;ss.forEach(s=>{if(eq[s]){cost+=Math.ceil((100-eq[s].dur)*3);eq[s].dur=100}});if(!cost)return;if(me.tan<cost)return toast("환이 부족합니다");await upd({eq,tan:me.tan-cost});toast("수리 완료 (-"+cost+" 환)")}
+async function enhance(s){if(hospBlock())return;const eq=clone(me.eq||{}),q=eq[s];if(!q)return;const up=q.up||0,need=up+1,cost=150*need,rate=Math.max(.3,1-up*.07);
  if((me.inv.kit||0)<need)return toast("강화 부품이 부족합니다 ("+need+"개 필요)");if(me.tan<cost)return toast("환이 부족합니다");
  const inv={...me.inv};inv.kit-=need;const ok=rf()<rate;if(ok)q.up=up+1;await upd({eq,inv,tan:me.tan-cost});toast(ok?"보강 성공! +"+q.up:"보강 실패 (재료 소모)")}
-async function craft(id){const need=RC[id];if(!haveAll(need))return toast("재료 부족");const gear=!!IT[id].slot;if(gear&&(me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");
+async function craft(id){if(hospBlock())return;const need=RC[id];if(!haveAll(need))return toast("재료 부족");const gear=!!IT[id].slot;if(gear&&(me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");
  {const f=craftBad(need);if(f){await upd(f);return toast(FAILT())}}
  const p=cntAdd(matTake(need),"cr");if(gear){const g=mkGear(Math.max(1,me.lv),craftRar(0),id);g.cr=1;addGear(p,g);crCnt(p,g);await upd(p);return toastC(g)}
  if(addInv(p.inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(IT[id].n+" 제작 완료")}
 /* 거래소: 개당 가격(unit) · 예전 매물은 총액(price)을 개수로 나눠 환산 */
 const unitOf=m=>m.unit!=null?m.unit:Math.max(1,Math.ceil((m.price||0)/(m.qty||1)));
-async function listGear(gid,price){price=Math.floor(price)||0;if(price<1)return toast("가격을 확인하세요");const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(IT[q.id]&&IT[q.id].ring)return toast("반지는 거래소에 올릴 수 없어요 · 같은 지역 헌터에게 직접 건네세요");
+async function listGear(gid,price){if(hospBlock())return;price=Math.floor(price)||0;if(price<1)return toast("가격을 확인하세요");const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(IT[q.id]&&IT[q.id].ring)return toast("반지는 거래소에 올릴 수 없어요 · 같은 지역 헌터에게 직접 건네세요");
  await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid)});await db.collection("market").add({t:Date.now(),seller:uid,item:q.id,qty:1,unit:price,gear:q});toast("장비를 거래소에 올렸습니다")}
-async function listItem(id,q,price){if(IT[id]&&IT[id].bound)return toast("귀속 아이템은 판매할 수 없습니다");if(IT[id]&&IT[id].noex)return toast(IT[id].n+"은(는) 거래소에 올릴 수 없어요");q=Math.floor(q);price=Math.floor(price);if(!(q>0)||!(price>0))return toast("수량과 가격을 확인하세요");if((me.inv[id]||0)<q)return toast("수량이 부족합니다");
+async function listItem(id,q,price){if(hospBlock())return;if(IT[id]&&IT[id].bound)return toast("귀속 아이템은 판매할 수 없습니다");if(IT[id]&&IT[id].noex)return toast(IT[id].n+"은(는) 거래소에 올릴 수 없어요");q=Math.floor(q);price=Math.floor(price);if(!(q>0)||!(price>0))return toast("수량과 가격을 확인하세요");if((me.inv[id]||0)<q)return toast("수량이 부족합니다");
  const inv={...me.inv};inv[id]-=q;await upd({inv});await db.collection("market").add({t:Date.now(),seller:uid,item:id,qty:q,unit:price});toast("거래소에 등록했습니다 · 개당 "+won(price)+" 환")}
-async function buyListing(m,n){n=Math.floor(n)||0;if(n<1)return toast("구매 개수를 입력하세요");
+async function buyListing(m,n){if(hospBlock())return;n=Math.floor(n)||0;if(n<1)return toast("구매 개수를 입력하세요");
  const ref=db.doc("market/"+m.id),s=await ref.get();if(!s.exists)return toast("이미 판매된 매물입니다");const d=s.data();
  if(n>d.qty)return toast("남은 수량은 "+d.qty+"개예요");const u=unitOf(d),cost=u*n;
  if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+" 환 필요)");
@@ -1557,7 +1562,7 @@ async function gateRewards(g,d){const C=Object.keys(d).filter(k=>k.startsWith("c
  for(const x of C)if(!d["o_"+x.id])await db.collection("payouts").add({t:now,to:x.id,from:"hq",amt:GBON[g.grade]||0,k:"gate",gk:g.kind,ov:g.st==="ovf"||d.st==="stop"?1:0,memo:lbl+(d.st==="stop"?" 폭주 저지":" 클리어")+" 보상"});
  await db.doc("gates/"+g.id).update({paid:true,topn:d["n_"+C[0].id]||"",topg:topG&&guilds[topG]?guilds[topG].name:""}).catch(()=>{})}
 /* 게이트 전투 (일반 A~F · S · 상시) */
-async function startGateBattle(gt){
+async function startGateBattle(gt){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return bBusy();
  const c=cur(me),pt=me.party&&parties[me.party],n=pt?pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length:1,ov=ovfOn();let mo,lv,hpm=1.25,atm=1.15,lab;
@@ -1598,7 +1603,7 @@ let furnTo="me",rugSz=1;const FTH={};
 function furnThumb(k){const cs=getComputedStyle(document.body),key=k+"|"+cs.getPropertyValue("--ac")+"|"+cs.getPropertyValue("--bg");if(FTH[key])return h("img",{c:"fthumb",src:FTH[key],alt:""});
  try{const cv=h("canvas",{style:"position:fixed;left:-999px;top:0;width:64px;height:54px"});document.body.append(cv);const K=Room3D.FK[k];
   Room3D.thumb(cv,S=>{S.obj();if(K.win){const it={k,w:0,pos:0};S.box(-.25,-.4,0,0,K.len+.4,K.len>3?5.2:4.4);S.obj();if(K.wf)K.wf(S,K,it);else IsoRoom.F.window(S,0,K.len,2.15,4.75)}else K.f(S,{k,x:0,y:0,r:0,_z:0},false)},K.win?.55:undefined);FTH[key]=cv.toDataURL();cv.remove()}catch(e){return h("span",{c:"fthumb"})}return h("img",{c:"fthumb",src:FTH[key],alt:""})}
-async function furnBuy(k,p){if(me.tan<p)return toast("환이 부족합니다");const K=Room3D.FK[k];if(!K)return;
+async function furnBuy(k,p){if(hospBlock())return;if(me.tan<p)return toast("환이 부족합니다");const K=Room3D.FK[k];if(!K)return;
  if(furnTo==="g"){const g=myG();if(!g)return toast("길드에 가입해야 길드 건물에 놓을 수 있어요");const ok=await gmut(g.id||me.guild,x=>{x.gh=x.gh||{};(x.gh.store=x.gh.store||[]).push({k})});if(!ok)return toast("보내지 못했어요");await upd({tan:me.tan-p});if(RV.mode==="gh")RV.L=null;return toast(K.n+" → 길드 건물 가구 보관함")}
  if(k==="confTable")return toast("회의실 긴 테이블은 길드 건물에만 놓을 수 있어요");
  const base=RV.mode!=="gh"&&RV.L?RV.L:roomL0(),o={items:base.items.map(it=>{const o={...it};delete o._z;return o}),store:(base.store||[]).concat([{k}])};clearTimeout(RV.saveT);RV.L=null;
@@ -1625,23 +1630,23 @@ const myDlv=()=>{const g=myG();return g?(g.dlv||null):(me.dlv||null)};
 const repOf=x=>x&&x.rep!=null?x.rep:100;
 const gearVal=q=>Math.round(150*(1+q.r*1.5)*(1+(q.lv||1)/25));
 async function addRep(n,gn,gx){const p={rep:Math.min(100,repOf(me)+n)};const g=myG();if(g&&gn)await gmut(me.guild,q=>{q.rep=Math.min(100,repOf(q)+gn);q.exp=(q.exp||0)+(gx||0)});return p}
-async function deliverItem(id,q){q=Math.floor(q)||0;if(q<1)return;const t=IT[id];if(!t||!t.dv)return;if((me.inv[id]||0)<q)return toast("수량이 부족합니다");const kd=FRC[id]?"food":"furn";if(myDlv()!==kd)return toast("지금 납품처는 "+(myDlv()?DLV[myDlv()].n:"미정")+"입니다");
+async function deliverItem(id,q){if(hospBlock())return;q=Math.floor(q)||0;if(q<1)return;const t=IT[id];if(!t||!t.dv)return;if((me.inv[id]||0)<q)return toast("수량이 부족합니다");const kd=FRC[id]?"food":"furn";if(myDlv()!==kd)return toast("지금 납품처는 "+(myDlv()?DLV[myDlv()].n:"미정")+"입니다");
  const inv={...me.inv};inv[id]-=q;const amt=t.dv*q,pr=await addRep(q*(kd==="food"?1:2),q*(kd==="food"?1:2),Math.round(amt/20));await upd({inv,tan:me.tan+amt,...pr});toast(t.n+" ×"+q+" 납품 · +"+won(amt)+" 환 · 명성 +"+q*(kd==="food"?1:2))}
-async function deliverGear(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(myDlv()!=="arms")return toast("지금 납품처가 무기·장비가 아닙니다");const amt=gearVal(q),pr=await addRep(3,3,Math.round(amt/20));
+async function deliverGear(gid){if(hospBlock())return;const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(myDlv()!=="arms")return toast("지금 납품처가 무기·장비가 아닙니다");const amt=gearVal(q),pr=await addRep(3,3,Math.round(amt/20));
  await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid),tan:me.tan+amt,...pr});toast(gName(q)+" 납품 · +"+won(amt)+" 환 · 명성 +3")}
 /* 주점 의뢰 */
 let reqs=[];
 const feeRate=r=>r<=30?null:.1+(r<=50?.5:r<=70?.3:0);
-async function postReq(f){const amt=Math.floor(+f.amt)||0;if(amt<100)return toast("보상은 100환 이상으로 정하세요");const g=myG(),useG=f.pay==="guild";if(useG&&!(g&&isOff(g)))return toast("길드 공동자산은 길드장·임원만 쓸 수 있어요");
+async function postReq(f){if(hospBlock())return;const amt=Math.floor(+f.amt)||0;if(amt<100)return toast("보상은 100환 이상으로 정하세요");const g=myG(),useG=f.pay==="guild";if(useG&&!(g&&isOff(g)))return toast("길드 공동자산은 길드장·임원만 쓸 수 있어요");
  const rp=useG?repOf(g):repOf(me),fr=feeRate(rp);if(fr==null)return toast("명성이 30 이하라 의뢰 게시판을 쓸 수 없어요. 납품으로 명성을 회복하세요");const fee=Math.ceil(amt*fr);
  if(f.kind==="mat"&&(!IT[f.item]||!(+f.qty>0)))return toast("재료와 수량을 정하세요");
  if(useG){if((g.tan||0)<fee)return toast("길드 공동자산이 부족합니다 (수수료 "+won(fee)+")");await gmut(me.guild,q=>{q.tan=(q.tan||0)-fee})}else{if(me.tan<fee)return toast("수수료 "+won(fee)+" 환이 부족합니다");await upd({tan:me.tan-fee})}
  await db.collection("reqs").add({t:Date.now(),by:uid,byn:me.name,pay:useG?"guild":"me",gid:me.guild||"",kind:f.kind,grade:f.grade||"F",item:f.item||null,qty:Math.floor(+f.qty)||0,amt,fee,st:"open"});toast("의뢰를 올렸습니다 · 수수료 "+won(fee)+" 환");tavRefresh()}
 async function rmut(id,fn){const ref=db.doc("reqs/"+id),s=await ref.get();if(!s.exists)return false;const d=s.data();if(fn(d)===false)return false;await ref.set(d);reqs=reqs.map(r=>r.id===id?Object.assign({id},d):r);tavRefresh();return true}
 function tavRefresh(){try{const a=document.activeElement;if(a&&a.blur&&$("#view").contains(a))a.blur()}catch(e){}if(tab==="map")render(true)}
-async function acceptReq(r){if(r.by===uid)return toast("내 의뢰입니다");if(me.guild&&r.gid&&me.guild===r.gid)return toast("같은 길드의 의뢰는 받을 수 없어요 (타 길드 지원 의뢰)");
+async function acceptReq(r){if(hospBlock())return;if(r.by===uid)return toast("내 의뢰입니다");if(me.guild&&r.gid&&me.guild===r.gid)return toast("같은 길드의 의뢰는 받을 수 없어요 (타 길드 지원 의뢰)");
  if(!await rmut(r.id,d=>{if(d.st!=="open")return false;d.st="acc";d.acc=uid;d.accn=me.name;d.accT=Date.now()}))return toast("이미 다른 헌터가 맡았어요");toast("의뢰를 맡았습니다")}
-async function handReq(r){if((me.inv[r.item]||0)<r.qty)return toast(IT[r.item].n+" "+r.qty+"개가 필요해요");let ok=false;
+async function handReq(r){if(hospBlock())return;if((me.inv[r.item]||0)<r.qty)return toast(IT[r.item].n+" "+r.qty+"개가 필요해요");let ok=false;
  await rmut(r.id,d=>{if(d.st!=="acc"||d.acc!==uid)return false;d.st="done";d.doneT=Date.now();ok=true});if(!ok)return;
  const inv={...me.inv};inv[r.item]-=r.qty;await db.collection("payouts").add({t:Date.now(),to:r.by,from:uid,amt:0,k:"item",item:r.item,qty:r.qty,memo:"의뢰 재료 · "+me.name});
  await upd({inv,certs:(me.certs||[]).concat([{rid:r.id,t:Date.now(),amt:r.amt,byn:r.byn,ti:reqTitle(r)}])});toast("재료를 전달했습니다 · 임무완수증서 획득")}
@@ -1670,7 +1675,7 @@ const AUTO_D=[[30,"30분"],[60,"1시간"],[120,"2시간"],[180,"3시간"],[480,"
 /* 자동 전투 보상 비율: 1시간 이하 70% · 2시간 65% · 3시간 60% · 8시간 50% */
 const autoRate=d=>d<=60?.7:d<=120?.65:d<=180?.6:.5;let autoSel={d:60,p:""};
 const healIt=()=>Object.keys(IT).filter(k=>IT[k].use&&IT[k].use.hp);
-async function startAuto(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.auto)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.sg)return toast("게이트(섬) 안에서는 자동 전투를 할 수 없어요");const R=REG[me.loc];if(R.safe)return toast("상시 게이트가 있는 지역에서만 가능합니다");
+async function startAuto(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.auto)return;if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.sg)return toast("게이트(섬) 안에서는 자동 전투를 할 수 없어요");const R=REG[me.loc];if(R.safe)return toast("상시 게이트가 있는 지역에서만 가능합니다");
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(isTmpP(me.party))await tmpLeave();await upd({auto:{reg:me.loc,t0:Date.now(),dur:autoSel.d,prio:autoSel.p||""}});toast("자동 전투 시작 · "+AUTO_D.find(x=>x[0]===autoSel.d)[1])}
 function simAuto(a,mins){const R=REG[a.reg],hard=!!R.hard,lf=luckF(me),c=clone(me);let hp=cur(me).hp,lv=c.lv,mh=maxHp(c),exp=c.exp,tan=0,gx=0,sp=0,wins=0,dead=false;const inv={...c.inv},got={},used={},P=pw(c)*1.25*(c.od?(()=>{const e=eff(c);return 1-(e.cf+e.sh+e.stn*.5)*.5})():1),D=df(c);
  const add=(id,q)=>{const k=addInv(inv,id,q);if(k)got[id]=(got[id]||0)+k};
@@ -1700,7 +1705,7 @@ function showSWarn(s){if($("#swarn"))return;const tape=()=>{const t=h("div",{c:"
   h("div",{c:"swbar b"},tape()));document.body.append(w);try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
 /* 게이트·섬 방문: 지역(me.loc)은 그대로 두고 방문만 기록 → 끝나면 제자리 */
 const visitAlive=id=>{if(id==="sv")return !!survAt();const g=gateById(id),st=g?gState(g):"gone";return st==="open"||st==="ovf"};
-async function goGate(g){{const _l=lockMsg();if(_l)return toast(_l)}const st=gState(g);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(me.trip)return toast("이동 중에는 들어갈 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
+async function goGate(g){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}const st=gState(g);if(st!=="open"&&st!=="ovf")return toast("이미 닫힌 게이트입니다");if(me.trip)return toast("이동 중에는 들어갈 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
  const prep=g.kind==="s"&&!(me.gx&&me.gx.id===g.id&&me.gx.d>0)?{id:g.id,end:Date.now()+SPREP}:null;
  closePop();closeAsk();await upd({sg:g.id,gx:me.gx&&me.gx.id===g.id?me.gx:{id:g.id,d:0},sgPrep:prep});toast(prep?"S급 게이트 진입 · 정비 시간 "+SPREP/1000+"초 · 게이트 상인에게서 물건을 사거나 수리할 수 있어요":gLabel(g)+" 진입 · 심부로 나아가 보스를 쓰러뜨리면 게이트가 닫혀요");
  me.sg=g.id;tab="map";render(true);setTimeout(()=>{try{if(battle&&canJ(battle)&&battle.gate&&battle.gate.id===g.id)joinBattle().catch(()=>{})}catch(e){}},400)}
@@ -1708,7 +1713,7 @@ const goSGate=goGate;
 /* 연구실의 생존자: 무너진 땅 부근 섬 (방문마다 다른 섬) */
 const isleC=p=>{let x=0,y=0;p.forEach(q=>{x+=q[0];y+=q[1]});return{x:x/p.length,y:y/p.length}};
 function survIsle(t){const L=CONT.a.isl.map(isleC),c=L[Math.floor(srng("sv"+t)()*L.length)];return Object.assign({},c,{near:REG[nearReg(c.x,c.y)].n})}
-async function goSurv(){{const _l=lockMsg();if(_l)return toast(_l)}const sv=survAt();if(!sv)return toast("생존자가 섬을 떠났습니다");if(me.trip)return toast("이동 중에는 건널 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
+async function goSurv(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}const sv=survAt();if(!sv)return toast("생존자가 섬을 떠났습니다");if(me.trip)return toast("이동 중에는 건널 수 없어요");if(inB())return toast("전투가 끝난 뒤 이동하세요");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투를 먼저 끝내세요");
  closePop();closeAsk();await upd({sg:"sv"});tab="map";render(true);toast("배를 타고 섬으로 건너왔습니다 · 생존자가 떠나면 원래 자리로 돌아와요")}
 function gatePop(g){const d=gates[g.id],mx=GHP[g.grade],left=Math.max(0,mx-gDealt(d));
  openPop(h("div",{c:"h0",t:gLabel(g)}),h("p",{c:"sm mt",t:(g.st==="ovf"?"폭주 중 · ":"")+(g.kind==="s"?sLoc(g):gSpec(g).n+" · Lv"+GLV[g.grade]+"~")}),pbar(left,mx,"mon","게이트 잔여 "+won(left)+" / "+won(mx)),
@@ -1755,10 +1760,10 @@ function gateMarks(E){const sv=survAt();if(sv){const I=survIsle(sv.s),gg=E("g",{
   E("rect",{x:x-1.5,y:y-1.5,width:3,height:3,transform:"rotate(45 "+x+" "+y+")"},gg);const t=E("text",{x,y:y+.72},gg);t.textContent=g.grade}
  else{const gg=E("g",{class:"gmk s"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};E("circle",{cx:g.x,cy:g.y,r:2.6},gg);const t=E("text",{x:g.x,y:g.y+.8},gg);t.textContent="S"}})}
 /* 제작 (음식 · 가구 · 몬스터 장비) */
-async function craftFU(id){const need=FRC[id]||URC[id];if(!(me.rcp||[]).includes(id))return toast("레시피를 먼저 익히세요");if(!haveAll(need))return toast("재료 부족");
+async function craftFU(id){if(hospBlock())return;const need=FRC[id]||URC[id];if(!(me.rcp||[]).includes(id))return toast("레시피를 먼저 익히세요");if(!haveAll(need))return toast("재료 부족");
  {const f=craftBad(need);if(f){await upd(f);return toast("만들다 망쳤어요… 재료 절반을 잃었어요 (성공률 "+Math.round(craftRate(me)*100)+"%)")}}
  const p=cntAdd(matTake(need),"cr");if(addInv(p.inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(IT[id].n+" 완성")}
-async function craftM(id){const r=MRC[id];if(!(me.rcp||[]).includes(id))return toast("제작법을 먼저 익히세요");if(!haveAll(r.need))return toast("재료 부족");
+async function craftM(id){if(hospBlock())return;const r=MRC[id];if(!(me.rcp||[]).includes(id))return toast("제작법을 먼저 익히세요");if(!haveAll(r.need))return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const g=mkGear(Math.max(5,me.lv),craftRar(r.r),id);g.cr=1;const p=cntAdd(matTake(r.need),"cr");addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
 function rcpRows(box,row,tbl,fn,kind){Object.entries(tbl).forEach(([id,x])=>{const need=x.need||x,i=IT[id],kn=(me.rcp||[]).includes(id),ok=kn&&Object.keys(need).every(k=>haveM(k)>=need[k]),rr=x.r!=null?x.r:null;
  box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:rr!=null?"color:"+RAR[rr].c:"",t:(rr!=null?"["+RAR[rr].n+(rr<3?" 이상":"")+"] ":"")+i.n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":kind+" 미습득 · ")+Object.entries(need).map(([k,q])=>IT[k].n+" "+haveM(k)+"/"+q).join(" · ")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.use?" · "+i.d:"")+(i.dv?" · 납품가 "+won(i.dv):"")})),btn(kn?"제작":"잠김",()=>fn(id),"pri sm",{disabled:!ok})))})}
@@ -1775,7 +1780,7 @@ function shopDlv(box,row){dlvPick(box);if(!dlvHead(box,["arms"])){box.append(h("
  G.slice().sort((a,b)=>b.r-a.r).forEach(q=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"xs mt",t:RAR[q.r].n+" · Lv"+q.lv+" · 납품가 "+won(gearVal(q))+" 환 · 명성 +3"})),btn("납품",()=>deliverGear(q.gid),"sm"))))}
 /* 주점 */
 const SURV=[["rm_mg_heartblade",3,1],["rm_mg_lensplate",3,1],["rm_mg_heartring",3,1],["mm_heart",1,2],["mm_lens",1,2]];
-async function survBuy(id,cost,q){if(!survAt())return toast("생존자가 떠났습니다");if(me.sg!=="sv")return toast("섬으로 먼저 건너가세요");if((me.inv.rcore||0)<cost)return toast("희귀한 핵이 "+cost+"개 필요해요");const inv={...me.inv};inv.rcore-=cost;if(addInv(inv,id,q)<q)return toast("가방 공간이 부족합니다");await upd({inv});toast("교환: "+IT[id].n+" ×"+q)}
+async function survBuy(id,cost,q){if(hospBlock())return;if(!survAt())return toast("생존자가 떠났습니다");if(me.sg!=="sv")return toast("섬으로 먼저 건너가세요");if((me.inv.rcore||0)<cost)return toast("희귀한 핵이 "+cost+"개 필요해요");const inv={...me.inv};inv.rcore-=cost;if(addInv(inv,id,q)<q)return toast("가방 공간이 부족합니다");await upd({inv});toast("교환: "+IT[id].n+" ×"+q)}
 let rform={kind:"mat",grade:"D",item:"scrap",qty:5,amt:500,pay:"me"};
 function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=subs("tavern",[["board","의뢰 게시판"],["food","음식"],["cook","조리실"]]),g=myG(),hd=x=>box.append(h("div",{c:"sm",style:"margin:12px 0 4px;color:var(--ac2)",t:x}));
  if(t==="cook"){rcpRows(box,row,FRC,craftFU,"요리법");return}
@@ -1832,13 +1837,13 @@ Object.assign(IT,{rod1:{n:"낡은 낚시대",d:"종말은 견뎌냈지만 세월
  rod5:{n:"강태공용 낚시대",d:"정비공이 개조한 낚시대. 더 이상 두려울 게 없다.",rod:5}});
 const ROD_SHOP={rod2:80,rod3:250,rod4:700},ROD_MISS=[1,.35,.27,.2,.12,.05],ROD_MOD={need:{rod4:1,shark_tooth:2,whale_oil:2,wire:3},cost:400};
 const rodTier=()=>{let t=0;for(let i=1;i<=5;i++)if(me&&me.inv&&me.inv["rod"+i]>0)t=i;return t};
-async function rodMod(){const N=ROD_MOD.need,inv={...me.inv};for(const k in N)if((inv[k]||0)<N[k])return toast("재료가 모자라요: "+IT[k].n+" "+(inv[k]||0)+"/"+N[k]);if(me.tan<ROD_MOD.cost)return toast("환이 부족합니다");
+async function rodMod(){if(hospBlock())return;const N=ROD_MOD.need,inv={...me.inv};for(const k in N)if((inv[k]||0)<N[k])return toast("재료가 모자라요: "+IT[k].n+" "+(inv[k]||0)+"/"+N[k]);if(me.tan<ROD_MOD.cost)return toast("환이 부족합니다");
  for(const k in N){inv[k]-=N[k];if(inv[k]<=0)delete inv[k]}if(addInv(inv,"rod5",1)<1)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-ROD_MOD.cost});toast("정비공이 낚시대를 개조했다 · 강태공용 낚시대 ×1")}
-async function fish(){{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
+async function fish(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  const k=fishKind(me.loc);if(!k)return toast("여기에는 낚시할 물가가 없어요");const rt=rodTier();if(!rt)return toast("낚시대가 필요해요 · 시장에서 사거나 물가를 조사해 보세요");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;gcd=Date.now()+2000;
  if(rf()<ROD_MISS[rt])return toast("찌가 움직이지 않는다… 다시 던져 보자 ("+IT["rod"+rt].n+")");
  if(await startBattle(true,null,k)){hidePhone();closeAsk();tab="battle";render(true);toast(k==="sea"?"거대한 그림자가 낚싯줄을 끌어당긴다!":"수면 아래에서 무언가 낚싯줄을 물었다!")}}
-async function startBattle(enc,spk,fishK){
+async function startBattle(enc,spk,fishK){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} const R=REG[me.loc];if(R.safe)return toast(R.n+"에서는 크리처가 나타나지 않습니다");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return bBusy();
  const c=cur(me),H=HSP[spk||spot()]||HSP.out;
@@ -1858,7 +1863,7 @@ const canJ=b=>!!(b&&b.st==="on"&&b.mem&&!b.mem[uid]&&!me.trip&&!me.auto&&bHere(b
 async function bBusy(){const b=battle;if(b.mem&&b.mem[uid]){hidePhone();closeAsk();tab="battle";render(true);toast("진행 중인 전투로 돌아갑니다");return false}
  if(canJ(b)){await joinBattle();return false}
  toast("파티원이 다른 곳에서 전투 중이에요 · 끝난 뒤에 시작할 수 있어요");return false}
-async function joinBattle(){const c=cur(me);let ok=false;await bmut(b=>{if(b.st!=="on"||!bHere(b))return false;ok=true;b.mem[uid]=mkMem(c);lg(b,me.name+" 참전!");lg(b,flavLine(b,b.mem[uid]))});if(ok&&battle){gateJoined.add(battle.t);tmpJoined.add(battle.t)}hidePhone();closeAsk();tab="battle";render(true);if(ok)toast("파티원의 전투에 합류합니다")}
+async function joinBattle(){if(hospBlock())return;const c=cur(me);let ok=false;await bmut(b=>{if(b.st!=="on"||!bHere(b))return false;ok=true;b.mem[uid]=mkMem(c);lg(b,me.name+" 참전!");lg(b,flavLine(b,b.mem[uid]))});if(ok&&battle){gateJoined.add(battle.t);tmpJoined.add(battle.t)}hidePhone();closeAsk();tab="battle";render(true);if(ok)toast("파티원의 전투에 합류합니다")}
 function useSk(sk){
  const now=Date.now();if((cds[sk.id]||0)>now)return;const m0=battle&&battle.mem&&battle.mem[uid];if(!m0||m0.hp<=0)return;
  if(sk.t==="atk"&&(m0.stunT||0)>now)return toast("이명 — "+Math.ceil((m0.stunT-now)/1000)+"초 동안 공격할 수 없어요");
@@ -1878,7 +1883,7 @@ function useSk(sk){
   else if(sk.t==="heal"){const a=Object.values(b.mem).filter(x=>x.hp>0).sort((x,y)=>x.hp/x.max-y.hp/y.max)[0],q=Math.round(m.hl*1.4);a.hp=Math.min(a.max,a.hp+q);lg(b,m.n+"의 치유 → "+a.n+" +"+q)}
   else{const q=Math.round(m.hl*.7);Object.values(b.mem).forEach(x=>{if(x.hp>0)x.hp=Math.min(x.max,x.hp+q)});lg(b,m.n+"의 광역 치유 (전원 +"+q+")")}})
 }
-async function flee(){const m=battle.mem[uid];if(battle.gate&&battle.gate.kind==="r")rescueAfter({gate:battle.gate,st:"fled"}).catch(()=>{});if(battle.gate&&battle.gate.kind!=="p"&&battle.gate.kind!=="gm")pushContrib(battle.gate,m.dmg||0).catch(()=>{});await bmut(b=>{delete b.mem[uid];lg(b,me.name+" 후퇴");if(!Object.keys(b.mem).length)b.st="fled"});await upd({hp:Math.max(1,m.hp),mp:Math.round(memMp(m))});toast("전투에서 이탈했습니다");if(tab==="battle"){tab="map";render(true)}}
+async function flee(){const m=battle.mem[uid];if(battle.gate)gxLast=Date.now();if(battle.gate&&battle.gate.kind==="r")rescueAfter({gate:battle.gate,st:"fled"}).catch(()=>{});if(battle.gate&&battle.gate.kind!=="p"&&battle.gate.kind!=="gm")pushContrib(battle.gate,m.dmg||0).catch(()=>{});await bmut(b=>{delete b.mem[uid];lg(b,me.name+" 후퇴");if(!Object.keys(b.mem).length)b.st="fled"});await upd({hp:Math.max(1,m.hp),mp:Math.round(memMp(m))});toast("전투에서 이탈했습니다");if(tab==="battle"){tab="map";render(true)}}
 const bDone=()=>{try{return JSON.parse(localStorage.getItem("af_bdone_"+uid)||"[]")}catch(e){return[]}};
 function settleCheck(){if(battle&&battle.st!=="on"&&battle.mem&&battle.mem[uid]&&me&&me.lastB!==battle.t&&!(me.bdone||[]).includes(battle.t)&&!bDone().includes(battle.t)&&Date.now()-(battle.t||0)<6*36e5)settle(battle).catch(e=>toast("정산 오류: "+errT(e)))}
 const conGain=(R,sk)=>Math.round((1+tier(R.lv)*1.2)*1.15*((HSP[sk]||HSP.out).con)*(RF()?1.5:1)*10)/10;
@@ -1911,7 +1916,7 @@ async function settle(b){
   if(b.gate&&(b.gate.kind==="w"||b.gate.kind==="s"||b.gate.kind==="gm")&&m.hp<=0){const g=gateById(b.gate.id);cntAdd(p,"mis");p.mis={t:Date.now(),reg:g?(g.reg||nearReg(g.x,g.y)):b.region,grade:(g&&g.grade)||b.gate.grade||"D",lab:g?gLabel(g):"게이트",gid:b.gate.id};
    p.loc=me.loc;p.spot=me.spot||"out";p.sg=null;p.trip=null;p.hp=1;msg="게이트 안에서 쓰러졌다… 실종 상태 · 10분 안에 다른 헌터가 구조하러 올 수 있어요";if(krDrop(p))msg+=" · 기기에 달아 둔 키링을 잃어버렸다"}
   const hurt=m.hurt||[];if(hurt.length){const A=clone(me.ail||{}),now=Date.now();hurt.forEach(k=>{A[k]={t:now};if(AIL[k].nat)A[k].u=now+AIL[k].nat});p.ail=A;msg+=" · 부상: "+hurt.map(k=>AIL[k].n).join(", ")}
- ttlScan(p);await db.doc("chars/"+uid).update(p);toast(msg);setTimeout(()=>{if(tab==="battle"&&!inB()){tab="map";render(true)}},900);if(b.gate&&b.gate.kind==="r")rescueAfter(b).catch(()=>{});else if(b.gate&&b.gate.kind!=="p"&&b.gate.kind!=="gm")pushContrib(b.gate,m.dmg||0,m.hp<=0,b.st==="won"&&!!b.gate.boss).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
+ ttlScan(p);await db.doc("chars/"+uid).update(p);toast(msg);setTimeout(()=>{if(tab==="battle"&&!inB()){tab="map";render(true)}},900);gcd=Math.max(gcd||0,Date.now()+1500);if(b.gate)gxLast=Date.now();if(b.gate&&b.gate.kind==="r")rescueAfter(b).catch(()=>{});else if(b.gate&&b.gate.kind!=="p"&&b.gate.kind!=="gm")pushContrib(b.gate,m.dmg||0,m.hp<=0,b.st==="won"&&!!b.gate.boss).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
  finally{settling=false}
 }
 function rBattle(v){
@@ -2009,7 +2014,7 @@ async function equipGear(gid,slot){const G=(me.gear||[]).slice(),k=G.findIndex(x
  if(!slot)slot=t==="acc"?(!eq.acc1?"acc1":!eq.acc2?"acc2":"acc1"):t;G.splice(k,1);const old=eq[slot],inv={...me.inv};
  if(old&&old.id){if(old.gid)G.push(old);else inv[old.id]=(inv[old.id]||0)+1}
  eq[slot]=q;await upd({gear:G,eq,inv});toast(IT[q.id].n+" 장착")}
-async function dismantle(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;const inv={...me.inv};addInv(inv,"scrap",2);if(q.r)addInv(inv,"kit",q.r);await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid),inv});toast("분해: 고철 ×2"+(q.r?" · 강화 부품 ×"+q.r:""))}
+async function dismantle(gid){if(hospBlock())return;const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;const inv={...me.inv};addInv(inv,"scrap",2);if(q.r)addInv(inv,"kit",q.r);await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid),inv});toast("분해: 고철 ×2"+(q.r?" · 강화 부품 ×"+q.r:""))}
 function itemPop(k){const i=IT[k],n=me.inv[k]||0;if(!n)return closePop();
  const st=[i.d,i.atk?"공격 +"+i.atk:null,i.def?"방어 +"+i.def:null,i.slot?"장착 부위: "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,""):null].filter(Boolean).join(" · ");
  const acts=h("div",{c:"row",style:"margin-top:12px"});
@@ -2037,20 +2042,20 @@ const SELL_G=["일반","고급","희귀","전설"],SELL={};
  [2,"rcore:500 mm_heart:300 mm_lens:300 f_truffle:150 u_ivory:200 alloy:250 crystal:300 cell:400 rod4:350 rod5:500 fd_risotto:350 fu_closet:300 fu_cabinet:450 amp3:280 rc_fd_risotto:350 rc_fu_closet:300 rc_fu_cabinet:400 rm_mg_heartblade:450 rm_mg_lensplate:450 rm_mg_heartring:450 rp_xblade:450 rp_xhelm:400 rp_xvest:450 rp_xboots:400"],
  [3,"mm_gene:550 mm_crown:600 rp_lsword:600 rp_lring:600 rp_larmor:600"]].forEach(([g,t])=>t.split(" ").forEach(x=>{const[k,p]=x.split(":");SELL[k]={g,p:Math.min([100,300,500,600][g],+p)}}));
 const sellP=k=>SELL[k]&&IT[k]?SELL[k].p:0;
-function sellPop(k){const n=me.inv[k]||0,p=sellP(k);if(!n||!p)return closePop();const S=SELL[k];
+function sellPop(k){if(hospBlock())return;const n=me.inv[k]||0,p=sellP(k);if(!n||!p)return closePop();const S=SELL[k];
  openPop(h("div",{c:"h0",t:IT[k].n+" 판매"}),h("p",{c:"sm mt",t:SELL_G[S.g]+" · 개당 "+won(p)+"환 · 보유 "+n+"개"}),
   h("div",{c:"row",style:"gap:6px;margin-top:10px;flex-wrap:wrap"},...[1,5,10].filter(q=>q<n).map(q=>btn(q+"개 · "+won(p*q)+"환",()=>wrap(()=>sellItem(k,q)),"grow")),btn("전부 "+n+"개 · "+won(p*n)+"환",()=>wrap(()=>sellItem(k,n)),"pri grow")),
   btn("닫기",()=>itemPop(k),"full",{style:"margin-top:8px"}))}
-async function sellItem(k,q){if(inB())return toast("전투 중에는 팔 수 없어요");const p=sellP(k),inv={...me.inv};q=Math.min(q,inv[k]||0);if(!p||q<=0)return;inv[k]-=q;if(!inv[k])delete inv[k];
+async function sellItem(k,q){if(hospBlock())return;if(inB())return toast("전투 중에는 팔 수 없어요");const p=sellP(k),inv={...me.inv};q=Math.min(q,inv[k]||0);if(!p||q<=0)return;inv[k]-=q;if(!inv[k])delete inv[k];
  await upd({inv,tan:me.tan+p*q});toast(IT[k].n+" ×"+q+" 판매 · +"+won(p*q)+"환");if(inv[k])itemPop(k);else closePop()}
 /* 이미 익힌 몬스터 장비 제작법 → 분해 (제작법 등급과 같은 몬스터 재료 1개) */
 function mmRcpR(t){const x=MRC[t]||HRC[t];if(!x||!x.need||!Object.keys(x.need).some(k=>k.indexOf("mm_")===0))return null;return x.r}
-async function dismRcp(id){const i=IT[id];if(!i||!i.learn||!(me.rcp||[]).includes(i.learn))return;const r=mmRcpR(i.learn);if(r==null)return;const pool=MM.filter(x=>x[1]===r);if(!pool.length)return;
+async function dismRcp(id){if(hospBlock())return;const i=IT[id];if(!i||!i.learn||!(me.rcp||[]).includes(i.learn))return;const r=mmRcpR(i.learn);if(r==null)return;const pool=MM.filter(x=>x[1]===r);if(!pool.length)return;
  const inv={...me.inv};if(!inv[id])return;inv[id]--;if(!inv[id])delete inv[id];const m=pool[ri(pool.length)][0];if(!addInv(inv,m,1))return toast("가방이 가득 찼어요");await upd({inv});toast(i.n+" 분해 → "+IT[m].n+" ×1 ("+RAR[r].n+")")}
-async function learnRcp(id){const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (주점 · 조리실)":" (정비소 · 제작)"))}
-async function craftH(id){const r=HRC[id];if(!(me.rcp||[]).includes(id))return toast("제작서를 먼저 익히세요");if(!haveAll(r.need))return toast("재료 부족");
+async function learnRcp(id){if(hospBlock())return;const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (주점 · 조리실)":" (정비소 · 제작)"))}
+async function craftH(id){if(hospBlock())return;const r=HRC[id];if(!(me.rcp||[]).includes(id))return toast("제작서를 먼저 익히세요");if(!haveAll(r.need))return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const p=cntAdd(matTake(r.need),"cr"),g=mkGear(Math.max(60,me.lv),craftRar(r.r),id);addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
-async function useItem(id){if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
+async function useItem(id){if(hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
  await upd(cntAdd({inv,hp:Math.round(Math.min(maxHp(me),c.hp+(u.hp||0))),en:Math.round(Math.min(MAXEN,c.en+(u.en||0))),mp:Math.round(Math.min(maxMp(me),c.mp+(u.mp||0)+(u.mpPct?maxMp(me)*u.mpPct:0))),con:Math.max(0,Math.round((c.con+(u.con||0))*10)/10)},invCat(id)==="food"?"food":null));toast(IT[id].n+" 사용")}
 async function equipItem(id,slot){const t=IT[id].slot;if(!t)return;const eq=clone(me.eq||{}),G=(me.gear||[]).slice();
  if(!slot)slot=t==="acc"?(!eq.acc1?"acc1":!eq.acc2?"acc2":"acc1"):t;
@@ -2157,7 +2162,7 @@ async function baseOp(op){
 }
 /* 길드전 조건: 길드 Lv2 이상 · 길드원 2명 이상 */
 const gwOk=g=>!!g&&gl(g)>=2&&(g.members||[]).length>=2;
-async function war(tid){
+async function war(tid){if(hospBlock())return;
  const A=myG(),B=guilds[tid];if(!B||!gwOk(B))return toast("상대 길드가 조건(Lv2 이상 · 2명 이상)에 맞지 않아요");if(!gwOk(A))return toast("우리 길드가 조건(Lv2 이상 · 2명 이상)에 맞지 않아요");if(Date.now()<(A.lastWar||0)+300000)return toast("대기 시간입니다");
  const pa=Math.round(gpow(A)),pb=Math.round(gpow(B)),ra=pa*(.7+rf()*.6),rb=pb*1.1*(.7+rf()*.6),aw=ra>rb;
  await gmut(me.guild,g=>{g.lastWar=Date.now();g.exp=(g.exp||0)+(aw?60:15);if(aw)g.gww=(g.gww||0)+1;if(!aw&&g.base)g.base.hp=Math.max(1,g.base.hp-gMax(g.base.lv)*.25)});
@@ -2398,11 +2403,13 @@ function setCard(){const c=h("div",{c:"card setc"},h("h3",{t:"설정"}),h("div",
     c.append(h("div",{c:"tg"},h("span",{t:"테마 색"}),ci));
     tg("색 진하기",["아주 연하게","연하게","보통","진하게","아주 진하게"][(SET.cust.k||3)-1],()=>{SET.cust.k=(SET.cust.k||3)%5+1;saveSet();rr()})}}
   c.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:SET.cust&&SET.cust.on?"직접 지정: 고른 색이 정해진 비율로 화면 전체에 얹혀요 · 진하기로 얹는 양을 바꿔요 · 야간 모드를 켜면 어두운 바탕에 얹어요":SET.night?"야간 모드: 레드 · 그린 · 블루 · 직접 지정 · 끄면 밝은 테마를 고를 수 있어요":"밝은 테마: 모래 · 안개 · 세이지 · 초원 · 별밤 · 직접 지정"}));
- {const D=SET.dev||{};tg("기기 색",D.on?"직접 지정":"테마 따라",()=>{SET.dev=Object.assign({hex:"#141416"},SET.dev||{},{on:!(SET.dev&&SET.dev.on)});saveSet();rr()});
-  if(D.on){const sw=h("div",{c:"devsw"});DEVP.forEach(([n,x])=>sw.append(h("button",{type:"button",c:"dsw"+((D.hex||"").toLowerCase()===x?" on":""),title:n,"aria-label":n,style:"background:"+x,onclick:()=>{SET.dev.hex=x;saveSet();rr()}})));
+ {const D=SET.dev||{};tg("기기 테마",D.on?"직접 지정":"게임 테마 따라",()=>{const on=!(SET.dev&&SET.dev.on);SET.dev=Object.assign({hex:"#141416",k:3},SET.dev||{},{on});if(on&&SET.dev.dk==null)SET.dev.dk=hexLum(SET.dev.hex)<.45?1:0;saveSet();rr()});
+  if(D.on){const sw=h("div",{c:"devsw"});DEVP.forEach(([n,x])=>sw.append(h("button",{type:"button",c:"dsw"+((D.hex||"").toLowerCase()===x?" on":""),title:n,"aria-label":n,style:"background:"+x,onclick:()=>{SET.dev.hex=x;SET.dev.dk=hexLum(x)<.45?1:0;saveSet();rr()}})));
    const ci=h("input",{type:"color",value:D.hex||"#141416",style:"width:44px;height:26px;padding:0;border:1px solid var(--bd);border-radius:6px;background:transparent",oninput:e=>{SET.dev.hex=e.target.value;saveSet()},onchange:rr});
-   c.append(sw,h("div",{c:"tg"},h("span",{t:"색 직접 고르기"}),ci))}
-  c.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:"휴대폰 · 무전기 · 삐삐 몸체 색이에요 · 테마 따라 두면 테마 색을 써요"}))}
+   c.append(sw,h("div",{c:"tg"},h("span",{t:"색 직접 고르기"}),ci));
+   tg("바탕",(D.dk!=null?D.dk:hexLum(D.hex)<.45)?"어둡게":"밝게",()=>{const cur0=D.dk!=null?!!D.dk:hexLum(D.hex)<.45;SET.dev.dk=cur0?0:1;saveSet();rr()});
+   tg("색 진하기",["아주 연하게","연하게","보통","진하게","아주 진하게"][(D.k||3)-1],()=>{SET.dev.k=(D.k||3)%5+1;saveSet();rr()})}
+  c.append(h("div",{c:"xs mt",style:"padding:3px 2px 2px",t:D.on?"게임 테마의 「직접 지정」과 같은 방식이에요 · 고른 색이 휴대폰 · 무전기 · 삐삐의 몸체 · 버튼 · 글자 · 화면에 한 벌로 얹혀요 · 바탕을 어둡게 하면 버튼 글자가 밝아져요":"휴대폰 · 무전기 · 삐삐 색이 게임 테마를 그대로 따라가요"}))}
  return c}
 function rMe(v){
  v.append(h("div",{c:"card me"},h("div",{c:"row"},avatar(me,"l"),h("div",{c:"grow"},h("div",{c:"h0",t:me.name}),h("div",{c:"mt sm",t:ROLE[me.role].n+" · Lv"+me.lv+" · 번호 "+fnum(me.num)}),h("div",{style:"margin-top:4px"},attrB(me.attr,gradeL(me)),h("span",{c:"sm mt",t:" 변경 불가"}))))));
@@ -2615,8 +2622,10 @@ function lcdUp(){const l=$("#plcd");if(!l)return;l.textContent="";const v=ph.buf
 function tripNow(t,now){now=now||Date.now();const dur=t.dur||tsec(t.from,t.to)*1000,cl=x=>Math.max(0,Math.min(1,x)),P=t.path,S=t.segs;
  if(!P||!S||S.length!==P.length-1)return{from:t.from,to:t.to,f:cl(1-(t.at-now)/dur),i:0};let e=dur-(t.at-now);
  for(let i=0;i<S.length;i++){if(e<=S[i]||i===S.length-1)return{from:P[i],to:P[i+1],f:cl(e/S[i]),i};e-=S[i]}}
+const HOSP_PH=["home","msg","chat","newgrp","contacts","person","nick"];
 const TRIP_PH=["home","msg","chat","pchat","contacts","person","dex","dexi"];
 function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const w=wxNow();
+ if(inHosp()&&!HOSP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"입원 치료 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"퇴원할 때까지 채팅만 할 수 있어요"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  if(me.trip&&!TRIP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"이동 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"도착할 때까지 채팅만 할 수 있어요"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  S.append(h("div",{c:"psb"},h("span",{c:"pleft"},h("button",{c:"phome",type:"button","aria-label":"홈 화면",onclick:phHome},svgI("M4 11.5l8-7 8 7M6.5 9.5V20h4v-5.5h3V20h4V9.5")),h("span",{id:"pclock",t:clock()})),h("span",{c:"pwx",title:WX[w].n},wxIco(w),h("span",{t:WX[w].n}))));
  if(call.st!=="idle"&&ph.scr!=="incall")S.append(h("button",{c:"pcbar",id:"pcbar",type:"button",onclick:()=>phGo("incall")},h("span",{t:callBarT()}),h("span",{t:"돌아가기 ›"})));
@@ -2796,7 +2805,7 @@ async function saveMemo(){const i=$("#pmsg");if(!i)return;if(i.value!==hg.pre+hg
  await upd({memos:M});toast("메모를 저장했습니다");ph.scr="memo";ph.room=null;ph.stack=[["home",null]];phRender()}
 async function delMemos(){if(!ph.sel||!ph.sel.length)return toast("삭제할 메모를 고르세요");const n=ph.sel.length;await upd({memos:(me.memos||[]).filter(m=>!ph.sel.includes(m.id))});ph.sel=null;toast(n+"개 삭제했습니다");phRender()}
 /* 은행 */
-async function bankOk(){const s=ph.scr,n=parseInt(ph.buf,10)||0,log=(amt,txt)=>[{t:Date.now(),amt,txt}].concat(me.blog||[]).slice(0,30);
+async function bankOk(){if(hospBlock())return;const s=ph.scr,n=parseInt(ph.buf,10)||0,log=(amt,txt)=>[{t:Date.now(),amt,txt}].concat(me.blog||[]).slice(0,30);
  if(s==="btr1"){const e=Object.entries(chars).find(([id,c])=>c.num===ph.buf);if(!e)return toast("없는 번호입니다");if(e[0]===uid)return toast("내 번호입니다");ph.stack.push(["btr1",null]);ph.scr="btr2";ph.room=ph.buf;ph.buf="";return phRender()}
  if(n<=0)return toast("금액을 입력하세요");
  if(s==="bloan"){await loanTake(n);ph.buf="";return phRender()}if(s==="brep"){await loanRepay(n);ph.buf="";return phRender()}
@@ -2823,7 +2832,7 @@ function cEmit(d){if(!rm)return Promise.resolve();return rm.emit("call",Object.a
 function ringOnce(){pvib([80,60,80,60,80,380,80,60,80,60,80]);[0,.13,.26,.6,.73,.86].forEach(d=>pbeep(1480,.08,.05,"square",d));["#phone","#ptab"].forEach(q=>{const e=$(q);if(!e)return;e.classList.remove("vib");void e.offsetWidth;e.classList.add("vib");setTimeout(()=>e.classList.remove("vib"),700)})}/* 삐삐삐, 삐삐삐 */
 function startRing(){stopRing();ringOnce();ringIv=setInterval(ringOnce,2200);$("#ptab").classList.add("ring")}
 function stopRing(){clearInterval(ringIv);ringIv=null;$("#ptab").classList.remove("ring")}
-async function placeCall(num){num=(num||"").replace(/\D/g,"");if(inGateNow())return phMsg("전파 없음");if(NPC_NUM[num])return npcCall(num);if(!rm)return toast("지금은 실시간 통화를 연결할 수 없습니다");if(num.length!==7)return toast("번호 7자리를 입력하세요");
+async function placeCall(num){if(hospBlock())return;num=(num||"").replace(/\D/g,"");if(inGateNow())return phMsg("전파 없음");if(NPC_NUM[num])return npcCall(num);if(!rm)return toast("지금은 실시간 통화를 연결할 수 없습니다");if(num.length!==7)return toast("번호 7자리를 입력하세요");
  const e=Object.entries(chars).find(([id,c])=>c.num===num);if(!e)return phNoNum();if(e[0]===uid)return toast("내 번호입니다");if(inGateC(e[1]))return phMsg("전파 없음");if(call.st!=="idle")return toast("이미 통화 중입니다");
  const cid=Date.now().toString(36)+ri(1e6).toString(36);call={st:"out",dir:"out",peer:e[0],cid,t0:Date.now(),msgs:[]};phShow("incall");startRB();
  await cEmit({ty:"ring",to:e[0],cid,name:me.name,num:me.num});
@@ -2905,7 +2914,7 @@ async function ensureExt(){const g=myG();if(!g||myExt())return;await gmut(me.gui
 const gMates=()=>{const g=myG();return g?g.members.filter(id=>id!==uid&&chars[id]):[]};
 const rLogs=()=>calls.filter(c=>c.r&&(c.from===uid||c.to===uid||(c.mem||[]).includes(uid))).slice(-12).reverse();
 const rMissed=()=>calls.filter(c=>c.r&&c.to===uid&&c.st==="missed"&&c.t>seenOf("rcall")).length;
-function openRadio(){rdOn=true;sRadio();if(myG())ensureExt().catch(()=>{});const R=$("#radio");if(!R.dataset.built){R.dataset.built="1";R.querySelectorAll(":scope>:not(.kring)").forEach(x=>x.remove());buildRadio(R)}R.style.display="block";$("#rtab").classList.add("act");devInit("radio");devTop("radio");rdRender();placeRadio()}
+function openRadio(){if(hospBlock())return;rdOn=true;sRadio();if(myG())ensureExt().catch(()=>{});const R=$("#radio");if(!R.dataset.built){R.dataset.built="1";R.querySelectorAll(":scope>:not(.kring)").forEach(x=>x.remove());buildRadio(R)}R.style.display="block";$("#rtab").classList.add("act");devInit("radio");devTop("radio");rdRender();placeRadio()}
 function closeRadio(){rdOn=false;$("#radio").style.display="none";$("#rtab").classList.remove("act")}
 function buildRadio(R){const key=(t,fn,c,lab)=>kbtn(c||"",t,fn,null,lab||(typeof t==="string"?t:""));
  const kp=h("div",{c:"rkp"});"123456789*0#".split("").forEach(d=>kp.append(key(d,()=>rdKey(d),"rk")));
@@ -2981,7 +2990,7 @@ function initPager(){if($("#gtab"))return;const t=h("button",{id:"gtab",type:"bu
  const end=()=>{t.classList.remove("drag");if(st&&moved){dEnd=Date.now();const r=t.getBoundingClientRect();if(r.left<40||r.right>innerWidth-40){gtPos.side=r.left+r.width/2<innerWidth/2?"l":"r";applyGtab();placePager()}try{localStorage.setItem("af_gtab",JSON.stringify(gtPos))}catch(_){}}st=null};
  t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);t.addEventListener("click",()=>{if(Date.now()-dEnd<250)return;pgOn?closePager():openPager()});
  addEventListener("resize",()=>{applyGtab();placePager()});applyGtab()}
-function openPager(){if(!pgOn)sDevOn();pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");devInit("pager");devTop("pager");pgRender();placePager()}
+function openPager(){if(hospBlock())return;if(!pgOn)sDevOn();pgOn=true;const P=$("#pager");P.style.display="block";$("#gtab").classList.add("act");devInit("pager");devTop("pager");pgRender();placePager()}
 function closePager(){pgOn=false;$("#pager").style.display="none";$("#gtab").classList.remove("act")}
 const pgList=()=>myGroups(true);
 const pgUnread=id=>unreadOf("grp:"+id);
@@ -3023,7 +3032,7 @@ async function pgInvite(){const g=groups[pg.id];if(!g)return;let pid=me.party&&p
 function pinvEl(m,pager){const p=parties[m.pid],mine=(m.uid||m.from)===uid,inP=p&&p.members.includes(uid),full=p&&p.members.length>=4;const lab=!p?"끝난 초대":mine?"보낸 초대":inP?"참가함":full?"자리 없음":"참가";
  const b=h("button",{type:"button",c:pager?"gjoin":"sm",t:lab,disabled:!p||mine||inP||full,onclick:()=>wrap(async()=>{if(inB())return toast("전투 중에는 파티를 옮길 수 없어요");if(me.party&&me.party!==m.pid){if(isTmpP(me.party))await tmpLeave();else return toast("지금 파티에서 먼저 나와 주세요")}await joinParty(m.pid);toast("파티에 참가했어요")})});
  return h("div",{c:pager?"gl inv":"m pinv"},h("small",{t:"파티 초대"}),h("span",{t:m.text+(p?" · "+p.members.length+"/4":"")}),b)}
-function dockTabs(){const d=$("#dtabs");if(!d)return;["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
+function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
 function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"button","aria-label":"길드 수신기"},svgI("M9 8V2.5M7 8h10a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 17 22H7a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 7 8zM9 11h6v4H9zM9 18h.01M12 18h.01M15 18h.01"),h("i",{id:"rdot"}));
  document.body.append(t,h("div",{id:"radio"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
@@ -3069,7 +3078,7 @@ function strapSvg(L,sc,pm){sc=sc||1;const W=30,cx=15,h0=15,Y=bYs(L,h0),ky0=L.len
 function krOf(dev){const id=me&&me.kra&&me.kra[dev];return id?(me.krs||[]).find(x=>x.id===id)||null:null}
 /* applyKR → v31 모듈 (물리) */
 /* 시장: 꾸미기재료묶음 */
-async function buyDeco(k){k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,k,1)<1)return toast("가방이 가득 찼습니다");
+async function buyDeco(k){if(hospBlock())return;k=BSET[k]?k:"deco_p";if(me.tan<DECO_P)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,k,1)<1)return toast("가방이 가득 찼습니다");
  await upd({tan:me.tan-DECO_P,inv});toast(BSET[k].n+" 구매 · 가방에서 눌러 사용하세요")}
 /* 우편함: 협회(게이트 보상)에서 온 우편은 직접 받아야 함 */
 const mails=()=>payouts.filter(x=>x.to===uid&&(x.from==="hq"||x.k==="kr")).sort((a,b)=>b.t-a.t);
@@ -3176,6 +3185,8 @@ async function breakKR(id){const L=(me.krs||[]),k=L.find(x=>x.id===id);if(!k)ret
 
 /* ===== 실종자 구조: 게이트 안에서 쓰러진 헌터 → 30분 안에 구조 · 못 하면 협회가 꺼내 격리실 10분 입원 ===== */
 const MIS_MS=10*6e4,HOSP_MS=10*6e4,RES_ST=3,MIS_MAX=6*36e5;
+const inHosp=()=>!!me&&!(window.__gmView&&__gmView())&&(!!me.quar||!!(me.hosp&&Date.now()<me.hosp));
+function hospBlock(){if(!inHosp())return false;toast(me.quar?"입원 치료 중이에요 · 숙소 · 길드 건물 꾸미기 · 휴대폰 채팅만 할 수 있어요 (격리실에서 퇴원하면 다시 돼요)":"격리실에 입원 중이에요 · 숙소 · 길드 건물 꾸미기 · 휴대폰 채팅만 할 수 있어요");return true}
 function lockMsg(c){c=c||me;if(!c)return null;const now=Date.now();if(c.mis&&now<c.mis.t+MIS_MAX)return"실종 상태입니다 · 구조를 기다리는 중이에요";if(c.hosp&&now<c.hosp)return"격리실에 입원 중입니다";return null}
 const misList=()=>{const now=Date.now();return Object.entries(chars).filter(([id,c])=>c.mis&&now<c.mis.t+MIS_MAX).map(([id,c])=>({id,c,m:c.mis})).sort((a,b)=>a.m.t-b.m.t)};
 const resId=(mid,mt)=>"res_"+mid+"_"+mt;
@@ -3189,7 +3200,7 @@ function askRescue(mid){const c=chars[mid];if(!c||!c.mis)return;const pt=me.part
  openPop(h("div",{c:"h0",t:"닫힌 게이트 열기"}),h("p",{c:"sm",t:c.name+" 헌터가 "+c.mis.lab+" 안에 갇혀 있어요. 게이트 주변의 크리처와 세 번 싸워 이기면 닫힌 게이트를 억지로 열 수 있어요."}),
   h("p",{c:"xs mt",t:"혼자서도, 파티(최대 4명)로도 갈 수 있어요. 접속 중인 파티원이 함께 들어갑니다 · 지금 "+n+"명"}),
   h("div",{c:"row",style:"margin-top:12px"},btn("들어가기",async()=>{closePop();await startRescue(mid)},"pri grow"),btn("닫기",closePop,"grow")))}
-async function startRescue(mid){const lk=lockMsg();if(lk)return toast(lk);if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
+async function startRescue(mid){if(hospBlock())return;const lk=lockMsg();if(lk)return toast(lk);if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const c=chars[mid],m=c&&c.mis;if(!m||Date.now()>=m.t+MIS_MS)return toast("이미 협회가 회수했어요");const id=resId(mid,m.t),ref=db.doc("gates/"+id),s=await ref.get();
  if(s.exists&&resBusy(s.data())&&s.data().by!==uid)return toast("다른 팀이 구조 중이에요");if(s.exists&&(s.data().st==="esc"||s.data().st==="clear"))return toast("이미 구조됐어요");
  await ref.set({t:Date.now(),u:Date.now(),kind:"res",mid,mt:m.t,by:uid,byn:me.name,st:"run",stage:0});
@@ -3278,15 +3289,15 @@ const next22=t=>{let s=kday(t)*864e5-KO+GW_HOUR*36e5;if(s<=t)s+=864e5;return s};
 const gwOver=w=>w.st==="no"||w.st==="cancel"||(w.st==="ask"&&Date.now()-w.t>864e5)||(w.st==="done"&&Date.now()-(w.done||w.t)>864e5)||(w.st==="acc"&&Date.now()>w.wt+GW_LEN+36e5);
 function arBusy(){const l=lockMsg();if(l){toast(l);return true}if(me.trip){toast("이동 중입니다");return true}if(inB()){toast("전투 중입니다");return true}if(pvpCur()){toast("이미 결투 중이에요");return true}return false}
 /* 콜로세움 */
-async function arWait(){if(!isArena())return toast("아레나에서만 대기할 수 있어요");if(arBusy())return;await arDoc("w_"+uid).set({k:"wait",t:Date.now(),uid,n:me.name,lv:me.lv});toast("결투 대기 명단에 올렸어요 · 10분 안에 신청이 없으면 취소돼요")}
+async function arWait(){if(hospBlock())return;if(!isArena())return toast("아레나에서만 대기할 수 있어요");if(arBusy())return;await arDoc("w_"+uid).set({k:"wait",t:Date.now(),uid,n:me.name,lv:me.lv});toast("결투 대기 명단에 올렸어요 · 10분 안에 신청이 없으면 취소돼요")}
 async function arUnwait(silent){await arDoc("w_"+uid).delete().catch(()=>{});if(!silent)toast("대기를 취소했어요")}
-async function duelAsk(to,via){if(!isArena())return toast("아레나에서만 결투를 신청할 수 있어요");if(arBusy())return;if(to===uid)return toast("나에게는 결투를 신청할 수 없어요");const c=chars[to];if(!c)return toast("알 수 없는 헌터예요");
+async function duelAsk(to,via){if(hospBlock())return;if(!isArena())return toast("아레나에서만 결투를 신청할 수 있어요");if(arBusy())return;if(to===uid)return toast("나에게는 결투를 신청할 수 없어요");const c=chars[to];if(!c)return toast("알 수 없는 헌터예요");
  if(duelOut().some(d=>d.to===to))return toast("이미 신청했어요 · 10분 안에 답이 와요");
  const id="d_"+Date.now().toString(36)+uid.slice(-3);await arDoc(id).set({k:"duel",t:Date.now(),from:uid,fn:me.name,to,tn:c.name,via,st:"ask"});
  toast(c.name+"에게 "+(via==="call"?"선전포고":"결투 신청")+"! 10분 안에 수락하지 않으면 없던 일이 돼요")}
 function declare(){const num=(declNum||"").replace(/\D/g,"");if(num.length!==7)return toast("상대 전화번호 7자리를 입력하세요");const e=Object.entries(chars).find(([id,c])=>c.num===num);if(!e)return toast("지금 거신 전화번호는 없는 전화번호입니다. 확인 후 다시 걸어주세요.");declNum="";return duelAsk(e[0],"call")}
 function pvMem(id,side){const m=mkMemFor(id);m.hp=m.max;m.side=side;m.mp=m.mpMax;m.mpT=Date.now();return m}
-async function duelAccept(d){if(!isArena())return toast("아레나 콜로세움에 있어야 수락할 수 있어요");if(arBusy())return;if(!arLive(d))return toast("10분이 지나 없던 일이 됐어요");
+async function duelAccept(d){if(hospBlock())return;if(!isArena())return toast("아레나 콜로세움에 있어야 수락할 수 있어요");if(arBusy())return;if(!arLive(d))return toast("10분이 지나 없던 일이 됐어요");
  const fc=chars[d.from];if(!fc)return;if(fc.loc!=="arena"||fc.trip)return toast(d.fn+" 헌터가 지금 아레나에 없어요");if(!online.has(d.from))return toast(d.fn+" 헌터가 접속 중이 아니에요");if(lockMsg(fc))return toast(d.fn+" 헌터가 지금 결투할 수 없는 상태예요");
  const pid="p_"+d.id;await db.doc("pvp/"+pid).set({k:"duel",t:Date.now(),t0:Date.now(),st:"on",ttl:"콜로세움 · "+d.fn+" vs "+me.name,["m_"+d.from]:pvMem(d.from,"A"),["m_"+uid]:pvMem(uid,"B")});
  if(!await amut(d.id,x=>{if(x.st!=="ask")return false;x.st="on";x.pid=pid}))return toast("이미 처리된 신청이에요");
@@ -3302,12 +3313,12 @@ function gRename(){const g=myG();if(!g||g.leader!==uid)return;const i=h("input",
   h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",closePop,"grow"),btn("바꾸기",async()=>{const nm=i.value.trim();if(nm.length<2||nm.length>4)return toast("길드 이름은 2~4자예요");
    if(Object.entries(guilds).some(([id,x])=>id!==me.guild&&x.name===nm))return toast("이미 있는 길드 이름입니다");await gmut(me.guild,q=>{q.name=nm});closePop();toast("길드 이름을 「"+nm+"」(으)로 바꿨어요");render(true)},"pri grow")))}
 /* 명성전 */
-async function gwAsk(){const g=myG();if(!g||!isOff(g))return toast("길드장이나 임원만 신청할 수 있어요");const gn=gwForm.g.trim(),ln=gwForm.l.trim();if(!gn||!ln)return toast("상대 길드명과 길드장 이름을 입력하세요");
+async function gwAsk(){if(hospBlock())return;const g=myG();if(!g||!isOff(g))return toast("길드장이나 임원만 신청할 수 있어요");const gn=gwForm.g.trim(),ln=gwForm.l.trim();if(!gn||!ln)return toast("상대 길드명과 길드장 이름을 입력하세요");
  const tg=Object.entries(guilds).find(([id,x])=>x.name===gn);if(!tg)return toast("그런 이름의 길드가 없어요");if(tg[0]===me.guild)return toast("우리 길드에는 신청할 수 없어요");if(!gwOk(g))return toast("명성전은 길드 Lv2 이상 · 길드원 2명 이상부터 신청할 수 있어요");if(!gwOk(tg[1]))return toast(tg[1].name+" 길드는 아직 조건(Lv2 이상 · 2명 이상)에 맞지 않아요");
  const ld=chars[tg[1].leader];if(!ld||ld.name!==ln)return toast("길드장 이름이 맞지 않아요");
  if(gwList().some(w=>!gwOver(w)&&w.st!=="done"&&[w.ga,w.gb].includes(me.guild)&&[w.ga,w.gb].includes(tg[0])))return toast("두 길드 사이에 이미 진행 중인 명성전이 있어요");
  await arDoc("g_"+Date.now().toString(36)).set({k:"gw",t:Date.now(),ga:me.guild,gan:g.name,gb:tg[0],gbn:tg[1].name,by:uid,byn:me.name,st:"ask"});gwForm={g:"",l:""};toast(tg[1].name+" 길드에 명성전을 신청했어요 · 상대 길드장이 수락하면 밤 10시에 시작돼요")}
-async function gwAccept(w){const g=guilds[w.gb];if(!g||g.leader!==uid)return toast("상대 길드장만 수락할 수 있어요");const wt=next22(Date.now());
+async function gwAccept(w){if(hospBlock())return;const g=guilds[w.gb];if(!g||g.leader!==uid)return toast("상대 길드장만 수락할 수 있어요");const wt=next22(Date.now());
  if(!await aupd(w.id,x=>x.st==="ask",{st:"acc",wt}))return toast("이미 처리된 신청이에요");
  await db.doc("pvp/p_"+w.id).set({k:"gw",t:Date.now(),t0:wt,st:"on",ttl:"명성전 · "+w.gan+" vs "+w.gbn,wid:w.id,ga:w.ga,gb:w.gb});toast("명성전 수락 · "+kfmt(wt)+"에 시작해요")}
 async function gwNo(w){await aupd(w.id,x=>x.st==="ask",{st:"no"});toast("명성전을 거절했어요")}
@@ -3317,7 +3328,7 @@ async function aupd(id,chk,patch){const r=arDoc(id),s=await r.get();if(!s.exists
 async function gwRoster(w,on){const k=gwSide(w);if(!k)return;if(Date.now()>=w.wt+GW_JOIN)return toast("출전 신청이 마감됐어요");
  const ok=on?await aupd(w.id,x=>x[ "r_"+uid]!==k&&rosterOf(x,k).length<GW_MAX,{["r_"+uid]:k}):await aupd(w.id,x=>x["r_"+uid]===k,{["r_"+uid]:null});
  toast(on?(ok?"출전 명단에 올렸어요":"출전 인원이 꽉 찼어요 (최대 10명)"):"출전을 취소했어요")}
-async function gwEnter(w){const now=Date.now();if(now<w.wt)return toast("아직 시작 전이에요 · 밤 10시에 입장할 수 있어요");if(now>=w.wt+GW_JOIN)return toast("입장 시간(시작 후 5분)이 지났어요");
+async function gwEnter(w){if(hospBlock())return;const now=Date.now();if(now<w.wt)return toast("아직 시작 전이에요 · 밤 10시에 입장할 수 있어요");if(now>=w.wt+GW_JOIN)return toast("입장 시간(시작 후 5분)이 지났어요");
  if(!isArena())return toast("아레나에 있어야 입장할 수 있어요");if(arBusy())return;const k=gwSide(w);if(!k||w["r_"+uid]!==k)return toast("출전 명단에 있어야 입장할 수 있어요");
  const pid="p_"+w.id,ref=db.doc("pvp/"+pid),s=await ref.get();if(!s.exists)return toast("명성전 정보를 찾을 수 없어요");if(s.data().st!=="on")return toast("이미 끝난 명성전이에요");
  pvEnt={pid,side:k==="ra"?"A":"B"};await ref.update({["m_"+uid]:pvMem(uid,pvEnt.side)});pvpWatch(pid)}
@@ -3433,7 +3444,7 @@ const loanP=()=>(me&&me.loan&&me.loan.p)||0;
 function loanInt(){const L=me&&me.loan;if(!L||!L.p)return 0;return(L.ui||0)+LOAN_DAY*Math.max(0,Math.floor((Date.now()-L.it)/DAY_MS))}
 function loanRoll(L){const now=Date.now(),days=Math.max(0,Math.floor((now-L.it)/DAY_MS));return Object.assign({},L,{ui:(L.ui||0)+LOAN_DAY*days,it:L.it+days*DAY_MS})}
 const bLog=(amt,txt)=>[{t:Date.now(),amt,txt}].concat(me.blog||[]).slice(0,30);
-async function loanTake(n){if(n<=0)return toast("금액을 입력하세요");if(loanP()+n>LOAN_MAX)return toast("대출은 최대 "+won(LOAN_MAX)+"환까지예요 · 지금 더 빌릴 수 있는 돈 "+won(LOAN_MAX-loanP())+"환");
+async function loanTake(n){if(hospBlock())return;if(n<=0)return toast("금액을 입력하세요");if(loanP()+n>LOAN_MAX)return toast("대출은 최대 "+won(LOAN_MAX)+"환까지예요 · 지금 더 빌릴 수 있는 돈 "+won(LOAN_MAX-loanP())+"환");
  const now=Date.now(),L=me.loan&&me.loan.p?loanRoll(me.loan):{p:0,it:now,ui:0,ip:now,pen:false};L.p+=n;
  await upd({loan:L,bank:(me.bank||0)+n,blog:bLog(n,"대출 (하루 이자 "+LOAN_DAY+"환)")});toast(won(n)+"환을 빌렸어요 · 은행 잔고로 들어왔어요")}
 function payFrom(n){const fb=Math.min(me.bank||0,n),ft=Math.min(me.tan,n-fb);return{fb,ft,paid:fb+ft}}
@@ -3484,8 +3495,8 @@ const sPrepOn=()=>!!(me&&me.sgPrep&&me.sg===me.sgPrep.id&&Date.now()<me.sgPrep.e
 let sPrepFired=null;
 setInterval(()=>{try{if(!me||!me.sgPrep)return;const P=me.sgPrep;if(me.sg!==P.id){upd({sgPrep:null}).catch(()=>{});return}
  if(Date.now()>=P.end&&sPrepFired!==P.end){sPrepFired=P.end;upd({sgPrep:null}).then(()=>{if(me.sg===P.id&&!inB()){toast("정비 시간 끝 · 출발합니다!");gateStep()}}).catch(()=>{})}}catch(e){}},1000);
-async function gmBuy(id,p,n){const cost=p*n;if(me.tan<cost)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,id,n)<n)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-cost});toast("게이트 상인 · "+IT[id].n+" ×"+n+" 구매 (-"+won(cost)+"환)")}
-async function gmFix(){const eq=clone(me.eq||{});let cost=0,n=0;Object.keys(eq).forEach(k=>{const q=eq[k];if(q&&q.id&&q.dur<100){cost+=Math.ceil((100-q.dur)*3)+GM_UP;q.dur=100;n++}});if(!n)return toast("수리할 장비가 없어요");if(me.tan<cost)return toast("환이 부족합니다 · "+won(cost)+"환 필요");await upd({eq,tan:me.tan-cost});toast("게이트 상인 · 장비 "+n+"개 수리 (-"+won(cost)+"환)")}
+async function gmBuy(id,p,n){if(hospBlock())return;const cost=p*n;if(me.tan<cost)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,id,n)<n)return toast("가방이 가득 찼습니다");await upd({inv,tan:me.tan-cost});toast("게이트 상인 · "+IT[id].n+" ×"+n+" 구매 (-"+won(cost)+"환)")}
+async function gmFix(){if(hospBlock())return;const eq=clone(me.eq||{});let cost=0,n=0;Object.keys(eq).forEach(k=>{const q=eq[k];if(q&&q.id&&q.dur<100){cost+=Math.ceil((100-q.dur)*3)+GM_UP;q.dur=100;n++}});if(!n)return toast("수리할 장비가 없어요");if(me.tan<cost)return toast("환이 부족합니다 · "+won(cost)+"환 필요");await upd({eq,tan:me.tan-cost});toast("게이트 상인 · 장비 "+n+"개 수리 (-"+won(cost)+"환)")}
 function sPrepBox(s){const P=me.sgPrep,eq=me.eq||{},fix=Object.values(eq).filter(q=>q&&q.id&&q.dur<100).reduce((a,q)=>a+Math.ceil((100-q.dur)*3)+GM_UP,0),box=h("div",{c:"sprep"});
  box.append(h("div",{c:"row sb",style:"align-items:center"},h("b",{c:"sm",t:"[정비 시간]"}),h("b",{c:"sprept","data-u":P.end,t:fmt(Math.max(0,Math.ceil((P.end-Date.now())/1000)))})),
   h("p",{c:"xs mt",style:"margin:2px 0 8px",t:"정비 시간이 끝나면 바로 출발해요. 나갈 사람은 지금 [퇴장]을 누르세요."}),
@@ -3493,9 +3504,10 @@ function sPrepBox(s){const P=me.sgPrep,eq=me.eq||{},fix=Object.values(eq).filter
  [["hpot",HPOT_P+GM_UP],["mpot",MPOT_P+GM_UP]].forEach(([id,p])=>box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d+" · 가방 "+(me.inv[id]||0)+"개"})),h("span",{c:"sm gold",t:p}),btn("1개",()=>wrap(()=>gmBuy(id,p,1)),"sm"),btn("5개",()=>wrap(()=>gmBuy(id,p,5)),"sm"),btn("10개",()=>wrap(()=>gmBuy(id,p,10)),"sm"))));
  box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:"장비 전체 수리"}),h("div",{c:"xs mt",t:fix?"장착 장비 내구도 100%로 · 한 개당 +"+GM_UP+"환":"수리할 장비가 없어요"})),fix?h("span",{c:"sm gold",t:fix}):null,btn("수리",()=>wrap(gmFix),"sm",{disabled:!fix})));
  box.append(h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("퇴장",()=>wrap(async()=>{await upd({sg:null,sgPrep:null});toast("S급 게이트에서 나왔습니다 · 원래 자리로 돌아왔어요")}),"grow"),btn("바로 출발",()=>wrap(async()=>{await upd({sgPrep:{...P,end:Date.now()}})}),"pri grow")));return box}
-async function gateStep(){const id=me.sg,g=gateById(id);if(!g||!visitAlive(id))return toast("이미 닫힌 게이트입니다");if(sPrepOn())return toast("정비 시간이에요 · "+Math.ceil((me.sgPrep.end-Date.now())/1000)+"초 뒤 출발해요");{const l=lockMsg();if(l)return toast(l)}if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
- const d0=gxOf(id);if(d0>GX_STEPS)return startGateBattle({id,kind:g.kind,boss:1});
+async function gateStep(){if(hospBlock())return;const id=me.sg,g=gateById(id);if(!g||!visitAlive(id))return toast("이미 닫힌 게이트입니다");if(sPrepOn())return toast("정비 시간이에요 · "+Math.ceil((me.sgPrep.end-Date.now())/1000)+"초 뒤 출발해요");{const l=lockMsg();if(l)return toast(l)}if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
+ const d0=gxOf(id);
  {const w=gxLast+GX_CD-Date.now();if(w>0)return toast("숨을 고르는 중… "+Math.ceil(w/1000)+"초 뒤에 나아갈 수 있어요")}
+ if(d0>GX_STEPS){gxLast=Date.now();return startGateBattle({id,kind:g.kind,boss:1})}
  const d=d0+1,fb=d0&&me.gx&&me.gx.b?me.gx.b:3+ri(2),p={gx:{id,d,b:fb}};gxLast=Date.now();
  if(d>GX_STEPS){await upd(p);toast("게이트 심부에 도착했다… 거대한 기척이 다가온다");return startGateBattle({id,kind:g.kind,boss:1})}
  let msg="심부로 나아갔다 ("+d+"/"+GX_STEPS+")";if(rf()<GX_FIND*luckF(me)){const inv={...me.inv},it=rf()<.5?"will":"relic",w0=it==="will"?willsOf():null,wn=it==="will"?newWill():0;if(addInv(inv,it,1)){p.inv=inv;if(it==="will")p.wills=w0.concat([wn]);msg+=" · "+(it==="will"?"쓰러진 헌터 곁에서 낡은 유언장을 발견했다":"쓰러진 헌터의 유품을 발견했다")}}
@@ -3572,7 +3584,7 @@ const BAG_BASE=20,BAG_X=[1000,3000,6000],STO_BASE=50,STO_X=[5000,6000,7000],STAC
 const kinds=o=>Object.keys(o||{}).filter(k=>o[k]>0).length;
 const stoCap=()=>STO_BASE+(me.stx||0)*10;
 function addTo(o,id,n,capN){const k=o[id]>0?Math.min(n,STACK-o[id]):kinds(o)<capN?Math.min(n,STACK):0;if(k>0)o[id]=(o[id]||0)+k;return Math.max(0,k)}
-async function bagExpand(){const n=me.bagx||0;if(n>=BAG_X.length)return toast("가방은 최대 "+(BAG_BASE+BAG_X.length*10)+"칸까지예요");const price=BAG_X[n];if(me.tan<price)return toast("환이 부족합니다 ("+won(price)+"환)");
+async function bagExpand(){if(hospBlock())return;const n=me.bagx||0;if(n>=BAG_X.length)return toast("가방은 최대 "+(BAG_BASE+BAG_X.length*10)+"칸까지예요");const price=BAG_X[n];if(me.tan<price)return toast("환이 부족합니다 ("+won(price)+"환)");
  await upd({tan:me.tan-price,bagx:n+1});toast("가방 확장 · "+(BAG_BASE+(n+1)*10)+"칸이 됐어요")}
 async function ensureRno(){if(!me||me.rno||me.house)return;const used=new Set(Object.values(chars).flatMap(c=>[c.rno,c.house&&c.house.no]).filter(Boolean));let no=0;for(let i=0;i<300&&!no;i++){const f=2+ri(11),x=f*100+1+ri(20);if(!used.has(x))no=x}if(no)await upd({rno:no}).catch(()=>{})}
 const atBase=()=>me&&me.loc==="base"&&!me.trip&&!lockMsg();
@@ -3741,7 +3753,7 @@ function ringX(c,q){if(!q||!q.set||!c||!c.party)return 1;const L=[c.rel].concat(
  for(const x of L){const P=chars[x.w];if(!P||P.party!==c.party)continue;const e=P.eq||{};for(const s in e){const z=e[s];if(z&&z.set===q.set&&z.dur>0)return 3}}return 1}
 /* 연인 (최대 3명 · 동시에) · 약혼자/배우자 (1명) · 페어 (1명) */
 const LOVE_MAX=3,loversOf=id=>(((id===uid?me:chars[id])||{}).lovers||[]).filter(x=>x&&x.w),isLover=(a,b)=>loversOf(a).some(x=>x.w===b);
-async function openRingBox(k){const id=IT[k]&&IT[k].rbox;if(!id||!me.inv[k])return;if((me.gear||[]).length>MAXGEAR-2)return toast("장비 칸이 2칸 필요해요");const inv={...me.inv};inv[k]--;if(!inv[k])delete inv[k];
+async function openRingBox(k){if(hospBlock())return;const id=IT[k]&&IT[k].rbox;if(!id||!me.inv[k])return;if((me.gear||[]).length>MAXGEAR-2)return toast("장비 칸이 2칸 필요해요");const inv={...me.inv};inv[k]--;if(!inv[k])delete inv[k];
  const g=mkGear(me.lv,rollRar(me.lv),id),set="r"+Date.now().toString(36)+ri(1e6).toString(36);g.set=set;const g2={...clone(g),gid:g.gid+"b"};await upd({inv,gear:(me.gear||[]).concat([g,g2])});toast(IT[id].n+" 두 개를 꺼냈어요 · 가방 → 장비 → 악세서리")}
 /* ===== 칭호 · 등급: 흔함(회색) · 희귀(초록) · 전설(노랑) · 레전드(보라) · 관계(파랑) · 문어(분홍 번쩍) ===== */
 const TTL_G={com:"흔함",rare:"희귀",leg:"전설",lgd:"레전드",rel:"관계",pink:"관계"};
@@ -3834,7 +3846,7 @@ function tradePick(what,fn){const L=Object.entries(chars).filter(([id,c])=>id!==
  if(!L.length)box.append(h("p",{c:"sm mt",t:"지금 "+REG[me.loc].n+"에 다른 헌터가 없어요. 같은 지역에 있어야 거래할 수 있어요."}));
  L.forEach(([id,c])=>{const on=online.has(id);box.append(h("div",{c:"lrow"},avatar(c,"s"),h("div",{c:"grow"},h("b",{c:"sm",t:c.name}),h("div",{c:"xs "+(on?"ok":"mt"),t:(on?"접속 중":"접속 안 함")+" · "+gradeL(c)+"급 · "+c.attr})),btn("건네기",()=>{closePop();wrap(()=>fn(id))},"sm"+(on?" pri":""),{disabled:!on})))});
  openPop(h("div",{c:"h0",t:"거래 · "+what}),h("p",{c:"xs mt",t:REG[me.loc].n+"에 있는 헌터에게만 건넬 수 있어요 · 상대가 받아야 거래가 끝나요"}),box,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
-async function giveOffer(to,what,obj,msg){const c=chars[to];if(!c)return;if(me.trip||c.trip||c.loc!==me.loc)return toast(c.name+" 헌터는 지금 멀리 있어서 건넬 수 없어요");if(!online.has(to))return toast(c.name+" 헌터가 접속해 있지 않아요");
+async function giveOffer(to,what,obj,msg){if(hospBlock())return;const c=chars[to];if(!c)return;if(me.trip||c.trip||c.loc!==me.loc)return toast(c.name+" 헌터는 지금 멀리 있어서 건넬 수 없어요");if(!online.has(to))return toast(c.name+" 헌터가 접속해 있지 않아요");
  if(what==="ring"){const e=relErr(uid,to,obj.id==="ring_c"?"c":"p");if(e)return toast(e);if(!(me.gear||[]).some(x=>x.gid===obj.gid))return;await upd({gear:(me.gear||[]).filter(x=>x.gid!==obj.gid)});await cheatRumor(to,obj.id==="ring_c")}
  else{if(!(me.fkr||[]).some(x=>x.id===obj.id))return;await upd({fkr:(me.fkr||[]).filter(x=>x.id!==obj.id)})}
  const doc={t:Date.now(),to,from:uid,k:"trade",what,obj,fn:me.name,loc:me.loc,amt:0};if(msg)doc.msg=msg;await db.collection("payouts").add(doc);
@@ -4901,7 +4913,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  function cam(Wp,Hp){const cp=Math.cos(V.pitch),sp=Math.sin(V.pitch),sa=Math.sin(V.yaw),ca=Math.cos(V.yaw),C=[V.x+V.dist*sa*cp,V.y+V.dist*ca*cp,V.dist*sp],f=[V.x-C[0],V.y-C[1],-C[2]],fl=Math.hypot(...f);f[0]/=fl;f[1]/=fl;f[2]/=fl;
   const r=[ca,-sa,0],u=[f[1]*r[2]-f[2]*r[1],f[2]*r[0]-f[0]*r[2],f[0]*r[1]-f[1]*r[0]],F=Hp*.5/Math.tan(.42);return{C,f,r,u,F,cx:Wp/2,cy:Hp*.47}}
  function fitV(cw,ch){const ca=Math.cos(V.yaw),sa=Math.sin(V.yaw),asp=cw/Math.max(1,ch),U=[0,W0.MW*ca,-W0.MH*sa,W0.MW*ca-W0.MH*sa],Vv=[0,W0.MW*sa,W0.MH*ca,W0.MW*sa+W0.MH*ca],u0=Math.min(...U),u1=Math.max(...U),v0=Math.min(...Vv),v1=Math.max(...Vv);
-  const eu=V.dist*.446*asp*1.25,ev=V.dist*.35,cl=(a,lo,hi)=>lo>hi?(lo+hi)/2:Math.max(lo,Math.min(hi,a));let u=V.x*ca-V.y*sa,v=V.x*sa+V.y*ca;u=cl(u,u0+eu,u1-eu);v=cl(v,v0+ev,v1-ev);V.x=u*ca+v*sa;V.y=-u*sa+v*ca}
+  const eu=V.dist*.446*asp*.9,ev=V.dist*.3,pd=6,cl=(a,lo,hi)=>lo>hi?(lo+hi)/2:Math.max(lo,Math.min(hi,a));let u=V.x*ca-V.y*sa,v=V.x*sa+V.y*ca;u=cl(u,u0-pd+eu,u1+pd-eu);v=cl(v,v0-pd+ev,v1+pd-ev);V.x=u*ca+v*sa;V.y=-u*sa+v*ca}
  function frame(t){if(o.live)Object.assign(V,o.live());const dpr=Math.min(2,window.devicePixelRatio||1),cw=cv.clientWidth,ch=cv.clientHeight,Wp=Math.round(cw*dpr),Hp=Math.round(ch*dpr);if(cw&&ch)fitV(cw,ch);if(cv.width!==Wp||cv.height!==Hp){cv.width=Wp;cv.height=Hp}
   const x=cv.getContext("2d"),K=cam(Wp,Hp),cs=getComputedStyle(cv),ac=V.col||hex(cs.getPropertyValue("--holo")||cs.getPropertyValue("--ac")),bg=V.bg||hex(cs.getPropertyValue("--bg")),rgba=a=>"rgba("+ac[0]+","+ac[1]+","+ac[2]+","+a+")";
   const P=(X,Y,Z)=>{const q0=X-K.C[0],q1=Y-K.C[1],q2=Z-K.C[2],z=q0*K.f[0]+q1*K.f[1]+q2*K.f[2];if(z<1)return null;return[K.cx+(q0*K.r[0]+q1*K.r[1])/z*K.F,K.cy-(q0*K.u[0]+q1*K.u[1]+q2*K.u[2])/z*K.F,z]};
@@ -4993,7 +5005,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   x.globalCompositeOperation="source-over";const fs=Math.round(10.5*dpr);x.textAlign="center";
   pk.filter(q=>q.k==="reg").sort((a,b)=>b.z-a.z).forEach(q=>{if(q.lock)return;const R=W0.REG[q.id],on=q.id===V.sel||q.id===V.here;x.font=(on?"700 ":"500 ")+(on?fs+2*dpr:fs)+"px system-ui,sans-serif";const yy=q.y*dpr-6*dpr;
    x.fillStyle="rgba("+bg.join(",")+",.7)";const w=x.measureText(R.n).width+8*dpr;x.fillRect(q.x*dpr-w/2,yy-fs,w,fs+4*dpr);x.fillStyle=rgba(on?1:.85);x.fillText(R.n,q.x*dpr,yy);
-   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?" · 권장 Lv "+R.lv:" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
+   if(on){x.font="500 "+Math.round(9*dpr)+"px system-ui,sans-serif";x.fillStyle=rgba(.75);const T=RT[q.id]||{};x.fillText((T.t?TN[T.t]:"")+(T.sea?" · 바다 인접":"")+(R.lv?" · 적정 Lv "+R.lv+"~"+(R.lv+(R.bld?8:7)):" · 안전")+(V.wxn&&V.wxn[q.id]?" · "+V.wxn[q.id]:""),q.x*dpr,yy-fs-3*dpr)}});
   /* 주사선 */
   x.globalCompositeOperation="source-over";x.fillStyle=lite?"rgba(0,0,0,.035)":"rgba(0,0,0,.16)";for(let yy=(t*.03%3)*dpr|0;yy<Hp;yy+=3*dpr)x.fillRect(0,yy,Wp,dpr)}
  /* 특수 구조물 그리기 */
