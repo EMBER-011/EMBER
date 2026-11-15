@@ -477,7 +477,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261114235649";
+const BUILD="20261115000803";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -5038,9 +5038,9 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  let lastF=0;const loop=t=>{if(!cv.isConnected){raf=0;return}raf=requestAnimationFrame(loop);if(t-lastF<33)return;lastF=t;try{frame(t)}catch(e){}};const start=()=>{if(!raf)raf=requestAnimationFrame(loop)};start();
  /* 끌어서 옮기기 · 두 손가락 확대·돌리기 · 휠 확대 · 누르면 지역 */
  const pts=new Map();let g0=null,moved=false;
- cv.addEventListener("pointerdown",e=>{pts.set(e.pointerId,[e.clientX,e.clientY]);try{cv.setPointerCapture(e.pointerId)}catch(_){}moved=false;g0=snap()});
+ cv.addEventListener("pointerdown",e=>{if(e.isPrimary||e.pointerType==="mouse")pts.clear();[...pts.keys()].forEach(k=>{if(pts.get(k)[2]!==e.pointerType)pts.delete(k)});if(pts.size>=2)pts.clear();pts.set(e.pointerId,[e.clientX,e.clientY,e.pointerType]);try{cv.setPointerCapture(e.pointerId)}catch(_){}moved=false;g0=snap()});
  const snap=()=>{const a=[...pts.values()];return{a,x:V.x,y:V.y,yaw:V.yaw,dist:V.dist,pitch:V.pitch}};
- cv.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,[e.clientX,e.clientY]);const a=[...pts.values()];if(!g0||g0.a.length!==a.length){g0=snap();return}
+ cv.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,[e.clientX,e.clientY,e.pointerType]);const a=[...pts.values()];if(!g0||g0.a.length!==a.length){g0=snap();return}
   if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;const k=V.dist/cv.clientHeight*1.1,ca=Math.cos(V.yaw),sa=Math.sin(V.yaw);
    V.x=Math.max(0,Math.min(W0.MW,g0.x-(dx*ca+dy*sa/Math.sin(V.pitch))*k));V.y=Math.max(0,Math.min(W0.MH,g0.y-(-dx*sa+dy*ca/Math.sin(V.pitch))*k))}
   else if(a.length===2){moved=true;const d0=Math.hypot(g0.a[0][0]-g0.a[1][0],g0.a[0][1]-g0.a[1][1]),d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),an0=Math.atan2(g0.a[1][1]-g0.a[0][1],g0.a[1][0]-g0.a[0][0]),an1=Math.atan2(a[1][1]-a[0][1],a[1][0]-a[0][0]),my0=(g0.a[0][1]+g0.a[1][1])/2,my1=(a[0][1]+a[1][1])/2;
@@ -5048,7 +5048,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  const up=e=>{const was=pts.has(e.pointerId);pts.delete(e.pointerId);g0=snap();if(was&&!moved&&e.type==="pointerup"&&!pts.size){const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=28;pk.forEach(q=>{const d=Math.hypot(q.x-mx,q.y-my)-(q.g?8:0);if(d<bd){bd=d;best=q}});if(best&&o.onPick)o.onPick(best.k,best.id)}};
  cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
  cv.addEventListener("wheel",e=>{e.preventDefault();V.dist=Math.max(18,Math.min(150,V.dist*Math.exp(e.deltaY*.0012)))},{passive:false});
- cv.style.touchAction="none";noPageZoom(cv);
+ cv.addEventListener("lostpointercapture",e=>{if(pts.has(e.pointerId)){pts.delete(e.pointerId);g0=snap()}});cv.style.touchAction="none";noPageZoom(cv);
  return{V,start,stop:()=>{cancelAnimationFrame(raf);raf=0},turn:d=>{V.yaw+=d},frame,cv}}
 /* 종말의 섬 글리치: 예전 2D 지도의 글리치를 그대로 (지도 좌표에 그린 뒤 홀로 지도 바닥에 원근으로 붙임)
    잔 RGB 잡음 두 겹 · 주사선 · 어긋나 번쩍이는 RGB 띠 · 잘린 블록 · 바다 쪽으로 찢긴 띠 · 흐린 테두리 · 신호 없음(그 자리에 고정) */
