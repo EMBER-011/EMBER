@@ -68,7 +68,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
  #view.desk .holow canvas.holo{height:min(58vh,560px)}
 }
 /* 두 상자를 한 줄에 (ㅁㅁ) */
-.gbox{display:flex;flex-direction:column;gap:6px;margin:-4px 0 12px auto;width:max-content;max-width:100%;align-self:flex-end}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
+.gbox{display:flex;flex-direction:column;gap:6px;margin:0 0 0 auto;width:max-content;max-width:100%;flex:none}.locbar:has(.gbox){align-items:flex-start}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;align-items:start}.pair2>.card{margin:0;min-width:0}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
@@ -531,7 +531,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261116005250";
+const BUILD="20261116010302";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1327,7 +1327,7 @@ function rMap(v){
  if(!me.ag&&!inB()&&!pvpCur()&&!R.safe&&(R.res||fishKind(me.loc))){const g=h("div",{c:"gbox"}),r3=h("div",{c:"g3"});
   Object.keys(GK).forEach(k=>{const has=R.res&&Object.keys(gkRes(R,k)).length;r3.append(btn(GK[k].n,()=>wrap(()=>gather(k)),hasTool(k)&&has?"pri sm":"sm",{disabled:!has,title:has?(hasTool(k)?"":IT[GK[k].tool].n+" 필요"):"여기엔 없어요"}))});
   r3.append(btn("낚시",()=>wrap(fish),fishKind(me.loc)?"pri sm":"sm",{disabled:!fishKind(me.loc)}));g.append(r3);
-  if(R.res)g.append(btn("자동 채집",agPop,"sm"));v.append(g)}
+  if(R.res)g.append(btn("자동 채집",agPop,"sm"));bar.append(g)}
  if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 "+((GK[a.k]||GK.mine).n)+" 중 · "+d+" / "+a.n+"회"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
  if(R.safe&&!inB()&&!R.home){const s=h("div",{c:"fac"});(R.arena?ARSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
  else if(!inB()&&!R.home){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
