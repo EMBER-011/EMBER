@@ -68,7 +68,8 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
  #view.desk .holow canvas.holo{height:min(58vh,560px)}
 }
 /* 두 상자를 한 줄에 (ㅁㅁ) */
-.gbox{display:flex;flex-direction:column;gap:6px;margin:0 0 0 auto;width:max-content;max-width:100%;flex:none}.locbar:has(.gbox){align-items:flex-start}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
+.gbox{display:flex;flex-direction:column;gap:6px;margin:0 0 0 auto;width:max-content;max-width:100%;flex:none}.locbar{flex-wrap:wrap}.lname{min-width:0}.lname b{white-space:nowrap}.lname span{white-space:nowrap}
+.lcrow{flex-basis:100%;display:flex;gap:8px;align-items:stretch;min-width:0}.lcrow>*{align-self:stretch!important;margin-top:0!important;margin-bottom:0!important}.lcrow>.lchat{flex:1;min-width:0;margin:0;height:auto;white-space:normal;line-height:1.3}.lcrow>.gbox{margin:0 0 0 auto}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;align-items:start}.pair2>.card{margin:0;min-width:0}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
@@ -531,7 +532,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261116010302";
+const BUILD="20261116012038";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1315,19 +1316,20 @@ function rMap(v){
  v.append(mapBox(selReg));if(ovfOn())v.append(h("div",{c:"ovfb",t:"게이트 폭주 중 — 모든 지역 크리처 출몰 ×1.5 · 크리처 폭주 상태 · 헌터 오염도 상승"}));
  if(!me.trip&&me.sg&&sgPanel(v))return;
  if(!me.trip&&!inB())openGates(v);
- if(!me.trip&&!REG[me.loc].safe)v.append(btn("지역 채팅 · "+REG[me.loc].n+(unreadOf("rp")?" · 새 "+unreadOf("rp"):""),()=>openHub("rp"),"full",{style:"margin-bottom:8px"}));
+ const chatB=!me.trip&&!REG[me.loc].safe?btn("지역 채팅 · "+REG[me.loc].n+(unreadOf("rp")?" · 새 "+unreadOf("rp"):""),()=>openHub("rp"),"lchat"):null;
 
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
- bar.append(h("div",{c:"grow"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("div",{c:"xs mt",t:R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc)})));
+ bar.append(h("div",{c:"grow lname"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("span",{c:"xs mt",t:" · "+(R.arena?"크리처 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc))})));
  if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&bHere(battle))bar.append(btn("파티 전투",()=>{tab="battle";render(true)},canJ(battle)?"pri":""));
 }
- v.append(bar);
+ v.append(bar);const lrow=h("div",{c:"lcrow"});if(chatB)lrow.append(chatB);
  if(!me.ag&&!inB()&&!pvpCur()&&!R.safe&&(R.res||fishKind(me.loc))){const g=h("div",{c:"gbox"}),r3=h("div",{c:"g3"});
   Object.keys(GK).forEach(k=>{const has=R.res&&Object.keys(gkRes(R,k)).length;r3.append(btn(GK[k].n,()=>wrap(()=>gather(k)),hasTool(k)&&has?"pri sm":"sm",{disabled:!has,title:has?(hasTool(k)?"":IT[GK[k].tool].n+" 필요"):"여기엔 없어요"}))});
   r3.append(btn("낚시",()=>wrap(fish),fishKind(me.loc)?"pri sm":"sm",{disabled:!fishKind(me.loc)}));g.append(r3);
-  if(R.res)g.append(btn("자동 채집",agPop,"sm"));bar.append(g)}
+  if(R.res)g.append(btn("자동 채집",agPop,"sm"));lrow.append(g)}
+ if(lrow.childNodes.length)bar.append(lrow);
  if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 "+((GK[a.k]||GK.mine).n)+" 중 · "+d+" / "+a.n+"회"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
  if(R.safe&&!inB()&&!R.home){const s=h("div",{c:"fac"});(R.arena?ARSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
  else if(!inB()&&!R.home){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 크리처 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
