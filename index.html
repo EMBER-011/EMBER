@@ -68,7 +68,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
  #view.desk .holow canvas.holo{height:min(58vh,560px)}
 }
 /* 두 상자를 한 줄에 (ㅁㅁ) */
-.gbox{display:flex;flex-direction:column;gap:6px;margin:-4px 0 12px;width:max-content;max-width:100%}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
+.gbox{display:flex;flex-direction:column;gap:6px;margin:-4px 0 12px auto;width:max-content;max-width:100%;align-self:flex-end}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;align-items:start}.pair2>.card{margin:0;min-width:0}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
@@ -487,8 +487,9 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 #phone.vib{animation:vb .66s linear}#ptab.vib{animation:vb2 .66s linear}
 .cseg{display:flex;gap:6px;margin-bottom:8px}.cseg button{flex:1;padding:7px 8px;font-size:calc(13px*var(--fz,1));border-radius:8px}
 .fac{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.facb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:96px;padding:10px 6px;border-radius:10px;text-align:center}
-.facb svg{width:26px;height:26px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.facb.on svg{stroke:currentColor}
+.facb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:66px;padding:6px 6px;border-radius:10px;text-align:center}
+.facb svg{width:19px;height:19px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.facb.on svg{stroke:currentColor}
+.facb{display:grid;grid-template-columns:1fr auto auto 1fr;align-content:center;column-gap:6px;row-gap:2px;min-height:0}.facb>svg,.facb>b{align-self:center}.facb>b{font-size:calc(15px*var(--fz,1))}.facb>svg{grid-column:2}.facb>b{grid-column:3;text-align:left}.facb>small{grid-column:1/-1}
 .facb small{font-weight:400;font-size:calc(11px*var(--fz,1));opacity:.75;line-height:1.3}
 #auth{position:fixed;inset:0;z-index:40;background:var(--bg);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 #auth .acard{width:100%;max-width:360px;border:1px solid var(--bd);border-radius:12px;padding:22px 18px;background:var(--sf);display:flex;flex-direction:column;gap:8px}
@@ -530,7 +531,7 @@ const FB_CONFIG={
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261115155855";
+const BUILD="20261116005250";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1187,7 +1188,7 @@ function openPop(...k){const b=$("#popb");b.textContent="";ap(b,k);$("#pop").sty
 function closePop(){$("#pop").style.display="none"}
 let rt;function rq(){clearTimeout(rt);rt=setTimeout(render,120)}
 /* PC: 넓은 칸은 한 줄 전체 · 나머지 상자는 여러 단으로 (사이사이 넓은 칸이 오면 새 묶음) */
-const DESK_WIDE=".mapw,.locbar,.tripbar,.fac,.spotl,.ovfb,.rnob,.seg,.gtabs,.wide,.card.me";
+const DESK_WIDE=".gbox,.mapw,.locbar,.tripbar,.fac,.spotl,.ovfb,.rnob,.seg,.gtabs,.wide,.card.me";
 function deskWrap(v){const K=[...v.children];v.textContent="";let cur=null;K.forEach(e=>{if(e.matches(DESK_WIDE)){v.append(e);cur=null}else{if(!cur){cur=h("div",{c:"dcols"});v.append(cur)}cur.append(e)}})}
 const deskOn=()=>matchMedia("(min-width:1100px)").matches;let deskW=null;addEventListener("resize",()=>{const d=deskOn();if(deskW!==null&&d!==deskW){deskW=d;try{render(true)}catch(e){}}deskW=d});
 function navName(){const b=$("#nav button[data-k=home]");if(b){const t=me&&typeof myHomeId==="function"&&myHomeId()?"주택":"숙소";if(b.textContent!==t)b.textContent=t}}
@@ -1785,7 +1786,7 @@ async function startAuto(){if(hospBlock())return;{const _l=lockMsg();if(_l)retur
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(isTmpP(me.party))await tmpLeave();await upd({auto:{reg:me.loc,t0:Date.now(),dur:autoSel.d,prio:autoSel.p||"",sd:1+Math.floor(rf()*4294967294),hp0:Math.round(cur(me).hp)}});toast("자동 전투 시작 · "+AUTO_D.find(x=>x[0]===autoSel.d)[1])}
 function simAuto(a,mins){let z=(a.sd>>>0)||1;const rr=()=>{z^=z<<13;z>>>=0;z^=z>>>17;z^=z<<5;z>>>=0;return z/4294967296},rI=n=>Math.floor(rr()*n),pw2=p=>{let t=0;p.forEach(x=>t+=x[1]);let q=rr()*t;for(const x of p){if((q-=x[1])<0)return x[0]}return p[0][0]},mmR=lf=>{const r=pw2([[0,72],[1,22*lf],[2,3.5*lf],[3,.6*lf]]),L=MM.filter(x=>x[1]===r);return L[rI(L.length)][0]};let stop=null,dm=null;const R=REG[a.reg],hard=!!R.hard,lf=luckF(me),c=clone(me);let hp=a.hp0!=null?a.hp0:cur(me).hp,lv=c.lv,mh=maxHp(c),exp=c.exp,tan=0,gx=0,sp=0,wins=0,dead=false;const inv={...c.inv},got={},used={},P=pw(c)*1.25*(c.od?(()=>{const e=eff(c);return 1-(e.cf+e.sh+e.stn*.5)*.5})():1),D=df(c);
  const add=(id,q)=>{const k=addInv(inv,id,q);if(k)got[id]=(got[id]||0)+k};
- for(let i=0;i<Math.floor(mins/2);i++){if(hp<=mh*.4&&!healIt().some(k=>inv[k]>0)){stop=i*2;break}const ml=R.lv+3+rI(2),mhp=(50+ml*28)*1.25*(hard?1.4:1),matk=(6+ml*3)*1.15*(hard?1.25:1),tk=Math.min(240,mhp/Math.max(1,P/2.6));
+ for(let i=0;i<Math.floor(mins/2);i++){if(hp<=mh*.4&&!healIt().some(k=>inv[k]>0)){stop=i*2;break}const ml=R.lv+3+rI(2),mhp=MON_HPX*(50+ml*28)*1.25*(hard?1.4:1),matk=(6+ml*3)*1.15*(hard?1.25:1),tk=Math.min(240,mhp/Math.max(1,P/2.6));
   hp=Math.min(mh,hp+12)-Math.max(1,matk-D)*(c.role==="tank"?.75:1)*(tk/4.5);
   while(hp<mh*.5){let it=a.prio&&inv[a.prio]>0?a.prio:healIt().filter(k=>inv[k]>0).sort((x,y)=>IT[y].use.hp-IT[x].use.hp)[0];if(!it)break;inv[it]--;used[it]=(used[it]||0)+1;hp=Math.min(mh,hp+IT[it].use.hp)}
   if(hp<=0){dead=true;dm=(i+1)*2;break}wins++;
@@ -1953,12 +1954,13 @@ async function fish(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toa
  const k=fishKind(me.loc);if(!k)return toast("여기에는 낚시할 물가가 없어요");const rt=rodTier();if(!rt)return toast("낚시대가 필요해요 · 시장에서 사거나 물가를 조사해 보세요");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;{const c0=cur(me);if(c0.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+2000;await upd({en:Math.round(c0.en-GATHER_EN)})}
  if(rf()<ROD_MISS[rt])return toast(NOGOT);
  if(await startBattle(true,null,k)){hidePhone();closeAsk();tab="battle";render(true);toast(k==="sea"?"거대한 그림자가 낚싯줄을 끌어당긴다!":"수면 아래에서 무언가 낚싯줄을 물었다!")}}
+const MON_HPX=1.2;/* 일반 크리처 체력 배율 */
 async function startBattle(enc,spk,fishK){if(hospBlock())return;
 {const _l=lockMsg();if(_l)return toast(_l)} const R=REG[me.loc];if(R.safe)return toast(R.n+"에서는 크리처가 나타나지 않습니다");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 먼저 그만두세요");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return bBusy();
  const c=cur(me),H=HSP[spk||spot()]||HSP.out;
  const pt=me.party&&parties[me.party],tk0=pt&&pt.tmp?tmpKey():null,pals=tk0?pt.members.filter(id=>id!==uid&&tmpHere(id,tk0)&&!(battle&&battle.st==="on"&&battle.mem&&battle.mem[id])):[],n=pt?(pt.tmp?1+pals.length:pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length):1;
- const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=R.lv+H.lv+ri(3)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round((50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
+ const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=R.lv+H.lv+ri(3)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round(MON_HPX*(50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
  const bt={t:Date.now(),region:me.loc,spot:spk||spot(),st:"on",mon:{n:mo[0],attr:mo[1],lv,hp:max,max,atk:Math.round((6+lv*3)*(rf2?1.2:1)*(R.hard?1.25:1)),nextAt:Date.now()+5000},mem:{[uid]:mkMem(c)},log:[mo[0]+" (Lv"+lv+") 이(가) 나타났다!"].concat(R.hard?["종말의 섬의 크리처는 훨씬 강하다!"]:[]).concat(rf2?["비와 안개 속에서 크리처가 흉포해졌다!"]:[])};
  if(fishK){bt.fish=fishK;bt.rod=rodTier();bt.log.unshift("낚싯줄이 팽팽하게 당겨졌다!");if(fishK==="sea"){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.2)}}
  if(ovfOn()){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.35);bt.mon.atk=Math.round(bt.mon.atk*1.3);bt.log.push("게이트 폭주의 여파로 크리처가 폭주 상태다!")}
@@ -3757,15 +3759,18 @@ const FAILT=()=>"제작 실패… 재료 절반을 잃었어요 (성공률 "+Mat
 async function stoMove(id,n,put){if(!atSto())return toast("보관함은 "+stoWhere()+"에서만 쓸 수 있어요");const inv={...me.inv},st={...(me.store||{})},from=put?inv:st,to=put?st:inv;n=Math.min(n,from[id]||0);if(n<=0)return;
  const k=put?addTo(to,id,n,stoCap(),1e9):addTo(to,id,n,cap());if(k<=0)return toast(put?"보관함이 가득 찼어요":"가방이 가득 찼어요");from[id]-=k;if(!from[id])delete from[id];
  await upd({inv,store:st});toast(IT[id].n+" ×"+k+(put?" 보관함에 넣었어요":" 가방으로 꺼냈어요"))}
-function stoPop(id,put){const n=(put?me.inv:me.store||{})[id]||0;openPop(h("div",{c:"h0",t:IT[id].n}),h("div",{c:"sm mt",t:(put?"가방에 ":"보관함에 ")+n+"개"}),
- h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn(put?"1개 넣기":"1개 꺼내기",()=>{closePop();wrap(()=>stoMove(id,1,put))},"grow"),btn(put?"전부 넣기":"전부 꺼내기",()=>{closePop();wrap(()=>stoMove(id,n,put))},"pri grow"),btn("닫기",closePop,"grow")))}
+function itDescTxt(k){const i=IT[k]||{};let src="";try{src=typeof itemSrc==="function"?(itemSrc(k)||""):""}catch(e){}
+ return[i.d,i.atk?"공격 +"+i.atk:null,i.def?"방어 +"+i.def:null,i.rar>0&&RAR[i.rar]?RAR[i.rar].n:null].filter(Boolean).join(" · ")||(typeof src==="string"&&src?"얻는 곳: "+src:"")}
+function stoPop(id,put){const n=(put?me.inv:me.store||{})[id]||0,here=atSto(),ds=itDescTxt(id);openPop(h("div",{c:"h0",t:IT[id].n}),h("div",{c:"sm mt",t:(put?"가방에 ":"보관함에 ")+n+"개"}),ds?h("p",{c:"sm",style:"margin:8px 0 0;line-height:1.5",t:ds}):null,
+ here?null:h("p",{c:"xs mt",style:"margin:8px 0 0",t:"보관함은 "+stoWhere()+"에서만 꺼낼 수 있어요"}),here?null:btn("닫기",closePop,"full",{style:"margin-top:12px"}),
+ here?h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn(put?"1개 넣기":"1개 꺼내기",()=>{closePop();wrap(()=>stoMove(id,1,put))},"grow"),btn(put?"전부 넣기":"전부 꺼내기",()=>{closePop();wrap(()=>stoMove(id,n,put))},"pri grow"),btn("닫기",closePop,"grow")):null)}
 let stoOpen=false;
 function rStore(v){const S=me.store||{},here=atSto();
  if(!stoOpen){v.append(h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:"보관함"}),h("span",{c:"sm mt",t:kinds(S)+" / "+stoCap()+" 칸"})),btn("물건 넣기",()=>{stoOpen=true;render(true)},"pri full",{style:"margin-top:8px"})));return}
- const grid=(o,put)=>{const ks=Object.keys(o).filter(k=>o[k]>0&&IT[k]).sort((a,b)=>IT[a].n.localeCompare(IT[b].n));return slotGrid(ks.map(k=>({t:IT[k].n,n:o[k],col:IT[k].rar>0?RAR[IT[k].rar].c:null,on:()=>here?(put?wrap(()=>stoMove(k,o[k],true)):stoPop(k,put)):toast("보관함은 "+stoWhere()+"에서만 쓸 수 있어요")})),put?cap()-invN(me.inv):stoCap()-kinds(S))};
+ const grid=(o,put)=>{const ks=Object.keys(o).filter(k=>o[k]>0&&IT[k]).sort((a,b)=>IT[a].n.localeCompare(IT[b].n));return slotGrid(ks.map(k=>({t:IT[k].n,n:o[k],col:IT[k].rar>0?RAR[IT[k].rar].c:null,on:()=>put?(here?wrap(()=>stoMove(k,o[k],true)):toast("보관함은 "+stoWhere()+"에서만 쓸 수 있어요")):stoPop(k,false)})),put?cap()-invN(me.inv):stoCap()-kinds(S))};
  if(!here)v.append(h("div",{c:"card"},h("p",{c:"sm bad",style:"margin:0",t:"보관함은 "+stoWhere()+"에서만 넣고 꺼낼 수 있어요. 지금은 볼 수만 있어요."})));
  v.append(h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:"보관함"}),h("span",{c:"sm "+(kinds(S)>=stoCap()?"bad":"mt"),t:kinds(S)+" / "+stoCap()+" 칸"}),btn("닫기",()=>{stoOpen=false;render(true)},"sm")),grid(S,false),h("p",{c:"xs mt",style:"margin:8px 0 0",t:(me.stx||0)>=STO_X.length?"보관함은 최대 크기예요.":"보관함 확장은 목공소에 전화해서 맡겨요 · ☎ 133"})));
- v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"가방"}),h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"})),h("p",{c:"xs mt",style:"margin:-2px 0 6px",t:"누르면 그 물건을 전부 보관함에 넣어요 · 보관함 물건을 누르면 꺼내요"}),grid(me.inv,true)))}
+ v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"가방"}),h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"})),h("p",{c:"xs mt",style:"margin:-2px 0 6px",t:"누르면 그 물건을 전부 보관함에 넣어요 · 보관함 물건을 누르면 설명과 꺼내기가 나와요"}),grid(me.inv,true)))}
 /* ===== 협회 가입 상태 · 비상구조요청송신기 ===== */
 IT.sos_tx={n:"비상구조요청송신기",d:"헌터 협회가 지급하는 송신기. 받으면 장비 화면에 돌아가요."};
 const sosAvail=()=>!!me&&!me.hqOut&&!me.sosOff;
