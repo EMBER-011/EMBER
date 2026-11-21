@@ -75,7 +75,8 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
 .dnl{display:flex;flex-direction:column;gap:4px}.dnr{display:flex;align-items:center;gap:6px;min-width:0}.dnr .grow{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(13px*var(--fz,1))}
-.jobrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}.jobb{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:8px 10px}.jobb small{font-size:calc(10.5px*var(--fz,1));opacity:.8;line-height:1.3}.jobrow.jmode{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.jobb.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.jobrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}.jobb{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:8px 10px}.jobb small{font-size:calc(10.5px*var(--fz,1));opacity:.8;line-height:1.3}.jobc.jin{margin:12px 0 4px;padding-top:10px;border-top:1px solid var(--ln)}.jobc.jin h3{margin:0 0 6px}
+.jobrow.jmode{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.jobb.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
 .dnr input.dnq{width:58px;flex:none;padding:5px 6px;text-align:right}
 .qbuy{display:inline-flex;gap:6px;align-items:center;flex:none}.qbuy input.dnq{width:64px;padding:5px 6px;text-align:right}
 @media (max-width:640px){.pair2.gdn{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.dnr{flex-wrap:wrap;gap:4px;padding-bottom:4px;border-bottom:1px solid var(--ln)}.dnr .grow{flex-basis:100%}.dnr input.dnq{flex:1;width:auto;min-width:0}}
@@ -568,7 +569,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261121170133";
+const BUILD="20261121182301";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2198,6 +2199,7 @@ async function settle(b){
   else{p.hp=Math.max(1,m.hp);msg="전투 종료"}
   if(b.gate&&(b.gate.kind==="w"||b.gate.kind==="s"||b.gate.kind==="gm")&&m.hp<=0){const g=gateById(b.gate.id);cntAdd(p,"mis");p.mis={t:Date.now(),reg:g?(g.reg||nearReg(g.x,g.y)):b.region,grade:(g&&g.grade)||b.gate.grade||"D",lab:g?gLabel(g):"게이트",gid:b.gate.id};
    p.loc=me.loc;p.spot=me.spot||"out";p.sg=null;p.trip=null;p.hp=1;msg="게이트 안에서 쓰러졌다… 실종 상태 · 10분 안에 다른 헌터가 구조하러 올 수 있어요";if(krDrop(p))msg+=" · 기기에 달아 둔 키링을 잃어버렸다"}
+  if(b.st==="won"&&m.hp>0&&b.gate&&b.gate.boss&&(b.gate.kind==="w"||b.gate.kind==="s")&&isS(me)&&(b.gate.kind==="s"||SD_G.includes(b.gate.grade))){const dd=kday(Date.now()),n0=(me.sd&&me.sd.d===dd)?me.sd.n:0;p.sd={d:dd,n:n0+1};if(n0+1===SD_N)msg+=" · 오늘 S급 의무 완료"}
   const hurt=m.hurt||[];if(hurt.length){const A=clone(me.ail||{}),now=Date.now();hurt.forEach(k=>{A[k]={t:now};if(AIL[k].nat)A[k].u=now+AIL[k].nat});p.ail=A;msg+=" · 부상: "+hurt.map(k=>AIL[k].n).join(", ")}
  ttlScan(p);await db.doc("chars/"+uid).update(p);toast(msg);setTimeout(()=>{if(tab==="battle"&&!inB()){tab="map";render(true)}},900);gcd=Math.max(gcd||0,Date.now()+1500);if(b.gate)gxLast=Date.now();if(b.gate&&b.gate.kind==="r")rescueAfter(b).catch(()=>{});else if(b.gate&&b.gate.kind!=="p"&&b.gate.kind!=="gm")pushContrib(b.gate,m.dmg||0,m.hp<=0,b.st==="won"&&!!b.gate.boss).catch(e=>toast("게이트 기록 실패: "+errT(e)))}
  finally{settling=false}
@@ -2526,7 +2528,7 @@ async function eqpUse(i){if(inB())return toast("전투 중에는 판매할 수 �
  await upd({eq:ne,gear:G,inv});toast("「"+P.n+"」 프리셋으로 장비 변경"+(miss?" · 없는 장비 "+miss+"개는 제외":""))}
 function eqpCard(){const c=h("div",{c:"card"},h("h3",{t:"장비 프리셋"}),h("p",{c:"xs mt",style:"margin:-4px 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집할 때는 「채집」에 도구를 저장해 두십시오"}));
  EQP_N.forEach((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(()=>eqpSave(i)),"sm"),btn("착용",()=>wrap(()=>eqpUse(i)),"pri sm",{disabled:!P})))});return c}
-function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));v.append(jobCard());v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 캐릭터"})),h("div",{c:"eqrow"},eqFx(),equipView()),sdRow(),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 수리와 강화는 중앙 거점 정비소에서. 왼쪽은 비상구조요청송신기입니다."}))));v.append(eqpCard());statCards(v)}
+function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 캐릭터"})),h("div",{c:"eqrow"},eqFx(),equipView()),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 수리와 강화는 중앙 거점 정비소에서. 왼쪽은 비상구조요청송신기입니다."})),sdRow()));v.append(eqpCard());statCards(v)}
 function slotPop(s){const t=slotType(s),lab=SLOTS.find(z=>z[0]===s)[1],q=(me.eq||{})[s],cand=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&IT[k].slot===t),gc=(me.gear||[]).filter(x=>IT[x.id]&&IT[x.id].slot===t).sort((a,b)=>b.r-a.r);
  const list=h("div",{});if(!cand.length&&!gc.length)list.append(h("p",{c:"sm mt",t:"이 부위에 장착할 수 있는 장비가 없습니다."}));
  gc.forEach(x=>list.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[x.r].c,t:"["+RAR[x.r].n+"] "+gName(x)}),h("div",{c:"xs mt",t:gDesc(x)||"옵션 없음"})),btn("장착",async()=>{await equipGear(x.gid,s);closePop()},"pri sm"))));
@@ -2848,6 +2850,7 @@ function statCards(v){
  {const tb=h("div",{c:"seg",style:"margin:2px 0 6px"});[["b","전투"],["c","채집 · 제작"]].forEach(([k,n])=>tb.append(h("button",{c:stTab===k?"on":"",t:n,onclick:()=>{stTab=k;render(true)}})));st.append(tb)}
  (stTab==="c"?SHOW_C:SHOW_B).forEach(i=>{const n=SN[i],val=me.s[i]||0;st.append(h("div",{c:"stat",style:"margin:1px 0"},h("span",{c:"n sm",t:n,style:i===ROLE[me.role].key?"color:var(--ac2);font-weight:700":""}),mbar(val/cp),h("b",{t:val}),eqStat(me,"s"+i)?h("span",{c:"xs ok",t:"+"+eqStat(me,"s"+i)}):null,
   sp>0?h("button",{t:"+",disabled:val>=cp,onclick:()=>wrap(()=>addStat(i))}):null),h("div",{c:"sdesc",t:SDESC[i]}))});
+ if(stTab==="c"){const jc=jobCard();jc.className="jobc jin";st.append(jc)}
  st.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"레벨업마다 1포인트 · 100레벨까지 총 "+(15+MAXLV-1)+"포인트 · 스탯 하나당 최대 "+STATMAX+" · 행운: 드랍률·채집량 ×"+luckF(me).toFixed(2)+" · 손재주: 제작 성공률 "+Math.round(craftRate(me)*100)+"% · 지식: 등급 상승 +"+Math.floor((es(me,6)||0)/5)*3+"%"}));
  v.append(h("div",{c:"card"},
   h("div",{c:"sm",t:"총 공격력 "+pw(me)+" · 치유력 "+hl(me)+" · 총 방어력 "+df(me)}),h("div",{c:"sm mt",t:"최대 MP "+maxMp(me)+" · MP 소모 ×"+mpMult(me).toFixed(2)+" · 채집 성공률 "+Math.round(gRate(me)*100)+"% · 오염 저항 "+Math.round(conRes(me)*100)+"%"})),st)}
@@ -3301,7 +3304,7 @@ async function claimOne(p){if(claimBusy)return;claimBusy=true;
   if(d.k==="item"){const inv={...me.inv},q=d.qty||1;if(!IT[d.item]){await ref.delete();return}if(addInv(inv,d.item,q)<q){if(Date.now()-fullT>60000){fullT=Date.now();toast("가방 자리가 부족해 "+IT[d.item].n+"을(를) 받지 못했습니다. 가방을 비우면 자동으로 받습니다")}return}
    await ref.delete();claimExp=-1;claimT=Date.now();await upd({inv});toast(IT[d.item].n+" ×"+q+" 받음 · "+(d.memo||from));return}
   await ref.delete();const nb=(me.bank||0)+d.amt;claimExp=nb;claimT=Date.now();const tx=d.k==="sale"?"거래소 · "+(d.memo||""):d.k==="gate"||d.k==="req"?(d.memo||""):"입금 · "+from;
-  await upd(Object.assign(d.k==="gate"?(()=>{const q=cntAdd({},"gate");if(d.gk==="s")cntAdd(q,"sg");if(isS(me)&&(d.gk==="s"||SD_G.includes(d.gg))){const dd=kday(Date.now());q.sd={d:dd,n:((me.sd&&me.sd.d===dd)?me.sd.n:0)+1}}if(d.ov)cntAdd(q,"ovf");return q})():{},{bank:nb,blog:[{t:Date.now(),amt:d.amt,txt:tx}].concat(me.blog||[]).slice(0,30)},d.rep5?{rep:Math.min(100,repOf(me)+5)}:{}));if(d.rep5)setTimeout(()=>toast("키링이 주인에게 돌아갔습니다 · 명성 +5"),1500);
+  await upd(Object.assign(d.k==="gate"?(()=>{const q=cntAdd({},"gate");if(d.gk==="s")cntAdd(q,"sg");if(d.ov)cntAdd(q,"ovf");return q})():{},{bank:nb,blog:[{t:Date.now(),amt:d.amt,txt:tx}].concat(me.blog||[]).slice(0,30)},d.rep5?{rep:Math.min(100,repOf(me)+5)}:{}));if(d.rep5)setTimeout(()=>toast("키링이 주인에게 돌아갔습니다 · 명성 +5"),1500);
   toast("은행 입금 +"+won(d.amt)+" 환 ("+(d.k==="sale"?"거래소 판매":d.k==="gate"?"협회 게이트 보상":d.k==="req"?"의뢰 보수":from)+")")}catch(e){}finally{claimBusy=false}}
 /* ===== 전화 (실시간 · 저장 안 됨) ===== */
 let call={st:"idle"},callTo=null,ringIv=null;
@@ -3865,12 +3868,12 @@ async function bossDo(pid){const ref=db.doc("pvp/"+pid),s=await ref.get();if(!s.
    else if(sk.t==="heal"||sk.t==="healAll"){const q=Math.round((m.hl||10)*(sk.t==="heal"?1.4:.7)*2);E({k:"heal",to:bid,v:q,txt:m.n+"의 "+sk.n+" → 스스로 +"+q})}}}
  await ref.update({["e_"+bid]:evs.slice(-300),bcd:cd,bnx:now+RMP_ACT})}
 function sdRow(){if(!isS(me)&&!rmpD()&&!me.rmp)return null;const d=kday(Date.now()),n=isS(me)&&me.sd&&me.sd.d===d?me.sd.n:0,ok=n>=SD_N,bad=me.rmp||rmpD();
- const t=me.rmp?"폭주 중 · 다른 헌터들이 제압하러 오고 있습니다":rmpD()?"폭주 후유증 · 남은 시간 "+hmT(rmpLeft()):"B급 이상 게이트 클리어 · "+(ok?"오늘 의무 완료":"못 채우면 내일 오염도 +"+SD_PEN+"%");
+ const t=me.rmp?"폭주 중 · 다른 헌터들이 제압하러 오고 있습니다":rmpD()?"폭주 후유증 · 남은 시간 "+hmT(rmpLeft()):"B급 이상 게이트 심부 클리어 · "+(ok?"오늘 의무 완료":"못 채우면 내일 오염도 +"+SD_PEN+"%");
  return h("button",{c:"eqsd"+(bad?" bad":ok?" ok":""),type:"button",onclick:()=>{const c=sdCard();if(c)openPop(c,btn("닫기",closePop,"full",{style:"margin-top:8px"}))}},
   h("b",{t:isS(me)?"S급 의무":"S급 헌터"}),h("span",{c:"eqsdt",t}),isS(me)?h("span",{c:"eqsdn",t:Math.min(n,SD_N)+" / "+SD_N}):null)}
 function sdCard(){if(!isS(me)&&!rmpD()&&!me.rmp)return null;const c=h("div",{c:"card"},h("h3",{t:"S급 헌터"}));
  if(me.rmp)c.append(h("p",{c:"sm bad",t:"폭주 중 · 다른 헌터들이 제압하러 오고 있습니다"}));
- if(isS(me)){const d=kday(Date.now()),n=me.sd&&me.sd.d===d?me.sd.n:0;c.append(h("div",{c:"row sb sm"},h("span",{t:"오늘의 의무 · B급 이상 게이트 클리어"}),h("b",{c:n>=SD_N?"ok":"gold",t:Math.min(n,SD_N)+" / "+SD_N})),
+ if(isS(me)){const d=kday(Date.now()),n=me.sd&&me.sd.d===d?me.sd.n:0;c.append(h("div",{c:"row sb sm"},h("span",{t:"오늘의 의무 · B급 이상 게이트 심부(보스)까지 클리어"}),h("b",{c:n>=SD_N?"ok":"gold",t:Math.min(n,SD_N)+" / "+SD_N})),
   h("p",{c:"xs mt",style:"margin:4px 0 0",t:"S급은 오염도가 1.5배로 쌓입니다 · 의무를 못 채우면 다음 날 오염도 +"+SD_PEN+"% · 오염도 100%가 되면 폭주"}))}
  if(rmpD()){c.append(h("div",{c:"sm",style:"margin-top:8px"},"폭주 후유증 · 남은 시간 ",h("b",{t:hmT(rmpLeft())})));RMP_DB.forEach(([n,d])=>c.append(h("div",{c:"xs mt"},h("b",{t:n+" "}),d)));
   c.append(h("p",{c:"xs mt",style:"margin:4px 0 0",t:"격리실에 입원하면 30분마다 15분씩 줄어듭니다 (최대 "+RMP_HMAX+"번 · 지금 "+(me.rmpd.hr||0)+"번)"}))}
@@ -4386,7 +4389,7 @@ async function setJMode(m){if(inB())return toast("전투 중에는 바꿀 수 �
  await upd({job:J});jobEd={m:0};const X=JMODE.find(x=>x[0]===m);toast(m==="gc"?"채집 · 제작 직업을 모두 고를 수 있습니다":X[1]+" · "+X[2])}
 function jobCard(){const c=h("div",{c:"card jobc"},h("h3",{t:"직업"}),h("p",{c:"xs mt",style:"margin:-4px 0 4px",t:"채집 직업 1개와 제작 직업 1개 · 최고 Lv"+JMAX+" · 한 번 정하면 바꿀 수 없습니다"}));
  {const md=jMode(),J=me.job||{},mr=h("div",{c:"jobrow jmode"}),dec=!!(J.g||J.c||J.ng||J.nc);
-  if(dec&&!jobEd.m){const X=JMODE.find(x=>x[0]===md);c.append(h("div",{c:"jsum"},h("div",{c:"grow"},h("div",{c:"sm"},"직업 구성 · ",h("b",{c:"gold",t:X[1]})),h("div",{c:"xs mt",t:X[2]})),null))}else{
+  if(dec){}else{
   c.append(h("div",{c:"sm",style:"margin:6px 0 4px;font-weight:700"},"직업 구성",dec?btn("닫기",()=>{jobEd.m=0;render(true)},"sm",{style:"margin-left:8px"}):null));
   JMODE.forEach(([k,n,d])=>{const lose=[(k==="c"||k==="x")&&J.g&&GJOB[J.g]?GJOB[J.g].n:null,(k==="g"||k==="x")&&J.c&&CJOB[J.c]?CJOB[J.c].n:null].filter(Boolean);
    mr.append(h("button",{c:"jobb"+(md===k?" on":""),onclick:()=>{if(md===k)return;if(k!=="gc"&&!arm["m"+k]){arm["m"+k]=1;setTimeout(()=>{arm["m"+k]=0},3000);return toast("직업 구성은 한 번 정하면 바꿀 수 없습니다 · 한 번 더 누르면 「"+n+"」로 정합니다")}wrap(()=>setJMode(k))}},h("b",{t:n}),h("small",{t:d})))});c.append(mr)}}
