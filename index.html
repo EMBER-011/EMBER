@@ -568,7 +568,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261121164348";
+const BUILD="20261121170133";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4377,22 +4377,24 @@ function jobGain(p,t,key,x){const J=Object.assign({},p.job||me.job||{});if(J[t]!
 const jobBonus=key=>jobOf("c")===key?Math.floor(jobLv("c")/10)*.05:0;/* 제작 직업 레벨 10마다 품질(등급 상승) +5% */
 const gNeedJob=k=>k==="mine"?"mine":k==="wood"?"herb":k==="fish"?"fish":null;
 async function setJob(t,key){if(inB())return toast("전투 중에는 바꿀 수 없습니다");if((me.job||{})["n"+t])return toast((t==="g"?"채집":"제작")+" 직업을 선택하지 않기로 했습니다 · 위의 「직업 구성」에서 바꿔 주십시오");const T=t==="g"?GJOB:CJOB,X=T[key];if(!X)return;if(X.role&&me.role!==X.role)return toast(X.n+"는 "+ROLE[X.role].n+"만 될 수 있습니다");
- const J=Object.assign({},me.job||{});if(J[t]===key)return;J[t]=key;J[t+"l"]=1;J[t+"x"]=0;await upd({job:J});toast(X.n+" 직업을 얻었습니다")}
+ const J=Object.assign({},me.job||{});if(J[t]===key)return;if(J[t])return toast("직업은 한 번 정하면 바꿀 수 없습니다");J[t]=key;J[t+"l"]=1;J[t+"x"]=0;await upd({job:J});toast(X.n+" 직업을 얻었습니다")}
 let jobEd={};
 const JMODE=[["gc","채집 · 제작 직업 모두 받음","채집 직업 하나 · 제작 직업 하나"],["c","채집 직업을 선택하지 않는다","제작 직업만 하나"],["g","제작 직업을 선택하지 않는다","채집 직업만 하나"],["x","채제작 직업을 선택하지 않는다","채집, 제작 직업 모두 안 받음"]];
 const jMode=()=>{const J=(me&&me.job)||{};return J.ng&&J.nc?"x":J.ng?"c":J.nc?"g":"gc"};
-async function setJMode(m){if(inB())return toast("전투 중에는 바꿀 수 없습니다");const J=Object.assign({},me.job||{}),ng=m==="c"||m==="x",nc=m==="g"||m==="x";
+async function setJMode(m){if(inB())return toast("전투 중에는 바꿀 수 없습니다");{const J0=me.job||{};if(J0.g||J0.c||J0.ng||J0.nc)return toast("직업 구성은 한 번 정하면 바꿀 수 없습니다")}const J=Object.assign({},me.job||{}),ng=m==="c"||m==="x",nc=m==="g"||m==="x";
  if(ng){delete J.g;delete J.gl;delete J.gx;J.ng=1}else delete J.ng;if(nc){delete J.c;delete J.cl;delete J.cx;J.nc=1}else delete J.nc;
- await upd({job:J});jobEd={};const X=JMODE.find(x=>x[0]===m);toast(m==="gc"?"채집 · 제작 직업을 모두 고를 수 있습니다":X[1]+" · "+X[2])}
-function jobCard(){const c=h("div",{c:"card jobc"},h("h3",{t:"직업"}),h("p",{c:"xs mt",style:"margin:-4px 0 4px",t:"채집 직업 1개와 제작 직업 1개 · 최고 Lv"+JMAX+" · 바꾸면 그 직업 레벨은 1부터 다시 시작합니다"}));
- {const md=jMode(),J=me.job||{},mr=h("div",{c:"jobrow jmode"});c.append(h("div",{c:"sm",style:"margin:6px 0 4px;font-weight:700",t:"직업 구성"}));
+ await upd({job:J});jobEd={m:0};const X=JMODE.find(x=>x[0]===m);toast(m==="gc"?"채집 · 제작 직업을 모두 고를 수 있습니다":X[1]+" · "+X[2])}
+function jobCard(){const c=h("div",{c:"card jobc"},h("h3",{t:"직업"}),h("p",{c:"xs mt",style:"margin:-4px 0 4px",t:"채집 직업 1개와 제작 직업 1개 · 최고 Lv"+JMAX+" · 한 번 정하면 바꿀 수 없습니다"}));
+ {const md=jMode(),J=me.job||{},mr=h("div",{c:"jobrow jmode"}),dec=!!(J.g||J.c||J.ng||J.nc);
+  if(dec&&!jobEd.m){const X=JMODE.find(x=>x[0]===md);c.append(h("div",{c:"jsum"},h("div",{c:"grow"},h("div",{c:"sm"},"직업 구성 · ",h("b",{c:"gold",t:X[1]})),h("div",{c:"xs mt",t:X[2]})),null))}else{
+  c.append(h("div",{c:"sm",style:"margin:6px 0 4px;font-weight:700"},"직업 구성",dec?btn("닫기",()=>{jobEd.m=0;render(true)},"sm",{style:"margin-left:8px"}):null));
   JMODE.forEach(([k,n,d])=>{const lose=[(k==="c"||k==="x")&&J.g&&GJOB[J.g]?GJOB[J.g].n:null,(k==="g"||k==="x")&&J.c&&CJOB[J.c]?CJOB[J.c].n:null].filter(Boolean);
-   mr.append(h("button",{c:"jobb"+(md===k?" on":""),onclick:()=>{if(md===k)return;if(lose.length&&!arm["m"+k]){arm["m"+k]=1;setTimeout(()=>{arm["m"+k]=0},3000);return toast("한 번 더 누르면 "+lose.join(" · ")+" 직업과 레벨이 사라집니다")}wrap(()=>setJMode(k))}},h("b",{t:n}),h("small",{t:d})))});c.append(mr)}
+   mr.append(h("button",{c:"jobb"+(md===k?" on":""),onclick:()=>{if(md===k)return;if(k!=="gc"&&!arm["m"+k]){arm["m"+k]=1;setTimeout(()=>{arm["m"+k]=0},3000);return toast("직업 구성은 한 번 정하면 바꿀 수 없습니다 · 한 번 더 누르면 「"+n+"」로 정합니다")}wrap(()=>setJMode(k))}},h("b",{t:n}),h("small",{t:d})))});c.append(mr)}}
  [["g","채집 직업",GJOB],["c","제작 직업",CJOB]].forEach(([t,lab,T])=>{const cur=jobOf(t),lv=jobLv(t),xp=(me.job||{})[t+"x"]||0;
-  if((me.job||{})["n"+t]){c.append(h("div",{c:"jsum"},h("div",{c:"grow sm"},lab+" · ",h("span",{c:"mt",t:"선택하지 않음"}))));return}
-  if(cur&&!jobEd[t]){c.append(h("div",{c:"jsum"},h("div",{c:"grow"},h("div",{c:"sm"},lab+" · ",h("b",{c:"gold",t:T[cur].n+" Lv"+lv}),h("span",{c:"xs mt",t:lv<JMAX?" ("+xp+" / "+jNeed(lv)+")":" (최고)"})),h("div",{c:"xs mt",t:T[cur].d}),lv<JMAX?h("div",{c:"thin"},h("i",{style:"width:"+Math.round(xp/jNeed(lv)*100)+"%;background:var(--gold)"})):null),btn("바꾸기",()=>{jobEd[t]=1;render(true)},"sm")));return}
+  if((me.job||{})["n"+t])return;
+  if(cur&&!jobEd[t]){c.append(h("div",{c:"jsum"},h("div",{c:"grow"},h("div",{c:"sm"},lab+" · ",h("b",{c:"gold",t:T[cur].n+" Lv"+lv}),h("span",{c:"xs mt",t:lv<JMAX?" ("+xp+" / "+jNeed(lv)+")":" (최고)"})),h("div",{c:"xs mt",t:T[cur].d}),lv<JMAX?h("div",{c:"thin"},h("i",{style:"width:"+Math.round(xp/jNeed(lv)*100)+"%;background:var(--gold)"})):null),null));return}
   c.append(h("div",{c:"sm",style:"margin:8px 0 4px;font-weight:700"},lab+" · ",h("span",{c:cur?"gold":"mt",t:cur?T[cur].n+" Lv"+lv:"고르기"}),cur?btn("닫기",()=>{jobEd[t]=0;render(true)},"sm",{style:"margin-left:8px"}):null));
-  const row=h("div",{c:"jobrow"});Object.entries(T).forEach(([k,X])=>{const no=X.role&&me.role!==X.role;row.append(h("button",{c:"jobb"+(cur===k?" on":""),disabled:no,title:X.d,onclick:()=>{if(cur===k)return;if(cur&&!arm[t+k]){arm[t+k]=1;setTimeout(()=>{arm[t+k]=0},3000);return toast("한 번 더 누르면 "+X.n+"로 바뀌고 지금 직업 레벨이 사라집니다")}jobEd[t]=0;wrap(()=>setJob(t,k))}},h("b",{t:X.n}),h("small",{t:X.d})))});c.append(row)});return c}
+  const row=h("div",{c:"jobrow"});Object.entries(T).forEach(([k,X])=>{const no=X.role&&me.role!==X.role;row.append(h("button",{c:"jobb"+(cur===k?" on":""),disabled:no,title:X.d,onclick:()=>{if(cur===k)return;if(!arm[t+k]){arm[t+k]=1;setTimeout(()=>{arm[t+k]=0},3000);return toast("직업은 한 번 정하면 바꿀 수 없습니다 · 한 번 더 누르면 "+X.n+"(으)로 정합니다")}jobEd[t]=0;wrap(()=>setJob(t,k))}},h("b",{t:X.n}),h("small",{t:X.d})))});c.append(row)});return c}
 const arm={};
 const craftBad=need=>rf()<craftRate(me)?null:(fbOn("cm")?{}:matTake(need,1));
 /* 제작 등급: 손재주 비례 · 일반 >>>>> 고급 >>> 희귀 >>> 전설 · 제작법 기본 등급 아래로는 안 나옴 */
