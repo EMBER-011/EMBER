@@ -82,7 +82,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 .lotov{position:fixed;inset:0;z-index:21;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);padding:16px}.lotsv{width:min(340px,92vw);height:auto;filter:drop-shadow(0 10px 28px rgba(0,0,0,.55));touch-action:manipulation}
 .krlog{margin-top:8px;border-top:1px solid var(--ln);padding-top:6px}.krlog summary{cursor:pointer}
 .crtop{display:flex;gap:8px;align-items:center;margin:2px 0 6px}.crtop .crq{flex:1;min-width:0}.crkn{display:flex;align-items:center;gap:4px;font-size:calc(12px*var(--fz,1));white-space:nowrap;flex:none}.crkn input{width:auto;margin:0}.seg.crc{margin:0 0 4px;flex-wrap:wrap}.crh{margin:12px 0 2px;color:var(--ac2);font-weight:700}.crl .crh:first-child{margin-top:4px}
-.jobrow.jmode{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.jobb.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
+.jobrow.jmode{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.jmode,.jmode *{word-break:keep-all;overflow-wrap:break-word}#view.desk .gmk .pri.full{max-width:420px;margin:0 auto;display:block}.jobb.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac) inset}
 .dnr input.dnq{width:58px;flex:none;padding:5px 6px;text-align:right}
 .qbuy{display:inline-flex;gap:6px;align-items:center;flex:none}.qbuy input.dnq{width:64px;padding:5px 6px;text-align:right}
 @media (max-width:640px){.pair2.gdn{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.dnr{flex-wrap:wrap;gap:4px;padding-bottom:4px;border-bottom:1px solid var(--ln)}.dnr .grow{flex-basis:100%}.dnr input.dnq{flex:1;width:auto;min-width:0}}
@@ -575,7 +575,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261122184051";
+const BUILD="20261122184552";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2626,8 +2626,8 @@ function rGuild(v){needWar();
  if(gsub==="house"){rGuildHouse(v,{id:me.guild});return}
  if(gsub==="train"){rTrain(v,g);return}
  if(gsub!=="info"){room=gsub==="chat"?"g":"owner";chatBox(v);return}
- if(!g){v.append(h("div",{c:"card"},h("h3",{t:"길드 창설"}),btn("길드 만들기",()=>gCreateOpen(),"pri full")));
-  const l=h("div",{c:"card"},h("h3",{t:"길드 목록"}));
+ if(!g){v.append(h("div",{c:"card wide gmk"},h("h3",{t:"길드 창설"}),btn("길드 만들기",()=>gCreateOpen(),"pri full")));
+  const l=h("div",{c:"card wide glst"},h("h3",{t:"길드 목록"}));
   if(me.gReq&&guilds[me.gReq])l.append(h("p",{c:"xs ok",style:"margin:0 0 6px",t:guilds[me.gReq].name+" 길드에 가입 신청 중 · 길드장이 허락하면 들어갑니다"}));
   const es=Object.entries(guilds);if(!es.length)l.append(h("p",{c:"mt sm",t:"아직 길드가 없습니다."}));
   es.forEach(([id,x])=>{const full=x.members.length>=gCap(x),mine=me.gReq===id,ok=gJm(x)==="ok";
