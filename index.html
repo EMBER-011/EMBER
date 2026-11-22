@@ -572,7 +572,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261122040354";
+const BUILD="20261122041638";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2066,7 +2066,7 @@ function crPanel(box,row){
   Object.entries(secs).forEach(([sn,X])=>{list.append(h("div",{c:"sm crh",t:sn+" "+X.length}));X.forEach(x=>{const e=cache[x.id]||(cache[x.id]=x.mk());if(e)list.append(e)})});
   cnt.textContent=n+"개";if(!n)list.append(h("p",{c:"xs mt",style:"margin:10px 2px",t:crF.kn?"조건에 맞는 익힌 제작법이 없습니다 · 「익힌 것만」을 끄면 모두 보입니다":"조건에 맞는 제작이 없습니다"}))}
  box.append(h("div",{c:"crtop"},q,h("label",{c:"crkn"},kc,h("span",{t:"익힌 것만"})),cnt),seg,
-  h("p",{c:"xs mt",style:"margin:2px 0 6px",t:"장비 제작법은 게이트 전투에서 떨어집니다 (의태종 레벨 구간의 제작법) · 가구 도면 · 의태종 제작법도 게이트에서"}),list);fill()}
+  h("p",{c:"xs mt",style:"margin:2px 0 6px",t:"장비 제작법은 게이트 전투에서 떨어집니다 (의태종 레벨 구간의 제작법) · 최종 장비(바벨의 ○○) 제작법은 바벨론 레이드에서 · 가구 도면 · 의태종 제작법도 게이트에서"}),list);fill()}
 function rcpRows(box,row,tbl,fn,kind){const onlyKn=tbl===MRC||tbl===HRC;let shown=0;Object.entries(tbl).forEach(([id,x])=>{const need=x.need||x,i=IT[id],kn=knowsR(id),rr=x.r!=null?x.r:null;if(onlyKn&&!kn)return;shown++;const jm=onlyKn?jReqMsg(rr||0):null,ok=kn&&!jm&&Object.keys(need).every(k=>haveM(k)>=need[k]);
  box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:rr!=null?"color:"+RAR[rr].c:"",t:(rr!=null?"["+RAR[rr].n+(rr<3?" 이상":"")+"] ":"")+i.n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":kind+" 미습득 · ")+(jm?jm+" · ":"")+Object.entries(need).map(([k,q])=>(k==="egg"?"달걀(괴조 알도 됨)":IT[k].n)+" "+haveM(k)+"/"+q).join(" · ")+(i.slot?(()=>{const lvC=tbl===HRC?(IT[id].bd||me.lv):tbl===MRC?Math.max(5,me.lv):Math.max(1,me.lv),P=gPrev(id,lvC,rr||0);return(P.atk?" · 공격력 +"+P.atk:"")+(P.def?" · 방어력 +"+P.def:"")+(P.atk||P.def?" (Lv"+lvC+" · 최저 등급 기준 · 추가 옵션 별도)":"")})():(i.atk?" · 공격력 +"+i.atk:"")+(i.def?" · 방어력 +"+i.def:""))+(i.use?" · "+i.d:"")+(i.dv?" · 납품가 "+won(i.dv):"")})),btn(kn?"제작":"잠김",()=>fn(id),"pri sm",{disabled:!ok})))});if(onlyKn&&!shown)box.append(h("p",{c:"xs mt",style:"margin:4px 2px 8px",t:"아직 익힌 "+kind+"이 없습니다 · 얻으면 여기에 나옵니다"}))}
 /* 납품 탭 공통 */
@@ -2358,6 +2358,8 @@ function rdSettle(d){const m=d.mem&&d.mem[uid];if(!m)return;let k=null;
  const p={rdone:(me.rdone||[]).concat([K]).slice(-30)};
  if(k[0]==="c"){const fl=d.fl,inv={...me.inv},got=[],tan=fl>=RAID_FL?10000:2000+fl*400;p.tan=me.tan+tan;p.rsv={k:d.key,fl:fl>=RAID_FL?0:fl};p.hp=Math.max(1,Math.min(maxHp(me),m.hp));
   if(fl>=RAID_FL&&rf()<Math.min(.2,.03*luckF(me))){if(addInv(inv,"babel_frag",1))got.push(IT.babel_frag.n+" ×1")}
+  /* 최종 장비 제작법: 층마다 1.5% · 10층 6% (행운 반영) · 내 직업 · 아직 안 익히고 가방에도 없는 것 */
+  if(rf()<Math.min(.25,(fl>=RAID_FL?.06:.015)*luckF(me))){const L=NGEAR.fin.filter(x=>IT[x].role===me.role&&!knowsR(x)&&!(me.inv["rp_"+x]));if(L.length){const x=L[ri(L.length)];if(addInv(inv,"rp_"+x,1))got.push(IT["rp_"+x].n)}}
   if(got.length)p.inv=inv;upd(p).then(()=>toast(fl+"층 돌파 · +"+won(tan)+"환"+(got.length?" · "+got.join(", "):"")+(fl>=RAID_FL?" · 바벨론 정복! 다음 도전은 1층부터":" · 진행 저장됨"))).catch(()=>{})}
  else{p.hp=Math.max(1,Math.round(maxHp(me)*(k[0]==="l"?.3:Math.max(.05,(m.hp||0)/(m.max||1)))));upd(p).then(()=>toast(k[0]==="l"?"공격대 전멸… 저장된 층에서 다시 도전할 수 있습니다":"탑에서 후퇴했습니다")).catch(()=>{});if(k[0]==="o"){rdShow=false;if(tab==="battle"){tab="map";render(true)}}}}
 async function rdLeave(){if(!rdoc||!rdoc.mem||!rdoc.mem[uid])return;if(rdoc.st==="on"&&!confirm2("rdl"))return toast("한 번 더 누르면 후퇴합니다 · 이번 층 보상은 받지 못합니다");await rdAct("leave");rdShow=false;tab="map";render(true)}
@@ -2426,7 +2428,7 @@ function itemSrc(k){if(!srcIdx){const S={},band=lv=>[[1,2],[3,5],[6,9],[10,29],[
    ["alloy","채집",H],["alloy","전투",H],["crystal","채집",H],["crystal","전투",H],["cell","전투",H],
    ["rod1","조사 (물가)",A],["fish_meat","낚시",A],["fish_scale","낚시",A],["whale_oil","낚시",A],["shark_tooth","낚시",A],["fish_fin","낚시",A],["glass","조사",A],["batt","조사",A],["scrap","조사",A],["herb","조사",A],["med_pk","조사",A],["med_gauze","조사",A]].forEach(([id,kd,b])=>{if(kd==="조사"&&S[id]){if(!S[id].k.includes(kd))S[id].k.push(kd)}else add(id,kd,b[0],b[1])});
   MM.forEach(([id,t])=>add(id,t>=2?"S~C급 게이트 전투":"D~F급 게이트 전투",1,100));add("rcore","S급 · 폭주 게이트 보상",1,100);add("kit","장비 분해",1,100);MRW.forEach(([id])=>add("rm_"+id,"게이트 전투",1,100));
-  RCW.forEach(([id])=>add("rc_"+id,"게이트 전투",1,100));Object.keys(HRC).forEach(id=>{if(IT["rp_"+id])add("rp_"+id,"게이트 전투",IT[id].bd||1,100)});
+  RCW.forEach(([id])=>add("rc_"+id,"게이트 전투",1,100));Object.keys(HRC).forEach(id=>{if(IT["rp_"+id])add("rp_"+id,IT[id].fin?"바벨론 레이드":"게이트 전투",IT[id].bd||1,100)});
   srcIdx=S}
  const e=srcIdx[k];if(!e)return null;const o=["채집","조사","전투","게이트 전투","D~F급 게이트 전투","S~C급 게이트 전투"];
  return(e.lo<=1&&e.hi>=100?"모든 레벨":e.lo>=60?"Lv60+ (종말의 섬)":"주로 Lv"+e.lo+"~"+(e.hi>=100?"":e.hi)+(e.hd?" (종말의 섬 포함)":""))+" · "+e.k.slice().sort((a,b)=>o.indexOf(a)-o.indexOf(b)).join(" · ")}
@@ -4376,7 +4378,7 @@ const GX3=["cloth","hide","glass"];
 GBAND.forEach(([bd])=>NGEAR.craft[bd].forEach(id=>{const i=IT[id],j=+id.slice(-1),t=bd<=20?"lo":bd<=40?"mid":bd<=70?"hi":"top",need=Object.assign({},GMAT[bd]);need[GMM[t][i.slot]]=1+(j===2?1:0);need[GX3[j]]=(need[GX3[j]]||0)+2;
  HRC[id]={r:1,need};IT["rp_"+id]={n:"제작법: "+i.n,learn:id,rar:1,d:"고급 제작법 · 사용하면 「"+i.n+"」 제작법을 익힙니다 · "+ROLE[i.role].n+" 장비 · Lv"+bd+" 구간 · 정비소 고급 제작"}}));
 const FMAT={head:"hm_h5",body:"hm_h6",legs:"hm_h2",feet:"hm_h1",acc:"hm_h13",main:"hm_h8",sub:"hm_h7"},FMAT2={tank:"hm_h12",dealer:"hm_h10",healer:"hm_h3"},FMAT3={body:"hm_h11",legs:"hm_h9",main:"hm_h4"};
-NGEAR.fin.forEach(id=>{const i=IT[id],need={babel_frag:1,[FMAT[i.slot]]:2,[FMAT2[i.role]]:1,cell:3};if(FMAT3[i.slot])need[FMAT3[i.slot]]=1;HRC[id]={r:3,need};RCP0.add(id)});
+NGEAR.fin.forEach(id=>{const i=IT[id],need={babel_frag:1,[FMAT[i.slot]]:2,[FMAT2[i.role]]:1,cell:3};if(FMAT3[i.slot])need[FMAT3[i.slot]]=1;HRC[id]={r:3,need};i.d=ROLE[i.role].n+" 전용 최종 장비 · Lv100 · 제작법 필요 (바벨론 레이드) · 바벨의 파편과 종말의 섬 게이트 재료로 제작 · 전설 고정";IT["rp_"+id]={n:"제작법: "+i.n,learn:id,rar:3,d:"최종 장비 제작법 · 사용하면 「"+i.n+"」 제작법을 익힙니다 · "+ROLE[i.role].n+" 장비 · Lv100 · 바벨론 레이드에서 드물게"}});
 /* 채집 · 제작 직업 장비 */
 const JGEAR={herb:["밀짚모자","원예 앞치마","흙 묻은 바지","원예 장화","풀잎 팔찌","전지가위","숙련 도끼"],fish:["어부 모자","방수 재킷","방수 바지","갯벌 장화","조개 목걸이","작살","미끼통"],mine:["안전모","광부 작업복","무릎 보호 바지","안전화","광석 팔찌","광부 망치","숙련 곡괭이"],
  smith:["용접 마스크","가죽 앞치마","대장장이 바지","쇠 징 장화","집게 반지","대장장이 망치","줄칼"],cook:["조리모","요리사 재킷","조리 바지","미끄럼 방지 신발","계량 팔찌","요리사의 칼","양념통"],wood:["목공 두건","목공 앞치마","톱밥 바지","목공 장화","줄자 목걸이","목공 망치","대패"],pharm:["약사 모자","약사 가운","실험실 바지","실내화","저울 팔찌","약연","약병 가방"]};
