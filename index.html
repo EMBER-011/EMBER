@@ -576,7 +576,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261122234414";
+const BUILD="20261123023124";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2759,7 +2759,12 @@ async function licSave(c,id){const src=licSvg(c,id),img=new Image(),S=3;img.src=
  let u;try{u=cv.toDataURL("image/png")}catch(e){return toast("이미지를 만들지 못했습니다")}const a=document.createElement("a");a.href=u;a.download="헌터등록증_"+(c.name||"hunter")+".png";document.body.append(a);a.click();setTimeout(()=>a.remove(),500);toast("헌터 등록증 이미지를 저장했습니다")}
 function licPop(){openPop(h("div",{c:"h0",style:"margin-bottom:10px",t:"헌터 등록증"}),licEl(me,uid),h("div",{c:"row",style:"gap:6px;margin-top:12px"},btn("저장하기",()=>licSave(me,uid),"pri grow"),btn("닫기",closePop,"grow")))}
 function licCard(){return h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"헌터 등록증"}),btn("이미지로 저장",()=>licSave(me,uid),"sm")),licEl(me,uid),h("div",{c:"xs mt",style:"margin-top:8px",t:"내 등록증은 여기서만 볼 수 있습니다 · 성별 · 나이 · 키는 위 「프로필 수정」에서 적을 수 있습니다"}))}
-function profPop(id){const c=id===uid?me:chars[id];if(!c)return;const g=c.guild&&guilds[c.guild],on=online.has(id);
+function profRel(id,c){const rel=[],P=w=>chars[w]||(w===uid?me:null);loversOf(id).forEach(x=>{const p=P(x.w);if(p)rel.push(["연인",p.name+" 헌터",x.w])});
+ if(c.rel&&c.rel.w){const p=P(c.rel.w);if(p)rel.push([REL_N[c.rel.t]||"관계",p.name+" 헌터",c.rel.w])}if(c.pair&&c.pair.w){const p=P(c.pair.w);if(p)rel.push(["페어",p.name+" 헌터",c.pair.w])}return rel}
+function profHead(id,c){const g=c.guild&&guilds[c.guild],photo=typeof c.photo==="string"&&c.photo.startsWith("data:image/jpeg;base64,")?c.photo:null;
+ return h("div",{c:"aprof"},h("div",{c:"aph"},photo?h("img",{src:photo,alt:""}):null),h("div",{style:"min-width:0;text-align:left"},h("b",{t:c.name}),h("small",{t:"등급 "+gradeL(c)+" · 능력 "+c.attr}),h("small",{c:"rowi"},logoEl(g,15),"소속 길드: "+(g?g.name:"미소속")),h("small",{},ROLE[c.role].n+" · Lv"+c.lv+" · ",h("span",{c:c.hqOut?"bad":"ok",t:c.hqOut?"협회 미가입":"협회 가입"}))))}
+function profPop(id){const c=id===uid?me:chars[id];if(!c)return;
+ if(!(me&&me.phl)){closePop();if(phoneOn&&$("#phone")&&$("#phone").style.display==="block")return phGo("hprof",id);return openPhone("hprof",id)}const g=c.guild&&guilds[c.guild],on=online.has(id);
  const fb=()=>{if(id===uid)return null;if(isFr(id))return h("span",{c:"xs ok",style:"align-self:center",t:"친구"});const o=frOut().find(q=>q.to===id),n=frIn().find(q=>q.from===id);
   return o?btn("요청 보냄 · 취소",()=>wrap(async()=>{await frCancel(o);profPop(id)}),"grow"):n?btn("친구 요청 수락",()=>wrap(async()=>{await frAccept(n);profPop(id)}),"pri grow"):btn("친구 추가",()=>wrap(async()=>{await frReq(id);profPop(id)}),"pri grow")};
  const extra=window.profExtra?profExtra(id,c):null;
@@ -3373,8 +3378,8 @@ function lcdUp(){const l=$("#plcd");if(!l)return;l.textContent="";const v=ph.buf
 function tripNow(t,now){now=now||Date.now();const dur=t.dur||tsec(t.from,t.to)*1000,cl=x=>Math.max(0,Math.min(1,x)),P=t.path,S=t.segs;
  if(!P||!S||S.length!==P.length-1)return{from:t.from,to:t.to,f:cl(1-(t.at-now)/dur),i:0};let e=dur-(t.at-now);
  for(let i=0;i<S.length;i++){if(e<=S[i]||i===S.length-1)return{from:P[i],to:P[i+1],f:cl(e/S[i]),i};e-=S[i]}}
-const HOSP_PH=["home","msg","chat","newgrp","contacts","person","nick"];
-const TRIP_PH=["home","msg","chat","pchat","contacts","person","ice","dex","dexi","bank","blog","bdep","bwd","btr1","btr2","bloan","brep","memo","memoedit","newgrp","nick"];
+const HOSP_PH=["home","msg","chat","newgrp","contacts","person","nick","hprof"];
+const TRIP_PH=["home","msg","chat","pchat","contacts","person","ice","hprof","dex","dexi","bank","blog","bdep","bwd","btr1","btr2","bloan","brep","memo","memoedit","newgrp","nick"];
 function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const w=wxNow();
  if(inHosp()&&!HOSP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"입원 치료 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"퇴원할 때까지 채팅만 할 수 있습니다"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  if(me.trip&&!TRIP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"이동 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"도착할 때까지 채팅 · 헌터 온라인 · 은행 · 메모장 · 도감만 쓸 수 있습니다"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
@@ -3417,6 +3422,15 @@ function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const 
   L.forEach(c=>{const out=c.from===uid,o=chars[out?c.to:c.from],st=out?({done:"발신",missed:"발신 · 응답 없음",declined:"발신 · 거절됨",busy:"발신 · 통화 중"}[c.st]):({done:"수신",missed:"부재중",declined:"거절함",busy:"부재중 (통화 중)"}[c.st]);
    it((o?dName(out?c.to:c.from):"알 수 없음")+(o?" · "+fnum(o.num):""),(st||c.st)+" · "+ago(c.t)+(c.dur?" · "+fmt(c.dur):""),()=>{if(o){ph.buf=o.num;phRender()}},!out&&c.st==="missed")})}
  else if(s==="incall"){if(call.st==="idle"){if(callEnd){const pv=callEnd.pv||{},c=pv.npc?{name:NPCN[pv.npc]}:chars[pv.peer];B.append(h("div",{c:"pcall"},avatar(c||{name:"?"},"l"),h("b",{t:pv.npc?NPCN[pv.npc]:pv.peer?dName(pv.peer):""}),h("div",{c:"cend",t:"통화 종료"}),h("span",{t:callEnd.txt})));return}ph.scr="dial";return phRender()}updCall(B)}
+ else if(s==="hprof"){const id=ph.room,c=id===uid?me:chars[id];if(!c){hd("헌터 프로필");B.append(h("div",{c:"pe",t:"헌터를 찾을 수 없습니다."}));return}const on=online.has(id);
+  hd("헌터 프로필",h("span",{c:"xs",t:on?"접속 중":"오프라인"}));B.append(profHead(id,c));
+  if(window.titleEl)B.append(h("div",{style:"margin:6px 0 0"},titleEl(c)));if(c.num)B.append(h("div",{c:"xs",style:"opacity:.75;margin:4px 0 0",t:"번호 "+fnum(c.num)}));
+  const rel=profRel(id,c);if(rel.length){sec("관계");rel.forEach(([k,n,w])=>it(n,k,()=>phGo("hprof",w)))}
+  if(c.bio){sec("소개");B.append(h("div",{c:"pbio",style:"text-align:left",t:c.bio}))}
+  const ex=window.profExtra?profExtra(id,c):null;if(ex)B.append(ex);
+  if(id!==uid){const o=frOut().find(q=>q.to===id),n=frIn().find(q=>q.from===id),row=h("div",{c:"pbtns",style:"display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"});
+   row.append(isFr(id)?h("span",{c:"xs ok",style:"align-self:center",t:"친구"}):o?pb("요청 보냄 · 취소",async()=>{await frCancel(o);phRender()}):n?pb("친구 요청 수락",async()=>{await frAccept(n);phRender()},"pri"):pb("친구 추가",async()=>{await frReq(id);phRender()},"pri"),
+    pb("문자",()=>phGo("chat","dm:"+id)),pb("1:1 채팅",()=>{hidePhone();chatHub=true;hubTab="dm";hubDm=id;hubGrp=null;hubNew=false;ocOn=false;render(true)}));B.append(row)}}
  else if(s==="ice"){hd("비상연락망");B.append(h("div",{c:"xs",style:"opacity:.8;margin:2px 0 8px",t:"연락처에서 한 명을 고릅니다 · 핸드폰을 주운 헌터에게 이 번호와 내가 저장한 이름이 보입니다."}));
   const F=(me.friends||[]).filter(id=>chars[id]);if(!F.length)B.append(h("div",{c:"pe",t:"연락처에 등록된 헌터가 없습니다."}));
   F.forEach(id=>it(dName(id)+(me.ice===id?" · 지정됨":""),fnum(chars[id].num),()=>wrap(()=>setIce(id))));if(me.ice)B.append(pb("지정 해제",()=>setIce(null)))}
