@@ -576,7 +576,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261123143424";
+const BUILD="20261123144216";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -3266,7 +3266,7 @@ let seenT=0,seenMe=null;
 function seenSync(){clearTimeout(seenT);seenT=setTimeout(()=>{if(!me||!uid)return;const o={};if(!(me.sn2&&me.sn2._base))o._base=seen._base;for(const k in seen)if(k!=="_base"&&seen[k]>((me.sn2||{})[k]||0))o[k]=seen[k];if(!Object.keys(o).length)return;upd({sn2:Object.assign({},me.sn2||{},o)}).catch(()=>{})},2500)}
 function seenPull(){if(!me||!me.sn2||me.sn2===seenMe)return;seenMe=me.sn2;let ch=false;for(const k in me.sn2)if(k!=="_base"&&(me.sn2[k]||0)>(seen[k]||0)){seen[k]=me.sn2[k];ch=true}if(ch){try{localStorage.setItem("af_seen2",JSON.stringify(seen))}catch(e){}try{updDot();navDots()}catch(e){}}}
 const seenOf=k=>seen[k]||(me&&me.sn2&&me.sn2._base)||seen._base;
-function myRooms(){const ks=me&&me.hqOut?["pwc"]:["pwc","hq"];if(tavMsgs().length)ks.push("tav");if(me.party&&parties[me.party])ks.push("pt");if(myG())ks.push("g","owner");dmPartners().forEach(id=>ks.push("dm:"+id));myGroups().forEach(id=>ks.push("grp:"+id));return ks}
+function myRooms(){const ks=me&&me.hqOut?["pwc","poc"]:["pwc","poc","hq"];if(tavMsgs().length)ks.push("tav");dmPartners().forEach(id=>ks.push("dm:"+id));myGroups().forEach(id=>ks.push("grp:"+id));return ks}
 const unreadOf=k=>roomRows(k).filter(m=>(m.uid||m.from)!==uid&&m.t>seenOf(k)).length;
 const missed=()=>calls.filter(c=>!c.r&&c.to===uid&&c.st==="missed"&&c.t>seenOf("call")).length;
 function unreadAll(){if(!me)return 0;return myRooms().filter(k=>k!=="hq"||SET.hqn!==false).reduce((a,k)=>a+unreadOf(k),0)}
