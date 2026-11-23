@@ -576,7 +576,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261123135202";
+const BUILD="20261123140419";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4765,7 +4765,13 @@ function vehInfo(box){const v=me.veh,V=v&&VEH[v.k];if(!V){box.append(h("p",{c:"s
  box.append(h("div",{c:"row",style:"gap:12px;align-items:center"},h("div",{style:"width:52px;height:52px;flex:none;border:1px solid var(--ln);border-radius:8px;display:flex;align-items:center;justify-content:center"},svgI(VEH_IC[v.k],"vehic")),
   h("div",{c:"grow"},h("b",{t:V.n}),h("div",{c:"xs mt",t:V.d}),h("div",{c:"xs mt",t:"한 번 이동(구간)마다 휘발유 "+V.fuel+" · 내구도 "+V.wear+" 닳습니다"}))),
   vehBar("내구도",v.dur||0,"var(--ac2)"),vehBar("휘발유",v.fuel||0,"var(--gold,#b08a2e)"))}
-function vehCard(v){const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 이동수단"}),me.veh?h("span",{c:"xs mt",t:"정비 · 휘발유는 정비소에서"}):null));vehInfo(c);v.append(c)}
+const VEH_SELL=.8,vehSellP=k=>Math.round((VEH_P[k]||0)*VEH_SELL);
+function vehCard(v){const c=h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 이동수단"}),me.veh?h("span",{c:"xs mt",t:"정비 · 휘발유는 정비소에서"}):null));vehInfo(c);
+ if(me.veh&&VEH[me.veh.k])c.append(btn("판매 · "+won(vehSellP(me.veh.k))+"환",vehSellAsk,"sm full",{style:"margin-top:10px"}));v.append(c)}
+function vehSellAsk(){const v=me.veh;if(!v||!VEH[v.k])return;if(me.trip)return toast("이동 중에는 팔 수 없습니다");const p=vehSellP(v.k);
+ openPop(h("div",{c:"h0",t:VEH[v.k].n+" 판매"}),h("p",{c:"sm",style:"margin:8px 0 12px",t:"구매가 "+won(VEH_P[v.k])+"환의 80%인 "+won(p)+"환에 팝니다. 정말 판매하시겠습니까? (되돌릴 수 없음)"}),
+  h("div",{c:"row",style:"gap:6px"},btn("판매",()=>{closePop();wrap(vehSell)},"pri grow"),btn("취소",closePop,"grow")))}
+async function vehSell(){const v=me.veh;if(!v||!VEH[v.k])return;if(me.trip)return toast("이동 중에는 팔 수 없습니다");const p=vehSellP(v.k);await upd({tan:me.tan+p,veh:null});toast(VEH[v.k].n+"을(를) 팔았습니다 · +"+won(p)+"환")}
 async function vehFix(){if(hospBlock())return;const v=me.veh;if(!v)return;const cost=Math.ceil((100-(v.dur||0))*VEH_FIX_P);if(!cost)return toast("이미 내구도가 가득합니다");if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+"환)");
  await upd({tan:me.tan-cost,veh:Object.assign({},v,{dur:100})});toast(VEH[v.k].n+" 정비 완료 · "+won(cost)+"환")}
 async function vehFuel(){if(hospBlock())return;const v=me.veh;if(!v)return;const cost=Math.ceil((100-(v.fuel||0))*VEH_FUEL_P);if(!cost)return toast("이미 휘발유가 가득합니다");if(me.tan<cost)return toast("환이 부족합니다 ("+won(cost)+"환)");
