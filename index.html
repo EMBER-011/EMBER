@@ -576,7 +576,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261123140904";
+const BUILD="20261123143424";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1317,7 +1317,7 @@ const DESK_WIDE=".gbox,.mapw,.locbar,.tripbar,.fac,.spotl,.ovfb,.rnob,.seg,.gtab
 function deskWrap(v){const K=[...v.children];v.textContent="";let cur=null;K.forEach(e=>{if(e.matches(DESK_WIDE)){v.append(e);cur=null}else{if(!cur){cur=h("div",{c:"dcols"});v.append(cur)}cur.append(e)}})}
 const deskOn=()=>matchMedia("(min-width:1100px)").matches;let deskW=null;addEventListener("resize",()=>{const d=deskOn();if(deskW!==null&&d!==deskW){deskW=d;try{render(true)}catch(e){}}deskW=d});
 function navName(){const b=$("#nav button[data-k=home]");if(b){const t=me&&typeof myHomeId==="function"&&myHomeId()?"주택":"숙소";if(b.textContent!==t)b.textContent=t}}
-function render(force){try{navName()}catch(e){}try{agreeCheck()}catch(e){}try{tutCheck()}catch(e){}try{lphStart();phAuto();hsnEnsure();const pt=$("#ptab");if(pt)pt.classList.toggle("phl",!!(me&&me.phl))}catch(e){}try{fbkStart()}catch(e){}setTimeout(()=>{try{presCheck();othSync()}catch(e){}},0);
+function render(force){try{navName()}catch(e){}try{agreeCheck()}catch(e){}try{tutCheck()}catch(e){}try{seenPull();lphStart();phAuto();hsnEnsure();const pt=$("#ptab");if(pt)pt.classList.toggle("phl",!!(me&&me.phl))}catch(e){}try{fbkStart()}catch(e){}setTimeout(()=>{try{presCheck();othSync()}catch(e){}},0);
  const v=$("#view"),a=document.activeElement;
  if(force!==true&&v.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;
  if(!db)return;
@@ -3261,8 +3261,11 @@ async function frRemove(id){await upd({friends:(me.friends||[]).filter(x=>x!==id
 function frAddOk(){const e=Object.entries(chars).find(([id,x])=>x.num===ph.buf);if(!e)return toast(ph.buf.length===7?"없는 번호입니다":"번호 7자리를 입력하십시오");if(e[0]===uid)return toast("내 번호입니다");return frReq(e[0])}
 try{Object.assign(seen,JSON.parse(localStorage.getItem("af_seen2")||"{}"))}catch(e){}
 if(!seen._base){seen._base=Date.now();try{localStorage.setItem("af_seen2",JSON.stringify(seen))}catch(e){}}
-function markSeen(k,t){if(t>(seen[k]||0)){seen[k]=t;try{localStorage.setItem("af_seen2",JSON.stringify(seen))}catch(e){}}}
-const seenOf=k=>seen[k]||seen._base;
+function markSeen(k,t){try{if(k!=="call"&&k!=="rcall"){const r=roomRows(k);if(r&&r.length)t=Math.max(t||0,r[r.length-1].t||0)}}catch(e){}if(t>(seen[k]||0)){seen[k]=t;try{localStorage.setItem("af_seen2",JSON.stringify(seen))}catch(e){}seenSync()}}
+let seenT=0,seenMe=null;
+function seenSync(){clearTimeout(seenT);seenT=setTimeout(()=>{if(!me||!uid)return;const o={};if(!(me.sn2&&me.sn2._base))o._base=seen._base;for(const k in seen)if(k!=="_base"&&seen[k]>((me.sn2||{})[k]||0))o[k]=seen[k];if(!Object.keys(o).length)return;upd({sn2:Object.assign({},me.sn2||{},o)}).catch(()=>{})},2500)}
+function seenPull(){if(!me||!me.sn2||me.sn2===seenMe)return;seenMe=me.sn2;let ch=false;for(const k in me.sn2)if(k!=="_base"&&(me.sn2[k]||0)>(seen[k]||0)){seen[k]=me.sn2[k];ch=true}if(ch){try{localStorage.setItem("af_seen2",JSON.stringify(seen))}catch(e){}try{updDot();navDots()}catch(e){}}}
+const seenOf=k=>seen[k]||(me&&me.sn2&&me.sn2._base)||seen._base;
 function myRooms(){const ks=me&&me.hqOut?["pwc"]:["pwc","hq"];if(tavMsgs().length)ks.push("tav");if(me.party&&parties[me.party])ks.push("pt");if(myG())ks.push("g","owner");dmPartners().forEach(id=>ks.push("dm:"+id));myGroups().forEach(id=>ks.push("grp:"+id));return ks}
 const unreadOf=k=>roomRows(k).filter(m=>(m.uid||m.from)!==uid&&m.t>seenOf(k)).length;
 const missed=()=>calls.filter(c=>!c.r&&c.to===uid&&c.st==="missed"&&c.t>seenOf("call")).length;
