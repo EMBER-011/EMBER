@@ -2139,7 +2139,7 @@ function simAuto(a,mins){let z=(a.sd>>>0)||1;const rr=()=>{z^=z<<13;z>>>=0;z^=z>
   while(lv<MAXLV&&exp>=xpN(lv)){exp-=xpN(lv);lv++;sp+=spFor(lv);mh=maxHp({...c,lv});hp=mh}}
  return{wins,dead,lv,exp:lv>=MAXLV?0:Math.round(exp),gx:Math.round(gx),tan:Math.round(tan),inv,got,used,hp:Math.max(1,Math.round(hp)),sp,stop,dm}}
 async function claimAuto(){const a=me.auto;if(!a)return;const m0=Math.min(a.dur,(Date.now()-a.t0)/6e4),r=simAuto(a,m0),mins=r.stop!=null?r.stop:r.dm!=null?Math.min(m0,r.dm):m0,p={auto:null,inv:r.inv,tan:me.tan+r.tan,exp:r.exp,lv:r.lv,hp:r.hp},acg=0;/* 자동 전투는 오염도가 오르지 않음 */if(acg>0)p.con=Math.min(100,Math.round((cur(me).con+acg)*10)/10);if(r.sp)p.sp=(me.sp||0)+r.sp;
- if(r.wins&&!me.hqOut)p.hqb=(me.hqb||0)+r.wins;if(r.dead){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null}await upd(p);if(r.wins&&rf()<Math.min(PH_AUTOMAX,PH_AUTO*r.wins))phLose(a.reg).catch(()=>{});
+ if(r.wins&&!me.hqOut)p.hqb=(me.hqb||0)+r.wins;if(r.dead){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null}await upd(p);/* 자동 전투로는 핸드폰을 잃어버리지 않음 (2026-11-25) */
  const nm=o=>Object.entries(o).map(([k,q])=>IT[k].n+" ×"+q).join(", ");
  openPop(h("div",{c:"h0",t:"자동 전투 결과"}),h("p",{c:"sm mt",t:REG[a.reg].n+" 상시 게이트 · "+Math.round(mins)+"분"}),
   h("p",{c:"sm",t:"승리 "+r.wins+"회 · +"+won(r.gx)+" EXP · +"+won(r.tan)+" 환"+(r.lv>me.lv?" · 레벨 업 Lv"+r.lv:"")}),
@@ -3626,7 +3626,12 @@ function tripNow(t,now){now=now||Date.now();const dur=t.dur||tsec(t.from,t.to)*1
  for(let i=0;i<S.length;i++){if(e<=S[i]||i===S.length-1)return{from:P[i],to:P[i+1],f:cl(e/S[i]),i};e-=S[i]}}
 const HOSP_PH=["home","msg","chat","newgrp","contacts","person","nick","hprof"];
 const TRIP_PH=["home","hon","msg","chat","pchat","contacts","person","ice","hprof","dex","dexi","bank","blog","bdep","bwd","btr1","btr2","bloan","brep","memo","memoedit","newgrp","nick"];
-function phRender(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const w=wxNow();
+/* 핸드폰 화면을 다시 그려도 같은 화면이면 내려 보던 위치 그대로 (목록 · 게시판 · 설정 등) */
+let PH_SK=null;
+function phRender(){const S=$("#pscr"),k=ph.scr+"|"+(ph.room||"")+"|"+(ph.id||"")+"|"+(typeof bd!=="undefined"&&bd?(bd.v||"")+(bd.id||""):""),keep=[];
+ if(S&&PH_SK===k)S.querySelectorAll(".pbody,.pbody *").forEach((e,i)=>{if(e.scrollTop>0&&e.id!=="pfeed")keep.push([i,e.className,e.scrollTop])});
+ phRender0();PH_SK=k;if(keep.length&&S){const L=[...S.querySelectorAll(".pbody,.pbody *")];keep.forEach(([i,c,t])=>{const e=L[i]&&L[i].className===c?L[i]:L.find(x=>x.className===c&&x.scrollHeight>x.clientHeight);if(e)e.scrollTop=t})}}
+function phRender0(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const w=wxNow();
  if(inHosp()&&!HOSP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"입원 치료 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"퇴원할 때까지 채팅만 할 수 있습니다"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  if(me.trip&&!TRIP_PH.includes(ph.scr)){S.append(h("div",{c:"pnone"},h("div",{},h("p",{t:"이동 중"}),h("p",{c:"xs",style:"opacity:.7;margin:6px 0 14px",t:"도착할 때까지 채팅 · 헌터 온라인 · 은행 · 메모장 · 도감만 쓸 수 있습니다"}),h("button",{c:"ptrb",type:"button",t:"뒤로",onclick:phBack}))));return}
  S.append(h("div",{c:"psb"},h("span",{c:"pleft"},h("button",{c:"phome",type:"button","aria-label":"홈 화면",onclick:phHome},svgI("M4 11.5l8-7 8 7M6.5 9.5V20h4v-5.5h3V20h4V9.5")),h("span",{id:"pclock",t:clock()})),h("span",{c:"pwx",title:WX[w].n},wxIco(w),h("span",{t:WX[w].n}))));
