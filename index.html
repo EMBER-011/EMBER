@@ -703,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261125163000";
+const BUILD="20261125164000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1492,7 +1492,7 @@ function mainOpsLoad(){if(mainOps.busy||Date.now()-mainOps.t<6e4)return;mainOps.
 function mainPick(){const L=Object.keys(REG).filter(id=>!locked(id)&&!REG[id].raid);mainReg=L[ri(L.length)]||"base"}
 function mainLive(){const L=mapLive();return Object.assign({},L,{sel:mainReg,route:null,trip:null,nb:{},only:mainReg,here:null,hardLk:false})}
 function mainHolo(){if(!MAINH){const cv=h("canvas",{c:"holo mholo"});MAINH=Holo.create(cv,{REG,CONT,ROADS,MW,BR:BRIDGES,BRX,Y0:MAP_Y0},{live:mainLive,spin:1,onPick:(k,id)=>{if(k==="reg"&&id){selReg=id;tab="map";render(true);pickRegion(id)}}});MAINH.reg=null}
- if(MAINH.reg!==mainReg){const R=REG[mainReg];Object.assign(MAINH.V,{x:R.x,y:R.y,dist:R.n&&mainReg==="elevator"?30:20,yaw:0,pitch:.82,autoZ:mainReg==="elevator"?4:.001});MAINH.reg=mainReg}MAINH.start();return MAINH}
+ if(MAINH.reg!==mainReg){const R=REG[mainReg];Object.assign(MAINH.V,{x:R.x,y:R.y,dist:R.n&&mainReg==="elevator"?30:20,yaw:0,pitch:.82,cyk:.6,skyTop:.2,skyHz:.5,autoZ:mainReg==="elevator"?4:.001});MAINH.reg=mainReg}MAINH.start();return MAINH}
 function rMain(v){if(!mainReg)mainPick();mainOpsLoad();const R=REG[mainReg],H=mainHolo(),w=wxOfR(dayIdx(Date.now()),mainReg),bu=(()=>{try{return blkUntil(mainReg)}catch(e){return 0}})(),d=kst();
  const ov=h("div",{c:"mhov"},h("div",{c:"mhreg"},h("b",{t:R.n}),h("small",{t:R.safe?"안전 지역":(regRng(mainReg)?"의태종 Lv"+regRng(mainReg)[0]+"~"+regRng(mainReg)[1]:"")})),h("div",{c:"mhwx"},wxIco(w),h("span",{t:WX[w].n}),bu?h("em",{c:"mhblk",t:"봉쇄 · "+kfmt(bu)+"까지"}):null),h("div",{c:"mhclk"},h("b",{id:"mclk",t:clock()}),h("small",{t:(d.getUTCMonth()+1)+"/"+d.getUTCDate()+" ("+"일월화수목금토"[d.getUTCDay()]+") · "+(isNight()?"밤":"낮")})));
  const hc=h("div",{c:"card mainh"},h("div",{c:"row sb",style:"align-items:center;margin-bottom:6px"},h("h3",{style:"margin:0",t:"오늘의 지역"}),h("span",{c:"row",style:"gap:6px"},btn("다른 지역",()=>{mainPick();render(true)},"sm"),btn("지도에서 보기",()=>{selReg=mainReg;tab="map";render(true)},"sm"))),h("div",{c:"mhw"},H.cv,ov),h("p",{c:"xs mt",style:"margin:6px 2px 0",t:WX[w].d+" · 끌어서 돌려 볼 수 있습니다 (확대는 지도 탭에서)"}));
@@ -6852,7 +6852,7 @@ function hex(s){s=(s||"").trim();if(s[0]==="#"){if(s.length===4)s="#"+s[1]+s[1]+
 let WORLD=null;
 function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?o.x:50,y:o.y!=null?o.y:52,yaw:o.yaw||0,pitch:o.pitch||.92,dist:o.dist||78,sel:o.sel||null,here:o.here||null,col:o.col||null,bg:o.bg||null};let raf=0,pk=[];
  function cam(Wp,Hp){const cp=Math.cos(V.pitch),sp=Math.sin(V.pitch),sa=Math.sin(V.yaw),ca=Math.cos(V.yaw),tz=V.autoZ?Math.max(0,W0.hAt(V.x,V.y))+V.autoZ:0,C=[V.x+V.dist*sa*cp,V.y+V.dist*ca*cp,tz+V.dist*sp],f=[V.x-C[0],V.y-C[1],tz-C[2]],fl=Math.hypot(...f);f[0]/=fl;f[1]/=fl;f[2]/=fl;
-  const r=[ca,-sa,0],u=[f[1]*r[2]-f[2]*r[1],f[2]*r[0]-f[0]*r[2],f[0]*r[1]-f[1]*r[0]],F=Hp*.5/Math.tan(.42);return{C,f,r,u,F,cx:Wp/2,cy:Hp*.47}}
+  const r=[ca,-sa,0],u=[f[1]*r[2]-f[2]*r[1],f[2]*r[0]-f[0]*r[2],f[0]*r[1]-f[1]*r[0]],F=Hp*.5/Math.tan(.42);return{C,f,r,u,F,cx:Wp/2,cy:Hp*(V.cyk||.47)}}
  /* 지도를 끝까지 줄이면 대륙 · 종말의 섬 · 바깥 섬까지 다 보이게 (2026-11-25: 150 → 210) */
  function fitV(cw,ch){const ca=Math.cos(V.yaw),sa=Math.sin(V.yaw),asp=cw/Math.max(1,ch),U=[0,W0.MW*ca,-W0.MH*sa,W0.MW*ca-W0.MH*sa],Vv=[0,W0.MW*sa,W0.MH*ca,W0.MW*sa+W0.MH*ca],u0=Math.min(...U),u1=Math.max(...U),v0=Math.min(...Vv),v1=Math.max(...Vv);
   const eu=V.dist*.446*asp*.9,ev=V.dist*.3,pd=16,cl=(a,lo,hi)=>lo>hi?(lo+hi)/2:Math.max(lo,Math.min(hi,a));let u=V.x*ca-V.y*sa,v=V.x*sa+V.y*ca;u=cl(u,u0-pd+eu,u1+pd-eu);v=cl(v,v0-pd+ev,v1+pd-ev);V.x=u*ca+v*sa;V.y=-u*sa+v*ca}
@@ -6867,7 +6867,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
   /* 한 지역만 (메인 화면): 그 지역 구조물만 · 대륙 · 바다 · 길은 그리지 않음 */const ON=V.only&&W0.REG[V.only]?V.only:null,OR=ON&&W0.REG[ON],ORAD=7,OK_=(px,py,rad)=>!OR||Math.hypot(px-OR.x,py-OR.y)<(rad||ORAD);
   /* 하늘: 해는 6시에 동쪽에서 떠 19시에 서쪽으로 짐 · 달은 실제 위상대로 하루 약 50분씩 늦게 뜸 (보름달은 해 질 때 뜨고, 초승달은 낮에 떠서 저녁 서쪽 하늘에) */
   let skyB=null;
-  {const kt=new Date(Date.now()+9*36e5),hr=kt.getUTCHours()+kt.getUTCMinutes()/60+kt.getUTCSeconds()/3600,ca2=Math.cos(V.yaw),sa2=Math.sin(V.yaw),HZ=Hp*.42,TOP=Hp*.14,SPAN=Wp*.36;
+  {const kt=new Date(Date.now()+9*36e5),hr=kt.getUTCHours()+kt.getUTCMinutes()/60+kt.getUTCSeconds()/3600,ca2=Math.cos(V.yaw),sa2=Math.sin(V.yaw),HZ=Hp*(V.skyHz||.42),TOP=Hp*(V.skyTop||.14),SPAN=Wp*.36;
    const pos=az=>{const ax=Math.cos(az),ay=Math.sin(az),el=Math.sin(az);return[Wp/2+(ax*ca2-ay*sa2)*SPAN,HZ-el*(HZ-TOP),el]};
    const day=hr>=6&&hr<19,R0=Math.max(8,Math.min(Wp,Hp)*.05),ph=(((Date.now()-947182440000)/86400000/29.530588)%1+1)%1,mh=((hr-ph*24.84)%24+24)%24,mUp=mh>=6&&mh<19,ps=pos(Math.PI*(hr-6)/13),pm=pos(Math.PI*(mh-6)/13);
    x.save();x.globalCompositeOperation="source-over";
