@@ -658,7 +658,9 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 @media (max-width:1099px){.tmrow{gap:8px}#tsd{max-width:40%;padding-left:8px}#tsd .tst{font-size:calc(10px*var(--fz,1))}#tsd #tloc{font-size:calc(10.5px*var(--fz,1));line-height:1.3}}
 .ntb{flex-direction:row!important;align-items:baseline;flex-wrap:nowrap;gap:8px!important}.ntb>span.xs:first-child{flex:none;white-space:nowrap}.ntb>.ntt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ntb>span.xs.mt{flex:none;margin-left:auto;white-space:nowrap}
 .mopsi .ntb>.ntt{white-space:normal}
-@media (min-width:1100px){.tmrow #tme{flex:0 1 auto;min-width:360px}#tsd{max-width:none;padding-left:16px}#tsd .tst{font-size:calc(12px*var(--fz,1))}#tsd #tloc{font-size:calc(12.5px*var(--fz,1))}}#dtabs{height:46px!important}#dtabs>button{height:44px!important;width:62px!important}#dtabs>button svg{width:25px!important;height:25px!important}
+@media (min-width:1100px){.tmrow #tme{flex:0 1 auto;min-width:360px}#tsd{max-width:none;padding-left:16px}#tsd .tst{font-size:calc(12px*var(--fz,1))}#tsd #tloc{font-size:calc(12.5px*var(--fz,1))}}#dtabs{position:fixed!important;left:0;bottom:0;height:auto!important;margin:0!important;padding:0 12px env(safe-area-inset-bottom,0px)!important;gap:4px!important;align-items:flex-end;pointer-events:none;z-index:12!important}
+#dtabs>button{pointer-events:auto;width:50px!important;height:34px!important;border-bottom:0!important;border-radius:9px 9px 0 0!important;background:var(--bg)!important;box-shadow:0 -2px 8px rgba(0,0,0,.45)!important}#dtabs>button.act{background:rgba(var(--acr),.22)!important}#dtabs>button svg{width:21px!important;height:21px!important}
+body.tdock #view{padding-bottom:calc(44px + env(safe-area-inset-bottom,0px))!important}
 body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33% + 92px)}body>#gtab:not(.free){height:70px;top:calc(33% + 172px)}#ptab.free{height:74px}#ptab.free.sl,#ptab.free.sr{height:82px}
 .mhov>div{background:transparent!important;border:0!important;padding:2px 4px!important;text-shadow:0 0 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.9)}
 .mhov .mhreg b{font-size:calc(13px*var(--fz,1));color:var(--ac2);letter-spacing:.04em}.mhov small{font-size:calc(10px*var(--fz,1))!important}.mhov .mhwx span{font-size:calc(12px*var(--fz,1))}.mhov .mhwx svg{width:15px!important;height:15px!important}.mhov .mhclk{align-items:flex-end;text-align:right}.mhov .mhclk b{font-size:calc(15px*var(--fz,1))!important}.mhblk{font-size:calc(10.5px*var(--fz,1))!important}
@@ -701,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261125155500";
+const BUILD="20261125160000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4150,7 +4152,7 @@ async function pgInvite(){if(hospParty())return;const g=groups[pg.id];if(!g)retu
 function pinvEl(m,pager){const p=parties[m.pid],mine=(m.uid||m.from)===uid,inP=p&&p.members.includes(uid),full=p&&p.members.length>=4;const lab=!p?"끝난 초대":mine?"보낸 초대":inP?"참가함":full?"자리 없음":"참가";
  const b=h("button",{type:"button",c:pager?"gjoin":"sm",t:lab,disabled:!p||mine||inP||full,onclick:()=>wrap(async()=>{if(inB())return toast("전투 중에는 파티를 옮길 수 없습니다");if(me.party&&me.party!==m.pid){if(isTmpP(me.party))await tmpLeave();else return toast("지금 파티에서 먼저 나와 주십시오")}await joinParty(m.pid);toast("파티에 참가했습니다")})});
  return h("div",{c:pager?"gl inv":"m pinv"},h("small",{t:"파티 초대"}),h("span",{t:m.text+(p?" · "+p.members.length+"/4":"")}),b)}
-function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;if(!TAB_DOCK){d.style.display="none";return}["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
+function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;document.body.classList.toggle("tdock",!!TAB_DOCK);if(!TAB_DOCK){d.style.display="none";return}["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
 function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"button","aria-label":"길드 수신기"},svgI("M9 8V2.5M7 8h10a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 17 22H7a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 7 8zM9 11h6v4H9zM9 18h.01M12 18h.01M15 18h.01"),h("i",{id:"rdot"}));
  document.body.append(t,h("div",{id:"radio"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
