@@ -558,7 +558,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 #radio .rmact{display:flex;flex-wrap:wrap;gap:4px;padding:3px 0 5px 30px}#radio .rmact .rgo{margin:0;padding:2px 6px;font-size:11px}#radio .rleave{margin-top:10px;width:100%}#radio .ri.sel{background:rgba(125,255,154,.08)}
 .trnb .stat{margin:0!important}.trnb .sdesc{display:none}.dlwl{max-height:220px;overflow-y:auto}
 /* ===== 왼쪽 메뉴 (2026-11-25) ===== */
-#nav .nvhd{display:none}#nav .nvb svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#nav .nvhd{display:none}#nav .nvver{display:block;font-size:11px;color:var(--mt);margin-top:3px;font-weight:400}#nav .nvb svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex:none}
 #tmenu{display:none}
 @media (min-width:1100px){
  body{padding-left:268px}body.hubo{padding-right:452px}
@@ -567,7 +567,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
  #nav .nvb{flex:none!important;display:flex;align-items:center;gap:13px;text-align:left;padding:10px 16px!important;border-radius:9px!important;font-size:calc(16px*var(--fz,1))!important;font-weight:400!important;letter-spacing:.02em}
  #nav button.unr::after{right:14px!important;top:50%!important;margin-top:-3px}
  body>:is(#top,#notice,#view){max-width:min(1620px,100%)!important;width:100%;margin-left:0!important;margin-right:auto!important}
- body>:is(#ptab,#rtab,#gtab):not(.free){left:216px!important}body>#ask{right:max(14px,calc(100% - 268px - 1620px + 14px))}
+ body>:is(#ptab,#rtab,#gtab):not(.free){left:216px!important}body>:is(#ptab,#rtab,#gtab){z-index:10!important}body>:is(#ptab,#rtab,#gtab).free.sl{left:216px!important}body>#ask{right:max(14px,calc(100% - 268px - 1620px + 14px))}
  #view.desk .dcols{columns:3 380px}
 }
 @media (max-width:1099px){
@@ -578,9 +578,9 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
  #nav .nvx{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:8px}#nav .nvx svg{width:18px;height:18px;fill:none;stroke:var(--tx);stroke-width:2}
  #nav .nvb{flex:none!important;display:flex;align-items:center;gap:13px;text-align:left;padding:11px 16px!important;border-radius:9px!important;font-size:calc(16px*var(--fz,1))!important;font-weight:400!important;letter-spacing:.02em}
  #nav button.unr::after{right:14px!important;top:50%!important;margin-top:-3px}
- #tmenu{display:flex;position:absolute;left:0;top:0;width:46px;height:46px;padding:0;border-radius:0 0 12px 0;border-top:0!important;border-left:0!important;background:var(--sf);align-items:center;justify-content:center;z-index:4}
+ #tmenu{display:flex;position:absolute;left:0;top:calc(100% + 1px);width:46px;height:42px;padding:0;border-radius:0 0 12px 0;border-top:0!important;border-left:0!important;background:var(--sf);align-items:center;justify-content:center;z-index:4}
  #tmenu svg{width:25px;height:25px;fill:none;stroke:var(--ac2);stroke-width:2;stroke-linecap:round}
- #top{padding-left:56px!important}#top.min #tmenu{top:0;width:46px;height:46px}
+ #top{margin-bottom:34px}#top.min #tmenu{top:calc(100% + 1px);width:46px;height:42px}
 }
 #navbg{display:none}
 /* 메인 화면 */
@@ -649,7 +649,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261125143500";
+const BUILD="20261125084000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1053,7 +1053,7 @@ const IT={scrap:{n:"고철"},wire:{n:"전선"},cloth:{n:"천 조각"},water:{n:"
  ring1:{n:"녹슨 반지",slot:"acc",atk:2},neck1:{n:"방진 목걸이",slot:"acc",def:2},
  pipe:{n:"쇠파이프",slot:"main",atk:4},sword:{n:"고철 검",slot:"main",atk:6},rifle:{n:"전지 소총",slot:"main",atk:12},
  shield1:{n:"판자 방패",slot:"sub",def:3},pickaxe:{n:"곡괭이",slot:"sub",atk:1,tool:"mine",d:"보조 장비에 착용하면 채광할 수 있습니다"},axe:{n:"도끼",slot:"sub",atk:1,tool:"wood",d:"보조 장비에 착용하면 벌목할 수 있습니다"},dagger:{n:"보조 단검",slot:"sub",atk:2},
- eb0k14:{n:"EB-0K14",dose:1,bound:1,ico:"SYR",d:"출처 불명의 주사 앰플. 맞을수록 각성 등급이 오른다는 불법 약물 · 거래 불가(귀속) · S등급은 될 수 없음 · 80회부터 약물과다 위험"},
+ eb0k14:{n:"EB-0K14",dose:1,bound:1,d:"출처 불명의 주사 앰플. 맞을수록 각성 등급이 오른다는 불법 약물 · 거래 불가(귀속) · S등급은 될 수 없음 · 80회부터 약물과다 위험"},
  med_pk:{n:"진통제",med:"pk",d:"극심한 통증을 없애고 30분 동안 골절·염좌 증상을 절반으로 줄임"},med_fever:{n:"해열제",med:["cold"],d:"감기 치료"},
  med_gauze:{n:"지혈 붕대",med:["bleed"],d:"열상(출혈) 치료"},med_wrap:{n:"압박 붕대",med:["sprain"],d:"염좌 치료"},med_burn:{n:"화상 연고",med:["burn"],d:"화상 치료"},
  med_anti:{n:"항독 혈청",med:["poison"],d:"중독 치료"},med_abx:{n:"항생제",med:["infect"],d:"감염 치료"},med_splint:{n:"부목",med:"splint",d:"골절 부위 고정 · 골절 증상 절반 · 30분 뒤 회복"},
@@ -1368,7 +1368,7 @@ function updTop(){if(!me)return;const c=cur(me);let hp=c.hp,mp=c.mp;const mh=max
   if(O.length){const sp=h("span",{},h("span",{c:"k",t:"약물과다"}));O.forEach((o,i)=>{if(i)sp.append(", ");sp.append(h("span",{c:o.p?"perm":"",t:o.k}))});ts.append(sp)}}
  const lvN=c.con>=75?3:c.con>=60?2:c.con>=30?1:0,tN=c.con>=90?3:c.con>=75?2:c.con>=60?1:0,ck=$("#crack");if(ck){["n1","n2","n3"].forEach((x,i)=>ck.classList.toggle(x,lvN===i+1));const nz=$("#noise");if(nz)nz.style.opacity=c.con<30?"":(c.con<60?.04+(c.con-30)/30*.06:.12+Math.min(1,(c.con-60)/40)*.2).toFixed(3)}{const H=document.documentElement;["tear1","tear2","tear3"].forEach((x,i)=>H.classList.toggle(x,!!crackLv()&&Math.min(tN,crackLv()===1?1:3)===i+1))}
  $("#tmini").textContent=me.name+" Lv"+me.lv+" · 공격 "+pw(me)+" · HP "+Math.round(hp)+" · MP "+Math.round(mp)+" · 에너지 "+Math.round(c.en)+" · 오염 "+c.con.toFixed(0)+"%"+(L.length?" · 부상 "+L.length:"")+(O.length?" · 약물과다 "+O.length:"")}
-const nav=$("#nav");nav.append(h("div",{c:"nvhd"},h("b",{t:"殘火 :: Ember"}),h("button",{c:"nvx",type:"button","aria-label":"메뉴 닫기",onclick:()=>navOpen(false)},svgI("M6 6l12 12M18 6L6 18"))));
+const nav=$("#nav");nav.append(h("div",{c:"nvhd"},h("div",{},h("b",{t:"殘火 :: Ember"}),h("small",{c:"nvver",t:"버전 "+BUILD.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2}).*/,(x,y,mo,d,hh,mi)=>{const t=new Date(Date.UTC(+y,+mo-1,+d,+hh,+mi)+9*36e5);return (t.getUTCMonth()+1)+"/"+t.getUTCDate()+" "+String(t.getUTCHours()).padStart(2,"0")+":"+String(t.getUTCMinutes()).padStart(2,"0")})})),h("button",{c:"nvx",type:"button","aria-label":"메뉴 닫기",onclick:()=>navOpen(false)},svgI("M6 6l12 12M18 6L6 18"))));
 /* 길드 · 커뮤니티는 누르면 하위 메뉴가 열림 (길드: 내 길드 · 길드 목록 / 커뮤니티: 개인 · 단체 · 전체 · 지역) */
 const NSUB={guild:[["mine","내 길드"],["list","길드 목록"]],comm:[["dm","개인"],["grp","단체"],["wc","전체"],["rp","지역"]]};
 let navG=false,navC=false,gview="mine";
@@ -1386,7 +1386,7 @@ function applyTop(){$("#top").classList.toggle("min",topMin);$("#tgl").setAttrib
 $("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
 /* 휴대폰 아이콘: 끌어서 아무 데나 옮기기 · 위치는 이 기기에 저장 · 휴대폰은 아이콘 옆에 열림 */
 let ptPos=null;try{ptPos=JSON.parse(localStorage.getItem("af_ptab")||"null")}catch(e){}
-const TAB_DOCK=!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches);
+/* 터치 기기라도 PC 화면 너비(1100px 이상)면 기기 탭을 왼쪽 메뉴 옆에 둠 (아래 줄에 숨지 않게) */const TAB_DOCK=!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches)&&innerWidth<1100;
 function applyPtab(){if(TAB_DOCK)ptPos=null;const t=$("#ptab");if(!t)return;if(!ptPos||typeof ptPos.x!=="number"){t.classList.remove("free");t.style.left=t.style.top="";return}
  t.classList.add("free");t.classList.toggle("sl",ptPos.side==="l");t.classList.toggle("sr",ptPos.side==="r");const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;
  t.style.left=(ptPos.side==="l"?0:ptPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,ptPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,ptPos.y*H)))+"px"}
@@ -1700,7 +1700,14 @@ IT.gas={n:"휘발유",use:{gas:1},d:"이동수단 연료 · 1개 = 휘발유 1 �
 IT.en_drink={n:"에너지 음료",use:{en:20},d:"에너지 +20 · 시장 상점 5환"};
 /* 에너지 아이템 추가 (2026-11-25) */
 Object.assign(IT,{fd_coffee:{n:"인스턴트 커피",use:{en:20},d:"에너지 +20 · 시장 상점 5환"},fd_chma:{n:"CHMA영양바",use:{en:20,hp:20},d:"협회 보급 영양바 · 에너지 +20 · HP +20 · 협회 상시 임무 보상"},fd_berry:{n:"산딸기",use:{en:5},d:"덤불에서 딴 산딸기 · 에너지 +5 · 요리 재료 · 벌목에서 가끔"},fd_berrybread:{n:"산딸기 잼 빵",use:{en:35,mp:10},d:"달콤한 잼을 듬뿍 바른 빵 · 에너지 +35 · MP +10"},fd_barley:{n:"따뜻한 보리차",use:{en:15,con:-2},d:"구수하고 따뜻하다 · 에너지 +15 · 오염도 -2% · 주점 20환"},fd_honeypot:{n:"변이 꿀벌 꿀단지",use:{en:10},d:"꿀벌 의태종이 품고 있던 꿀단지 · 에너지 +10 · 타버린 숲 · 철골숲 전투에서 가끔"},amp_en:{n:"각성제 앰플",use:{en:30},d:"에너지 +30 · S급 게이트 상인 25환"},fd_gtea:{n:"생강 꿀차",use:{en:20,buf:"er"},d:"몸이 후끈해진다 · 에너지 +20 · 30분 동안 에너지 회복 1.5배"},en_pack:{n:"에너지 음료 묶음",use:{pack:"en_drink",q:5},d:"에너지 음료 5개 묶음 · 사용하면 에너지 음료 5개가 나옵니다 · 시장 상점 22환"}});
-function applyBound(){BOUND_K.forEach(k=>{if(IT[k])IT[k].bound=1})}
+function applyBound(){BOUND_K.forEach(k=>{if(IT[k])IT[k].bound=1});
+ /* 장비 설명 앞에 착용 직군: [탱커] [딜러] [힐러] [원예가] … [공용] */
+ Object.entries(IT).forEach(([k,i])=>{if(!i.slot)return;const tg=gearTag(k);if(tg&&!String(i.d||"").startsWith("["))i.d="["+tg+"] "+(i.d||"")})}
+const JOBN={herb:"원예가",fish:"어부",mine:"광부",smith:"대장장이",cook:"요리사",wood:"목공사",pharm:"약사"};
+function gearTag(k){const i=IT[k];if(!i||!i.slot)return null;if(i.role&&ROLE[i.role])return ROLE[i.role].n;const m=/^nJ_([a-z]+)_/.exec(k);if(m&&JOBN[m[1]])return JOBN[m[1]];if(TOOLJ[k])return JOBN[TOOLJ[k]];if(i.rod)return"어부";return"공용"}
+/* 정비소 구매 탭 분류 */
+const SHOP_CAT={tank:"탱커",dealer:"딜러",healer:"힐러",gat:"채집",cra:"제작",misc:"잡화"};let shopCat=null;
+function shopCatOf(k){const i=IT[k];if(!i)return"misc";if(i.role&&SHOP_CAT[i.role])return i.role;const m=/^nJ_([a-z]+)_/.exec(k);if(m)return["herb","fish","mine"].includes(m[1])?"gat":"cra";if(TOOLJ[k]||i.tool||i.rod)return"gat";return"misc"}
 async function investigate(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(Date.now()<gcd)return;
  const c=cur(me);if(c.en<INV_EN)return toast("에너지가 부족합니다 ("+INV_EN+" 필요)");gcd=Date.now()+1500;
  const inv={...me.inv},lf=luckF(me);let msg="아무것도 찾지 못했다";
@@ -1723,8 +1730,9 @@ function facility(sp){
   here.forEach(([id,c])=>box.append(row(h("span",{c:"dot"+(online.has(id)?" on":"")}),h("span",{c:"grow sm",t:c.name+" · "+ROLE[c.role].n+" Lv"+c.lv+(isFr(id)?" · 친구":"")}),id===uid?null:btn("프로필",()=>openPhone("person","dm:"+id),"sm"))))}
  else if(sp==="shop"){box.append(wal);if(me.phl)box.append(h("div",{c:"lrow",style:"display:block;border:1px solid var(--bad,#c0473b);border-radius:8px;padding:9px 10px;margin:0 0 10px"},h("b",{c:"sm",t:"핸드폰 분실"}),h("p",{c:"xs mt",style:"margin:3px 0 8px",t:(REG[me.phl.reg]?REG[me.phl.reg].n+" 근처를 탐색하면 찾을 수 있을지도 모릅니다 · ":"")+(me.hqOut?"새 핸드폰을 사면 번호는 그대로입니다":"협회 회원")}),me.hqOut?btn("새 핸드폰 사기 · "+won(PH_NEW)+"환",()=>wrap(phBuy),"pri sm"):h("p",{c:"xs",t:me.phl.ml?"협회가 새 핸드폰을 우편으로 보냈습니다 · 숙소 우편함에서 받으십시오":"1시간 안에 못 찾으면 협회가 새 핸드폰을 우편으로 보내 줍니다 (번호 그대로)"})));const t=subs("shop",[["buy","구매"],["fix","수리·강화"],["veh","이동수단"],["craft","제작"]].concat(REG[me.loc].tmpb?[]:[["furn","가구점"]]).concat([["dlv","납품"]]));if(t==="furn")furnShop(box,row);
   if(t==="craft"){const N=ROD_MOD.need;box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"낚시대 개조 → "+IT.rod5.n}),h("div",{c:"xs mt",t:IT.rod5.d}),h("div",{c:"xs mt",t:Object.keys(N).map(k=>IT[k].n+" "+((me.inv||{})[k]||0)+"/"+N[k]).join(" · ")})),h("span",{c:"sm gold",t:ROD_MOD.cost}),btn("개조",()=>wrap(rodMod),"sm")))}
-  if(t==="buy")box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:IT.gas.n}),h("div",{c:"xs mt",t:"이동수단 연료 · 1개 = 휘발유 1 · 가방 "+((me.inv||{}).gas||0)+"개"+(me.veh?" · 지금 "+(me.veh.fuel||0)+" / "+vMaxF(me.veh):"")})),h("span",{c:"sm gold",t:VEH_FUEL_P}),qtyBuy("gas",VEH_FUEL_P)));
-  if(t==="buy")Object.entries(SHOP).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.cres?" · 오염 저항 "+Math.round(CRES[0]*100)+"%":""):i.d||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>buy(id,p),"sm")))});
+  if(t==="buy"){if(!SHOP_CAT[shopCat])shopCat=me.role||"tank";const sg=h("div",{c:"seg",style:"margin-bottom:8px;flex-wrap:wrap"});Object.entries(SHOP_CAT).forEach(([k,n])=>sg.append(h("button",{c:shopCat===k?"on":"",t:n,onclick:()=>{shopCat=k;render(true)}})));box.append(sg);
+   if(shopCat==="misc")box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:IT.gas.n}),h("div",{c:"xs mt",t:"이동수단 연료 · 1개 = 휘발유 1 · 가방 "+((me.inv||{}).gas||0)+"개"+(me.veh?" · 지금 "+(me.veh.fuel||0)+" / "+vMaxF(me.veh):"")})),h("span",{c:"sm gold",t:VEH_FUEL_P}),qtyBuy("gas",VEH_FUEL_P)))}
+  if(t==="buy")Object.entries(SHOP).filter(([id])=>shopCatOf(id)===shopCat).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.cres?" · 오염 저항 "+Math.round(CRES[0]*100)+"%":""):i.d||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>buy(id,p),"sm")))});
   else if(t==="fix"){const eq=me.eq||{},ks=SLOTS.filter(([s])=>eq[s]&&eq[s].id);if(!ks.length)box.append(h("p",{c:"sm mt",t:"장착한 장비가 없습니다. 하단 장비 탭에서 장착하십시오."}));
    let tot=0;ks.forEach(([s,n])=>{const q=eq[s],i=IT[q.id],rc=Math.ceil((100-q.dur)*3),up=q.up||0,need=up+1,rate=Math.max(.3,1-up*.07);tot+=rc;
     box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:n+" · "+i.n+(up?" +"+up:"")}),h("div",{c:"xs "+(q.dur<30?"bad":"mt"),t:"내구도 "+q.dur+"%"}),h("div",{c:"xs mt",t:"강화: 강화 부품 "+need+" · "+won(ENH_P[q.r||0]*need)+"환 · 성공률 "+Math.round(rate*100)+"%"})),
@@ -6894,8 +6902,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  const snap=()=>{const a=[...pts.values()];return{a,x:V.x,y:V.y,yaw:V.yaw,dist:V.dist,pitch:V.pitch}};
  cv.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,[e.clientX,e.clientY,e.pointerType]);const a=[...pts.values()];if(!g0||g0.a.length!==a.length){g0=snap();return}
   if(a.length===1&&o.spin){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;V.yaw=g0.yaw-dx*.008;V.pitch=Math.max(.5,Math.min(1.3,g0.pitch+dy*.004));return}
-  if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;const k=V.dist/cv.clientHeight*1.1,ca=Math.cos(V.yaw),sa=Math.sin(V.yaw);
-   V.x=Math.max(0,Math.min(W0.MW,g0.x-(dx*ca+dy*sa/Math.sin(V.pitch))*k));V.y=Math.max(W0.Y0||0,Math.min((W0.Y0||0)+W0.MH,g0.y-(-dx*sa+dy*ca/Math.sin(V.pitch))*k))}
+  /* 한 손가락: 지도를 옮기지 않고 돌리기만 (2026-11-25) */if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;V.yaw=g0.yaw-dx*.008;V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+dy*.004))}
   else if(a.length===2){moved=true;const d0=Math.hypot(g0.a[0][0]-g0.a[1][0],g0.a[0][1]-g0.a[1][1]),d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),an0=Math.atan2(g0.a[1][1]-g0.a[0][1],g0.a[1][0]-g0.a[0][0]),an1=Math.atan2(a[1][1]-a[0][1],a[1][0]-a[0][0]),my0=(g0.a[0][1]+g0.a[1][1])/2,my1=(a[0][1]+a[1][1])/2;
    if(!o.spin)V.dist=Math.max(18,Math.min(150,g0.dist*d0/Math.max(20,d1)));V.yaw=g0.yaw+(an1-an0);V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+(my1-my0)*.004))}});
  const up=e=>{const was=pts.has(e.pointerId);pts.delete(e.pointerId);g0=snap();if(was&&!moved&&e.type==="pointerup"&&!pts.size){const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=28;pk.forEach(q=>{const d=Math.hypot(q.x-mx,q.y-my)-(q.g?8:0);if(d<bd){bd=d;best=q}});if(best&&o.onPick)o.onPick(best.k,best.id)}};
