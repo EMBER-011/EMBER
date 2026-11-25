@@ -613,6 +613,18 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 #nav .nvs{flex:none!important;text-align:left;padding:7px 12px!important;border-radius:7px!important;font-size:calc(14.5px*var(--fz,1))!important;font-weight:400!important;background:transparent;border:0;color:var(--mt)}#nav .nvs.on{color:var(--ac2);background:rgba(var(--acr),.1)}
 #nav .nvar{margin-left:auto;font-style:normal;font-size:11px;opacity:.7;transition:transform .2s}#nav .nvb.gopen .nvar{transform:rotate(180deg)}
 #view.commv{max-width:980px;margin-left:auto;margin-right:auto}#view.chat.commv{height:100%}
+
+/* ===== PC 가로 배열 (2026-11-25): 지도는 왼쪽 크게 · 시설 · 게이트는 오른쪽 / 가방은 장비 | 소지품 나란히 ===== */
+@media (min-width:1100px){
+ #view.desk.mapv:has(>.mapw){display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(400px,1fr);column-gap:16px;align-items:start}
+ #view.desk.mapv:has(>.mapw)>*{grid-column:2;min-width:0}
+ #view.desk.mapv:has(>.mapw)>.mapw{grid-column:1;grid-row:1/span 80;position:sticky;top:10px;margin-bottom:0}
+ #view.desk.mapv:has(>.mapw)>.mapw canvas.holo{height:calc(100vh - 300px)!important;min-height:440px}
+ #view.desk.commv .dcols{columns:auto!important;column-count:1!important;max-width:980px}
+ #view.desk.commv .dcols>.row{margin-bottom:10px}
+ #view.desk[data-tab="bag"]{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;align-items:start}
+ #view.desk[data-tab="bag"]>*{max-width:none!important;width:auto!important;margin:0!important;min-width:0}
+}
 </style></head>
 <body>
 <div id="auth"><div class="acard"><p class="mt sm" style="text-align:center">연결 중…</p></div></div>
@@ -1391,7 +1403,7 @@ function applyPtab(){if(TAB_DOCK)ptPos=null;const t=$("#ptab");if(!t)return;if(!
  t.classList.add("free");t.classList.toggle("sl",ptPos.side==="l");t.classList.toggle("sr",ptPos.side==="r");const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;
  t.style.left=(ptPos.side==="l"?0:ptPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,ptPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,ptPos.y*H)))+"px"}
 function placePhone(){const P=$("#phone"),t=$("#ptab");if(!P||!t||P.style.display!=="block")return;if(devFix("phone"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw=P.getBoundingClientRect().width,phh=P.getBoundingClientRect().height;
- const x=Math.max(4,Math.min(W-pw-4,r.left)),y=Math.max(4,r.top-phh-6);P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
+ let x=Math.max(4,Math.min(W-pw-4,r.left)),y=Math.max(4,r.top-phh-6);if(deskOn()&&r.left<W/2){x=Math.min(W-pw-4,r.right+10);y=Math.max(4,Math.min(H-phh-4,r.top-60))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
 function resetPtab(){ptPos=null;try{localStorage.removeItem("af_ptab")}catch(e){}applyPtab();placePhone()}
 (()=>{const t=$("#ptab");let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
@@ -1417,7 +1429,7 @@ function render(force){try{navName()}catch(e){}try{agreeCheck()}catch(e){}try{tu
  if(force!==true&&v.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;
  if(!db)return;
  if(force!==true&&me&&$("#view #feed")&&(tab==="guild"||tab==="comm")){updFeed();return}
- const dpv=$("#dmsg")?$("#dmsg").value:"",dfo=document.activeElement&&document.activeElement.id==="dmsg",sc=v.scrollTop,pk=chatKey,pv=$("#msg")?$("#msg").value:"",tc=lastTab!==tab;lastTab=tab;chatKey=null;v.textContent="";v.className="";
+ const dpv=$("#dmsg")?$("#dmsg").value:"",dfo=document.activeElement&&document.activeElement.id==="dmsg",sc=v.scrollTop,pk=chatKey,pv=$("#msg")?$("#msg").value:"",tc=lastTab!==tab;lastTab=tab;chatKey=null;v.textContent="";v.className="";v.dataset.tab=tab;
  if(window.__gmRender&&__gmRender(v)){nav.style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";return}
  if(!me){nav.style.display="none";$("#dtabs").style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";if(ld.c)rCreate(v);return}
  nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
@@ -1570,7 +1582,7 @@ function rMap(v){
 
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
- bar.append(h("div",{c:"grow lname"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("span",{c:"xs",style:"color:var(--ac2)",t:" · "+regTraits(me.loc).join(" · ")}),h("span",{c:"xs mt",t:" · "+(blkUntil(me.loc)?"봉쇄 중 · "+kfmt(blkUntil(me.loc))+"까지 · ":"")+(R.raid?"레이드 · 8인 공격대 전용 · Lv"+RAID_LV+"부터":R.arena?"의태종 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc))})));
+ bar.append(h("div",{c:"grow lname"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("span",{c:"xs",style:"color:var(--ac2)",t:" · "+regTraits(me.loc).filter(x=>!(REG[me.loc].safe&&/안전/.test(x))).join(" · ")}),h("span",{c:"xs mt",t:" · "+(blkUntil(me.loc)?"봉쇄 중 · "+kfmt(blkUntil(me.loc))+"까지 · ":"")+(R.raid?"레이드 · 8인 공격대 전용 · Lv"+RAID_LV+"부터":R.arena?"의태종 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc))})));
  if(rdIn())bar.append(btn("탑으로 · "+rdoc.fl+"층",()=>{rdShow=true;tab="battle";render(true)},"pri"));
  else if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&bHere(battle))bar.append(btn("파티 전투",()=>{tab="battle";render(true)},canJ(battle)?"pri":""));
@@ -2658,7 +2670,7 @@ function rBag(v){
  {if(gearTab!=="all"&&!GCAT.some(x=>x[0]===gearTab))gearTab="all";const tabs=h("div",{c:"gtabs"});[["all","전체"]].concat(GCAT).forEach(([ck,cn])=>{const n=ck==="all"?G.length:G.filter(q=>gcat(q)===ck).length;tabs.append(h("button",{c:"gtab"+(gearTab===ck?" on":""),onclick:()=>{gearTab=ck;render(true)}},cn,n?h("small",{t:String(n)}):null))});gc.append(tabs);
   const L=G.filter(q=>gearTab==="all"||gcat(q)===gearTab).sort((a,b)=>b.r-a.r||b.lv-a.lv),cn=(GCAT.find(x=>x[0]===gearTab)||[0,""])[1];
   if(gearTab==="all")gc.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),MAXGEAR-G.length));
-  else if(!L.length)gc.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:G.length?cn+" 장비가 없습니다.":"이동하거나 전투에서 이기면 장비가 떨어질 수 있습니다. 고난이도 지역일수록 좋은 등급이 잘 나옵니다."}));
+  else if(!L.length)gc.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:G.length?cn+" 장비가 없습니다.":"장비는 게이트 전투에서 떨어지거나 정비소에서 사고 만들 수 있습니다. 높은 등급 게이트일수록 좋은 등급이 잘 나옵니다."}));
   else gc.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),0))}
 
  gc.append(h("div",{c:"legend",style:"border:0;padding:8px 0 0"},RAR.map(r=>h("span",{},h("i",{style:"background:"+r.c}),r.n))));v.append(gc,bag,...bagEx)}
@@ -2778,13 +2790,12 @@ function eqpCard(){const c=h("div",{c:"card eqpc"},h("button",{type:"button",c:"
  EQP_N.forEach((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(()=>eqpSave(i)),"sm"),btn("착용",()=>wrap(()=>eqpUse(i)),"pri sm",{disabled:!P})))});return c}
 function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));v.append(h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"내 캐릭터"})),h("div",{c:"eqrow"},eqFx(),equipView()),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 강화는 중앙 거점 정비소에서 · 수리는 정비소 또는 [자가수리]. 왼쪽은 비상구조요청송신기입니다."})),srRow(),sdRow()));v.append(eqpCard());const scd=statusCard();if(scd)v.append(scd);statCards(v)}
 /* 장비 자가수리: 어디서든 · 고철 (일반 1 · 고급 2 · 희귀 3 · 전설 4 + 변이핵 1) · 장착한 장비 중 닳은 것 */
-const SR_NEED=r=>Object.assign({scrap:(r||0)+1},(r||0)>=3?{core:1}:{});
+const SR_BASE=[100,175,250,375],srCost=q=>Math.ceil(SR_BASE[Math.min(3,q.r||0)]*(100-Math.max(0,Math.min(100,q.dur==null?100:q.dur)))/100);
 const srList=()=>{const eq=me.eq||{};return Object.keys(eq).filter(s=>eq[s]&&eq[s].id&&!IT[eq[s].id].tool&&(eq[s].dur==null?100:eq[s].dur)<100)};
-function srRow(){const L=srList();if(!L.length)return null;const T={};L.forEach(s=>Object.entries(SR_NEED(me.eq[s].r)).forEach(([k,c])=>T[k]=(T[k]||0)+c));
- return h("div",{c:"row",style:"gap:8px;align-items:center;margin-top:8px"},h("div",{c:"grow xs mt",t:"닳은 장비 "+L.length+"개 · 자가수리 재료 "+Object.entries(T).map(([k,c])=>IT[k].n+" "+c+"개 (가진 것 "+((me.inv||{})[k]||0)+")").join(" · ")}),btn("자가수리",()=>wrap(selfRepair),"pri sm"))}
-async function selfRepair(){if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 수리할 수 없습니다");const eq=clone(me.eq||{}),inv={...me.inv},L=srList();if(!L.length)return toast("수리할 장비가 없습니다");let n=0,miss=0;
- for(const s of L){const q=eq[s],nd=SR_NEED(q.r);if(Object.entries(nd).every(([k,c])=>(inv[k]||0)>=c)){Object.entries(nd).forEach(([k,c])=>{inv[k]-=c;if(!inv[k])delete inv[k]});q.dur=100;n++}else miss++}
- if(!n)return toast("재료가 부족합니다 · 고철 (일반 1 · 고급 2 · 희귀 3 · 전설 4 + 변이핵 1)");await upd({eq,inv});toast("자가수리 · 장비 "+n+"개를 고쳤습니다"+(miss?" · 재료가 모자라 "+miss+"개는 못 고쳤습니다":""))}
+function srRow(){const L=srList();if(!L.length)return null;const tot=L.reduce((a,s)=>a+srCost(me.eq[s]),0);
+ return h("div",{c:"row",style:"gap:8px;align-items:center;margin-top:8px"},h("div",{c:"grow xs mt",t:"닳은 장비 "+L.length+"개 · 자가수리(전체) "+won(tot)+"환 · 닳은 만큼 × 등급 (일반 100 · 고급 175 · 희귀 250 · 전설 375환이 0%→100%)"}),btn("자가수리 "+won(tot)+"환",()=>wrap(selfRepair),"pri sm"))}
+async function selfRepair(){if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 수리할 수 없습니다");const eq=clone(me.eq||{}),L=srList();if(!L.length)return toast("수리할 장비가 없습니다");
+ const cost=L.reduce((a,s)=>a+srCost(eq[s]),0);const pay=payWB(cost,"장비 자가수리");if(!pay)return toast("환이 부족합니다 · "+won(cost)+"환 (지갑 → 모자라면 은행)");L.forEach(s=>eq[s].dur=100);await upd(Object.assign({eq},pay));toast("자가수리 · 장비 "+L.length+"개 · "+won(cost)+"환")}
 function slotPop(s){const t=slotType(s),lab=SLOTS.find(z=>z[0]===s)[1],q=(me.eq||{})[s],cand=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&IT[k].slot===t),gc=(me.gear||[]).filter(x=>IT[x.id]&&IT[x.id].slot===t).sort((a,b)=>b.r-a.r);
  const list=h("div",{});if(!cand.length&&!gc.length)list.append(h("p",{c:"sm mt",t:"이 부위에 장착할 수 있는 장비가 없습니다."}));
  gc.forEach(x=>list.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[x.r].c,t:"["+RAR[x.r].n+"] "+gName(x)}),h("div",{c:"xs mt",t:gDesc(x)||"옵션 없음"})),btn("장착",async()=>{await equipGear(x.gid,s);closePop()},"pri sm"))));
@@ -4010,14 +4021,14 @@ function rdRender(){const L=$("#rlcd");if(!L||!rdOn||!me)return;if(rd.err&&Date.
 function applyRtab(){if(TAB_DOCK)rtPos=null;const t=$("#rtab");if(!t)return;if(!rtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",rtPos.side==="l");t.classList.toggle("sr",rtPos.side==="r");
  const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(rtPos.side==="l"?0:rtPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,rtPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,rtPos.y*H)))+"px"}
 function placeRadio(){const P=$("#radio"),t=$("#rtab");if(!P||!t||P.style.display!=="block")return;if(devFix("radio"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw2=P.getBoundingClientRect().width,ph2=P.getBoundingClientRect().height;
- const x=Math.max(4,Math.min(W-pw2-4,r.left));P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(4,r.top-ph2-6))+"px"}
+ let x=Math.max(4,Math.min(W-pw2-4,r.left)),y=Math.max(4,r.top-ph2-6);if(deskOn()&&r.left<W/2){x=Math.min(W-pw2-4,r.right+10);y=Math.max(4,Math.min(H-ph2-4,r.top-60))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
 /* ===== 삐삐 (채널 채팅 · 기록 남음 · 채널 사람들 한꺼번에 파티 초대) ===== */
 let pgOn=false,pg={scr:"list",id:null,sel:[]};
 let gtPos=null;try{gtPos=JSON.parse(localStorage.getItem("af_gtab")||"null")}catch(e){}
 function applyGtab(){if(TAB_DOCK)gtPos=null;const t=$("#gtab");if(!t)return;if(!gtPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",gtPos.side==="l");t.classList.toggle("sr",gtPos.side==="r");
  const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(gtPos.side==="l"?0:gtPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,gtPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,gtPos.y*H)))+"px"}
 function placePager(){const P=$("#pager"),t=$("#gtab");if(!P||!t||P.style.display!=="block")return;if(devFix("pager"))return;const r=t.getBoundingClientRect(),W=innerWidth,H=innerHeight,pw2=P.getBoundingClientRect().width,ph2=P.getBoundingClientRect().height;
- const x=Math.max(4,Math.min(W-pw2-4,r.left));P.style.left=Math.round(x)+"px";P.style.top=Math.round(Math.max(4,r.top-ph2-6))+"px"}
+ let x=Math.max(4,Math.min(W-pw2-4,r.left)),y=Math.max(4,r.top-ph2-6);if(deskOn()&&r.left<W/2){x=Math.min(W-pw2-4,r.right+10);y=Math.max(4,Math.min(H-ph2-4,r.top-60))}P.style.left=Math.round(x)+"px";P.style.top=Math.round(y)+"px"}
 function initPager(){if($("#gtab"))return;const t=h("button",{id:"gtab",type:"button","aria-label":"삐삐"},svgI("M3.5 7h17a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-17a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1zM5.5 9.5h9v5h-9zM17 10h1.5M17 12.5h1.5M17 15h1.5M15 7V4.5"),h("i",{id:"gdot"}));
  document.body.append(t,h("div",{id:"pager"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
@@ -6764,7 +6775,7 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  /* 지도를 끝까지 줄이면 대륙 · 종말의 섬 · 바깥 섬까지 다 보이게 (2026-11-25: 150 → 210) */
  function fitV(cw,ch){const ca=Math.cos(V.yaw),sa=Math.sin(V.yaw),asp=cw/Math.max(1,ch),U=[0,W0.MW*ca,-W0.MH*sa,W0.MW*ca-W0.MH*sa],Vv=[0,W0.MW*sa,W0.MH*ca,W0.MW*sa+W0.MH*ca],u0=Math.min(...U),u1=Math.max(...U),v0=Math.min(...Vv),v1=Math.max(...Vv);
   const eu=V.dist*.446*asp*.9,ev=V.dist*.3,pd=16,cl=(a,lo,hi)=>lo>hi?(lo+hi)/2:Math.max(lo,Math.min(hi,a));let u=V.x*ca-V.y*sa,v=V.x*sa+V.y*ca;u=cl(u,u0-pd+eu,u1+pd-eu);v=cl(v,v0-pd+ev,v1+pd-ev);V.x=u*ca+v*sa;V.y=-u*sa+v*ca}
- function frame(t){if(o.live)Object.assign(V,o.live());const dpr=Math.min(2,window.devicePixelRatio||1),cw=cv.clientWidth,ch=cv.clientHeight,Wp=Math.round(cw*dpr),Hp=Math.round(ch*dpr);if(cw&&ch)fitV(cw,ch);if(cv.width!==Wp||cv.height!==Hp){cv.width=Wp;cv.height=Hp}
+ function frame(t){if(o.live)Object.assign(V,o.live());const dpr=Math.min(2,window.devicePixelRatio||1),cw=cv.clientWidth,ch=cv.clientHeight,Wp=Math.round(cw*dpr),Hp=Math.round(ch*dpr);if(cw&&ch&&!o.spin)fitV(cw,ch);if(cv.width!==Wp||cv.height!==Hp){cv.width=Wp;cv.height=Hp}
   const x=cv.getContext("2d"),K=cam(Wp,Hp),cs=getComputedStyle(cv),ac=V.col||hex(cs.getPropertyValue("--holo")||cs.getPropertyValue("--ac")),bg=V.bg||hex(cs.getPropertyValue("--bg")),rgba=a=>"rgba("+ac[0]+","+ac[1]+","+ac[2]+","+a+")";
   const P=(X,Y,Z)=>{const q0=X-K.C[0],q1=Y-K.C[1],q2=Z-K.C[2],z=q0*K.f[0]+q1*K.f[1]+q2*K.f[2];if(z<1)return null;return[K.cx+(q0*K.r[0]+q1*K.r[1])/z*K.F,K.cy-(q0*K.u[0]+q1*K.u[1]+q2*K.u[2])/z*K.F,z]};
   const pl=(L,closed)=>{let on=false;const n=L.length;for(let i=0;i<n+(closed?1:0);i++){const p=L[i%n],s=p&&P(p[0],p[1],p[2]);if(!s){on=false;continue}if(on)x.lineTo(s[0],s[1]);else{x.moveTo(s[0],s[1]);on=true}}};
@@ -6910,8 +6921,9 @@ function create(cv,D,o){o=o||{};const W0=WORLD||(WORLD=build(D)),V={x:o.x!=null?
  cv.addEventListener("pointerdown",e=>{if(e.isPrimary||e.pointerType==="mouse")pts.clear();[...pts.keys()].forEach(k=>{if(pts.get(k)[2]!==e.pointerType)pts.delete(k)});if(pts.size>=2)pts.clear();pts.set(e.pointerId,[e.clientX,e.clientY,e.pointerType]);try{cv.setPointerCapture(e.pointerId)}catch(_){}moved=false;g0=snap()});
  const snap=()=>{const a=[...pts.values()];return{a,x:V.x,y:V.y,yaw:V.yaw,dist:V.dist,pitch:V.pitch}};
  cv.addEventListener("pointermove",e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,[e.clientX,e.clientY,e.pointerType]);const a=[...pts.values()];if(!g0||g0.a.length!==a.length){g0=snap();return}
-  if(a.length===1&&o.spin){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;V.yaw=g0.yaw-dx*.008;V.pitch=Math.max(.5,Math.min(1.3,g0.pitch+dy*.004));return}
-  /* 한 손가락: 지도를 옮기지 않고 돌리기만 (2026-11-25) */if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;V.yaw=g0.yaw-dx*.008;V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+dy*.004))}
+  if(a.length===1&&o.spin){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;V.yaw=g0.yaw-dx*.008;V.pitch=Math.max(.7,Math.min(1.05,g0.pitch+dy*.003));return}
+  if(a.length===1){const dx=a[0][0]-g0.a[0][0],dy=a[0][1]-g0.a[0][1];if(Math.hypot(dx,dy)>5)moved=true;if(!moved)return;const k=V.dist/cv.clientHeight*1.1,ca=Math.cos(V.yaw),sa=Math.sin(V.yaw);
+   V.x=Math.max(0,Math.min(W0.MW,g0.x-(dx*ca+dy*sa/Math.sin(V.pitch))*k));V.y=Math.max(W0.Y0||0,Math.min((W0.Y0||0)+W0.MH,g0.y-(-dx*sa+dy*ca/Math.sin(V.pitch))*k))}
   else if(a.length===2){moved=true;const d0=Math.hypot(g0.a[0][0]-g0.a[1][0],g0.a[0][1]-g0.a[1][1]),d1=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),an0=Math.atan2(g0.a[1][1]-g0.a[0][1],g0.a[1][0]-g0.a[0][0]),an1=Math.atan2(a[1][1]-a[0][1],a[1][0]-a[0][0]),my0=(g0.a[0][1]+g0.a[1][1])/2,my1=(a[0][1]+a[1][1])/2;
    if(!o.spin)V.dist=Math.max(18,Math.min(HOLO_DMAX,g0.dist*d0/Math.max(20,d1)));V.yaw=g0.yaw+(an1-an0);V.pitch=Math.max(.45,Math.min(1.35,g0.pitch+(my1-my0)*.004))}});
  const up=e=>{const was=pts.has(e.pointerId);pts.delete(e.pointerId);g0=snap();if(was&&!moved&&e.type==="pointerup"&&!pts.size){const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=28;pk.forEach(q=>{const d=Math.hypot(q.x-mx,q.y-my)-(q.g?8:0);if(d<bd){bd=d;best=q}});if(best&&o.onPick)o.onPick(best.k,best.id)}};
