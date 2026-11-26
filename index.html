@@ -703,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261126123800";
+const BUILD="20261126124500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2256,8 +2256,9 @@ function sgPanel(v){const id=me.sg;if(!visitAlive(id))return false;
 /* 게이트에서 나가기: 맨 위 오른쪽 · 두 번 눌러야 나감 (나아가기 버튼과 떨어뜨려 실수 방지) */
 let gxArm=0;
 function gxExitBtn(){const armed=Date.now()-gxArm<3000;return btn(armed?"한 번 더 누르면 나갑니다":"게이트에서 나가기",()=>{if(Date.now()-gxArm>=3000){gxArm=Date.now();render(true);setTimeout(()=>{if(Date.now()-gxArm>=3000)render(true)},3100);return}gxArm=0;const id=me.sg;return upd({sg:null}).then(()=>{gLeaveMark(id);toast("원래 자리로 돌아왔습니다 · 제압 전 이탈로, 제압 보상은 받을 수 없습니다")})},"sm bflee")}
-function openGates(v){const L=liveGates().filter(g=>g.kind==="w");const sv=survAt(),RM=rmps();if(!L.length&&!sv&&!misList().length&&!RM.length&&!TZ)return;const box=h("div",{c:"card wide",id:"ogbox"},h("h3",{t:"열린 게이트 "+L.length}));
+function openGates(v){const L=liveGates().filter(g=>g.kind==="w"),SL=liveGates().filter(g=>g.kind==="s");const sv=survAt(),RM=rmps();if(!L.length&&!SL.length&&!sv&&!misList().length&&!RM.length&&!TZ)return;const box=h("div",{c:"card wide",id:"ogbox"},h("h3",{t:"열린 게이트 "+L.length}));
  if(L.length){const gg=h("div",{c:"ggrid"});L.slice().reverse().forEach(g=>gg.append(h("div",{c:"gcell"+(g.st==="ovf"?" ovf":"")},h("b",{t:REG[g.reg].n}),h("span",{c:"gr",t:g.grade+"급"+(g.st==="ovf"?" · 폭주":"")}),h("small",{},"제압 ",h("b",{t:supPct(g,g.st)+"%"})),g.st==="open"&&g.ov?h("small",{c:"bad"},"폭주 ",h("b",{t:ovPct(g)+"%"})):h("small",{},g.st==="ovf"?"종료 ":"닫힘 ",h("b",{"data-u":Date.now()+gLeft(g),t:fmt(Math.ceil(gLeft(g)/1000))})),btn(gDoneMe(g,g.st)?"완료":"제압",()=>goGate(g),"pri sm",{disabled:gDoneMe(g,g.st)}))));box.append(gg)}
+ /* S급 게이트: 경보를 닫았어도 여기서 들어갈 수 있음 */SL.forEach(g=>{const dn=gDoneMe(g,g.st);box.insertBefore(h("div",{c:"lrow sgrow"},h("div",{c:"grow"},h("b",{c:"sm bad",t:"S급 게이트"+(g.st==="ovf"?" · 폭주":"")}),h("div",{c:"xs mt"},sLoc(g)+" · 닫히기까지 ",h("b",{"data-u":g.t+SG_MS,t:fmt(Math.max(0,Math.ceil((g.t+SG_MS-Date.now())/1000)))}))),me.sg===g.id?h("span",{c:"xs ok",t:"안에 있음"}):btn(dn?"제압 완료":"제압",()=>wrap(()=>goGate(g)),"pri sm",{disabled:dn})),box.children[1]||null)});
  if(sv){const I=survIsle(sv.s);box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[2].c,t:"연구실의 생존자"}),h("div",{c:"xs mt",t:I.near+" 앞바다 섬 · "})),btn("건너가기",goSurv,"pri sm")))}
  RM.forEach(r=>box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm bad",t:r.n+"헌터 [폭주]"}),h("div",{c:"xs mt",t:"S급 · "+r.attr+" · "+(REG[r.loc]||{n:"?"}).n+" · 최대 "+RMP_MAX+"명"})),btn("제압",()=>rmpGo(r),"pri sm"))));
  misRows(box);v.append(box)}
