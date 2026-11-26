@@ -703,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261126023500";
+const BUILD="20261126092000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1406,7 +1406,7 @@ const spot=()=>me.spot&&spotsOf(me.loc).includes(me.spot)?me.spot:defSpot(me.loc
 const attrB=(a,g)=>h("span",{c:"badge",style:"border:1px solid "+ACOL[a]+";color:"+ACOL[a]},AICO[a]?svgI(AICO[a]):null,a+(g?" · "+g+"등급":""));
 function avatar(c,l){const ok=c&&typeof c.photo==="string"&&c.photo.startsWith("data:image/jpeg;base64,"),k="av"+(l==="l"||l===1?" l":l==="s"?" s":l==="xs"?" xs":"");
  return ok?h("img",{c:k,src:c.photo,alt:""}):h("div",{c:k,t:c&&c.name?c.name[0]:"?"})}
-const dName=id=>{const n=me&&me.nick&&me.nick[id]&&(me.friends||[]).includes(id);return n||(chars[id]?chars[id].name:"알 수 없음")};
+const dName=id=>{const n=me&&me.nick&&(me.friends||[]).includes(id)&&me.nick[id];return n||(chars[id]?chars[id].name:"알 수 없음")};
 function updTop(){if(!me)return;const c=cur(me);let hp=c.hp,mp=c.mp;const mh=maxHp(me),mm=maxMp(me);
  if(inBb()){const m=battle.mem[uid];hp=m.hp;mp=memMp(m)}else if(rdIn()){const m=rdoc.mem[uid];hp=m.hp;mp=memMp(m)}
  const set=(b,s,v,mx,lab)=>{$(b).style.width=Math.min(100,v/mx*100)+"%";$(s).textContent=lab+" "+Math.round(v)+" / "+mx};
@@ -3018,8 +3018,9 @@ function licPop(){openPop(h("div",{c:"h0",style:"margin-bottom:10px",t:"헌터 �
 function licCard(){return h("div",{c:"card"},h("div",{c:"row sb"},h("h3",{t:"헌터 등록증"}),btn("이미지로 저장",()=>licSave(me,uid),"sm")),licEl(me,uid),h("div",{c:"xs mt",style:"margin-top:8px",t:"내 등록증은 여기서만 볼 수 있습니다 · 성별 · 나이 · 키는 위 「프로필 수정」에서 적을 수 있습니다"}))}
 function profRel(id,c){const rel=[],P=w=>chars[w]||(w===uid?me:null);loversOf(id).forEach(x=>{const p=P(x.w);if(p)rel.push(["연인",p.name+" 헌터",x.w])});
  if(c.rel&&c.rel.w){const p=P(c.rel.w);if(p)rel.push([REL_N[c.rel.t]||"관계",p.name+" 헌터",c.rel.w])}if(c.pair&&c.pair.w){const p=P(c.pair.w);if(p)rel.push(["페어",p.name+" 헌터",c.pair.w])}return rel}
+const sexHt=c=>[c.sex||"성별 미확인",c.ht?String(c.ht)+(/^\d+(\.\d+)?$/.test(String(c.ht))?"cm":""):"키 미확인"].join(" · ");
 function profHead(id,c){const g=c.guild&&guilds[c.guild],photo=typeof c.photo==="string"&&c.photo.startsWith("data:image/jpeg;base64,")?c.photo:null;
- return h("div",{c:"aprof hpf"},h("div",{c:"aph"},photo?h("img",{src:photo,alt:""}):h("span",{c:"aphn",t:(c.name||"?").slice(0,1)})),h("div",{style:"min-width:0;text-align:left"},h("b",{t:c.name}),h("small",{t:"등급 "+gradeL(c)+" · 능력 "+c.attr}),h("small",{c:"rowi"},logoEl(g,15),"소속 길드: "+(g?g.name:"미소속")),h("small",{},ROLE[c.role].n+" · Lv"+c.lv+" · ",h("span",{c:c.hqOut?"bad":"ok",t:c.hqOut?"협회 미가입":"협회 가입"}))))}
+ return h("div",{c:"aprof hpf"},h("div",{c:"aph"},photo?h("img",{src:photo,alt:""}):h("span",{c:"aphn",t:(c.name||"?").slice(0,1)})),h("div",{style:"min-width:0;text-align:left"},h("b",{t:c.name}),h("small",{t:"등급 "+gradeL(c)+" · 능력 "+c.attr}),h("small",{c:"rowi"},logoEl(g,15),"소속 길드: "+(g?g.name:"미소속")),h("small",{},ROLE[c.role].n+" · Lv"+c.lv+" · ",h("span",{c:c.hqOut?"bad":"ok",t:c.hqOut?"협회 미가입":"협회 가입"})),h("small",{t:sexHt(c)})))}
 function profPop(id){const c=id===uid?me:chars[id];if(!c)return;
  if(!(me&&me.phl)){closePop();if(phoneOn&&$("#phone")&&$("#phone").style.display==="block")return phGo("hprof",id);return openPhone("hprof",id)}const g=c.guild&&guilds[c.guild],on=online.has(id);
  const fb=()=>{if(id===uid)return null;if(isFr(id))return h("span",{c:"xs ok",style:"align-self:center",t:"친구"});const o=frOut().find(q=>q.to===id),n=frIn().find(q=>q.from===id);
@@ -3776,7 +3777,7 @@ function phRender0(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const
    sec("길드원");g.members.slice().sort((a,b)=>online.has(b)-online.has(a)).forEach(id=>{const c=chars[id];if(c)it((online.has(id)?"● ":"○ ")+c.name+(id===g.leader?" · 길드장":""),"Lv"+c.lv+" · "+REG[c.loc].n,()=>phGo("person","dm:"+id))});
    sec("최근 길드전");const W=wars.filter(x=>x.an===g.name||x.bn===g.name).slice(0,3);if(!W.length)B.append(h("div",{c:"pe",t:"기록 없음"}));W.forEach(x=>B.append(h("div",{c:"xs",style:"padding:2px 0",t:x.an+" vs "+x.bn+" → "+(x.aw?x.an:x.bn)+" 승"})))}}
  else if(s==="person"){const id=splitK(ph.room||"")[1],c=chars[id];if(!c){hd("연락처");B.append(h("div",{c:"pe",t:"알 수 없는 주민입니다."}));return}
-  hd(dName(id),h("span",{c:"xs",t:online.has(id)?"접속 중":"오프라인"}));B.append(h("div",{c:"pinfo"},avatar(c,"s"),h("div",{},h("div",{t:fnum(c.num)}),me.nick&&me.nick[id]?h("div",{t:"이름 "+c.name}):null,h("div",{t:ROLE[c.role].n+" · Lv"+c.lv}),h("div",{c:"mt",t:c.attr+" · "+gradeL(c)+"등급"+(c.guild&&guilds[c.guild]?" · "+guilds[c.guild].name:"")}),h("div",{c:"mt",t:"위치: "+REG[c.loc].n}))),
+  hd(dName(id),h("span",{c:"xs",t:online.has(id)?"접속 중":"오프라인"}));B.append(h("div",{c:"pinfo"},avatar(c,"s"),h("div",{},h("div",{t:fnum(c.num)}),me.nick&&me.nick[id]&&isFr(id)?h("div",{t:"이름 "+c.name}):null,h("div",{t:ROLE[c.role].n+" · Lv"+c.lv}),h("div",{t:sexHt(c)}),h("div",{c:"mt",t:c.attr+" · "+gradeL(c)+"등급"+(c.guild&&guilds[c.guild]?" · "+guilds[c.guild].name:"")}),h("div",{c:"mt",t:"위치: "+REG[c.loc].n}))),
    c.bio?h("div",{c:"pbio",t:c.bio}):null,id===uid?h("div",{c:"xs mt",style:"margin-top:6px",t:"내 캐릭터입니다"}):null,id===uid?null:h("div",{c:"pbr"},pb("문자",()=>phGo("chat","dm:"+id),"pri"),pb("전화",()=>placeCall(c.num))),
    id===uid?null:(()=>{if(isFr(id))return pb(ph.cf===id?"한 번 더 누르면 친구 삭제":"친구 삭제",()=>{if(ph.cf!==id){ph.cf=id;phRender();return}ph.cf=null;return frRemove(id)});
     const o=frOut().find(q=>q.to===id),n=frIn().find(q=>q.from===id);
