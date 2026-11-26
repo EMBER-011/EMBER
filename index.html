@@ -703,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261126021500";
+const BUILD="20261126022000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1759,7 +1759,7 @@ function agTick(){if(me&&me.ag&&!agBusy&&agDone(me.ag)>=me.ag.n&&$("#pop").style
 const INV_EN=5,HUNT_MAX=3;/* 조사 · 구역 이동 · 더 탐색: 에너지 5 */
 /* 귀속(2026-11-25): 내 손으로 얻어야 의미가 있는 것 · 관계 반지 · 개인 서류 · 협회 발급품 → 거래소 · 길드 창고 불가 (내 보관함은 가능) */
 const BOUND_K=["pvp_tk","pvp_amp","ring_c","ring_p","ring_m","ringbox_c","ringbox_p","gexp_doc","pair_doc","div_doc","ph_new","sos_tx","lotto","babel_frag","job_reset","lphone","fkr","pure_all"];
-IT.job_reset={n:"직업 초기화권",rar:2,d:"사용하면 채집 · 제작 직업과 직업 레벨이 모두 지워지고 처음부터 다시 고를 수 있습니다 · 계정당 한 번만 살 수 있음"};
+IT.job_reset={n:"직업 초기화권",rar:2,d:"사용하면 채집 · 제작 직업과 직업 레벨 · 채집·제작 스탯 포인트(손재주 · 행운 · 지식)가 모두 처음으로 돌아가고 직업을 다시 고를 수 있습니다 · 탱커 · 딜러 · 힐러는 그대로 · 계정당 한 번만 살 수 있음"};
 IT.gas={n:"휘발유",use:{gas:1},d:"이동수단 연료 · 1개 = 휘발유 1 · 정비소에서 1개 4환 · 가방에서 누르거나 정비소 「이동수단」에서 넣습니다"};
 IT.en_drink={n:"에너지 음료",use:{en:20},d:"에너지 +20 · 시장 상점 5환"};
 /* 에너지 아이템 추가 (2026-11-25) */
@@ -2757,7 +2757,7 @@ function itemPop(k){if(dropArm&&!dropArm.startsWith(k+":"))dropArm=null;if(k==="
  const st=[i.d,i.atk?"공격력 +"+i.atk:null,i.def?"방어력 +"+i.def:null,i.slot?"장착 부위: "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,""):null,i.bound&&!i.learn?"귀속 (거래소 · 길드 창고 불가 · 내 보관함 가능)":null].filter(Boolean).join(" · ");
  const acts=h("div",{c:"row",style:"margin-top:12px"});
  if(i.use)acts.append(btn(k==="detox"?"사용":"먹기 / 사용",async()=>{await useItem(k);itemPop(k)},"pri grow"));
- if(k==="job_reset")acts.append(btn("사용하기",()=>wrap(useJobReset),"pri grow"));
+ if(k==="job_reset")acts.append(btn("사용하기",()=>{closePop();askJobReset()},"pri grow"));
  if(k==="will")acts.append(btn("읽어 본다",()=>{closePop();readWill()},"pri grow"));
  if(i.rbox)acts.append(btn("꺼내기",()=>{closePop();wrap(()=>openRingBox(k))},"pri grow"));
  if(k==="pair_doc")acts.append(btn("작성하기",()=>{closePop();pairForm()},"pri grow"));if(k==="div_doc")acts.append(btn("작성하기",()=>{closePop();divForm()},"pri grow"));if(k==="gexp_doc")acts.append(btn("작성하기",()=>{closePop();gexpForm()},"pri grow"));
@@ -5095,7 +5095,11 @@ async function setJobNone(t){if(inB())return toast("전투 중에는 바꿀 수 
 const JR_P=10000;
 async function useJobReset(){if(inB())return toast("전투 중에는 쓸 수 없습니다");if(!(me.inv.job_reset>0))return;const J=me.job||{};if(!J.g&&!J.c&&!J.ng&&!J.nc)return toast("아직 고른 직업이 없습니다");
  const inv={...me.inv};inv.job_reset--;if(!inv.job_reset)delete inv.job_reset;const eq=clone(me.eq||{}),G=(me.gear||[]).slice();let back=0;for(const s in eq){const q=eq[s];if(q&&IT[q.id]&&(IT[q.id].jg||IT[q.id].jc)){if(G.length<MAXGEAR){G.push(q);delete eq[s];back++}}}
- await upd({inv,job:{},eq,gear:G,jrUsed:1});closePop();toast("직업이 초기화되었습니다 · 내 정보의 직업에서 다시 고르십시오"+(back?" (직업 장비 "+back+"개를 가방으로 옮겼습니다)":""))}
+ /* 채집·제작 스탯(손재주 · 행운 · 지식)과 채집·제작 포인트도 처음으로 (2026-11-26) */const s=(me.s||[]).slice(),B=ROLE[me.role].base;SHOW_C.forEach(i=>{s[i]=B[i]||0});
+ await upd({inv,job:{},eq,gear:G,jrUsed:1,s,sp2:0});closePop();toast("직업이 초기화되었습니다 · 채집·제작 스탯 포인트도 처음으로 돌아갔습니다 · 내 정보의 직업에서 다시 고르십시오"+(back?" (직업 장비 "+back+"개를 가방으로 옮겼습니다)":""))}
+function askJobReset(){const J=me.job||{};if(!J.g&&!J.c&&!J.ng&&!J.nc)return toast("아직 고른 직업이 없습니다");const a=$("#ask");a.textContent="";
+ a.append(h("p",{c:"an",t:"직업 초기화"}),h("p",{c:"sub",t:"채집 · 제작 직업과 직업 레벨 · 손재주 · 행운 · 지식이 처음으로 돌아갑니다 (탱커 · 딜러 · 힐러와 전투 스탯은 그대로)"}),h("p",{c:"q",t:"직업 초기화 시 채제작 스탯 포인트도 함께 초기화됩니다. 초기화하시겠습니까?"}),
+  h("div",{c:"btns"},h("button",{c:"yes","aria-label":"초기화",onclick:()=>{closeAsk();wrap(useJobReset)}},svgI(ICK)),h("button",{"aria-label":"취소",onclick:()=>closeAsk()},svgI(ICX))));showAsk(a)}
 async function buyJobReset(){if(hospBlock())return;if(me.jrBuy)return toast("직업 초기화권은 계정당 한 번만 살 수 있습니다");const t=payFrom(JR_P,"직업 초기화권");if(!t)return toast("환이 부족합니다");const inv={...me.inv};if(addInv(inv,"job_reset",1)<1)return toast("가방이 가득 찼습니다");await upd(Object.assign(t,{inv,jrBuy:1}));toast("직업 초기화권을 샀습니다 · 가방에서 사용")}
 const arm={};
 const craftBad=need=>rf()<craftRate(me)?null:(fbOn("cm")?{}:matTake(need,1));
