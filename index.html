@@ -703,7 +703,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261125164500";
+const BUILD="20261126021500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1557,6 +1557,8 @@ function migrate(){if(!me||migr)return;const p={};
  if((p.sv||me.sv||0)<4){p.s=ROLE[me.role].base.slice();p.sp=Math.max(0,15+me.lv-1-ROLE[me.role].base.reduce((a,b)=>a+b,0));p.sv=4;setTimeout(()=>toast("스탯이 힘·방어·민첩·지능·행운·손재주로 변경되었습니다. 포인트가 모두 초기화되었으니 장비 탭에서 다시 분배해 주십시오."),1200)}
  if((p.sv||me.sv||0)<5){p.s=ROLE[me.role].base.slice();p.sp=Math.max(0,15+me.lv-1-ROLE[me.role].base.reduce((a,b)=>a+b,0));p.sv=5;setTimeout(()=>toast("직업 기본 스탯이 바뀌어 모든 스탯을 초기화되었습니다. 남은 포인트 "+p.sp+"개를 장비 탭에서 다시 분배해 주십시오."),1300)}
  if((p.sv||me.sv||0)<6){if(me.sp2==null)p.sp2=Math.max(0,jobLv("g")-1)+Math.max(0,jobLv("c")-1);p.sv=6}
+ /* 약물과다는 EB-0K14 누적 80회부터만 · 그 아래인데 증상이 남아 있으면 지움 (2026-11-26) */
+ if((me.dose||0)<80&&me.od&&(((me.od.perm||[]).length)||Object.values(me.od.tmp||{}).some(t=>t>Date.now()))){p.od=null;setTimeout(()=>toast("잘못 붙어 있던 약물과다 증상을 지웠습니다"),1500)}
  if(!me.num)p.num=newNum();if(me.bank===undefined)p.bank=0;if(!me.memos)p.memos=[];if(!me.blog)p.blog=[];
  const e=me.eq||{};if("w" in e||"a" in e||Object.values(e).some(x=>typeof x==="string")){const ne={};if(e.w)ne.main={id:e.w,dur:100,up:0};if(e.a)ne.body={id:e.a,dur:100,up:0};p.eq=ne}
  if(!me.spot)p.spot=defSpot(me.loc);if(me.en>MAXEN)p.en=MAXEN;
@@ -2189,7 +2191,7 @@ function simAuto(a,mins){let z=(a.sd>>>0)||1;const rr=()=>{z^=z<<13;z>>>=0;z^=z>
   while(lv<MAXLV&&exp>=xpN(lv)){exp-=xpN(lv);lv++;sp+=spFor(lv);mh=maxHp({...c,lv});hp=mh}}
  return{wins,dead,lv,exp:lv>=MAXLV?0:Math.round(exp),gx:Math.round(gx),tan:Math.round(tan),inv,got,used,hp:Math.max(1,Math.round(hp)),sp,stop,dm}}
 async function claimAuto(){const a=me.auto;if(!a)return;const m0=Math.min(a.dur,(Date.now()-a.t0)/6e4),r=simAuto(a,m0),mins=r.stop!=null?r.stop:r.dm!=null?Math.min(m0,r.dm):m0,p={auto:null,inv:r.inv,tan:me.tan+r.tan,exp:r.exp,lv:r.lv,hp:r.hp},acg=0;/* 자동 전투는 오염도가 오르지 않음 */if(acg>0)p.con=Math.min(100,Math.round((cur(me).con+acg)*10)/10);if(r.sp)p.sp=(me.sp||0)+r.sp;
- if(r.wins&&!me.hqOut)p.hqb=(me.hqb||0)+r.wins;if(r.dead){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null}await upd(p);/* 자동 전투로는 핸드폰을 잃어버리지 않음 (2026-11-25) */
+ /* 협회 임무: 자동 전투 승리는 세지 않음 (2026-11-26) */if(r.dead){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null}await upd(p);/* 자동 전투로는 핸드폰을 잃어버리지 않음 (2026-11-25) */
  const nm=o=>Object.entries(o).map(([k,q])=>IT[k].n+" ×"+q).join(", ");
  openPop(h("div",{c:"h0",t:"자동 전투 결과"}),h("p",{c:"sm mt",t:REG[a.reg].n+" 상시 게이트 · "+Math.round(mins)+"분"}),
   h("p",{c:"sm",t:"승리 "+r.wins+"회 · +"+won(r.gx)+" EXP · +"+won(r.tan)+" 환"+(r.lv>me.lv?" · 레벨 업 Lv"+r.lv:"")}),
@@ -2961,7 +2963,7 @@ async function war(tid){if(hospBlock())return;
 /* ===== 채팅 공용 ===== */
 function rows(){if(room==="wc")return wchat.filter(m=>!m.ph);if(room==="pwc")return wchat.filter(m=>m.ph);if(room==="oc")return ochat.filter(m=>!m.ph);if(room==="poc")return ochat.filter(m=>m.ph);if(room==="hgrp")return gmsgs.filter(m=>m.room===grpId&&!m.o);if(room==="hgrpo")return gmsgs.filter(m=>m.room===grpId&&m.o);if(room==="hdmo")return dms.filter(m=>dmWith&&m.ch==="ho"&&((m.from===uid&&m.to===dmWith)||(m.from===dmWith&&m.to===uid&&!isBlk(dmWith))));if(room==="rpo")return rp.filter(m=>m.reg===me.loc&&m.o);if(room==="hq")return hqMsgs();if(room==="tav")return tavMsgs();if(room==="rp")return rp.filter(m=>(m.reg===me.loc||m.reg==="*")&&!m.o);if(room==="dorm")return rp.filter(m=>m.reg==="dorm:"+dormNo);if(room==="g")return gchat.filter(m=>m.g===me.guild&&!m.o);if(room==="owner")return me.guild?gchat.filter(m=>m.g===me.guild&&m.o):[];if(room==="grp")return gmsgs.filter(m=>m.room===grpId&&!m.o);if(room==="pt")return me.party?pchats.filter(m=>m.party===me.party):[];
  const hb=room==="hdm",H0=((me&&me[hb?"hdmh":"dmh"])||{})[dmWith]||0;return dms.filter(m=>dmWith&&(hb?m.ch==="h":!m.ch)&&m.t>H0&&((m.from===uid&&m.to===dmWith)||(m.from===dmWith&&m.to===uid&&!isBlk(dmWith))))}
-function rpParts(b,m,plain){if(plain||m.kind==="sys")return b.append(m.text);if(m.kind==="act")return b.append("* "+m.text);if(m.kind==="ooc")return b.append("[OOC] "+m.text);
+function rpParts(b,m,plain){if(plain||m.kind==="sys")return b.append(m.text);if(m.kind==="act")return b.append("* "+m.text);if(m.kind==="ooc")return b.append(m.text);
  m.text.split(/(\([^)]*\))/).filter(p=>p.trim()).forEach(p=>{if(/^\([^)]*\)$/.test(p))b.append(h("i",{c:"mt",t:p+" "}));else b.append(p.trim()+" ")})}
 function msgEl(m){if(m.kind==="rumor")return h("div",{c:"rumor",t:"["+m.name+"] "+m.text});if(m.kind==="pinv")return pinvEl(m);const id=m.uid||m.from,c=chars[id],b=h("div",{c:"b"});rpParts(b,m,/^(owner|hdmo|hgrpo|rpo)$/.test(room)||room==="oc");if(m.ed)b.append(h("small",{c:"edm",t:" (수정됨)"}));msgEdHook(b,m,curK());
  const av=id===uid?null:avatar(c,"s");if(av&&chars[id]){av.style.cursor="pointer";av.onclick=()=>profPop(id)}return h("div",{c:"m"+(id===uid?" own":"")},av,h("div",{c:"mc"},h("div",{c:"nm",style:chars[id]?"cursor:pointer":"",onclick:chars[id]?()=>profPop(id):null},...chatNm(id===uid?me:chars[id],m.name)),b))}
@@ -3476,7 +3478,7 @@ let dexRC=null;function dexRecipes(){if(dexRC)return dexRC;const L=[],add=(T,whe
  add(Object.fromEntries(Object.entries(RC).filter(([k])=>!MED_RC[k])),"정비소 · 제작",x=>x);add(MED_RC,"치료소 · 조제",x=>x);add(HRC,"정비소 · 고급 제작 (제작서 필요)",x=>x.need);
  add(MRC,"정비소 · 의태종 장비 (제작법 필요)",x=>x.need);add(FRC,"주점 · 조리실 (요리법 필요)",x=>x);add(URC,"정비소 · 가구 (도면 필요)",x=>x);L.push({id:"rod5",where:"정비소 · 낚시대 개조",need:ROD_MOD.need});return dexRC=L}
 const dexShops=()=>[[SHOP,"정비소 · 구매"],[{hpot:HPOT_P,mpot:MPOT_P},"치료소 · 약품"],[CLN_SHOP,"치료소 · 약품"],[MED_SHOP,"치료소 · 약품"],[MARKET,"시장 · 상점"],[ROD_SHOP,"시장 · 상점"],[{deco_p:DECO_P,deco_s:DECO_P},"시장 · 상점"],[MAT_SHOP,"시장 · 재료"],[SEED_SHOP,"시장 · 씨앗"],[TAV_SHOP,"주점 · 음식"]];
-const DEX_SP={gas:"정비소 「구매」 1개 4환",fd_chma:"협회 상시 임무 보상 (전투 10승마다 1개)",amp_en:"S급 게이트 [정비 시간]의 게이트 상인 25환",fd_honeypot:"타버린 숲 · 철골숲에서 의태종을 쓰러뜨리면 가끔 (행운 보정)",fd_berrybread:"요리 (처음부터 알고 있음) · 밀 1 · 산딸기 2 · 설탕 1",fd_gtea:"요리 (처음부터 알고 있음) · 방사능 꿀 1 · 오염수 1",c_carrot:"주택 마당 밭에서 수확",c_potato:"주택 마당 밭에서 수확",c_cabbage:"주택 마당 밭에서 수확",c_tomato:"주택 마당 밭에서 수확",c_corn:"주택 마당 밭에서 수확",c_wheat:"주택 마당 밭에서 수확",eb0k14:"월산 항구 심부에서 가끔 발견되는 무너진 연구소를 조사할 때 아주 드물게 (행운이 높을수록 잘 나옴)",will:"게이트 심부로 나아갈 때 가끔 (쓰러진 헌터 곁)",relic:"게이트 심부로 나아갈 때 가끔 (쓰러진 헌터의 유품)",sos_tx:"헌터 협회 지급",pair_doc:"협회에 페어를 신청하면 우편으로",div_doc:"배우자가 이혼을 신청하면 우편으로",gexp_doc:"길드장이 헌터 협회(☎ 115)에 길드 확장 신고를 하면 우편으로 (15,000환)",
+const DEX_SP={gas:"정비소 「구매」 1개 4환",fd_chma:"협회 상시 임무 보상 (직접 싸운 전투 10승마다 1개)",amp_en:"S급 게이트 [정비 시간]의 게이트 상인 25환",fd_honeypot:"타버린 숲 · 철골숲에서 의태종을 쓰러뜨리면 가끔 (행운 보정)",fd_berrybread:"요리 (처음부터 알고 있음) · 밀 1 · 산딸기 2 · 설탕 1",fd_gtea:"요리 (처음부터 알고 있음) · 방사능 꿀 1 · 오염수 1",c_carrot:"주택 마당 밭에서 수확",c_potato:"주택 마당 밭에서 수확",c_cabbage:"주택 마당 밭에서 수확",c_tomato:"주택 마당 밭에서 수확",c_corn:"주택 마당 밭에서 수확",c_wheat:"주택 마당 밭에서 수확",eb0k14:"월산 항구 심부에서 가끔 발견되는 무너진 연구소를 조사할 때 아주 드물게 (행운이 높을수록 잘 나옴)",will:"게이트 심부로 나아갈 때 가끔 (쓰러진 헌터 곁)",relic:"게이트 심부로 나아갈 때 가끔 (쓰러진 헌터의 유품)",sos_tx:"헌터 협회 지급",pair_doc:"협회에 페어를 신청하면 우편으로",div_doc:"배우자가 이혼을 신청하면 우편으로",gexp_doc:"길드장이 헌터 협회(☎ 115)에 길드 확장 신고를 하면 우편으로 (15,000환)",
  fkr:"게이트에서 쓰러진 헌터가 떨어뜨린 키링 줍기",ring_c:"커플반지 한 쌍 꺼내기",ring_p:"청혼반지 한 쌍 꺼내기",ring_m:"결혼이 협회에 등록되면 청혼반지가 바뀜",ringbox_c:"주점 의뢰",ringbox_p:"주점 의뢰",deco:"예전에 팔던 묶음 (지금은 비즈세트)",rcore:"S급 · 폭주 게이트 보상 · 연구실의 생존자 교환에 사용됩니다."};
 function dexRegs(k){const L=Object.keys(REG).filter(id=>{const R=REG[id];if(!R.res||!R.res[k])return false;return R.res[k]>=Math.max(...Object.values(R.res))*.5}).sort((a,b)=>(REG[a].lv||0)-(REG[b].lv||0)).map(id=>REG[id].n);
  return L.length?L.slice(0,6).join(" · ")+(L.length>6?" 외 "+(L.length-6)+"곳":""):""}
@@ -3749,7 +3751,7 @@ function phRender0(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const
   sec("비상연락망");{const id=iceOf(me);it(id?dName(id)+" · "+fnum(chars[id].num):"지정 안 함","핸드폰을 잃어버렸을 때 주운 사람이 볼 수 있는 번호입니다 · 눌러서 "+(id?"바꾸기":"지정하기"),()=>phGo("ice"))}
   relPhone(B,sec,it,pb);
   if(!me.hqOut){const done=me.hqb||0,got=me.hqc||0,can=Math.max(0,Math.floor(done/HQM_N)-got),cur_=done-(got+can)*HQM_N;sec("임무");
-   B.append(h("div",{c:"pit"},h("b",{t:"전투 "+HQM_N+"회 (상시)"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:can?"받을 보상 "+can+"번 · 다음까지 "+Math.min(HQM_N,Math.max(0,cur_))+"/"+HQM_N:"진행 "+Math.max(0,cur_)+"/"+HQM_N+" · 수동 · 자동 전투 승리가 모두 세어집니다"})));
+   B.append(h("div",{c:"pit"},h("b",{t:"전투 "+HQM_N+"회 (상시)"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:can?"받을 보상 "+can+"번 · 다음까지 "+Math.min(HQM_N,Math.max(0,cur_))+"/"+HQM_N:"진행 "+Math.max(0,cur_)+"/"+HQM_N+" · 직접 싸운 전투 승리만 세어집니다 (자동 전투 제외)"})));
    if(can)B.append(pb("보상 받기 ×"+can,()=>wrap(hqClaim),"pri"))}
   sec("유언장");it(me.will&&me.will.text?"내 유언장 · 작성됨":"내 유언장 · 비어 있음",willToday()?"오늘 이미 썼습니다 · 내일 다시 고칠 수 있습니다.":"하루에 한 번 쓰거나 고칠 수 있습니다.",()=>phGo("willedit"));
   if(p){sec("파티");B.append(h("div",{c:"xs",t:p.name+" ("+p.members.length+"/4)"}));
@@ -4650,7 +4652,7 @@ let pvSpec=false;function specJoin(pid){pvSpec=true;pvpWatch(pid);tab="battle";s
 let pvChat=[],pvChatUn=null,pvOOC=false;
 function pvChatWatch(pid){if(pvChatUn){pvChatUn();pvChatUn=null}pvChat=[];if(!pid)return;pvChatUn=db.collection("pvchat").where("room","==",pid).onSnapshot(q=>{pvChat=q.docs.map(d=>d.data()).sort((a,b)=>a.t-b.t).slice(-80);if(tab==="battle")rq()},e=>{})}
 async function pvSay(inp){const t=(inp.value||"").trim();if(!t||!pvpId)return;if(t.length>300)return toast("300자까지 쓸 수 있습니다");inp.value="";await db.collection("pvchat").add({room:pvpId,uid,n:me.name,text:t,ooc:pvOOC?1:0,t:Date.now()})}
-function pvChatCard(){const L=pvChat.filter(x=>!!x.ooc===pvOOC),box=h("div",{c:"logbox pvchat"},L.length?L.map(x=>h("div",{},h("b",{t:x.n+" "}),h("span",{t:x.text}))):h("div",{c:"mt",t:pvOOC?"오너 채팅이 비어 있습니다.":"RP RP 채팅이 비어 있습니다. 관전하는 헌터도 함께 말할 수 있습니다."}));
+function pvChatCard(){const L=pvChat.filter(x=>!!x.ooc===pvOOC),box=h("div",{c:"logbox pvchat"},L.length?L.map(x=>h("div",{},h("b",{t:x.n+" "}),h("span",{t:x.text}))):h("div",{c:"mt",t:pvOOC?"오너 채팅이 비어 있습니다.":"RP 채팅이 비어 있습니다. 관전하는 헌터도 함께 말할 수 있습니다."}));
  const inp=h("input",{autocomplete:"off",maxlength:300,placeholder:pvOOC?"오너 채팅 (캐릭터 밖 대화)":"RP 채팅",style:"flex:1;min-width:0",onkeydown:e=>{if(e.key==="Enter"&&!e.isComposing){e.preventDefault();wrap(()=>pvSay(inp))}}});
  const c=h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:pvOOC?"오너 채팅":"RP 채팅"}),btn(pvOOC?"RP 채팅":"오너 채팅",()=>{pvOOC=!pvOOC;render(true)},"sm")),box,h("div",{c:"row",style:"gap:6px;margin-top:6px"},inp,btn("보내기",()=>wrap(()=>pvSay(inp)),"pri sm")));setTimeout(()=>{box.scrollTop=box.scrollHeight},0);return c}
 function pvpLeave(){if(pvpUn){pvpUn();pvpUn=null}pvChatWatch(null);pvSpec=false;pvp=null;pvpId=null;tab="map";render(true)}
@@ -5502,7 +5504,7 @@ async function loverBreak(id){const L=loversOf(uid);if(!L.some(x=>x.w===id))retu
  await upd({lovers:L.filter(x=>x.w!==id),lvX:X});toast(((chars[id]||{}).name||"상대")+" 헌터에게 이별을 통보했습니다")}
 async function relBreak(){if(Date.now()-relArm>4000){relArm=Date.now();toast("한 번 더 누르면 관계가 정리됩니다");return}relArm=0;const R=me.rel;if(!R)return;await upd({rel:null,relX:{w:R.w,t:Date.now()}});toast("관계를 정리했습니다");phRender()}
 function convRings(p,rps){const cv=q=>q&&q.id==="ring_p"&&rps.includes(q.set)?{...q,id:"ring_m"}:q,eq=clone(me.eq||{});let n=0;for(const s in eq){const z=cv(eq[s]);if(z!==eq[s]){eq[s]=z;n++}}const G=(me.gear||[]).map(q=>{const z=cv(q);if(z!==q)n++;return z});if(n){p.eq=eq;p.gear=G}}
-/* 협회 임무: 전투(승리) 10회마다 오염 정화제 3 · 500환 · 지금 레벨 경험치의 20% · 상시 · 협회 탈퇴 중엔 안 됨 */
+/* 협회 임무: 직접 싸운 전투(승리) 10회마다 (자동 전투 제외) 오염 정화제 3 · 500환 · 지금 레벨 경험치의 20% · 상시 · 협회 탈퇴 중엔 안 됨 */
 const HQM_N=10,HQM_TAN=500,HQM_XP=.2,HQM_PURE=3,HQM_CHMA=1;
 async function hqClaim(){if(me.hqOut)return toast("협회를 탈퇴한 상태입니다");const can=Math.floor((me.hqb||0)/HQM_N)-(me.hqc||0);if(can<1)return toast("받을 보상이 없습니다");
  const inv={...me.inv};if(addInv(inv,"pure_all",can*HQM_PURE)<can*HQM_PURE||addInv(inv,"fd_chma",can*HQM_CHMA)<can*HQM_CHMA)return toast("가방이 가득 찼습니다");let lv=me.lv,exp=me.exp,gain=0,xp=0,up=false;
