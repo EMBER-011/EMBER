@@ -189,12 +189,13 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .mon{display:flex;gap:12px;align-items:center}
 .mav{width:46px;height:46px;border-radius:50%;flex:none;background:transparent}
 .thin{height:2px;background:rgba(var(--acr),.15);border-radius:1px;overflow:hidden;margin-top:5px}.thin i{display:block;height:100%;width:0;background:var(--ac2)}
-.logbox{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;margin:10px 0;font-size:calc(13px*var(--fz,1));color:var(--mt);max-height:150px;overflow-y:auto}.logbox div{padding:1px 0}.logbox div:last-child{color:var(--tx);font-weight:600}
+.logbox{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;margin:10px 0;font-size:calc(13px*var(--fz,1));color:var(--mt);height:76px;max-height:76px;overflow-y:auto;box-sizing:border-box;flex:none}.logbox div{padding:1px 0}.logbox div:last-child{color:var(--tx);font-weight:600}
 .sks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;gap:8px}@media (max-width:560px){.sks{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:1100px){#view:has(#crmiss){max-width:980px;margin-left:auto;margin-right:auto}}
 .atgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));}@media (min-width:760px){.atgrid{grid-template-columns:repeat(15,minmax(0,1fr));gap:4px}.atgrid .atc{padding:7px 0}.atgrid .atc b{font-size:calc(11px*var(--fz,1));white-space:nowrap}}
 .atgrid{gap:6px;margin:10px 0 0}.atc{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border:1px solid var(--ln);border-radius:10px}.atc svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.atc b{font-size:calc(12px*var(--fz,1));font-weight:600}
-.skb{position:relative}
+.skb{position:relative}.skb.qd{box-shadow:0 0 0 2px var(--ac2) inset!important}.skb{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+
 .bagc .sgrid,.stoc .sgrid{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:54px;max-height:calc(54px*4 + 4px*3 + 2px);overflow-y:auto;overscroll-behavior:contain;padding-right:2px}
 .bagc .slot,.stoc .slot{aspect-ratio:auto!important;height:54px}
 #view.desk .card.bagc,#view.desk .card.stoc{max-width:760px;width:100%;margin-left:auto;margin-right:auto}
@@ -608,7 +609,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 .bflee{border-color:var(--bad,#d0463a)!important;color:var(--bad,#d0463a)!important}.bhd .bflee{border-color:var(--bad,#d0463a);color:var(--bad,#d0463a)}.bflee.full{margin-top:10px}
 .bdesk .btop{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start;margin-bottom:10px}.bdesk .btop .mem{margin:0}
 .bgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(300px,.9fr);gap:14px;align-items:stretch}
-.bgrid .bcol{min-width:0;display:flex;flex-direction:column}.bgrid .logbox{flex:1;max-height:none;min-height:300px}
+.bgrid .bcol{min-width:0;display:flex;flex-direction:column}.bgrid .logbox{flex:none;height:150px;max-height:150px;min-height:0}
 .bgrid .bcol3>.card{flex:1;margin:0;display:flex;flex-direction:column;min-height:260px}.bgrid .bcol3 .card .feed,.bgrid .bcol3 #ptfeed{flex:1;min-height:160px}
 /* 안내창(토스트): 다시 아래쪽 · 기기 탭보다 조금 위 */
 #toast{top:auto!important;bottom:calc(env(safe-area-inset-bottom,0px) + 104px)!important}
@@ -709,7 +710,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127053500";
+const BUILD="20261127130500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1283,7 +1284,9 @@ const BASESP=[["plaza","광장","사람들이 모이는 만남의 장소"],["sho
 const HSP={out:{n:"외곽",lv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,enc:.25,con:1,loot:0,d:"의태종을 마주치기 쉽다."},deep:{n:"심부",lv:5,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
  rlab:{n:"무너진 연구소",lv:6,enc:.3,con:1.4,loot:1,bld:1,d:"바닷가 절벽 아래 반쯤 무너진 연구소. 깨진 냉장 보관함 사이로 의태종이 드나든다"}};
 /* 무너진 연구소: 월산 항구 심부를 탐색할 때 40% 확률로 발견 · 30분 동안 (그 지역을 떠나면 사라짐) · 의태종 출몰 구역 · 조사하면 행운에 따라 드물게 EB-0K14 */
-const LAB_REG="h11",LAB_P=.4,LAB_MS=18e5,labOn=loc=>!!(me&&me.labF&&me.labF.loc===loc&&me.loc===loc&&Date.now()<me.labF.until);
+const LAB_REG="h11",LAB_P=.4,LAB_MS=18e5,labHas=(c,loc,now)=>!!(c&&c.labF&&c.labF.loc===loc&&c.loc===loc&&!c.trip&&now<c.labF.until),
+ /* 같은 지역에 연구소를 찾은 헌터가 한 명이라도 있으면 그 지역 모두에게 보임 (2026-11-27: 2명이 되면 연구소가 사라지던 버그) */
+ labOn=loc=>{if(!me||me.loc!==loc)return false;const now=Date.now();if(labHas(me,loc,now))return true;try{for(const id in chars)if(id!==uid&&labHas(chars[id],loc,now))return true}catch(e){}return false};
 const FACI={plaza:"M3 20h18M5 20v-5h14v5M12 15V9M8.5 9h7M10 9V6.5a2 2 0 0 1 4 0V9M7 15v-2M17 15v-2",shop:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",clinic:"M9 4h6v5h5v6h-5v5H9v-5H4V9h5z",market:"M4 9l2-5h12l2 5M4 9h16v1.5a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 10.5zM5 12v8h14v-8M10 20v-5h4v5",quar:"M4 4h16v16H4zM4 9h16M9 9v11M15 9v11M12 9v11",tavern:"M5 7h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM15 9h2.5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H15M7 4c0 1 1 1 1 2M10.5 4c0 1 1 1 1 2M8 11v6M11.5 11v6",rlab:"M2.5 21h19M4.5 21V10l4.5-3.5V21M9 21V6.5l3.5-2 1 2.2L15 5.2V21M15 21v-9.5h4.5V21M11 9.5h1.5M11 13h1.5M11 16.5h1.5M6.3 13h1M6.3 16.5h1M16.8 14.5h1"};
 /* 지역 의태종 레벨 범위 = 지역 Lv + 구역 Lv + 0~2 (외곽 ~ 심부 · 건물) */
 const regRng=id=>{const R=REG[id];if(!R||R.safe)return null;const mx=Math.max(0,...spotsOf(id).map(k=>(HSP[k]||{}).lv||0));return[R.lv,R.lv+mx+2]};
@@ -1494,7 +1497,7 @@ function render(force){try{navName()}catch(e){}try{agreeCheck()}catch(e){}try{tu
  if(!me){nav.style.display="none";$("#dtabs").style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";{const bt=$("#btab");if(bt)bt.style.display="none"}if(ld.c)rCreate(v);return}
  nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex";const bt=$("#btab");if(bt)bt.style.display="flex";if(bagOn&&$("#pop").style.display==="flex"&&$("#popb .bagpop"))try{bagFill()}catch(e){}}
  nav.querySelectorAll("button[data-k]").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));navGMark();
- v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();hubPanel(force);return}if(chatHub&&!deskOn()){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle"||me.rmp&&tab==="main")?rLock:({comm:rComm,main:rMain,map:rMap,battle:rdView()?rRaid:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab]||rMain))(v);if(tc)v.classList.add("anim");if(deskOn()&&!v.classList.contains("chat")&&tab!=="battle"){v.classList.add("desk");if(((tab==="home"||(tab==="map"&&hmIn)||(tab==="guild"&&gsub==="info"))&&v.querySelector(".roomc")))v.classList.add("d2");deskWrap(v)}
+ v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();hubPanel(force);return}if(chatHub&&!deskOn()){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle"||me.rmp&&tab==="main")?rLock:({comm:rComm,main:rMain,map:rMap,battle:rdView()?rRaid:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab]||rMain))(v);if(tc)v.classList.add("anim");if(skBuf)try{skMark()}catch(e){}if(deskOn()&&!v.classList.contains("chat")&&tab!=="battle"){v.classList.add("desk");if(((tab==="home"||(tab==="map"&&hmIn)||(tab==="guild"&&gsub==="info"))&&v.querySelector(".roomc")))v.classList.add("d2");deskWrap(v)}
  if(me.trip&&tab!=="me"&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("em",{id:"tripT",c:"tript"}),h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")+(me.trip.veh&&VEH[me.trip.veh.k]?" · "+VEH[me.trip.veh.k].n+(me.trip.ride&&chars[me.trip.ride]?" ("+chars[me.trip.ride].name+"님 운전)":""):"")}),h("span",{t:"도착할 때까지 채팅 · 내 정보 · 휴대폰(헌터 온라인 · 은행 · 메모장 · 도감)만 쓸 수 있습니다"})))}
  if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;
  v.scrollTop=tc?0:sc;updTop();try{hubPanel(force)}catch(e){}
@@ -2398,7 +2401,13 @@ function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=REG[me.
 /* ===== 전투 (솔로는 이 기기에서 처리, 파티는 공유 문서) ===== */
 const lg=(b,t)=>{b.log.push(t);if(b.log.length>10)b.log.shift()};
 let bq=Promise.resolve();
-function bmut(fn){bq=bq.then(()=>bm(fn)).catch(e=>toast("전투 오류: "+errT(e)));return bq}
+/* 전투 변경 묶어 처리: 밀린 행동은 한 번에 읽고 한 번에 저장 (2026-11-27 끊김 수정) */
+let bPend=[],bRun=false;
+function bmut(fn){return new Promise(res=>{bPend.push({fn,res});if(!bRun)bFlush()})}
+async function bFlush(){bRun=true;try{while(bPend.length){const L=bPend.splice(0);try{await bmAll(L.map(x=>x.fn))}catch(e){toast("전투 오류: "+errT(e))}L.forEach(x=>x.res())}}finally{bRun=false}}
+async function bmAll(fns){const ap1=b0=>{let cur=b0,ch=false;fns.forEach(f=>{const t=clone(cur);let r;try{r=f(t)}catch(e){console.error(e);r=false}if(r!==false){cur=t;ch=true}});return ch?cur:null};
+ if(!bk||(battle&&battle.tut)){if(!battle)return;const b=ap1(battle);if(!b)return;battle=b;settleCheck();rq();return}
+ const ref=db.doc("battles/"+bk),s=await ref.get();if(!s.exists)return;const b=ap1(s.data());if(b)await ref.set(b)}
 async function bm(fn){
  if(!bk||(battle&&battle.tut)){if(!battle)return;const b=clone(battle);if(fn(b)===false)return;battle=b;settleCheck();rq();return}
  const ref=db.doc("battles/"+bk),s=await ref.get();if(!s.exists)return;const b=s.data();if(fn(b)===false)return;await ref.set(b)}
@@ -2457,6 +2466,14 @@ async function bBusy(){const b=battle;if(b.mem&&b.mem[uid]){hidePhone();closeAsk
  if(canJ(b)){await joinBattle();return false}
  toast("파티원이 다른 곳에서 전투 중입니다 · 끝난 뒤에 시작할 수 있습니다");return false}
 async function joinBattle(){if(hospBlock())return;const c=cur(me);let ok=false;await bmut(b=>{if(b.st!=="on"||!bHere(b))return false;ok=true;b.mem[uid]=mkMem(c);lg(b,me.name+" 참전!");lg(b,flavLine(b,b.mem[uid]))});if(ok&&battle){gateJoined.add(battle.t);tmpJoined.add(battle.t)}hidePhone();closeAsk();tab="battle";render(true);if(ok)toast("파티원의 전투에 합류합니다")}
+/* 기술 입력: 누르는 순간 발동 · 공용 대기(1초) 중에 누른 기술은 예약했다가 바로 이어서 발동 */
+let skBuf=null,skBufT=0;
+function skMark(){document.querySelectorAll(".skb").forEach(b=>b.classList.toggle("qd",!!skBuf&&b.dataset.sk===skBuf.sk.id))}
+function skPress(sk,f){const now=Date.now(),w=Math.max(cds._g||0,cds[sk.id]||0)-now;
+ if(w>0&&w<=900){skBuf={sk,f};skMark();clearTimeout(skBufT);skBufT=setTimeout(()=>{const q=skBuf;skBuf=null;skMark();if(q)wrap(()=>q.f(q.sk))},w+15);return}
+ if(w<=0&&skBuf&&skBuf.sk.id===sk.id){skBuf=null;clearTimeout(skBufT);skMark()}
+ wrap(()=>f(sk))}
+const skBtnEv=(sk,f)=>({onpointerdown:e=>{if(e.button)return;e.preventDefault();skPress(sk,f)},onclick:e=>{if(e.detail===0)skPress(sk,f)},oncontextmenu:e=>e.preventDefault()});
 function useSk(sk){
  if(battle&&battle.tut)return tutSk(sk);const now=Date.now();if((cds[sk.id]||0)>now)return;const m0=battle&&battle.mem&&battle.mem[uid];if(!m0||m0.hp<=0)return;
  if(sk.t==="atk"&&(m0.stunT||0)>now)return toast("이명 — "+Math.ceil((m0.stunT-now)/1000)+"초 동안 공격 불가능");
@@ -2546,8 +2563,8 @@ function rBattle(v){
     h("div",{c:"sm "+(e>1?"ok":e<1?"bad":"mt"),t:e>1?"내 속성 유리 ×"+ELM_ADV:e<1?"내 속성 불리 ×0.8":"속성 상성 없음"}),
     h("div",{c:"thin foe"},h("i",{id:"nxb"})),h("div",{c:"xs mt"},"다음 공격 ",h("b",{id:"nxt"}))));
   const ml=h("div",{c:"mem"});Object.entries(b.mem).forEach(([id,x])=>ml.append(h("div",{},h("div",{c:"row sb sm"},h("span",{c:"row"},avatar(chars[id],"s"),h("span",{t:x.n+" ("+ROLE[x.role].n+")"+(x.guard>Date.now()?" · 철벽":"")+(x.hp<=0?" · 쓰러짐":"")})),h("span",{t:x.hp+"/"+x.max})),pbar(x.hp,x.max,x.hp/x.max>.3?"ok":"low",""))));
-  const mpEl=h("div",{style:"margin-top:6px",id:"bmp"},pbar(memMp(mine),mine.mpMax,"mp","MP")),logEl=h("div",{c:"logbox"},b.log.map(l=>h("div",{t:l})));
-  const dead=mine.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>{const bo=sk.id==="h1"&&mine.snr;g.append(h("button",{c:"skb"+(bo?" boost":""),title:sk.n+" — "+sk.d+(sk.sp&&INEUNG_D[me.attr]?" / "+me.attr+": "+INEUNG_D[me.attr]:""),"data-sk":sk.id,"data-mp":bo?0:mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,mine.agi*.05))*(mine.cdm||1)),"data-dead":dead?"1":"",onclick:()=>wrap(()=>useSk(sk))},h("i",{c:"fill"}),h("b",{t:sk.n}),sk.sp&&AICO[me.attr]?h("i",{c:"skat",style:"color:"+ACOL[me.attr],title:me.attr+" — "+(INEUNG_D[me.attr]||"")},svgI(AICO[me.attr])):null,h("small",{t:sk.d}),sk.sp&&INEUNG_D[me.attr]?h("small",{c:"skfx",t:me.attr+" · "+INEUNG_D[me.attr]}):null,h("small",{c:"mpc",t:"MP "+(bo?0:mpCost(me,sk))}),h("small",{c:"cdt"})))});
+  const mpEl=h("div",{style:"margin-top:6px",id:"bmp"},pbar(memMp(mine),mine.mpMax,"mp","MP")),logEl=h("div",{c:"logbox"},b.log.map(l=>h("div",{t:l})));setTimeout(()=>{logEl.scrollTop=logEl.scrollHeight},0);
+  const dead=mine.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>{const bo=sk.id==="h1"&&mine.snr;g.append(h("button",{c:"skb"+(bo?" boost":""),title:sk.n+" — "+sk.d+(sk.sp&&INEUNG_D[me.attr]?" / "+me.attr+": "+INEUNG_D[me.attr]:""),"data-sk":sk.id,"data-mp":bo?0:mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,mine.agi*.05))*(mine.cdm||1)),"data-dead":dead?"1":"",...skBtnEv(sk,useSk)},h("i",{c:"fill"}),h("b",{t:sk.n}),sk.sp&&AICO[me.attr]?h("i",{c:"skat",style:"color:"+ACOL[me.attr],title:me.attr+" — "+(INEUNG_D[me.attr]||"")},svgI(AICO[me.attr])):null,h("small",{t:sk.d}),sk.sp&&INEUNG_D[me.attr]?h("small",{c:"skfx",t:me.attr+" · "+INEUNG_D[me.attr]}):null,h("small",{c:"mpc",t:"MP "+(bo?0:mpCost(me,sk))}),h("small",{c:"cdt"})))});
   const mpNote=h("div",{c:"xs mt",style:"margin-top:6px",t:"지능 비율이 높을수록 MP 소모가 줄어듭니다 (현재 ×"+mpMult(me).toFixed(2)+")"});
   if(desk){/* PC: 전투 로그 | 공격 버튼 · 아이템 | 파티 채팅 · 후퇴 */
    s.classList.add("bdesk");s.append(h("div",{c:"btop"},monEl,ml));
@@ -4786,7 +4803,7 @@ function rPvp(v){const p=pvp,S=pvState(p),bossMe=p.k==="ramp"&&!!S.M["R"+uid],sp
    h("div",{c:"row sb sm"},h("span",{c:"row"},avatar(chars[id]||chars[id.slice(1)]||{name:x.n},"s"),h("span",{t:x.n+" ("+ROLE[x.role].n+")"+(x.guard>now?" · 철벽":"")+(x.gg?" · 항복":"")+(x.hp<=0?" · 쓰러짐":"")+(sel?" · 목표":"")})),h("span",{t:Math.round(x.hp)+"/"+x.max})),pbar(x.hp,x.max,x.hp/x.max>.3?"ok":"low",""),LS[id]?h("div",{c:"xs mt",style:"margin-top:2px",t:(LS[id].e.sk?"최근 스킬: "+LS[id].e.sk+" · ":"")+(LS[id].e.txt||"")+(LS[id].n?" (스킬 "+LS[id].n+"회)":"")}):null))});return box};
  v.append(h("div",{c:"card"},grp(side,p.k==="ramp"?(bossMe?"폭주한 나":"제압조"):spec?"왼쪽":p.k==="gw"?"우리 길드":"나"),grp(side==="A"?"B":"A",p.k==="ramp"?(bossMe?"토벌하러 온 헌터":"폭주 헌터"):spec?"오른쪽":p.k==="gw"?"상대 길드":"상대"),done||bossMe?null:h("div",{c:"xs mt",style:"margin-top:4px",t:"상대를 누르면 공격 목표로 정합니다. 안 정하면 탱커 → 무작위 순으로 노립니다."})),pvChatCard());
  if(!done&&bossMe)v.append(h("div",{c:"card"},h("b",{c:"sm",t:"자동 전투 중"}),h("p",{c:"xs mt",style:"margin:4px 0 0",t:"폭주한 몸이 내 "+ROLE[me.role].n+" 스킬로 스스로 싸웁니다 (Lv50 · 모든 스탯 10 · 폭주 보정). 토벌이 끝날 때까지 지켜볼 수밖에 없습니다."})));
- if(!done&&!bossMe){const m0=p["m_"+uid],dead=mi.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>g.append(h("button",{c:"skb","data-sk":sk.id,"data-mp":mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,m0.agi*.05))*(m0.cdm||1)),"data-dead":dead||now<p.t0?"1":"",onclick:()=>wrap(()=>pvSk(sk))},h("i",{c:"fill"}),h("b",{t:sk.n}),h("small",{t:sk.d}),h("small",{c:"mpc",t:"MP "+mpCost(me,sk)}),h("small",{c:"cdt"}))));
+ if(!done&&!bossMe){const m0=p["m_"+uid],dead=mi.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>g.append(h("button",{c:"skb","data-sk":sk.id,"data-mp":mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,m0.agi*.05))*(m0.cdm||1)),"data-dead":dead||now<p.t0?"1":"",...skBtnEv(sk,pvSk)},h("i",{c:"fill"}),h("b",{t:sk.n}),h("small",{t:sk.d}),h("small",{c:"mpc",t:"MP "+mpCost(me,sk)}),h("small",{c:"cdt"}))));
   v.append(h("div",{c:"card"},h("div",{id:"bmp"},pbar(memMp(m0),m0.mpMax,"mp","MP")),g,btn(p.k==="ramp"?"후퇴":"항복",()=>wrap(pvGG),"full",{style:"margin-top:8px"})))}
  v.append(h("div",{c:"card"},h("div",{c:"logbox"},S.log.map(l=>h("div",{t:l})))))}
 /* 아레나 시설 화면 */
