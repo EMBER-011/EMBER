@@ -117,6 +117,7 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 .msend{border:1px solid var(--ln);border-radius:10px;padding:10px;margin:6px 0 10px}
 .hubl{display:flex;flex-direction:column;gap:8px}.hubpick{max-height:260px;overflow-y:auto;border:1px solid var(--ln);border-radius:6px;padding:4px 6px}.hubpick .pk{display:flex;gap:8px;align-items:center;padding:4px 0}
 .m.pinv,.feed .pinv{display:flex;align-items:center;gap:8px;border:1px dashed var(--ac2);border-radius:8px;padding:6px 8px;margin:6px 0}.m.pinv small{color:var(--ac2);flex:none}.m.pinv span{flex:1;font-size:calc(13px*var(--fz,1))}
+.fcard.fold>*:not(.fhd){display:none!important}.fcard.fold .fhd{margin-bottom:0}.fcard .far{display:inline-block;margin-left:6px;font-style:normal;font-size:.8em;color:var(--mt);transition:transform .2s}.fcard.fold .far{transform:rotate(-90deg)}.fcard.fold{padding-bottom:12px}
 #btab{position:fixed;left:0;top:calc(33% + 204px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
 #btab svg{width:24px;height:24px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#btab.act{background:rgba(var(--acr),.2)}
 @media (min-width:900px){#btab{left:max(0px,calc(50% - 480px))}}
@@ -708,7 +709,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127052700";
+const BUILD="20261127053500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2916,7 +2917,12 @@ function eqpCard(){const fix=deskOn(),op=eqpOpen||fix;const c=h("div",{c:"card e
  EQP_N.forEach((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(()=>eqpSave(i)),"sm"),btn("착용",()=>wrap(()=>eqpUse(i)),"pri sm",{disabled:!P})))});return c}
 function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));const mc=h("div",{c:"card mychar"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("h3",{style:"margin:0;flex:none",t:"내 캐릭터"}),statusLine()),h("div",{c:"eqrow"},eqFx(),equipView()),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 강화는 중앙 거점 정비소에서 · 수리는 정비소 또는 [자가수리]. 왼쪽은 비상구조요청송신기입니다."})),srRow(),sdRow());const IB=invBoxes();
  if(deskOn()){/* PC: 내 캐릭터(넓게) | 소지품(장비 탭 · 프리셋) | 이동수단 · 스탯 */const g=h("div",{c:"eqg wide"}),c1=h("div",{c:"hcol"}),c2=h("div",{c:"hcol"}),c3=h("div",{c:"hcol"});g.append(c1,c2,c3);v.append(g);c1.append(mc);c2.append(...IB);vehCard(c3);statCards(c3);return}
- v.append(mc);v.append(...IB);vehCard(v);statCards(v)}
+ v.append(mc);v.append(...IB);vehCard(v);statCards(v);eqFold(v)}
+/* 모바일 내 정보: 소지품 · 이동수단 · 스탯 상자 열고 닫기 (기기에 기억) */
+function eqFold(v){let F={};try{F=JSON.parse(localStorage.getItem("af_eqfold")||"{}")}catch(e){}
+ [...v.querySelectorAll(":scope>.card")].forEach(c=>{const h3=c.querySelector("h3");if(!h3)return;const n=h3.textContent.trim(),k=n==="소지품"?"bag":n==="내 이동수단"?"veh":n==="스탯"?"stat":null;if(!k)return;
+  let hd=h3;while(hd.parentNode!==c)hd=hd.parentNode;hd.classList.add("fhd");c.classList.add("fcard");c.classList.toggle("fold",!!F[k]);
+  const ar=h("i",{c:"far",t:"▾"});h3.append(ar);h3.style.cursor="pointer";h3.onclick=e=>{e.stopPropagation();F[k]=!F[k];c.classList.toggle("fold",!!F[k]);try{localStorage.setItem("af_eqfold",JSON.stringify(F))}catch(er){}}})}
 /* 장비 자가수리: 어디서든 · 고철 (일반 1 · 고급 2 · 희귀 3 · 전설 4 + 변이핵 1) · 장착한 장비 중 닳은 것 */
 const SR_BASE=[100,175,250,375],srCost=q=>Math.ceil(SR_BASE[Math.min(3,q.r||0)]*(100-Math.max(0,Math.min(100,q.dur==null?100:q.dur)))/100);
 const srList=()=>{const eq=me.eq||{};return Object.keys(eq).filter(s=>eq[s]&&eq[s].id&&!IT[eq[s].id].tool&&(eq[s].dur==null?100:eq[s].dur)<100)};
