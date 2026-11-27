@@ -712,7 +712,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127135000";
+const BUILD="20261127135500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1281,8 +1281,8 @@ function findRoute(a,b,ign){const d={},pv={},q=new Set(Object.keys(REG));Object.
  while(q.size){let u=null;q.forEach(k=>{if(u===null||d[k]<d[u])u=k});if(d[u]===Infinity)break;q.delete(u);if(u===b)break;(ADJ[u]||[]).filter(v=>!locked(v)&&(ign||v===b||!blkUntil(v))).forEach(v=>{const nd=d[u]+tsec(u,v);if(nd<d[v]){d[v]=nd;pv[v]=u}})}
  if(d[b]===Infinity)return null;const r=[b];while(r[0]!==a)r.unshift(pv[r[0]]);return{path:r,sec:d[b]}}
 /* 임시 거점 A (종말의 섬 · 검은 첨탑과 뼈의 산 사이): 광장 · 정비소 · 치료소 · 격리실 · 주점(음식만) */
-const TMPSP=[["plaza","광장","종말의 섬에서 숨을 돌리는 곳"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단"],["clinic","치료소","부상·질병 진료 · 약품 · 휴식"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","음식"]];
-const BASESP=[["plaza","광장","사람들이 모이는 만남의 장소"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단 · 가구점"],["clinic","치료소","부상·질병 진료 · 약품 · 휴식"],["market","시장","식재료·재료 구입, 유저 거래소"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","의뢰 게시판 · 음식"]];
+const TMPSP=[["plaza","광장","종말의 섬에서 숨을 돌리는 곳"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단"],["clinic","치료소","HP 치료 · 부상·질병 진료 · 약품"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","음식"]];
+const BASESP=[["plaza","광장","사람들이 모이는 만남의 장소"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단 · 가구점"],["clinic","치료소","HP 치료 · 부상·질병 진료 · 약품"],["market","시장","식재료·재료 구입, 유저 거래소"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","의뢰 게시판 · 음식"]];
 const HSP={out:{n:"외곽",lv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,enc:.25,con:1,loot:0,d:"의태종을 마주치기 쉽다."},deep:{n:"심부",lv:5,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
  rlab:{n:"무너진 연구소",lv:6,enc:.3,con:1.4,loot:1,bld:1,d:"바닷가 절벽 아래 반쯤 무너진 연구소. 깨진 냉장 보관함 사이로 의태종이 드나든다"}};
 /* 무너진 연구소: 월산 항구 심부를 탐색할 때 40% 확률로 발견 · 30분 동안 (그 지역을 떠나면 사라짐) · 의태종 출몰 구역 · 조사하면 행운에 따라 드물게 EB-0K14 */
@@ -1837,7 +1837,6 @@ function facility(sp){
   if(t==="med")Object.entries(MED_SHOP).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),h("span",{c:"sm gold",t:won(p)}),btn("구매",()=>buy(id,p),"sm"))));
   else{box.append(h("div",{c:"sm",style:"margin:2px 0 2px;color:var(--ac2)",t:"치료"}),
    row(h("div",{c:"grow"},h("b",{c:"sm",t:"HP 치료"}),h("div",{c:"xs mt",t:"HP를 모두 회복 ("+Math.round(c.hp)+" / "+mh+")"})),btn(hc+" 환",()=>clinic("heal",hc),"sm",{disabled:c.hp>=mh})),
-   row(h("div",{c:"grow"},h("b",{c:"sm",t:"휴식"}),h("div",{c:"xs mt",t:"에너지와 MP를 모두 회복"})),btn(rest+" 환",()=>clinic("rest",rest),"sm")),
    h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"부상 · 질병"}));const L=ailList(me);if(!L.length)box.append(h("p",{c:"sm mt",t:"치료가 필요한 부상이나 질병이 없습니다."}));
    L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:AIL[k].n}),h("div",{c:"xs mt",t:AIL[k].d})),btn("진료 "+won(AIL[k].cl)+"환",()=>clinicCure(k),"sm"))));
    if(L.includes("fracture"))box.append(h("div",{style:"height:8px"}),redBtn());
