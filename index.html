@@ -144,7 +144,7 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 #pscr .pbody.home.wall{background-size:cover;background-position:center}#pscr .pbody.home.wall .phclk,#pscr .pbody.home.wall .app{text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .app.fold .fi{display:grid!important;grid-template-columns:1fr 1fr;gap:1px;padding:4px}.app.fold .fi svg{width:100%!important;height:100%!important}.app.fold.drop{outline:1px dashed var(--ac)}
 .fbox{border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--sf)}.fbox .fname{width:100%;max-width:150px;padding:3px 6px;font-size:calc(12px*var(--fz,1))}
-#top.min #theal{display:none}#theal{position:absolute;right:12px;bottom:-10px;height:19px;padding:0 8px;border-radius:2px;background:var(--sf);font-size:calc(10.5px*var(--fz,1));font-weight:600;color:var(--ac2);line-height:1;display:flex;align-items:center;z-index:2}
+.thealw{display:flex;justify-content:flex-end;margin-top:6px}#top.min .thealw{display:none}#theal{height:26px;padding:0 14px;border-radius:6px;font-size:calc(11.5px*var(--fz,1));font-weight:600;color:var(--ac2);background:var(--sf);display:flex;align-items:center}
 #tgl{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:46px;height:19px;padding:0;border-radius:2px;background:var(--sf);display:flex;align-items:center;justify-content:center}
 #tgl:active:not(:disabled){transform:translateX(-50%)}#tgl svg{width:16px;height:16px;fill:none;stroke:var(--ac2);stroke-width:2;transition:transform .2s}#top.min #tgl svg{transform:rotate(180deg)}
 #view{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 12px}
@@ -675,8 +675,8 @@ body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33%
 </style></head>
 <body>
 <div id="auth"><div class="acard"><p class="mt sm" style="text-align:center">연결 중…</p></div></div>
-<header id="top"><div id="stat"><div class="tmrow"><div id="tme"></div><div id="tsd"><div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div></div><div class="bars"><div class="pb"><i id="thb"></i><span id="thp"></span></div><div class="pb mp"><i id="tmb"></i><span id="tmp"></span></div><div class="pb en"><i id="teb"></i><span id="ten"></span></div><div class="pb con"><i id="tcb"></i><span id="tcn"></span></div></div>
-</div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><button id="theal" type="button" aria-label="자동회복">자동회복</button></header>
+<header id="top"><div id="stat"><div class="tmrow"><div id="tme"></div><div id="tsd"><div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div></div><div class="bars"><div class="pb"><i id="thb"></i><span id="thp"></span></div><div class="pb mp"><i id="tmb"></i><span id="tmp"></span></div><div class="pb en"><i id="teb"></i><span id="ten"></span></div><div class="pb con"><i id="tcb"></i><span id="tcn"></span></div></div><div class="thealw"><button id="theal" type="button" aria-label="자동회복">자동회복</button></div>
+</div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button></header>
 <div id="notice"></div>
 <main id="view"><p class="mt">불러오는 중…</p></main>
 <div id="dtabs"></div>
@@ -708,7 +708,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127050000";
+const BUILD="20261127051500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1475,7 +1475,7 @@ function resetPtab(){ptPos=null;try{localStorage.removeItem("af_ptab")}catch(e){
  addEventListener("resize",()=>{applyPtab();placePhone()});applyPtab()})();
 $("#pop").onclick=e=>{if(e.target.id==="pop")closePop()};
 function openPop(...k){const b=$("#popb");b.textContent="";ap(b,k);$("#pop").style.display="flex"}
-function closePop(){dropArm=null;if(bagOn){bagOn=false;const t=$("#btab");if(t)t.classList.remove("act")}$("#pop").style.display="none"}
+function closePop(){dropArm=null;if(bagOn&&me&&$("#pop").style.display==="flex"&&!$("#popb .bagpop")){try{bagFill();return}catch(e){}}if(bagOn){bagOn=false;const t=$("#btab");if(t)t.classList.remove("act")}$("#pop").style.display="none"}
 let rt;function rq(){clearTimeout(rt);rt=setTimeout(render,120)}
 /* PC: 넓은 칸은 한 줄 전체 · 나머지 상자는 여러 단으로 (사이사이 넓은 칸이 오면 새 묶음) */
 const DESK_WIDE=".gbox,.mapw,.locbar,.tripbar,.fac,.spotl,.ovfb,.rnob,.seg,.gtabs,.wide,.card.me,.xpl";
@@ -2776,8 +2776,9 @@ function invBoxes(rf){rf=rf||(()=>render(true));
 function rBag(v){v.append(...invBoxes())}
 /* 기기 탭 [가방] → 어디서든 소지품 창 */
 let bagOn=false;
-function bagFill(){const b=$("#popb"),y=b.scrollTop;b.textContent="";ap(b,[h("div",{c:"bagpop"},h("div",{c:"row sb",style:"align-items:center;margin-bottom:6px"},h("div",{c:"h0",style:"margin:0",t:"가방"}),btn("닫기",closePop,"sm")),...invBoxes(bagFill))]);b.scrollTop=y}
-function openBag(){if(!me)return;if(bagOn&&$("#pop").style.display==="flex"&&$("#popb .bagpop"))return closePop();bagOn=true;$("#pop").style.display="flex";bagFill();const t=$("#btab");if(t)t.classList.add("act")}
+let bagY=0;function bagFill(){const b=$("#popb");if(!b.__bs){b.__bs=1;b.addEventListener("scroll",()=>{if(b.querySelector(".bagpop"))bagY=b.scrollTop},{passive:true})}const y=b.querySelector(".bagpop")?b.scrollTop:bagY;b.textContent="";ap(b,[h("div",{c:"bagpop"},h("div",{c:"row sb",style:"align-items:center;margin-bottom:6px"},h("div",{c:"h0",style:"margin:0",t:"가방"}),btn("닫기",closeBag,"sm")),...invBoxes(bagFill))]);b.scrollTop=y}
+function closeBag(){bagOn=false;const t=$("#btab");if(t)t.classList.remove("act");closePop()}
+function openBag(){if(!me)return;if(bagOn&&$("#pop").style.display==="flex")return closeBag();bagOn=true;bagY=0;$("#pop").style.display="flex";bagFill();const t=$("#btab");if(t)t.classList.add("act")}
 function initBag(){if($("#btab"))return;const t=h("button",{id:"btab",type:"button","aria-label":"가방",onclick:openBag},svgI("M8 8V6.5a4 4 0 0 1 8 0V8M5.5 8h13l-1 12.2a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3zM9 12h6M5.8 12.5h2M16.2 12.5h2"));document.body.append(t)}
 function eqpPop(){openPop(h("div",{c:"h0",t:"장비 프리셋"}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집·제작할 때는 「채집·제작」에 도구와 장비를 저장해 두십시오"}),
  ...EQP_N.map((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;return h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n+" 프리셋"}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(async()=>{await eqpSave(i);eqpPop()}),"sm"),btn("착용",()=>wrap(async()=>{await eqpUse(i);eqpPop()}),"pri sm",{disabled:!P}))}),
