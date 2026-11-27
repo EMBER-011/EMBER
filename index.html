@@ -708,7 +708,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127045000";
+const BUILD="20261127050000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -3831,7 +3831,7 @@ function phRender0(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const
   sec("비상연락망");{const id=iceOf(me);it(id?dName(id)+" · "+fnum(chars[id].num):"지정 안 함","핸드폰을 잃어버렸을 때 주운 사람이 볼 수 있는 번호입니다 · 눌러서 "+(id?"바꾸기":"지정하기"),()=>phGo("ice"))}
   relPhone(B,sec,it,pb);
   if(!me.hqOut){const done=me.hqb||0,got=me.hqc||0,bank=Math.max(0,Math.floor(done/HQM_N)-got),can=hqCan(),cur_=done-(got+bank)*HQM_N;sec("임무");
-   B.append(h("div",{c:"pit"},h("b",{t:"전투 "+HQM_N+"회 (상시)"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:(bank?"받을 보상 "+bank+"번 · 다음까지 "+Math.min(HQM_N,Math.max(0,cur_))+"/"+HQM_N:"진행 "+Math.max(0,cur_)+"/"+HQM_N+" · 직접 싸운 전투 승리만 세어집니다 (자동 전투 제외)")}),h("small",{c:hqToday()>=HQM_DAY?"bad":"",t:"오늘 받은 보상 "+hqToday()+"/"+HQM_DAY+"번"+(bank&&!can?" · 남은 보상은 내일 받을 수 있습니다":"")})));
+   B.append(h("div",{c:"pit"},h("b",{t:"협회 의뢰 ("+Math.min(hqToday(),HQM_DAY)+"/"+HQM_DAY+")"}),h("small",{t:"조건: 직접 싸운 전투 승리 "+HQM_N+"회마다 보상 1번"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:(bank?"받을 보상 "+bank+"번 · 다음까지 "+Math.min(HQM_N,Math.max(0,cur_))+"/"+HQM_N:"진행 "+Math.max(0,cur_)+"/"+HQM_N+" · 직접 싸운 전투 승리만 세어집니다 (자동 전투 제외)")}),hqToday()>=HQM_DAY?h("small",{c:"bad",t:"오늘 의뢰를 모두 마쳤습니다"+(bank?" · 남은 보상은 내일 받을 수 있습니다":"")}):null));
    if(can)B.append(pb("보상 받기 ×"+can,()=>wrap(hqClaim),"pri"))}
   sec("유언장");it(me.will&&me.will.text?"내 유언장 · 작성됨":"내 유언장 · 비어 있음",willToday()?"오늘 이미 썼습니다 · 내일 다시 고칠 수 있습니다.":"하루에 한 번 쓰거나 고칠 수 있습니다.",()=>phGo("willedit"));
   if(p){sec("파티");B.append(h("div",{c:"xs",t:p.name+" ("+p.members.length+"/4)"}));
