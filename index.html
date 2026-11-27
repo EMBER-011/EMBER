@@ -64,7 +64,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
  #nav button{padding-top:12px;padding-bottom:12px}
 }
 @media (min-width:1100px){body>:is(#top,#notice,#view,#nav){max-width:min(1480px,calc(100vw - 120px))}
- body>:is(#ptab,#rtab,#gtab){left:max(0px,calc(50% - min(740px,50vw - 60px) - 48px))}body>#ask{right:max(14px,calc(50% - min(740px,50vw - 60px) + 14px))}
+ body>:is(#ptab,#rtab,#gtab,#btab){left:max(0px,calc(50% - min(740px,50vw - 60px) - 48px))}body>#ask{right:max(14px,calc(50% - min(740px,50vw - 60px) + 14px))}
  #view.desk.mapv{display:block}
  #top .bars{grid-template-columns:repeat(4,1fr)}
  #view.desk .dcols{columns:3 360px;column-gap:14px}#view.desk.d2 .dcols{columns:2 420px}
@@ -117,6 +117,11 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 .msend{border:1px solid var(--ln);border-radius:10px;padding:10px;margin:6px 0 10px}
 .hubl{display:flex;flex-direction:column;gap:8px}.hubpick{max-height:260px;overflow-y:auto;border:1px solid var(--ln);border-radius:6px;padding:4px 6px}.hubpick .pk{display:flex;gap:8px;align-items:center;padding:4px 0}
 .m.pinv,.feed .pinv{display:flex;align-items:center;gap:8px;border:1px dashed var(--ac2);border-radius:8px;padding:6px 8px;margin:6px 0}.m.pinv small{color:var(--ac2);flex:none}.m.pinv span{flex:1;font-size:calc(13px*var(--fz,1))}
+#btab{position:fixed;left:0;top:calc(33% + 204px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
+#btab svg{width:24px;height:24px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#btab.act{background:rgba(var(--acr),.2)}
+@media (min-width:900px){#btab{left:max(0px,calc(50% - 480px))}}
+#pop #popb:has(.bagpop){width:min(640px,100%)!important;max-width:640px!important}.bagpop .card{margin:0 0 10px}.bagpop .card.bagc{box-shadow:none}.gtabs.gsub{margin-top:6px}.gtabs.gsub .gtab{font-size:calc(11px*var(--fz,1))}
+.stl{display:flex;flex-wrap:wrap;gap:4px 8px;justify-content:flex-end;align-items:center;min-width:0;margin-left:auto}.stl button{background:none;border:0;padding:0;font-size:calc(11.5px*var(--fz,1));color:var(--tx);text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}.stl button b{color:var(--ac);font-weight:600}
 #gtab{position:fixed;left:0;top:calc(33% + 140px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
 #phone,#radio,#pager{touch-action:none;color:var(--tx)}#phone.dmov,#radio.dmov,#pager.dmov{opacity:.93;cursor:grabbing;transition:none}
 #gtab{touch-action:none;user-select:none;-webkit-user-select:none}#gtab.free{border-left:1px solid var(--bd);border-radius:12px;width:44px;height:52px;box-shadow:0 2px 10px rgba(0,0,0,.35)}#gtab.free.sl{border-left:0;border-radius:0 12px 12px 0;width:40px;height:56px;box-shadow:none}#gtab.free.sr{border-left:1px solid var(--bd);border-right:0;border-radius:12px 0 0 12px;width:40px;height:56px;box-shadow:none}#gtab.drag{opacity:.75}
@@ -262,7 +267,7 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .app em{position:absolute;top:0;right:9px;min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:var(--ac);color:var(--onac);font-style:normal;font-size:calc(9px*var(--fz,1));line-height:14px;font-weight:700}
 .phd{display:flex;justify-content:space-between;align-items:center;gap:4px;font-size:calc(11px*var(--fz,1));font-weight:700;color:var(--ac2);border-bottom:1px solid var(--ln);padding-bottom:3px;margin-bottom:4px;flex:none}
 .pit{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--ln);border-radius:0;background:transparent;padding:5px 2px;font-weight:400;flex:none}
-.pit b{display:block;font-size:calc(12px*var(--fz,1))}.pit small{display:block;font-size:calc(10px*var(--fz,1));color:var(--mt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pit b{display:block;font-size:calc(12px*var(--fz,1))}.pit small{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;font-size:calc(10px*var(--fz,1));color:var(--mt);overflow:hidden;white-space:normal;overflow-wrap:anywhere;word-break:keep-all}
 .psec{font-size:calc(10px*var(--fz,1));color:var(--mt);margin:6px 0 2px;flex:none}
 .hot{color:var(--ac2)!important}
 .pe{font-size:calc(11px*var(--fz,1));color:var(--mt);padding:6px 0}
@@ -568,7 +573,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
  #nav .nvb{flex:none!important;display:flex;align-items:center;gap:13px;text-align:left;padding:10px 16px!important;border-radius:9px!important;font-size:calc(16px*var(--fz,1))!important;font-weight:400!important;letter-spacing:.02em}
  #nav button.unr::after{right:14px!important;top:50%!important;margin-top:-3px}
  body>:is(#top,#notice,#view){max-width:min(1720px,100%)!important;width:100%;margin-left:auto!important;margin-right:auto!important}
- body>:is(#ptab,#rtab,#gtab):not(.free){left:216px!important}body>:is(#ptab,#rtab,#gtab){z-index:10!important}body>:is(#ptab,#rtab,#gtab).free.sl{left:216px!important}body>#ask{right:max(14px,calc(100% - 268px - 1620px + 14px))}
+ body>:is(#ptab,#rtab,#gtab,#btab):not(.free){left:216px!important}body>:is(#ptab,#rtab,#gtab,#btab){z-index:10!important}body>:is(#ptab,#rtab,#gtab,#btab).free.sl{left:216px!important}body>#ask{right:max(14px,calc(100% - 268px - 1620px + 14px))}
  #view.desk .dcols{columns:3 380px}
 }
 @media (max-width:1099px){
@@ -661,7 +666,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 @media (min-width:1100px){.tmrow #tme{flex:0 1 auto;min-width:360px}#tsd{max-width:none;padding-left:16px}#tsd .tst{font-size:calc(12px*var(--fz,1))}#tsd #tloc{font-size:calc(12.5px*var(--fz,1))}}#dtabs{position:fixed!important;left:0;bottom:0;height:auto!important;margin:0!important;padding:0 12px env(safe-area-inset-bottom,0px)!important;gap:4px!important;align-items:flex-end;pointer-events:none;z-index:12!important}
 #dtabs>button{pointer-events:auto;width:50px!important;height:34px!important;border-bottom:0!important;border-radius:9px 9px 0 0!important;background:var(--bg)!important;box-shadow:0 -2px 8px rgba(0,0,0,.45)!important}#dtabs>button.act{background:rgba(var(--acr),.22)!important}#dtabs>button svg{width:21px!important;height:21px!important}
 body.tdock #view{padding-bottom:calc(44px + env(safe-area-inset-bottom,0px))!important}
-body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33% + 92px)}body>#gtab:not(.free){height:70px;top:calc(33% + 172px)}#ptab.free{height:74px}#ptab.free.sl,#ptab.free.sr{height:82px}
+body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33% + 92px)}body>#gtab:not(.free){height:70px;top:calc(33% + 172px)}body>#btab{height:70px;top:calc(33% + 252px)}#ptab.free{height:74px}#ptab.free.sl,#ptab.free.sr{height:82px}
 .mhov>div{background:transparent!important;border:0!important;padding:2px 4px!important;text-shadow:0 1px 1px #000,0 0 1px #000;-webkit-font-smoothing:antialiased;filter:none!important}.mhov .mhwx span{color:var(--tx);font-weight:700}.mhov .mhwx svg{stroke-width:2!important}.mhov b{font-weight:700}.mhov small{color:color-mix(in srgb,var(--tx) 75%,transparent)!important}
 .mhov .mhreg b{font-size:calc(13px*var(--fz,1));color:var(--ac2);letter-spacing:.04em}.mhov small{font-size:calc(10px*var(--fz,1))!important}.mhov .mhwx span{font-size:calc(12px*var(--fz,1))}.mhov .mhwx svg{width:15px!important;height:15px!important}.mhov .mhclk{align-items:flex-end;text-align:right}.mhov .mhclk b{font-size:calc(15px*var(--fz,1))!important}.mhblk{font-size:calc(10.5px*var(--fz,1))!important}
 @media (max-width:1099px){.mainops{padding:9px 12px!important}.mainops h3{font-size:calc(14px*var(--fz,1))!important}.mainops>.row button{padding:3px 10px!important;font-size:calc(12px*var(--fz,1))!important;min-height:0!important}.mainops .mops{padding:3px 0 0!important;margin-top:6px}.mainops .ntb{padding:2px!important}.mainops .ntt{font-size:calc(13.5px*var(--fz,1))!important}}
@@ -702,7 +707,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261126162000";
+const BUILD="20261127020000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1322,7 +1327,7 @@ function dotTick(b,now){const M=b.mon;if(!M||!M.dots||!M.dots.length||b.st!=="on
 const dotDue=(b,now)=>!!(b&&b.mon&&b.mon.dots&&b.mon.dots.some(d=>d.last+DOT_EVERY<=Math.min(now,d.until)));
 function skFx(b,m,sk){const x=(SKFX[sk.id]||{})[m.attr];if(!x||!x.f)return;try{x.f(b,m);if(x.d)lg(b,m.attr+" 속성 — "+x.d)}catch(e){}}
 const SNARE_P=.05,SNARE_GX=2.2,VITAL_STUN=2000,FGATE_DT=1.15;/* 발목잡기 피해 비율 · 다음 광탄 배율 · 급소 기절 시간 · F급 게이트 의태종이 받는 피해 배율 */
-const TABS=[["main","메인"],["map","지도"],["bag","가방"],["eq","내 정보"],["home","숙소"],["guild","길드"],["comm","커뮤니티"],["me","설정"]];
+const TABS=[["main","메인"],["map","지도"],["eq","내 정보"],["home","숙소"],["guild","길드"],["comm","커뮤니티"],["me","설정"]];
 /* 왼쪽 메뉴 아이콘 */
 const TAB_IC={comm:"M4 5h16v11H9l-4 3.5V16H4zM8 9.5h8M8 12.5h5",main:"M3.5 11L12 4l8.5 7M6 9.5V20h4.5v-5.5h3V20H18V9.5",map:"M9 4.5L3.5 6.5v13l5.5-2 6 2 5.5-2v-13l-5.5 2-6-2zM9 4.5v13M15 6.5v13",bag:"M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2",eq:"M12 4a3.5 3.5 0 1 0 0 7a3.5 3.5 0 1 0 0-7zM5 20c.6-4 3.4-6 7-6s6.4 2 7 6",home:"M4 20V9l8-5 8 5v11zM9.5 20v-6h5v6",guild:"M6 21V4M6 4h11l-2.5 3.5L17 11H6",me:"M12 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"};
 
@@ -1469,7 +1474,7 @@ function resetPtab(){ptPos=null;try{localStorage.removeItem("af_ptab")}catch(e){
  addEventListener("resize",()=>{applyPtab();placePhone()});applyPtab()})();
 $("#pop").onclick=e=>{if(e.target.id==="pop")closePop()};
 function openPop(...k){const b=$("#popb");b.textContent="";ap(b,k);$("#pop").style.display="flex"}
-function closePop(){dropArm=null;$("#pop").style.display="none"}
+function closePop(){dropArm=null;if(bagOn){bagOn=false;const t=$("#btab");if(t)t.classList.remove("act")}$("#pop").style.display="none"}
 let rt;function rq(){clearTimeout(rt);rt=setTimeout(render,120)}
 /* PC: 넓은 칸은 한 줄 전체 · 나머지 상자는 여러 단으로 (사이사이 넓은 칸이 오면 새 묶음) */
 const DESK_WIDE=".gbox,.mapw,.locbar,.tripbar,.fac,.spotl,.ovfb,.rnob,.seg,.gtabs,.wide,.card.me,.xpl";
@@ -1484,8 +1489,8 @@ function render(force){try{navName()}catch(e){}try{agreeCheck()}catch(e){}try{tu
  if(force!==true&&me&&$("#view #feed")&&(tab==="guild"||tab==="comm")){updFeed();return}
  const dpv=$("#dmsg")?$("#dmsg").value:"",dfo=document.activeElement&&document.activeElement.id==="dmsg",sc=v.scrollTop,pk=chatKey,pv=$("#msg")?$("#msg").value:"",tc=lastTab!==tab;lastTab=tab;chatKey=null;v.textContent="";v.className="";v.dataset.tab=tab;
  if(window.__gmRender&&__gmRender(v)){nav.style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";return}
- if(!me){nav.style.display="none";$("#dtabs").style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";if(ld.c)rCreate(v);return}
- nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex"}
+ if(!me){nav.style.display="none";$("#dtabs").style.display="none";$("#top").style.display="none";$("#ptab").style.display="none";{const bt=$("#btab");if(bt)bt.style.display="none"}if(ld.c)rCreate(v);return}
+ nav.style.display="flex";$("#dtabs").style.display="flex";dockTabs();$("#top").style.display="block";$("#ptab").style.display="flex";{const rt=$("#rtab");if(rt){rt.style.display="flex";if(rdOn&&!myG())rdRender()}const gt=$("#gtab");if(gt)gt.style.display="flex";const bt=$("#btab");if(bt)bt.style.display="flex";if(bagOn&&$("#pop").style.display==="flex"&&$("#popb .bagpop"))try{bagFill()}catch(e){}}
  nav.querySelectorAll("button[data-k]").forEach(b=>b.classList.toggle("on",b.dataset.k===(tab==="battle"?"map":tab)));navGMark();
  v.classList.remove("tripblk");if(boardV){rBoard(v);updTop();hubPanel(force);return}if(chatHub&&!deskOn()){rChatHub(v);if(pv&&chatKey&&chatKey===pk&&$("#msg"))$("#msg").value=pv;updTop();return}(lockMsg()&&(tab==="map"||tab==="battle"||me.rmp&&tab==="main")?rLock:({comm:rComm,main:rMain,map:rMap,battle:rdView()?rRaid:pvpMe()?rPvp:rBattle,bag:rBag,eq:rEq,home:rHome,guild:rGuild,me:rMe}[tab]||rMain))(v);if(tc)v.classList.add("anim");if(deskOn()&&!v.classList.contains("chat")&&tab!=="battle"){v.classList.add("desk");if(((tab==="home"||(tab==="map"&&hmIn)||(tab==="guild"&&gsub==="info"))&&v.querySelector(".roomc")))v.classList.add("d2");deskWrap(v)}
  if(me.trip&&tab!=="me"&&!(tab==="guild"&&gsub!=="info")&&!(window.__gmView&&__gmView())){v.classList.add("tripblk");v.prepend(h("div",{c:"tripbar"},h("em",{id:"tripT",c:"tript"}),h("b",{t:"이동 중 → "+((REG[me.trip.to]||{}).n||"")+(me.trip.veh&&VEH[me.trip.veh.k]?" · "+VEH[me.trip.veh.k].n+(me.trip.ride&&chars[me.trip.ride]?" ("+chars[me.trip.ride].name+"님 운전)":""):"")}),h("span",{t:"도착할 때까지 채팅 · 내 정보 · 휴대폰(헌터 온라인 · 은행 · 메모장 · 도감)만 쓸 수 있습니다"})))}
@@ -1806,7 +1811,7 @@ function facility(sp){
   if(t==="craft"){const N=ROD_MOD.need;box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:"낚시대 개조 → "+IT.rod5.n}),h("div",{c:"xs mt",t:IT.rod5.d}),h("div",{c:"xs mt",t:Object.keys(N).map(k=>IT[k].n+" "+((me.inv||{})[k]||0)+"/"+N[k]).join(" · ")})),h("span",{c:"sm gold",t:ROD_MOD.cost}),btn("개조",()=>wrap(rodMod),"sm")))}
   if(t==="buy"){if(!SHOP_CAT[shopCat])shopCat=me.role||"tank";const sg=h("div",{c:"seg",style:"margin-bottom:8px;flex-wrap:wrap"});Object.entries(SHOP_CAT).forEach(([k,n])=>sg.append(h("button",{c:shopCat===k?"on":"",t:n,onclick:()=>{shopCat=k;render(true)}})));box.append(sg);
    if(shopCat==="misc")box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:IT.gas.n}),h("div",{c:"xs mt",t:"이동수단 연료 · 1개 = 휘발유 1 · 가방 "+((me.inv||{}).gas||0)+"개"+(me.veh?" · 지금 "+(me.veh.fuel||0)+" / "+vMaxF(me.veh):"")})),h("span",{c:"sm gold",t:VEH_FUEL_P}),qtyBuy("gas",VEH_FUEL_P)))}
-  if(t==="buy")Object.entries(SHOP).filter(([id])=>shopCatOf(id)===shopCat).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.cres?" · 오염 저항 "+Math.round(CRES[0]*100)+"%":""):i.d||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>buy(id,p),"sm")))});
+  if(t==="buy")Object.entries(SHOP).filter(([id])=>shopCatOf(id)===shopCat).forEach(([id,p])=>{const i=IT[id];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n}),h("div",{c:"xs mt",t:i.slot?(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.cres?" · 오염 저항 "+Math.round(CRES[0]*100)+"%":""):i.d||""})),h("span",{c:"sm gold",t:p}),i.slot?btn("구매",()=>buy(id,p),"sm"):qtyBuy(id,p)))});
   else if(t==="fix"){const eq=me.eq||{},ks=SLOTS.filter(([s])=>eq[s]&&eq[s].id);if(!ks.length)box.append(h("p",{c:"sm mt",t:"장착한 장비가 없습니다. 하단 장비 탭에서 장착하십시오."}));
    let tot=0;ks.forEach(([s,n])=>{const q=eq[s],i=IT[q.id],rc=Math.ceil((100-q.dur)*3),up=q.up||0,need=up+1,rate=Math.max(.3,1-up*.07);tot+=rc;
     box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:n+" · "+i.n+(up?" +"+up:"")}),h("div",{c:"xs "+(q.dur<30?"bad":"mt"),t:"내구도 "+q.dur+"%"}),h("div",{c:"xs mt",t:"강화: 강화 부품 "+need+" · "+won(ENH_P[q.r||0]*need)+"환 · 성공률 "+Math.round(rate*100)+"%"})),
@@ -2747,27 +2752,35 @@ function invCat(k){const i=IT[k];if(!i)return"etc";
  if(/^fd_/.test(k)||/^(ration|riceball|stew|purified|lunch|bread)$/.test(k))return"food";
  if(i.learn||i.slot||i.deco||i.rbox||/^fu_/.test(k)||/^(deco_p|deco_s|will|relic|sos_tx|fkr|pair_doc|div_doc|cert)$/.test(k)||i.rod)return"etc";
  if(i.use)return"med";return"mat"}
-function rBag(v){
+/* 소지품 상자 (내 정보 · 가방 탭 공용) · [장비] 탭은 부위별 · 오른쪽 위 [프리셋] */
+const GCAT=[["head","머리"],["body","상의"],["legs","하의"],["feet","신발"],["acc","악세서리"],["wpn","무기"]],gcat=q=>{const t=IT[q.id]&&IT[q.id].slot;return t==="main"||t==="sub"?"wpn":t==="arms"?"acc":t};
+function invBoxes(rf){rf=rf||(()=>render(true));
  const items=ordKeys("inv",Object.keys(me.inv).filter(k=>me.inv[k]>0&&IT[k])).map(k=>[k,me.inv[k]]),G=me.gear||[];
- const bag=h("div",{c:"card bagc wide"},h("div",{c:"row sb",style:"align-items:center"},h("h3",{t:"소지품"}),h("span",{c:"row",style:"gap:8px;align-items:center"},h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"}),btn("정리하기",()=>ordSort("inv",me.inv),"sm"))));
- if(!items.length&&!(me.fkr||[]).length&&!(me.krs||[]).length)bag.append(h("p",{c:"mt sm",t:"비어 있습니다. 채집하거나 전투로 전리품을 모으십시오."}));
- const cnt={};items.forEach(([k])=>{const c=invCat(k);cnt[c]=(cnt[c]||0)+1});cnt.etc=(cnt.etc||0)+(me.fkr||[]).length;
- if(invTab!=="all"&&!INVCAT.some(x=>x[0]===invTab))invTab="all";
- {const tabs=h("div",{c:"gtabs inv"});[["all","전체"]].concat(INVCAT.map(([k,n])=>[k,INVTAB_N[k]||n])).forEach(([ck,cn])=>tabs.append(h("button",{c:"gtab"+(invTab===ck?" on":""),onclick:()=>{invTab=ck;render(true)}},cn,(ck==="all"?items.length:cnt[ck])?h("small",{t:String(ck==="all"?items.length:cnt[ck])}):null)));if(items.length||(me.fkr||[]).length||(me.krs||[]).length)bag.append(tabs)}
- const shown=items.filter(([k])=>invTab==="all"||invCat(k)===invTab);if(invTab!=="all"&&(items.length||(me.fkr||[]).length)&&!shown.length&&!(invTab==="etc"&&((me.fkr||[]).length||(me.krs||[]).length)))bag.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:(INVCAT.find(x=>x[0]===invTab)||[0,""])[1]+"이(가) 없어요."}));
- const g0=[];shown.forEach(([k,n])=>{const i=IT[k];g0.push({t:i.n,n,col:i.rar!=null&&i.rar>0?RAR[i.rar].c:null,ico:!!i.ico,on:()=>{doseArm=false;itemPop(k)}})});const g=slotGrid(g0,invTab==="all"?cap()-invN(me.inv):0);
- if(0)shown.forEach(([k,n])=>{const i=IT[k],tx=[h("b",{style:i.rar!=null?"color:"+RAR[i.rar].c:"",t:i.n+" × "+n}),h("div",{c:"xs mt",t:(i.bound&&!i.learn&&!i.dose?"귀속 · ":"")+(k==="will"?"읽어 볼 수 있음 · 협회 납품":k==="relic"?"장착 가능 · 협회 납품":k==="sos_tx"?"구조 요청 송신기":k==="pair_doc"||k==="div_doc"?"서류 · 작성":i.rbox?"꺼내기":i.dose?"귀속 · 주사":i.deco?"사용 가능 · 키링":i.med?"치료용":i.use?"사용 가능"+(i.dv?" · 납품용":""):i.learn?(i.bound?"레시피 · 거래 불가":"제작서"):i.slot?"장착 가능 · 일반":i.dv?"납품용":i.rar!=null?RAR[i.rar].n+" 재료":"재료")})];
-  g.append(h("button",{c:"tile",onclick:()=>{doseArm=false;itemPop(k)}},i.ico?h("div",{c:"ti"},svgI(SYR,"ico"),h("div",{},...tx)):tx))});
- bag.append(g);const bagEx=[];if(invTab==="etc"||invTab==="all"){const kc=krCard();if(kc)bagEx.push(kc);const fc=fkrCard();if(fc)bagEx.push(fc)}
- const gc=h("div",{c:"card bagc wide"},h("div",{c:"row sb"},h("h3",{t:"장비"}),h("span",{c:"sm mt",t:G.length+" / "+MAXGEAR})));
- const GCAT=[["head","머리"],["body","상의"],["legs","하의"],["feet","신발"],["acc","악세서리"],["wpn","무기"]],gcat=q=>{const t=IT[q.id]&&IT[q.id].slot;return t==="main"||t==="sub"?"wpn":t==="arms"?"acc":t};
- {if(gearTab!=="all"&&!GCAT.some(x=>x[0]===gearTab))gearTab="all";const tabs=h("div",{c:"gtabs"});[["all","전체"]].concat(GCAT).forEach(([ck,cn])=>{const n=ck==="all"?G.length:G.filter(q=>gcat(q)===ck).length;tabs.append(h("button",{c:"gtab"+(gearTab===ck?" on":""),onclick:()=>{gearTab=ck;render(true)}},cn,n?h("small",{t:String(n)}):null))});gc.append(tabs);
+ if(invTab!=="all"&&invTab!=="gear"&&!INVCAT.some(x=>x[0]===invTab))invTab="all";const isG=invTab==="gear";
+ const bag=h("div",{c:"card bagc wide"},h("div",{c:"row sb",style:"align-items:center;gap:6px;flex-wrap:wrap"},h("h3",{t:"소지품"}),h("span",{c:"row",style:"gap:6px;align-items:center;margin-left:auto"},isG?h("span",{c:"sm "+(G.length>=MAXGEAR?"bad":"mt"),t:"장비 "+G.length+" / "+MAXGEAR}):h("span",{c:"sm "+(invN(me.inv)>=cap()?"bad":"mt"),t:invN(me.inv)+" / "+cap()+" 칸"}),isG?null:btn("정리하기",()=>ordSort("inv",me.inv),"sm"),btn("프리셋",eqpPop,"sm eqpbtn"))));
+ const cnt={};items.forEach(([k])=>{const c=invCat(k);cnt[c]=(cnt[c]||0)+1});cnt.etc=(cnt.etc||0)+(me.fkr||[]).length;cnt.gear=G.length;
+ {const tabs=h("div",{c:"gtabs inv"});[["all","전체"]].concat(INVCAT.map(([k,n])=>[k,INVTAB_N[k]||n]),[["gear","장비"]]).forEach(([ck,cn])=>tabs.append(h("button",{c:"gtab"+(invTab===ck?" on":""),onclick:()=>{invTab=ck;rf()}},cn,(ck==="all"?items.length:cnt[ck])?h("small",{t:String(ck==="all"?items.length:cnt[ck])}):null)));bag.append(tabs)}
+ const bagEx=[];
+ if(isG){if(gearTab!=="all"&&!GCAT.some(x=>x[0]===gearTab))gearTab="all";const tabs=h("div",{c:"gtabs gsub"});[["all","전체"]].concat(GCAT).forEach(([ck,cn])=>{const n=ck==="all"?G.length:G.filter(q=>gcat(q)===ck).length;tabs.append(h("button",{c:"gtab"+(gearTab===ck?" on":""),onclick:()=>{gearTab=ck;rf()}},cn,n?h("small",{t:String(n)}):null))});bag.append(tabs);
   const L=G.filter(q=>gearTab==="all"||gcat(q)===gearTab).sort((a,b)=>b.r-a.r||b.lv-a.lv),cn=(GCAT.find(x=>x[0]===gearTab)||[0,""])[1];
-  if(gearTab==="all")gc.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),MAXGEAR-G.length));
-  else if(!L.length)gc.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:G.length?cn+" 장비가 없습니다.":"장비는 게이트 전투에서 떨어지거나 정비소에서 사고 만들 수 있습니다. 높은 등급 게이트일수록 좋은 등급이 잘 나옵니다."}));
-  else gc.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),0))}
-
- gc.append(h("div",{c:"legend",style:"border:0;padding:8px 0 0"},RAR.map(r=>h("span",{},h("i",{style:"background:"+r.c}),r.n))));v.append(gc,bag,...bagEx)}
+  if(gearTab==="all")bag.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),MAXGEAR-G.length));
+  else if(!L.length)bag.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:G.length?cn+" 장비가 없습니다.":"장비는 게이트 전투에서 떨어지거나 정비소에서 사고 만들 수 있습니다. 높은 등급 게이트일수록 좋은 등급이 잘 나옵니다."}));
+  else bag.append(slotGrid(L.map(q=>({t:gName(q),n:"Lv"+q.lv,col:RAR[q.r].c,on:()=>gearPop(q.gid)})),0));
+  bag.append(h("div",{c:"legend",style:"border:0;padding:8px 0 0"},RAR.map(r=>h("span",{},h("i",{style:"background:"+r.c}),r.n))));return [bag]}
+ if(!items.length&&!(me.fkr||[]).length&&!(me.krs||[]).length)bag.append(h("p",{c:"mt sm",t:"비어 있습니다. 채집하거나 전투로 전리품을 모으십시오."}));
+ const shown=items.filter(([k])=>invTab==="all"||invCat(k)===invTab);if(invTab!=="all"&&(items.length||(me.fkr||[]).length)&&!shown.length&&!(invTab==="etc"&&((me.fkr||[]).length||(me.krs||[]).length)))bag.append(h("p",{c:"sm mt",style:"margin:10px 2px",t:(INVCAT.find(x=>x[0]===invTab)||[0,""])[1]+"이(가) 없어요."}));
+ const g0=[];shown.forEach(([k,n])=>{const i=IT[k];g0.push({t:i.n,n,col:i.rar!=null&&i.rar>0?RAR[i.rar].c:null,ico:!!i.ico,on:()=>{doseArm=false;itemPop(k)}})});bag.append(slotGrid(g0,invTab==="all"?cap()-invN(me.inv):0));
+ if(invTab==="etc"||invTab==="all"){const kc=krCard();if(kc)bagEx.push(kc);const fc=fkrCard();if(fc)bagEx.push(fc)}
+ return [bag,...bagEx]}
+function rBag(v){v.append(...invBoxes())}
+/* 기기 탭 [가방] → 어디서든 소지품 창 */
+let bagOn=false;
+function bagFill(){const b=$("#popb"),y=b.scrollTop;b.textContent="";ap(b,[h("div",{c:"bagpop"},h("div",{c:"row sb",style:"align-items:center;margin-bottom:6px"},h("div",{c:"h0",style:"margin:0",t:"가방"}),btn("닫기",closePop,"sm")),...invBoxes(bagFill))]);b.scrollTop=y}
+function openBag(){if(!me)return;if(bagOn&&$("#pop").style.display==="flex"&&$("#popb .bagpop"))return closePop();bagOn=true;$("#pop").style.display="flex";bagFill();const t=$("#btab");if(t)t.classList.add("act")}
+function initBag(){if($("#btab"))return;const t=h("button",{id:"btab",type:"button","aria-label":"가방",onclick:openBag},svgI("M8 8V6.5a4 4 0 0 1 8 0V8M5.5 8h13l-1 12.2a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3zM9 12h6M5.8 12.5h2M16.2 12.5h2"));document.body.append(t)}
+function eqpPop(){openPop(h("div",{c:"h0",t:"장비 프리셋"}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집·제작할 때는 「채집·제작」에 도구와 장비를 저장해 두십시오"}),
+ ...EQP_N.map((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;return h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n+" 프리셋"}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(async()=>{await eqpSave(i);eqpPop()}),"sm"),btn("착용",()=>wrap(async()=>{await eqpUse(i);eqpPop()}),"pri sm",{disabled:!P}))}),
+ btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
 function gearPop(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return closePop();const i=IT[q.id];
  openPop(h("div",{c:"h0",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"sm mt",t:"["+RAR[q.r].n+"] · Lv"+q.lv+" · "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")}),h("p",{c:"sm",t:gDesc(q)||"옵션 없음"}),
   (atSto()||(myG()&&atBase()))?h("div",{c:"row",style:"gap:6px;margin-top:12px"},atSto()?btn("보관함에 넣기",()=>{closePop();wrap(()=>gearSto(gid,true))},"grow"):null,myG()&&atBase()?(i.bound?h("span",{c:"xs mt",style:"align-self:center",t:"귀속 · 길드 창고 불가"}):btn("길드 창고에 넣기",()=>{closePop();wrap(()=>gearGSto(gid,true))},"grow")):null):null,
@@ -2871,7 +2884,7 @@ function equipView(){
  box("main",258,50,78,100);box("sub",258,194,78,100);
  return wrap0}
 function eqFx(){const f=(n,v)=>h("div",{},h("small",{t:n}),h("b",{t:String(v)}));return h("div",{c:"eqfx"},f("총 공격력",pw(me)),f("총 방어력",df(me)),f("치유력",hl(me)),f("HP",maxHp(me)),f("MP",maxMp(me)),f("채집 성공률",Math.round(gRate(me)*100)+"%"),f("오염 저항",Math.round(conRes(me)*100)+"%"),...[["g","채집",GJOB],["c","제작",CJOB]].map(([t,n,T])=>{const J=me.job||{},k=J[t];return h("div",{c:"eqjob"},h("small",{},n+" ",h("span",{c:"eqjn",t:k&&T[k]?T[k].n:J["n"+t]?"선택 안 함":"없음"})),h("b",{t:k&&T[k]?"Lv"+jobLv(t):"-"}))}))}
-const EQP_N=["전투","채집"];let eqpOpen=false;
+const EQP_N=["전투","채집·제작"];let eqpOpen=false;
 function eqpSave(i){if(inB())return toast("전투 중에는 판매할 수 없습니다.");const P=(me.eqp||[]).slice();while(P.length<3)P.push(null);const e={};SLOTS.forEach(([s])=>{const q=(me.eq||{})[s];if(q&&q.id)e[s]=q.gid?{gid:q.gid,id:q.id}:{id:q.id}});P[i]={n:EQP_N[i],eq:e,t:Date.now()};return upd({eqp:P}).then(()=>toast("「"+EQP_N[i]+"」 프리셋에 지금 장비를 저장했습니다"))}
 async function eqpUse(i){if(inB())return toast("전투 중에는 판매할 수 없습니다.");const P=(me.eqp||[])[i];if(!P)return toast("저장된 프리셋이 없습니다");
  const eq=clone(me.eq||{}),G=(me.gear||[]).slice(),inv={...me.inv},ne={};let miss=0;
@@ -2882,9 +2895,9 @@ async function eqpUse(i){if(inB())return toast("전투 중에는 판매할 수 �
  await upd({eq:ne,gear:G,inv});toast("「"+P.n+"」 프리셋으로 장비 변경"+(miss?" · 없는 장비 "+miss+"개는 제외":""))}
 function eqpCard(){const fix=deskOn(),op=eqpOpen||fix;const c=h("div",{c:"card eqpc"},fix?h("div",{c:"eqph"},h("h3",{style:"margin:0",t:"장비 프리셋"})):h("button",{type:"button",c:"eqph",onclick:()=>{eqpOpen=!eqpOpen;render(true)}},h("h3",{style:"margin:0",t:"장비 프리셋"}),h("span",{c:"xs mt",t:eqpOpen?"접기 ▲":"펼치기 ▼"})));if(!op)return c;c.append(h("p",{c:"xs mt",style:"margin:6px 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집할 때는 「채집」에 도구를 저장해 두십시오"}));
  EQP_N.forEach((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(()=>eqpSave(i)),"sm"),btn("착용",()=>wrap(()=>eqpUse(i)),"pri sm",{disabled:!P})))});return c}
-function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));const mc=h("div",{c:"card mychar"},h("div",{c:"row sb"},h("h3",{t:"내 캐릭터"})),h("div",{c:"eqrow"},eqFx(),equipView()),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 강화는 중앙 거점 정비소에서 · 수리는 정비소 또는 [자가수리]. 왼쪽은 비상구조요청송신기입니다."})),srRow(),sdRow());const scd=statusCard();
- if(deskOn()){/* PC: 내 캐릭터(넓게) | 장비 프리셋 · 상태 · 이동수단 | 스탯 */const g=h("div",{c:"eqg wide"}),c1=h("div",{c:"hcol"}),c2=h("div",{c:"hcol"}),c3=h("div",{c:"hcol"});g.append(c1,c2,c3);v.append(g);c1.append(mc);c2.append(eqpCard());if(scd)c2.append(scd);vehCard(c2);statCards(c3);return}
- v.append(mc);v.append(eqpCard());if(scd)v.append(scd);vehCard(v);statCards(v)}
+function rEq(v){v.append(h("div",{c:"xpl"},h("span",{c:"xs mt",t:me.lv>=MAXLV?"Lv"+me.lv+" · 최고 레벨":"Lv"+me.lv+" · EXP "+me.exp+" / "+xpN(me.lv)}),h("div",{c:"xpb"},h("i",{style:"width:"+(me.lv>=MAXLV?100:me.exp/(xpN(me.lv))*100)+"%"}))));const mc=h("div",{c:"card mychar"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("h3",{style:"margin:0;flex:none",t:"내 캐릭터"}),statusLine()),h("div",{c:"eqrow"},eqFx(),equipView()),h("div",{c:"sosrow"},sosBtn(),h("p",{c:"xs mt",style:"margin:0",t:"칸을 누르면 장착·해제할 수 있습니다. 장비 공격력 +"+eqStat(me,"atk")+" · 장비 방어력 +"+eqStat(me,"def")+" · 강화는 중앙 거점 정비소에서 · 수리는 정비소 또는 [자가수리]. 왼쪽은 비상구조요청송신기입니다."})),srRow(),sdRow());const IB=invBoxes();
+ if(deskOn()){/* PC: 내 캐릭터(넓게) | 소지품(장비 탭 · 프리셋) | 이동수단 · 스탯 */const g=h("div",{c:"eqg wide"}),c1=h("div",{c:"hcol"}),c2=h("div",{c:"hcol"}),c3=h("div",{c:"hcol"});g.append(c1,c2,c3);v.append(g);c1.append(mc);c2.append(...IB);vehCard(c3);statCards(c3);return}
+ v.append(mc);v.append(...IB);vehCard(v);statCards(v)}
 /* 장비 자가수리: 어디서든 · 고철 (일반 1 · 고급 2 · 희귀 3 · 전설 4 + 변이핵 1) · 장착한 장비 중 닳은 것 */
 const SR_BASE=[100,175,250,375],srCost=q=>Math.ceil(SR_BASE[Math.min(3,q.r||0)]*(100-Math.max(0,Math.min(100,q.dur==null?100:q.dur)))/100);
 const srList=()=>{const eq=me.eq||{};return Object.keys(eq).filter(s=>eq[s]&&eq[s].id&&!IT[eq[s].id].tool&&(eq[s].dur==null?100:eq[s].dur)<100)};
@@ -3212,7 +3225,7 @@ function tutSteps(){const role=me.role||"dealer",S=[];const ok=(t,el)=>S.push({t
  /* 메뉴 이동은 실제로 누르게: (휴대폰 화면) ☰ → 메뉴 항목 · (PC) 왼쪽 메뉴 항목 · 길드는 누르면 하위 메뉴가 열림 */
  const D=deskOn(),tClean=()=>{hidePhone();closeRadio();closePager();closeAsk();window.scrollTo(0,0)},
   menu=pre=>{if(!D)S.push({t:(pre||"")+"왼쪽 위 ☰ 버튼을 눌러 메뉴를 열어 주십시오.",el:()=>tq("#tmenu"),m:"press",init:()=>{tClean();navOpen(false)},done:()=>document.body.classList.contains("navo")})},
-  navSteps=(k,lab,pre)=>{menu(pre);S.push({t:(D?(pre||""):"")+(D?"왼쪽 ":"")+"메뉴에서 ["+lab+"]을(를) 눌러 주십시오.",el:()=>tq('#nav button[data-k="'+k+'"]'),m:"press",init:D?tClean:null,done:k==="guild"?()=>navG||tab==="guild":()=>tab===k})},
+  navSteps=(k,lab,pre)=>{menu(pre);S.push({t:(D?(pre||""):"")+(D?"왼쪽 ":"")+"메뉴에서 ["+lab+"]을(를) 눌러 주십시오.",el:()=>tq('#nav button[data-k="'+k+'"]'),m:"press",init:D?tClean:null,done:k==="guild"?()=>navG||tab==="guild":k==="me"?()=>navS||tab==="me":()=>tab===k})},
   navSub=(gv,lab,pre)=>{if(!D)menu(pre);S.push({t:(D?(pre||""):"")+"길드 아래에 열린 ["+lab+"]을(를) 눌러 주십시오.",el:()=>tq('#nav .nvs[data-sub="guild"][data-gv="'+gv+'"]'),m:"press",init:()=>{navG=true;navGMark()},done:()=>tab==="guild"&&gview===gv})};
  S.push({t:"각성하신 것을 축하드립니다.\n저희 '중앙헌터관리협회(CHMA)'에서 헌터의 빠른 적응을 돕고자 간단하게 안내를 드리고자 합니다.",m:"ok",init:()=>{tab="main";render(true)}});
  S.push({t:"메인 화면 — 운영자 게시판의 공지와, 오늘의 지역(날씨 · 봉쇄 · 시각)을 볼 수 있습니다. 메뉴는 "+(deskOn()?"왼쪽":"왼쪽 위 ☰ 버튼")+"에 있습니다.",el:()=>tq("#view .maing"),m:"ok",init:()=>{tab="main";render(true)}});
@@ -3228,15 +3241,12 @@ function tutSteps(){const role=me.role||"dealer",S=[];const ok=(t,el)=>S.push({t
  SK[role].forEach((sk,i)=>pr((TSK[role]||TSK.dealer)[i],()=>tq('#view .skb[data-sk="'+sk.id+'"]'),()=>useSk(sk),()=>!battle||battle.st!=="on"||!!(battle.tutU&&battle.tutU[sk.id])));
  S.push({t:"승리했습니다. 의태종을 쓰러뜨리면 경험치, 환, 재료를 얻을 수 있습니다. 이외에도 채집, 제작, 자동전투, 수동전투, 탐색 등 여러가지 방법으로 경험치를 모아 레벨을 올릴 수 있습니다.",m:"ok",wait:()=>!battle||battle.st!=="on",after:()=>{closePop();tab="map";render(true)}});
  S.push({t:"이제 돌아갑시다. 지도에서 「중앙 거점」을 눌러 주십시오. (튜토리얼에서는 바로 이동됩니다.)",el:()=>tReg("base"),m:"press",init:()=>tFocus("base"),go:()=>tHop("base"),done:()=>me.loc==="base"});
- navSteps("bag","가방","이제 메뉴를 하나씩 살펴봅시다. ");
- ok("장비 — 전투나 이동 중에 얻은 장비는 여기로 들어옵니다. 누르면 장착할 수 있습니다.",()=>tqa("#view .card.bagc")[0]||null);
- ok("소지품 — 획득한 아이템은 여기 모입니다. 아이템을 누르면 쓰거나 팔 수 있고, 보관함에 넣을 수도 있습니다.",()=>{const c=tqa("#view .card.bagc")[1];return c?(c.querySelector(".sgrid")||c):null});
- ok("분류 — 음식 · 치료제 · 재료 · 의태종 재료 · 귀중품으로 나눠 볼 수 있습니다.",()=>{const c=tqa("#view .card.bagc")[1];return c?c.querySelector(".gtabs.inv"):null});
- ok("정리하기 — 가방 칸을 종류별로 깔끔하게 정리할 수 있습니다.",()=>tBtn(tqa("#view .card.bagc")[1]||null,"정리하기"));
  navSteps("eq","내 정보","다음은 [내 정보]입니다. ");
  ok("내 캐릭터 — 칸을 눌러 부위별 장비를 장착하고 해제할 수 있습니다. 왼쪽에 공격력 · 방어력 같은 능력치와 채집 · 제작 직업 레벨을 확인할 수 있습니다.",()=>tq("#view .eqrow"));
  ok("비상구조요청송신기 — 게이트 안에서 쓰러졌을 때 협회에 구조를 요청할 수 있습니다. 단, 협회 탈퇴 시 송신기는 바로 회수되어 사용할 수 없게 되니 참고 바랍니다.",()=>tq("#view .sosb"));
- ok("장비 프리셋 — 전투용 · 채집용 장비를 저장해 두고 한 번에 교체할 수 있습니다. 상자를 누르면 펼쳐집니다.",()=>tq("#view .eqpc"));
+ S.push({t:"소지품 — 획득한 아이템은 여기 모입니다. 아이템을 누르면 쓰거나 팔 수 있고, 보관함에 넣을 수도 있습니다.",el:()=>{const c=tq("#view .card.bagc");return c?(c.querySelector(".sgrid")||c):null},m:"ok",init:()=>{if(invTab!=="all"){invTab="all";render(true)}}});
+ ok("분류 — 음식 · 치료제 · 재료 · 의태종 재료 · 귀중품, 그리고 [장비] 탭이 있습니다. 장비 탭에서는 머리 · 상의 · 하의 · 신발 · 악세서리 · 무기로 나눠 볼 수 있습니다.",()=>{const c=tq("#view .card.bagc");return c?c.querySelector(".gtabs.inv"):null});
+ ok("프리셋 — 전투용 · 채집·제작용 장비를 저장해 두고 한 번에 갈아입을 수 있습니다.",()=>tBtn(tq("#view .card.bagc"),"프리셋"));
  ok("스탯 — 레벨이 오르면 받는 포인트로 능력치를 올릴 수 있습니다. [채집 · 제작]에서 직업을 고를 수도 있습니다. 능력치마다 효과가 다르니 적절한 곳에 포인트를 잘 배분하는 것이 중요합니다.",()=>tCard("스탯"));
  navSteps("home","숙소","다음은 [숙소]입니다. ");
  ok("내 방 — 협회가 제공하는 숙소입니다. 가구의 구조는 바꿀 수 있으나 방의 구조는 바꿀 수 없다는 점 참고 바랍니다.",()=>tq("#view .card.roomc"));
@@ -3251,6 +3261,7 @@ function tutSteps(){const role=me.role||"dealer",S=[];const ok=(t,el)=>S.push({t
  navSub("list","길드 목록","이번에는 다른 길드들을 봅시다. ");
  ok("길드 목록 — 길드에 들어가 있어도 언제든 다른 길드를 구경할 수 있습니다. 무소속일 때는 여기서 가입 신청을 보냅니다.",()=>tCard("길드 목록"));
  navSteps("me","설정","다음은 [설정]입니다. ");
+ S.push({t:"설정은 누르면 [설정] · [운영게시판]이 열립니다. [설정]을 눌러 주십시오.",el:()=>tq('#nav .nvs[data-sub="me"][data-gv="set"]'),m:"press",init:()=>{navS=true;navGMark()},done:()=>tab==="me"&&boardV!=="ops"});
  ok("프로필 — 헌터의 정보를 수정할 수 있습니다. 헌터 등록증도 여기서 봅니다. (AI그림 사용 불가능)",()=>tCard("프로필"));
  ok("설정 — 테마 · 글자 크기 · 소리 · 깨진 화면 효과를 바꿀 수 있습니다.",()=>tq("#view .card.setc"));
  ok("버그 제보 · 건의 — 운영자가 확인하고 답변합니다.",()=>tq("#fbkc"));
@@ -3259,8 +3270,9 @@ function tutSteps(){const role=me.role||"dealer",S=[];const ok=(t,el)=>S.push({t
  ok("협회 — 협회 임무와 내 협회 정보를 볼 수 있습니다. 헌터 협회(☎ 115)에 전화하면 이동수단 구매 · 길드 확장 신고 같은 일을 할 수 있습니다. 협회 탈퇴 시 헌터 앱으로 변환되니 참고 바랍니다.",()=>tqa("#pscr .apps .app").find(b=>/^(협회|헌터)$/.test(b.textContent.trim()))||tq("#pscr .apps"));
  pr("다음은 [무전기]입니다.",()=>tq("#rtab"),()=>{hidePhone();openRadio()},()=>rdOn);
  ok("무전기 — 길드원끼리 내선번호로 전화를 주고 받습니다. 게이트 안에서도 쓸 수 있는 기기이지만 길드에 들어가야만 사용이 가능합니다. 길드원 목록과 길드 탈퇴도 [길드원] 키에서 합니다.",()=>tq("#radio"));
- pr("마지막으로 [삐삐]입니다.",()=>tq("#gtab"),()=>{closeRadio();openPager()},()=>pgOn);
+ pr("다음은 [삐삐]입니다.",()=>tq("#gtab"),()=>{closeRadio();openPager()},()=>pgOn);
  ok("삐삐 — 사람을 골라 채널을 만들고 대화를 나눌 수 있습니다. 채널 사람들에게 일괄적으로 파티 초대를 보낼 수 있는 시스템이 있습니다.",()=>tq("#pager"));
+ S.push({t:"가방 — 가방 아이콘을 누르면 어디서든 소지품 창이 바로 열립니다.",el:()=>tq("#btab"),m:"ok",init:()=>closePager()});
  S.push({t:"안내는 여기까지입니다.\n부디 살아서 오래 뵐 수 있길 바랍니다, 헌터.",m:"ok",init:()=>{closePager();tMapHome()}});
  return S}
 function tutCan(){if(!me)return"";if(me.trip)return"이동 중에는 튜토리얼을 볼 수 없습니다";if(inB())return"전투 중에는 튜토리얼을 볼 수 없습니다";if(me.sg)return"게이트 안에서는 튜토리얼을 볼 수 없습니다";if(me.auto||me.ag)return"자동 전투 · 자동 채집 중에는 튜토리얼을 볼 수 없습니다";if(me.mis||me.hosp)return"지금은 튜토리얼을 볼 수 없습니다";if(me.phl)return"핸드폰을 잃어버려 지금은 튜토리얼을 볼 수 없습니다";if(me.loc!=="base")return"튜토리얼은 중앙 거점에서 볼 수 있습니다";return""}
@@ -3278,7 +3290,7 @@ function tutStep(i){const z=TZ;if(!z)return;if(i>=z.S.length)return tutEnd(false
  z.cnt.textContent=(i+1)+" / "+z.S.length;z.txt.textContent=st.t;z.act.textContent="";z.box.classList.toggle("press",st.m==="press");
  if(st.m==="ok"){const last=i===z.S.length-1,b=btn(last?"시작하기":"확인",async()=>{if(st.wait&&!st.wait())return toast("잠시만 기다려 주십시오");try{if(st.after)await st.after()}catch(e){}tutStep(i+1)},"pri");z.act.append(b)}
  else z.act.append(h("span",{c:"xs mt",t:"빛나는 곳을 눌러 주십시오"}));
- setTimeout(()=>{if(TZ!==z||z.i!==i)return;const el=st.el&&st.el();if(el&&el.nodeType===1&&!el.closest("#phone,#radio,#pager,#nav,#ask,#ptab,#rtab,#gtab")){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-150)el.scrollIntoView({block:"center"})}},60)}
+ setTimeout(()=>{if(TZ!==z||z.i!==i)return;const el=st.el&&st.el();if(el&&el.nodeType===1&&!el.closest("#phone,#radio,#pager,#nav,#ask,#ptab,#rtab,#gtab,#btab")){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-150)el.scrollIntoView({block:"center"})}},60)}
 function tutDraw(){const z=TZ;if(!z)return;const st=z.S[z.i];if(!st)return;let el=null;try{el=st.el?st.el():null}catch(e){}
  let r=null;if(el){r=el.nodeType===1?el.getBoundingClientRect():el;if(!r.width&&!r.height)r=null}
  const W=innerWidth,H=innerHeight,P=6,mh=z.sv.querySelector("#tmh"),rg=z.sv.querySelector("#tring"),ln=z.sv.querySelector("#tln"),dt=z.sv.querySelector("#tdt");
@@ -3436,15 +3448,20 @@ function msgEdHook(el,m,k){if(!el||!m||!m.id||(m.uid||m.from)!==uid||m.kind==="p
  el.addEventListener("pointerdown",e=>{st=[e.clientX,e.clientY];clearTimeout(t);t=setTimeout(()=>{el.dataset.lp="1";lpMenu(st[0],st[1],[["수정하기",()=>msgEdit(m,col)],["취소",null]])},550)});
  const cl=()=>clearTimeout(t);el.addEventListener("pointerup",cl);el.addEventListener("pointercancel",cl);el.addEventListener("pointermove",e=>{if(st&&Math.hypot(e.clientX-st[0],e.clientY-st[1])>8)cl()});el.addEventListener("contextmenu",e=>{e.preventDefault();lpMenu(e.clientX,e.clientY,[["수정하기",()=>msgEdit(m,col)],["취소",null]])});return el}
 function msgEdit(m,col){const ta=h("textarea",{autocomplete:"off",rows:3,maxlength:400});ta.value=m.text||"";openPop(h("div",{c:"h0",t:"메시지 수정"}),ta,h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",closePop,"grow"),btn("저장",()=>wrap(async()=>{const t=ta.value.trim();if(!t)return toast("내용을 적어 주십시오");await db.doc(col+"/"+m.id).update({text:t.slice(0,400),ed:Date.now()});closePop();toast("메시지를 수정했습니다")}),"pri grow")));setTimeout(()=>{try{ta.focus()}catch(e){}},50)}
-function statusCard(){const L=ailList(me),O=odState(me),d=me.dose||0;if(!L.length&&!O.length&&!d&&!rmpD())return null;const c=h("div",{c:"card"},h("h3",{t:"상태"}));
- L.forEach(k=>{const a=me.ail[k],left=a.u?Math.max(0,a.u-Date.now()):0,meds=Object.keys(IT).filter(x=>(me.inv[x]||0)>0&&IT[x].med&&(IT[x].med==="pk"?["pain","fracture","sprain"].includes(k):IT[x].med==="splint"?k==="fracture"&&!a.sp:IT[x].med.includes(k)));
-  c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:AIL[k].n+(k==="fracture"&&a.sp?" (부목 고정)":"")}),h("div",{c:"xs mt",t:AIL[k].d}),h("div",{c:"xs mt",t:"치료: "+AIL[k].cure+(left?" · 남은 시간 "+fmt(Math.ceil(left/1000)):"")})),...meds.map(x=>btn(IT[x].n,()=>useMed(x),"sm"))))});
- if(L.includes("fracture"))c.append(h("div",{style:"height:6px"}),redBtn(),h("p",{c:"xs mt",style:"margin:4px 0 0",t:"도수정복: 행운·힘이 높을수록 성공. 성공하든 실패하든 HP 30% 감소, 실패하면 극심한 통증(1시간)."}));
- if(rmpD())c.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:var(--ac)",t:"폭주 후유증 · 이명 · 감각과민 · 골절 · 두통"}),h("div",{c:"xs mt",t:"S급 폭주의 후유증 · 남은 시간 "+hmT(rmpLeft())+" · 자동 채집 · 자동 전투 불가 · 격리실 입원 30분마다 30분 단축 (최대 2번 · 1시간)"}))));
- if(O.length){const nm=h("b",{c:"sm"},"약물과다 ");O.forEach((o,i)=>{if(i)nm.append(", ");nm.append(h("span",{style:o.p?"color:var(--ac)":"",t:o.k}))});
-  c.append(h("div",{c:"lrow"},h("div",{c:"grow"},nm,h("div",{c:"xs mt",t:O.map(o=>o.k+(o.p?"(영구)":"")+": "+ODE[o.k]).join(" · ")}),h("div",{c:"xs mt",t:"정신적 증상이라 치료할 수 없습니다. 일시 증상은 2시간 뒤 사라집니다."}))))}
- if(d)c.append(h("div",{c:"xs mt",style:"margin-top:6px",t:"EB-0K14 누적 투약 "+d+"회 · "+doseNext(me)}));
- return c}
+/* 내 캐릭터 오른쪽 위 한 줄 상태 · 이름을 누르면 치료 방법 */
+function ailMeds(k){const a=(me.ail||{})[k]||{};return Object.keys(IT).filter(x=>(me.inv[x]||0)>0&&IT[x].med&&(IT[x].med==="pk"?["pain","fracture","sprain"].includes(k):IT[x].med==="splint"?k==="fracture"&&!a.sp:IT[x].med.includes(k)))}
+function statusLine(){const L=ailList(me),O=odState(me),d=me.dose||0,R=rmpD();if(!L.length&&!O.length&&!R&&!d)return null;const w=h("div",{c:"stl"}),it=(n,v,f)=>w.append(h("button",{type:"button",onclick:f},h("b",{t:n}),v?": "+v:""));
+ L.forEach(k=>{const a=me.ail[k],left=a.u?Math.max(0,a.u-Date.now()):0;it(AIL[k].n+(k==="fracture"&&a.sp?"(부목)":""),left?hmT(left)+" 남음":"치료 필요",()=>ailPop(k))});
+ if(R)it("폭주 후유증",hmT(rmpLeft())+" 남음",()=>ailPop("_rmp"));
+ if(O.length)it("약물과다",O.map(o=>o.k).join(", "),()=>ailPop("_od"));else if(d)it("투약",d+"회",()=>ailPop("_od"));
+ return w}
+function ailPop(k){const cl=btn("닫기",closePop,"full",{style:"margin-top:10px"});
+ if(k==="_rmp"){if(!rmpD())return closePop();return openPop(h("div",{c:"h0",style:"color:var(--ac)",t:"폭주 후유증"}),h("p",{c:"sm",t:"S급 폭주의 후유증 · 이명 · 감각과민 · 골절 · 두통"}),h("p",{c:"xs mt",t:"남은 시간 "+hmT(rmpLeft())+" · 자동 채집 · 자동 전투 불가 (수동 게이트 제압 · 탐색 · 수동 전투는 가능)"}),h("p",{c:"sm",t:"치료: 격리실에 입원하면 30분마다 30분씩 줄어듭니다 (최대 2번 · 1시간). 줄일 수 있는 시간이 남아 있으면 오염도와 상관없이 입원할 수 있습니다."}),cl)}
+ if(k==="_od"){const O=odState(me),d=me.dose||0;return openPop(h("div",{c:"h0",t:O.length?"약물과다":"EB-0K14 투약"}),...O.map(o=>h("p",{c:"sm",style:o.p?"color:var(--ac)":"",t:o.k+(o.p?" (영구)":" (일시)")+" — "+ODE[o.k]})),O.length?h("p",{c:"xs mt",t:"정신적 증상이라 치료할 수 없습니다. 일시 증상은 2시간 뒤 사라집니다."}):null,d?h("p",{c:"xs mt",t:"EB-0K14 누적 투약 "+d+"회 · "+doseNext(me)}):null,cl)}
+ const a=(me.ail||{})[k];if(!a||!AIL[k])return closePop();const left=a.u?Math.max(0,a.u-Date.now()):0,meds=ailMeds(k);
+ openPop(h("div",{c:"h0",t:AIL[k].n+(k==="fracture"&&a.sp?" (부목 고정)":"")}),h("p",{c:"sm mt",t:AIL[k].d}),h("p",{c:"sm",t:"치료: "+AIL[k].cure}),left?h("p",{c:"xs mt",t:"남은 시간 "+hmT(left)}):null,
+  meds.length?h("div",{c:"row",style:"gap:6px;flex-wrap:wrap;margin-top:6px"},...meds.map(x=>btn(IT[x].n+" 사용",()=>wrap(async()=>{await useMed(x);ailList(me).includes(k)?ailPop(k):closePop()}),"pri sm"))):h("p",{c:"xs mt",t:"가방에 이 증상에 쓸 수 있는 치료제가 없습니다."}),
+  k==="fracture"?h("div",{style:"margin-top:8px"},redBtn(),h("p",{c:"xs mt",style:"margin:4px 0 0",t:"도수정복: 행운·힘이 높을수록 성공. 성공하든 실패하든 HP 30% 감소, 실패하면 극심한 통증(1시간)."})):null,cl)}
 function resetCard(){return h("div",{c:"card",style:"border-color:var(--bad)"},h("h3",{t:"캐릭터 초기화"}),h("p",{c:"sm mt",t:"레벨 · 스탯 · 소지품 · 장비 · 환 · 은행 · 메모 · 부상 · 질병 · 정신 증상 · 약물 투약 기록 · 직업 · 관계 · 주택 · 거래소 매물이 모두 사라지고 캐릭터 생성 화면으로 돌아갑니다. 능력(속성) · 등급 · 전화번호만 그대로 남습니다."}),
  btn(resetArm?"정말로 초기화하시겠습니까? (되돌릴 수 없음)":"초기화",async()=>{if(!resetArm){resetArm=true;render(true);return}await doReset()},resetArm?"pri full":"full"))}
 async function doReset(){if(inB())return toast("전투 중에는 초기화할 수 없습니다");if(me.trip)return toast("이동 중에는 초기화할 수 없습니다");
@@ -4200,7 +4217,7 @@ async function pgInvite(){if(hospParty())return;const g=groups[pg.id];if(!g)retu
 function pinvEl(m,pager){const p=parties[m.pid],mine=(m.uid||m.from)===uid,inP=p&&p.members.includes(uid),full=p&&p.members.length>=4;const lab=!p?"끝난 초대":mine?"보낸 초대":inP?"참가함":full?"자리 없음":"참가";
  const b=h("button",{type:"button",c:pager?"gjoin":"sm",t:lab,disabled:!p||mine||inP||full,onclick:()=>wrap(async()=>{if(inB())return toast("전투 중에는 파티를 옮길 수 없습니다");if(me.party&&me.party!==m.pid){if(isTmpP(me.party))await tmpLeave();else return toast("지금 파티에서 먼저 나와 주십시오")}await joinParty(m.pid);toast("파티에 참가했습니다")})});
  return h("div",{c:pager?"gl inv":"m pinv"},h("small",{t:"파티 초대"}),h("span",{t:m.text+(p?" · "+p.members.length+"/4":"")}),b)}
-function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;document.body.classList.toggle("tdock",!!TAB_DOCK);if(!TAB_DOCK){d.style.display="none";return}["#ptab","#rtab","#gtab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
+function dockTabs(){try{applyDev()}catch(e){}const d=$("#dtabs");if(!d)return;document.body.classList.toggle("tdock",!!TAB_DOCK);if(!TAB_DOCK){d.style.display="none";return}["#ptab","#rtab","#gtab","#btab"].forEach(q=>{const t=$(q);if(t&&t.parentNode!==d)d.append(t)})}
 function initRadio(){if($("#rtab"))return;const t=h("button",{id:"rtab",type:"button","aria-label":"길드 수신기"},svgI("M9 8V2.5M7 8h10a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 17 22H7a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 7 8zM9 11h6v4H9zM9 18h.01M12 18h.01M15 18h.01"),h("i",{id:"rdot"}));
  document.body.append(t,h("div",{id:"radio"}));let st=null,moved=false,dEnd=0;
  t.addEventListener("pointerdown",e=>{const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
@@ -4357,7 +4374,7 @@ function rMyRoomOld(v){const c=h("div",{c:"card roomc"},h("h3",{t:"내 방"}),
 function rMail(v){const L=mails(),c=h("div",{c:"card",id:"mailbox"},h("div",{c:"row sb"},h("h3",{t:"우편함"}),h("div",{c:"row",style:"gap:6px"},L.length>1?btn("모두 받기",async()=>{for(const p of mails())await claimOne(p)},"sm pri"):null,mailSend.on?null:btn("우편 보내기",()=>{mailSend.on=true;render(true)},"sm"))));
  if(mailSend.on){const t=h("div",{});rMailSend(t);[...t.children].forEach(x=>{x.classList.remove("card");x.classList.add("msend")});c.append(...t.children)}
  if(!L.length)c.append(h("p",{c:"sm mt",t:"도착한 우편이 없습니다. 게이트를 제압하면 보상이 우편으로 옵니다."}));
- L.forEach(p=>c.append(h("div",{c:"mail"},svgI("M3 6h18v12H3zM3 7l9 6 9-6","mico"),h("div",{c:"grow"},h("b",{c:"sm",t:p.memo||"협회 우편"}),p.body?h("p",{c:"xs",style:"margin:4px 0 2px;line-height:1.55",t:p.body}):null,h("div",{c:"xs mt",t:(p.k==="kr"||p.k==="phfw"||(p.k==="phret"&&p.memo==="맡아 둔 핸드폰")?((chars[p.from]||{}).name||"헌터")+" 헌터":"협회")+" · "+kfmt(p.t)}),h("div",{c:"xs gold",t:p.k==="kr"?"키링 1개":p.k==="phret"?"내 핸드폰":p.k==="phnew"?"새 핸드폰 (재발급 · 번호 그대로)":p.k==="phfw"?"주운 핸드폰 (주인: "+phOwnN(p.own)+")":p.k==="item"?(IT[p.item]?IT[p.item].n:p.item)+" ×"+(p.qty||1):won(p.amt)+" 환 (은행으로 입금)"})),btn("받기",()=>claimOne(p),"sm"))));
+ L.forEach(p=>c.append(h("div",{c:"mail"},svgI("M3 6h18v12H3zM3 7l9 6 9-6","mico"),h("div",{c:"grow"},h("b",{c:"sm",t:p.memo||"협회 우편"}),p.body?h("p",{c:"xs",style:"margin:4px 0 2px;line-height:1.55",t:p.body}):null,h("div",{c:"xs mt",t:(p.k==="kr"||p.k==="phfw"||(p.k==="phret"&&p.memo==="맡아 둔 핸드폰")?((chars[p.from]||{}).name||"헌터")+" 헌터":"협회")+" · "+kfmt(p.t)}),h("div",{c:"xs gold",t:p.k==="kr"?"키링 1개":p.k==="phret"?"내 핸드폰":p.k==="phnew"?"새 핸드폰 (재발급 · 번호 그대로)":p.k==="phfw"?"주운 핸드폰 (주인: "+phOwnN(p.own)+")":p.k==="item"?(IT[p.item]?IT[p.item].n:p.item)+" ×"+(p.qty||1):p.k==="gear"&&p.gear?"장비 「"+gName(p.gear)+"」":won(p.amt)+" 환 (은행으로 입금)"})),btn("받기",()=>claimOne(p),"sm"))));
  v.append(c)}
 const FURN=[["fu_closet","옻칠 장롱"],["fu_cabinet","상아 장식장"],["fu_bed","철제 침대"],["fu_sofa","가죽 소파"],["fu_chair","판자 의자"]];
 function roomSvg(R){const v=svE("svg",{viewBox:"0 0 320 190",class:"roomv"});
@@ -4535,7 +4552,7 @@ async function duelAsk(to,via){if(hospBlock())return;if(!isArena())return toast(
 function declare(){const num=(declNum||"").replace(/\D/g,"");if(num.length!==7)return toast("상대 전화번호 7자리를 입력하십시오");const e=Object.entries(chars).find(([id,c])=>c.num===num);if(!e)return toast("지금 거신 전화번호는 없는 전화번호입니다. 확인 후 다시 걸어주십시오.");declNum="";return duelAsk(e[0],"call")}
 const PVS_I=[0,4,2,3],PVS_N=["힘","방어","민첩","지능"],PVS_MAX=15;/* 모의전투 스탯: 힘 · 방어 · 민첩 · 지능 · 하나당 최대 15 */
 /* ===== S급 헌터: 하루 의무 · 오염 · 폭주 ===== */
-const RMP_HP=6,RMP_AT=1.3,RMP_LEN=10*6e4,RMP_LIFE=2*36e5,RMP_MAX=10,RMP_ACT=1800,RMP_DEB=6*36e5,RMP_HOSP=30*6e4,RMP_CUT=30*6e4,RMP_HMAX=2,RMP_TAN=1500,RMP_XP=.5,SD_N=3,SD_PEN=25,S_CONX=1.5,SD_G=["B","A","S"];
+const RMP_HP=6,RMP_AT=1.3,RMP_DF=2,RMP_LEN=10*6e4,RMP_LIFE=2*36e5,RMP_MAX=10,RMP_ACT=1800,RMP_DEB=6*36e5,RMP_HOSP=30*6e4,RMP_CUT=30*6e4,RMP_HMAX=2,RMP_TAN=1500,RMP_XP=.5,SD_N=3,SD_PEN=25,S_CONX=1.5,SD_G=["B","A","S"];
 const isS=c=>!!c&&c.grade==="S";
 const rmpD=c=>{c=c||me;return !!(c&&c.rmpd&&c.rmpd.u>Date.now())};
 const rmpLeft=()=>Math.max(0,((me.rmpd&&me.rmpd.u)||0)-Date.now());
@@ -4577,7 +4594,7 @@ async function rmpGo(r){if(hospBlock())return;{const l=lockMsg();if(l)return toa
  const ref=db.doc("gates/"+r.id),s=await ref.get();if(!s.exists||s.data().st!=="on")return toast("이미 제압됐습니다");const R0=s.data();let pid=R0.pid;
  if(pid){const ps=await db.doc("pvp/"+pid).get(),P=ps.exists?ps.data():null;if(P&&P.st==="on"){if(P["m_"+uid]){pvpWatch(pid);return}const A=Object.keys(P).filter(k=>k.startsWith("m_")&&P[k].side==="A");
   if(A.length>=RMP_MAX)return toast("이미 "+RMP_MAX+"명이 제압 중입니다 · 잠시 후 다시 시도하십시오");await db.doc("pvp/"+pid).update({["m_"+uid]:pvMem(uid,"A","real")});pvpWatch(pid);return}}
- const c=chars[R0.uid];if(!c)return toast("헌터 정보를 찾을 수 없습니다");const bm=mkMemC(rmpBody(c));bm.max=Math.round(bm.max*RMP_HP);bm.hp=bm.max;bm.pw=Math.round(bm.pw*RMP_AT);bm.side="B";bm.boss=1;bm.n=c.name+" [폭주]";bm.mpMax=bm.mp=9999;bm.mpT=Date.now();bm.mode="real";
+ const c=chars[R0.uid];if(!c)return toast("헌터 정보를 찾을 수 없습니다");const bm=mkMemC(rmpBody(c));bm.max=Math.round(bm.max*RMP_HP);bm.hp=bm.max;bm.pw=Math.round(bm.pw*RMP_AT);bm.def=Math.round((bm.def||0)*RMP_DF);bm.side="B";bm.boss=1;bm.n=c.name+" [폭주]";bm.mpMax=bm.mp=9999;bm.mpT=Date.now();bm.mode="real";
  pid="p_"+r.id+"_"+Date.now().toString(36);await db.doc("pvp/"+pid).set({k:"ramp",rid:r.id,t:Date.now(),t0:Date.now()+3000,st:"on",ttl:c.name+"헌터 [폭주] 제압",["m_R"+R0.uid]:bm,["m_"+uid]:pvMem(uid,"A","real")});
  await ref.update({pid});pvpWatch(pid)}
 /* 폭주 헌터 움직임: 살아 있는 제압조 중 한 명(아이디 순서 첫 번째)의 화면이 대신 굴림 · 실제 직업 스킬 사용 */
@@ -5292,7 +5309,7 @@ async function npcIn(t){const k=call.npc,c=(t.match(/[0-9]/)||[""])[0],nm=me.nam
 const inGateC=c=>!!c&&((c.mis&&Date.now()<c.mis.t+MIS_MAX)||(c.sg&&c.sg!=="sv"&&visitAlive(c.sg)));
 function phMsg(t){const S=$("#pscr");if(!S)return;const o=h("div",{c:"pnone"},h("p",{t}));S.append(o);setTimeout(()=>{o.classList.add("out");setTimeout(()=>o.remove(),400)},2600)}
 
-let armFix=0,gearTab="head";
+let armFix=0,gearTab="all";
 /* ===== v31: 펜던트 · 키링 물리 · 분실 키링 · 커플/약혼/결혼 · 페어 ===== */
 function isPd(k){return typeof k==="string"&&k.indexOf("pd:")===0}
 var PDM=null,pdN=0;
@@ -5370,10 +5387,24 @@ async function listKr(id,price){price=Math.floor(price)||0;if(price<1)return toa
 /* 우편: 헌터에게 키링 */
 function mailSel(){const sel=h("select",{onchange:e=>{mailSend.to=e.target.value;mailSend.item="";render(true)}},h("option",{value:"hq",t:"헌터 협회"}),h("option",{value:"",t:"헌터 선택…"}));
  Object.entries(chars).filter(([id])=>id!==uid).sort((a,b)=>(a[1].name||"").localeCompare(b[1].name||"")).forEach(([id,c])=>sel.append(h("option",{value:"u:"+id,t:c.name+" 헌터"})));sel.value=mailSend.to;return sel}
-function rMailP(v,c,sel){c.append(h("div",{c:"xs mt",style:"margin:4px 0 2px",t:"받는 이"}),sel,h("div",{c:"sub3",style:"margin-top:12px",t:"무엇을 보내시겠습니까?"}),h("div",{c:"mslist"},h("button",{c:"msopt on"},h("b",{t:"1."}),h("span",{t:"주운 키링"}))));
- const L=me.fkr||[];if(!L.length)c.append(h("p",{c:"sm mt",t:"보낼 수 있는 키링이 없습니다. 게이트에서 주운 키링만 헌터에게 우편으로 보낼 수 있습니다."}));
- L.forEach(k=>c.append(h("button",{c:"msitem"+(mailSend.item===k.id?" on":""),onclick:()=>{mailSend.item=k.id;render(true)}},h("b",{t:krName(k)}),h("span",{c:"xs mt",t:"비즈 "+k.b.length+"개"}))));
- c.append(btn("발송",()=>wrap(sendKr),"pri full",{style:"margin-top:10px",disabled:!mailSend.to.startsWith("u:")||!L.some(k=>k.id===mailSend.item)}));v.append(c)}
+const mailOkI=k=>IT[k]&&!IT[k].bound&&!IT[k].learn&&!IT[k].noex,mailOkG=g=>g&&IT[g.id]&&!IT[g.id].bound&&!IT[g.id].ring&&!g.lock;
+function rMailP(v,c,sel){const W=["item","gear","kr"].includes(mailSend.what)?mailSend.what:"item",tb=(k,n,t)=>h("button",{c:"msopt"+(W===k?" on":""),onclick:()=>{mailSend.what=k;mailSend.item="";mailSend.amt="";render(true)}},h("b",{t:n}),h("span",{t}));
+ c.append(h("div",{c:"xs mt",style:"margin:4px 0 2px",t:"받는 이"}),sel,h("div",{c:"sub3",style:"margin-top:12px",t:"무엇을 보내시겠습니까?"}),h("div",{c:"mslist"},tb("item","1.","소지품 (재료·소모품)"),tb("gear","2.","장비"),tb("kr","3.","주운 키링")),
+  h("p",{c:"xs mt",style:"margin:6px 0",t:"귀속 아이템(제작법·요리법·가구 도면, 바벨 장비, 반지, EB-0K14 등)은 우편으로 보낼 수 없습니다. 착용 중인 장비는 벗은 뒤 보낼 수 있습니다."}));
+ let ok=false;
+ if(W==="kr"){const L=me.fkr||[];if(!L.length)c.append(h("p",{c:"sm mt",t:"보낼 수 있는 키링이 없습니다."}));
+  L.forEach(k=>c.append(h("button",{c:"msitem"+(mailSend.item===k.id?" on":""),onclick:()=>{mailSend.item=k.id;render(true)}},h("b",{t:krName(k)}),h("span",{c:"xs mt",t:"비즈 "+k.b.length+"개"}))));ok=L.some(k=>k.id===mailSend.item)}
+ else if(W==="item"){const L=Object.keys(me.inv||{}).filter(k=>me.inv[k]>0&&mailOkI(k)).sort((a,b)=>IT[a].n.localeCompare(IT[b].n));if(!L.length)c.append(h("p",{c:"sm mt",t:"보낼 수 있는 소지품이 없습니다."}));
+  L.forEach(k=>c.append(h("button",{c:"msitem"+(mailSend.item===k?" on":""),onclick:()=>{mailSend.item=k;mailSend.amt=String(Math.min(+mailSend.amt||1,me.inv[k]));render(true)}},h("b",{t:IT[k].n}),h("span",{c:"xs mt",t:"× "+me.inv[k]}))));
+  if(mailSend.item&&me.inv[mailSend.item]){const n=me.inv[mailSend.item];c.append(h("div",{c:"row",style:"margin-top:8px;gap:6px;align-items:center"},h("span",{c:"sm",t:"개수"}),h("input",{type:"number",min:1,max:n,inputmode:"numeric",value:mailSend.amt||1,autocomplete:"off",oninput:e=>{mailSend.amt=e.target.value}}),btn("전부",()=>{mailSend.amt=String(n);render(true)},"sm")))}
+  ok=L.includes(mailSend.item)}
+ else{const L=(me.gear||[]).filter(mailOkG);if(!L.length)c.append(h("p",{c:"sm mt",t:"보낼 수 있는 장비가 없습니다."}));
+  L.forEach(g=>c.append(h("button",{c:"msitem"+(mailSend.item===g.gid?" on":""),onclick:()=>{mailSend.item=g.gid;render(true)}},h("b",{t:gName(g)}),h("span",{c:"xs mt",t:"Lv."+(g.lv||1)+" · 내구 "+Math.round(g.dur||0)}))));ok=L.some(g=>g.gid===mailSend.item)}
+ c.append(btn("발송",()=>wrap(W==="kr"?sendKr:W==="item"?sendMailItem:sendMailGear),"pri full",{style:"margin-top:10px",disabled:!mailSend.to.startsWith("u:")||!ok}));v.append(c)}
+async function sendMailItem(){const to=mailSend.to.slice(2),k=mailSend.item,have=(me.inv||{})[k]||0,n=Math.floor(+mailSend.amt||1);if(!chars[to]||!mailOkI(k))return toast("받는 이와 물건을 고르십시오");if(n<1||n>have)return toast("개수를 확인하십시오 (보유 "+have+"개)");
+ const inv={...me.inv};inv[k]-=n;if(inv[k]<=0)delete inv[k];await upd({inv});await db.collection("payouts").add({t:Date.now(),to,from:uid,k:"item",item:k,qty:n,amt:0,memo:me.name+" 헌터의 우편"});mailSend.item="";mailSend.amt="";toast(chars[to].name+" 헌터에게 "+IT[k].n+" ×"+n+"을(를) 보냈습니다")}
+async function sendMailGear(){const to=mailSend.to.slice(2),g=(me.gear||[]).find(x=>x.gid===mailSend.item);if(!chars[to]||!mailOkG(g))return toast("받는 이와 장비를 고르십시오");
+ await upd({gear:(me.gear||[]).filter(x=>x.gid!==g.gid)});await db.collection("payouts").add({t:Date.now(),to,from:uid,k:"gear",gear:g,amt:0,memo:me.name+" 헌터의 우편"});mailSend.item="";toast(chars[to].name+" 헌터에게 「"+gName(g)+"」을(를) 보냈습니다")}
 async function sendKr(){const to=mailSend.to.slice(2),k=(me.fkr||[]).find(x=>x.id===mailSend.item);if(!chars[to]||!k)return toast("받는 이와 키링을 고르십시오");
  const back=k.own===to,p={fkr:(me.fkr||[]).filter(x=>x.id!==k.id)};if(back)p.rep=Math.min(100,repOf(me)+5);await upd(p);
  await db.collection("payouts").add({t:Date.now(),to,from:uid,k:"kr",kr:k,amt:0,memo:krName(k)});mailSend.item="";toast(back?"주인에게 키링을 돌려보냈습니다 · 명성 +5":chars[to].name+" 헌터에게 "+krName(k)+"을(를) 보냈습니다")}
@@ -7312,7 +7343,7 @@ let sy;function syncSoon(){clearTimeout(sy);sy=setTimeout(()=>{if(!me||!ld.g||!l
 function navDots(){const hb=nav&&nav.querySelector('[data-k="home"]');if(hb)hb.classList.toggle("unr",!!(me&&mails().length));const gb=nav&&nav.querySelector('[data-k="guild"]');if(gb)gb.classList.toggle("unr",!!(me&&myG()&&(unreadOf("g")+unreadOf("owner"))>0&&!(tab==="guild"&&$("#feed"))))}
 function onMsg(){phRefresh();updDot();try{navGMark()}catch(e){}if($("#feed"))updFeed();try{dormFeed()}catch(e){}try{const d=$("#tcdot");if(d&&me){const n=unreadOf("wc")+dmPartners(true).reduce((a,id)=>a+unreadOf("hdm:"+id),0)+myGroups(false,true).reduce((a,id)=>a+unreadOf("hgrp:"+id),0);setCnt(d,chatHub?0:n)}}catch(e){}try{pgUpd()}catch(e){}}
 (()=>{const P={tank:"선봉의 ",healer:"치유의 ",dealer:"학살의 "};Object.values(IT).forEach(v=>{if(v&&v.slot&&P[v.role]&&typeof v.n==="string"&&!v.n.startsWith(P[v.role]))v.n=P[v.role]+v.n})})();
-initRadio();initPager();dockTabs();
+initRadio();initPager();initBag();dockTabs();
 applyBound();
 (async()=>{await window.__fbReady;
  const t=setTimeout(()=>{if(!db)note("연결이 지연됩니다. 인터넷 연결을 확인해 주십시오.")},10000);let user;
