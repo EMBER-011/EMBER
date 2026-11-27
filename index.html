@@ -144,6 +144,7 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 #pscr .pbody.home.wall{background-size:cover;background-position:center}#pscr .pbody.home.wall .phclk,#pscr .pbody.home.wall .app{text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .app.fold .fi{display:grid!important;grid-template-columns:1fr 1fr;gap:1px;padding:4px}.app.fold .fi svg{width:100%!important;height:100%!important}.app.fold.drop{outline:1px dashed var(--ac)}
 .fbox{border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--sf)}.fbox .fname{width:100%;max-width:150px;padding:3px 6px;font-size:calc(12px*var(--fz,1))}
+#theal{position:absolute;right:12px;bottom:-10px;height:19px;padding:0 8px;border-radius:2px;background:var(--sf);font-size:calc(10.5px*var(--fz,1));font-weight:600;color:var(--ac2);line-height:1;display:flex;align-items:center;z-index:2}
 #tgl{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:46px;height:19px;padding:0;border-radius:2px;background:var(--sf);display:flex;align-items:center;justify-content:center}
 #tgl:active:not(:disabled){transform:translateX(-50%)}#tgl svg{width:16px;height:16px;fill:none;stroke:var(--ac2);stroke-width:2;transition:transform .2s}#top.min #tgl svg{transform:rotate(180deg)}
 #view{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 12px}
@@ -675,7 +676,7 @@ body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33%
 <body>
 <div id="auth"><div class="acard"><p class="mt sm" style="text-align:center">연결 중…</p></div></div>
 <header id="top"><div id="stat"><div class="tmrow"><div id="tme"></div><div id="tsd"><div id="tst" class="tst"></div><div id="tloc" class="sm mt"></div></div></div><div class="bars"><div class="pb"><i id="thb"></i><span id="thp"></span></div><div class="pb mp"><i id="tmb"></i><span id="tmp"></span></div><div class="pb en"><i id="teb"></i><span id="ten"></span></div><div class="pb con"><i id="tcb"></i><span id="tcn"></span></div></div>
-</div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button></header>
+</div><div id="tmini" class="sm mt"></div><button id="tgl" aria-label="상태창 접기"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><button id="theal" type="button" aria-label="자동회복">자동회복</button></header>
 <div id="notice"></div>
 <main id="view"><p class="mt">불러오는 중…</p></main>
 <div id="dtabs"></div>
@@ -707,7 +708,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127020000";
+const BUILD="20261127042000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1452,7 +1453,7 @@ function navOpen(on){if(on){try{const b=$("#top").getBoundingClientRect().bottom
 {const mb=h("button",{id:"tmenu",type:"button","aria-label":"메뉴",onclick:()=>navOpen(!document.body.classList.contains("navo"))},svgI("M4 7h16M4 12h16M4 17h16"));$("#top").prepend(mb);document.body.append(h("div",{id:"navbg",onclick:()=>navOpen(false)}))}
 let topMin=false;try{topMin=localStorage.getItem("af_topmin")==="1"}catch(e){}
 function applyTop(){$("#top").classList.toggle("min",topMin);if(document.body.classList.contains("navo"))setTimeout(()=>navOpen(true),0);$("#tgl").setAttribute("aria-label",topMin?"상태창 열기":"상태창 접기")}applyTop();
-$("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
+$("#theal").onclick=()=>wrap(autoHeal);$("#tgl").onclick=()=>{topMin=!topMin;applyTop();try{localStorage.setItem("af_topmin",topMin?"1":"0")}catch(e){}};
 /* 휴대폰 아이콘: 끌어서 아무 데나 옮기기 · 위치는 이 기기에 저장 · 휴대폰은 아이콘 옆에 열림 */
 let ptPos=null;try{ptPos=JSON.parse(localStorage.getItem("af_ptab")||"null")}catch(e){}
 /* 터치 기기라도 PC 화면 너비(1100px 이상)면 기기 탭을 왼쪽 메뉴 옆에 둠 (아래 줄에 숨지 않게) */const TAB_DOCK=!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches)&&innerWidth<1100;
@@ -1849,7 +1850,7 @@ function facility(sp){
   if(t==="shop")Object.entries(MARKET).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d||"제작 재료"})),h("span",{c:"sm gold",t:p}),qtyBuy(id,p))));
   if(t==="shop")box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT.job_reset.n}),h("div",{c:"xs mt",t:IT.job_reset.d+(me.jrBuy?" · 이미 샀습니다":"")})),h("span",{c:"sm gold",t:won(JR_P)}),btn(me.jrBuy?"구매 완료":"구매",()=>wrap(buyJobReset),"sm",{disabled:!!me.jrBuy})));
   else if(t==="ex"){const L=market.slice();box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"거래 수수료 5%는 판매자에게서 차감됩니다 · 내가 올린 매물도 여기 함께 보입니다 · 판매 등록은 아래에서"}));if(!L.length)box.append(h("p",{c:"sm mt",t:"등록된 매물이 없습니다."}));
-   L.forEach(m=>{if(m.seller===uid){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(m.kr?krName(m.kr):m.gear?"["+RAR[m.gear.r].n+"] "+gName(m.gear):(IT[m.item]?IT[m.item].n:m.item))+" · 남은 "+m.qty+"개"}),h("div",{c:"xs gold",t:"내 매물 · 개당 "+won(unitOf(m))+" 환 · 다 팔리면 수령 "+won(Math.floor(unitOf(m)*m.qty*.95))+" 환"})),btn("회수",()=>cancelListing(m),"sm")));return}if(m.kr){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:krName(m.kr)}),h("div",{c:"xs mt",t:"비즈 "+m.kr.b.length+"개 키링 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}if(m.gear){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[m.gear.r].c,t:"["+RAR[m.gear.r].n+"] "+gName(m.gear)+" · Lv"+m.gear.lv}),h("div",{c:"xs mt",t:(gDesc(m.gear)||"옵션 없음")+" · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
+   L.forEach(m=>{if(m.seller===uid){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(m.kr?krName(m.kr):m.gear?"["+RAR[m.gear.r].n+"] "+gName(m.gear):(IT[m.item]?IT[m.item].n:m.item))+" · 남은 "+m.qty+"개"}),h("div",{c:"xs gold",t:"내 매물 · 개당 "+won(unitOf(m))+" 환 · 다 팔리면 수령 "+won(Math.floor(unitOf(m)*m.qty*.95))+" 환"})),btn("회수",()=>cancelListing(m),"sm")));return}if(m.kr){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:krName(m.kr)}),h("div",{c:"xs mt",t:"비즈 "+m.kr.b.length+"개 키링 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}if(m.gear){box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[m.gear.r].c,t:rTag(m.gear)+"["+RAR[m.gear.r].n+"] "+gName(m.gear)+" · Lv"+m.gear.lv}),h("div",{c:"xs mt",t:(gDesc(m.gear)||"옵션 없음")+" · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")})),h("span",{c:"sm gold",t:won(unitOf(m))}),btn("구매",()=>buyListing(m,1),"sm")));return}const u=unitOf(m),n=h("input",{type:"number",min:1,max:m.qty,value:1,inputmode:"numeric",style:"width:56px;padding:5px 6px",oninput:()=>{tot.textContent="총 "+won(u*Math.max(1,Math.min(m.qty,Math.floor(+n.value)||1)))+" 환"}}),tot=h("div",{c:"xs gold",t:"총 "+won(u)+" 환"});
     box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:(IT[m.item]?IT[m.item].n:m.item)+" · 남은 "+m.qty+"개"}),h("div",{c:"xs mt",t:"개당 "+won(u)+" 환 · 판매자 "+(chars[m.seller]?chars[m.seller].name:"?")}),tot),n,btn("구매",()=>buyListing(m,+n.value),"sm")))})}
   else if(t==="dlv")marketDlv(box,row);
   if(t==="ex"){box.append(h("div",{c:"sm",style:"margin:16px 0 6px;padding-top:10px;border-top:1px solid var(--ln);color:var(--ac2);font-weight:700",t:"판매 등록"}));const own=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&!IT[k].bound&&!IT[k].noex);
@@ -2781,8 +2782,9 @@ function initBag(){if($("#btab"))return;const t=h("button",{id:"btab",type:"butt
 function eqpPop(){openPop(h("div",{c:"h0",t:"장비 프리셋"}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집·제작할 때는 「채집·제작」에 도구와 장비를 저장해 두십시오"}),
  ...EQP_N.map((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;return h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n+" 프리셋"}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(async()=>{await eqpSave(i);eqpPop()}),"sm"),btn("착용",()=>wrap(async()=>{await eqpUse(i);eqpPop()}),"pri sm",{disabled:!P}))}),
  btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
+const rTag=q=>{const i=q&&IT[q.id];return i&&i.role&&ROLE[i.role]?"["+ROLE[i.role].n+"] ":""};
 function gearPop(gid){const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return closePop();const i=IT[q.id];
- openPop(h("div",{c:"h0",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"sm mt",t:"["+RAR[q.r].n+"] · Lv"+q.lv+" · "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")}),h("p",{c:"sm",t:gDesc(q)||"옵션 없음"}),
+ openPop(h("div",{c:"h0",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"sm mt"},i.role&&ROLE[i.role]?h("b",{style:"color:var(--ac2);margin-right:4px",t:"["+ROLE[i.role].n+"]"}):null,"["+RAR[q.r].n+"] · Lv"+q.lv+" · "+(SLOTS.find(s=>slotType(s[0])===i.slot)||[0,i.slot])[1].replace(/ \d/,"")),h("p",{c:"sm",t:gDesc(q)||"옵션 없음"}),
   (atSto()||(myG()&&atBase()))?h("div",{c:"row",style:"gap:6px;margin-top:12px"},atSto()?btn("보관함에 넣기",()=>{closePop();wrap(()=>gearSto(gid,true))},"grow"):null,myG()&&atBase()?(i.bound?h("span",{c:"xs mt",style:"align-self:center",t:"귀속 · 길드 창고 불가"}):btn("길드 창고에 넣기",()=>{closePop();wrap(()=>gearGSto(gid,true))},"grow")):null):null,
   h("div",{c:"row",style:"margin-top:8px"},btn("장착",async()=>{await equipGear(gid);closePop()},"pri grow"),i.ring?(q.id==="ring_m"?null:btn(q.id==="ring_c"?"고백하기":"청혼하기",()=>{closePop();ringGive(gid)},"grow")):btn("분해",async()=>{await dismantle(gid);closePop()},"grow"),btn("닫기",closePop,"grow")),i.ring?h("p",{c:"xs mt",style:"margin-top:8px",t:"같은 파티에 짝이 같은 반지를 끼고 있으면 반지 효과가 3배가 됩니다 · 연락처에서 상대를 골라 같은 지역에서 건네 수 있습니다 · 거래소·상점에는 팔 수 없습니다"}):null)}
 /* ===== 장비 보관: 내 보관함(장비 30개) · 길드 창고(장비 100개 · 길드원 누구나 꺼냄) · 귀속 장비는 길드 창고 불가 ===== */
@@ -2852,6 +2854,17 @@ async function dismRcp(id){if(rmpBlock()||hospBlock())return;const i=IT[id];if(!
 async function learnRcp(id){if(rmpBlock()||hospBlock())return;const i=IT[id];if(!i||!i.learn)return;const R=(me.rcp||[]).slice();if(R.includes(i.learn))return toast("이미 익힌 제작법입니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;R.push(i.learn);await upd({inv,rcp:R});toast("습득: "+IT[i.learn].n+(FRC[i.learn]?" (숙소 · 부엌 인덕션)":" (정비소 · 제작)"))}
 async function craftH(id){if(rmpBlock()||hospBlock())return;const r=HRC[id];if(!knowsR(id))return toast("제작법을 먼저 익히세요");{const jm=jReqMsg(r.r||0);if(jm)return toast(jm)}if(!haveAll(r.need))return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const p=cntAdd(matTake(r.need),"cr"),g=mkGear(IT[id].bd||me.lv,IT[id].fr!=null?IT[id].fr:IT[id].cb?crRoll(IT[id].cb):craftRar(r.r,"smith"),id);jobGain(p,"c","smith",JXP[r.r||0]);addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
+/* [자동회복] 상단 상태창 · 약품만 · HP / 오염도 / 에너지 각각 효과 낮은 것부터 */
+const AH_OK=k=>{const i=IT[k],u=i&&i.use;return !!u&&invCat(k)==="med"&&!u.buf&&!u.mp&&!u.mpPct&&!u.gas&&!u.pack&&(u.hp||u.hpPct||u.en||u.con<0)};
+async function autoHeal(){if(!me)return;if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");
+ const inv={...me.inv},c=cur(me),mh=maxHp(me);let hp=c.hp,en=c.en,con=c.con;const used={};
+ const take=(val,need,gain)=>{const L=Object.keys(inv).filter(k=>inv[k]>0&&AH_OK(k)&&val(IT[k].use)>0).sort((a,b)=>val(IT[a].use)-val(IT[b].use));
+  while(need()>0){const k=L.find(x=>inv[x]>0);if(!k)break;inv[k]--;if(!inv[k])delete inv[k];used[k]=(used[k]||0)+1;gain(IT[k].use)}};
+ take(u=>uHP(u,mh),()=>mh-hp,u=>{hp=Math.min(mh,hp+uHP(u,mh));en=Math.min(MAXEN,en+(u.en||0));con=Math.max(0,con+(u.con||0))});
+ take(u=>-(u.con||0),()=>con,u=>{con=Math.max(0,con+(u.con||0));hp=Math.min(mh,hp+uHP(u,mh));en=Math.min(MAXEN,en+(u.en||0))});
+ take(u=>u.en||0,()=>MAXEN-en,u=>{en=Math.min(MAXEN,en+(u.en||0));hp=Math.min(mh,hp+uHP(u,mh));con=Math.max(0,con+(u.con||0))});
+ const ks=Object.keys(used);if(!ks.length)return toast(hp>=mh&&con<=0&&en>=MAXEN?"이미 HP · 오염도 · 에너지가 모두 괜찮습니다":"쓸 수 있는 회복약 · 정화제 · 에너지 약품이 없습니다");
+ await upd({inv,hp:Math.round(hp),en:Math.round(en),con:Math.round(con*10)/10});toast("자동회복 · "+ks.map(k=>IT[k].n+" ×"+used[k]).join(", "))}
 async function useItem(id){if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
  if(u.gas){const v=me.veh;if(!v)return toast("이동수단이 없습니다");const need=vMaxF(v)-(v.fuel||0);if(need<=0)return toast("휘발유가 가득합니다");const q=Math.min(need,(me.inv[id]||0));inv[id]=(me.inv[id]||0)-q;if(!inv[id])delete inv[id];await upd({inv,veh:Object.assign({},v,{fuel:(v.fuel||0)+q})});return toast("휘발유 "+q+" 넣음 · "+((v.fuel||0)+q)+" / "+vMaxF(v))}
  if(u.pack){if(addInv(inv,u.pack,u.q)<u.q)return toast("가방이 가득 찼습니다");await upd({inv});return toast(IT[id].n+"을(를) 풀었습니다 · "+IT[u.pack].n+" ×"+u.q)}
@@ -2907,9 +2920,9 @@ async function selfRepair(){if(rmpBlock()||hospBlock())return;if(inB())return to
  const cost=L.reduce((a,s)=>a+srCost(eq[s]),0);const pay=payWB(cost,"장비 자가수리");if(!pay)return toast("환이 부족합니다 · "+won(cost)+"환 (지갑 → 모자라면 은행)");L.forEach(s=>eq[s].dur=100);await upd(Object.assign({eq},pay));toast("자가수리 · 장비 "+L.length+"개 · "+won(cost)+"환")}
 function slotPop(s){const t=slotType(s),lab=SLOTS.find(z=>z[0]===s)[1],q=(me.eq||{})[s],cand=Object.entries(me.inv).filter(([k,n])=>n>0&&IT[k]&&IT[k].slot===t),gc=(me.gear||[]).filter(x=>IT[x.id]&&IT[x.id].slot===t).sort((a,b)=>b.r-a.r);
  const list=h("div",{});if(!cand.length&&!gc.length)list.append(h("p",{c:"sm mt",t:"이 부위에 장착할 수 있는 장비가 없습니다."}));
- gc.forEach(x=>list.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[x.r].c,t:"["+RAR[x.r].n+"] "+gName(x)}),h("div",{c:"xs mt",t:gDesc(x)||"옵션 없음"})),btn("장착",async()=>{await equipGear(x.gid,s);closePop()},"pri sm"))));
+ gc.forEach(x=>list.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[x.r].c,t:rTag(x)+"["+RAR[x.r].n+"] "+gName(x)}),h("div",{c:"xs mt",t:gDesc(x)||"옵션 없음"})),btn("장착",async()=>{await equipGear(x.gid,s);closePop()},"pri sm"))));
  cand.forEach(([k,n])=>{const i=IT[k];list.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:"[일반] "+i.n+" ×"+n}),h("div",{c:"xs mt",t:(i.atk?"공격력 +"+i.atk+" ":"")+(i.def?"방어력 +"+i.def:"")})),btn("장착",async()=>{await equipItem(k,s);closePop()},"pri sm")))});
- openPop(h("div",{c:"h0",t:lab}),q&&q.id?h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r||0].c,t:"장착 중: ["+RAR[q.r||0].n+"] "+gName(q)}),h("div",{c:"xs mt",t:"내구도 "+q.dur+"% · "+(gDesc(q)||"옵션 없음")})),btn("해제",async()=>{await unequip(s);closePop()},"sm")):null,
+ openPop(h("div",{c:"h0",t:lab}),q&&q.id?h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r||0].c,t:"장착 중: "+rTag(q)+"["+RAR[q.r||0].n+"] "+gName(q)}),h("div",{c:"xs mt",t:"내구도 "+q.dur+"% · "+(gDesc(q)||"옵션 없음")})),btn("해제",async()=>{await unequip(s);closePop()},"sm")):null,
   list,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
 
 /* ===== 길드 ===== */
