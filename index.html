@@ -194,7 +194,7 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 @media (min-width:1100px){#view:has(#crmiss){max-width:980px;margin-left:auto;margin-right:auto}}
 .atgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));}@media (min-width:760px){.atgrid{grid-template-columns:repeat(15,minmax(0,1fr));gap:4px}.atgrid .atc{padding:7px 0}.atgrid .atc b{font-size:calc(11px*var(--fz,1));white-space:nowrap}}
 .atgrid{gap:6px;margin:10px 0 0}.atc{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px;border:1px solid var(--ln);border-radius:10px}.atc svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.atc b{font-size:calc(12px*var(--fz,1));font-weight:600}
-.skb{position:relative}.skb.qd{box-shadow:0 0 0 2px var(--ac2) inset!important}.skb{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.skb{position:relative}.skb.qd{box-shadow:0 0 0 2px var(--ac2) inset!important}.skb.qd::after{content:attr(data-q);position:absolute;left:6px;top:4px;font-size:10px;font-weight:700;color:var(--ac2)}.skb{touch-action:manipulation;-webkit-user-select:none;user-select:none}
 
 .bagc .sgrid,.stoc .sgrid{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:54px;max-height:calc(54px*4 + 4px*3 + 2px);overflow-y:auto;overscroll-behavior:contain;padding-right:2px}
 .bagc .slot,.stoc .slot{aspect-ratio:auto!important;height:54px}
@@ -539,11 +539,11 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 @keyframes vb2{0%,14%,28%,42%,56%,70%,100%{transform:translate(0,0)}4%,32%,60%{transform:translate(-1.6px,0)}9%,37%,65%{transform:translate(1.6px,0)}}
 #phone.vib{animation:vb .66s linear}#ptab.vib{animation:vb2 .66s linear}
 .cseg{display:flex;gap:6px;margin-bottom:8px}.cseg button{flex:1;padding:7px 8px;font-size:calc(13px*var(--fz,1));border-radius:8px}
-.fac{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.fac{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px;margin-bottom:10px}
 .facb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:66px;padding:6px 6px;border-radius:10px;text-align:center}
 .facb svg{width:19px;height:19px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.facb.on svg{stroke:currentColor}
 .facb{display:grid;grid-template-columns:1fr auto auto 1fr;align-content:center;column-gap:6px;row-gap:2px;min-height:0}.facb>svg,.facb>b{align-self:center}.facb>b{font-size:calc(15px*var(--fz,1))}.facb>svg{grid-column:2}.facb>b{grid-column:3;text-align:left}.facb>small{grid-column:1/-1}
-.facb small{font-weight:400;font-size:calc(11px*var(--fz,1));opacity:.75;line-height:1.3}
+.facb small{font-weight:400;font-size:calc(10px*var(--fz,1));opacity:.75;line-height:1.3;min-width:0;max-width:100%;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;word-break:keep-all}.facb{min-width:0;overflow:hidden;align-content:center}.facb>b{white-space:nowrap}
 #auth{position:fixed;inset:0;z-index:40;background:var(--bg);display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 #auth .acard{width:100%;max-width:360px;border:1px solid var(--bd);border-radius:12px;padding:22px 18px;background:var(--sf);display:flex;flex-direction:column;gap:8px}
 #auth .atab{display:flex;gap:6px;margin-bottom:6px}#auth .atab button{flex:1;border-radius:8px}
@@ -710,7 +710,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127130500";
+const BUILD="20261127132000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -1825,7 +1825,7 @@ function facility(sp){
   else if(t==="veh")vehShop(box);
   else if(t==="dlv")shopDlv(box,row);
   else crPanel(box,row)}
- else if(sp==="clinic"){const c=cur(me),mh=maxHp(me),hc=Math.ceil((mh-c.hp)*.6)+10,rest=1000;box.append(wal);const t=subs("clinic",[["care","진료"],["med","약품"],["rest","회복"]]);
+ else if(sp==="clinic"){const c=cur(me),mh=maxHp(me),hc=Math.ceil((mh-c.hp)*.6)+10,rest=1000;box.append(wal);const t=subs("clinic",[["care","진료"],["med","약품"]]);
   if(t==="med"){HPOTS.concat([["mpot",MPOT_P]]).concat(Object.entries(CLN_SHOP)).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d+" · 개당 "+won(p)+"환"+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),qtyBuy(id,p))));
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"조제"}),h("div",{c:"xs mt",style:"margin-bottom:4px",t:"재료를 모아 직접 만들 수 있습니다"}));
    Object.entries(MED_RC).forEach(([id,need])=>{const ok=Object.keys(need).every(k=>haveM(k)>=need[k]);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:Object.entries(need).map(([k,q])=>IT[k].n+" "+haveM(k)+"/"+q).join(" · ")})),btn("조제",()=>craft(id),"pri sm",{disabled:!ok})))});
@@ -1833,13 +1833,13 @@ function facility(sp){
    Object.entries(PHR).forEach(([id,x])=>{const jl=jobOf("c")==="pharm"?jobLv("c"):0,lvOk=jl>=JREQ[x.r],ok=lvOk&&Object.keys(x.need).every(k=>haveM(k)>=x.need[k]);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[x.r].c,t:"["+RAR[x.r].n+"] "+IT[id].n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:(lvOk?"":"약사 Lv"+JREQ[x.r]+" 필요 · ")+Object.entries(x.need).map(([k,q])=>IT[k].n+" "+haveM(k)+"/"+q).join(" · ")+" · "+IT[id].d})),btn("조제",()=>wrap(()=>craftP(id)),"pri sm",{disabled:!ok})))});
    box.append(h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"치료제 구매"}))}
   if(t==="med")Object.entries(MED_SHOP).forEach(([id,p])=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:IT[id].d+((me.inv[id]||0)?" · 보유 "+me.inv[id]:"")})),h("span",{c:"sm gold",t:won(p)}),btn("구매",()=>buy(id,p),"sm"))));
-  else if(t==="care"){const L=ailList(me);if(!L.length)box.append(h("p",{c:"sm mt",t:"치료가 필요한 부상이나 질병이 없습니다."}));
+  else{box.append(h("div",{c:"sm",style:"margin:2px 0 2px;color:var(--ac2)",t:"치료"}),
+   row(h("div",{c:"grow"},h("b",{c:"sm",t:"HP 치료"}),h("div",{c:"xs mt",t:"HP를 모두 회복 ("+Math.round(c.hp)+" / "+mh+")"})),btn(hc+" 환",()=>clinic("heal",hc),"sm",{disabled:c.hp>=mh})),
+   row(h("div",{c:"grow"},h("b",{c:"sm",t:"휴식"}),h("div",{c:"xs mt",t:"에너지와 MP를 모두 회복"})),btn(rest+" 환",()=>clinic("rest",rest),"sm")),
+   h("div",{c:"sm",style:"margin:14px 0 2px;color:var(--ac2)",t:"부상 · 질병"}));const L=ailList(me);if(!L.length)box.append(h("p",{c:"sm mt",t:"치료가 필요한 부상이나 질병이 없습니다."}));
    L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:AIL[k].n}),h("div",{c:"xs mt",t:AIL[k].d})),btn("진료 "+won(AIL[k].cl)+"환",()=>clinicCure(k),"sm"))));
    if(L.includes("fracture"))box.append(h("div",{style:"height:8px"}),redBtn());
-   box.append(h("p",{c:"xs mt",style:"margin:8px 0 0",t:"약물과다 같은 정신적 증상은 치료소에서 치료할 수 없습니다. 약품 탭의 약으로 직접 치료할 수도 있습니다."}))}
-  else box.append(
-  row(h("div",{c:"grow"},h("b",{c:"sm",t:"치료"}),h("div",{c:"xs mt",t:"HP를 모두 회복 ("+Math.round(c.hp)+" / "+mh+")"})),btn(hc+" 환",()=>clinic("heal",hc),"sm",{disabled:c.hp>=mh})),
-  row(h("div",{c:"grow"},h("b",{c:"sm",t:"휴식"}),h("div",{c:"xs mt",t:"에너지와 MP를 모두 회복"})),btn(rest+" 환",()=>clinic("rest",rest),"sm")))}
+   box.append(h("p",{c:"xs mt",style:"margin:8px 0 0",t:"약물과다 같은 정신적 증상은 치료소에서 치료할 수 없습니다. 약품 탭의 약으로 직접 치료할 수도 있습니다."}))}}
  else if(sp==="market"){needMarket();box.append(wal);const t=subs("market",[["shop","상점"],["sell","판매"],["mat","재료"],["seed","씨앗"],["ex","거래소"],["dlv","납품"]]);
   if(t==="seed"){box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"주택 마당 밭에 심습니다 · 밭을 눌러서 심고, 다 자라면 거둡니다 · 손재주가 높을수록 씨앗이 잘 돌아옵니다"}));Object.entries(SEED_SHOP).forEach(([id,p])=>{const k=id.slice(3),Q=CROPS[k];box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[id].n}),h("div",{c:"xs mt",t:(Q.g/36e5)+"시간 · 수확 "+(Q.y[0]===Q.y[1]?Q.y[0]+"개":Q.y[0]+"~"+Q.y[1]+"개")+" · "+IT["c_"+k].n+" 상점 판매가 "+sellP("c_"+k)+"환"})),h("span",{c:"sm gold",t:p}),qtyBuy(id,p)))})}
 
@@ -2467,12 +2467,17 @@ async function bBusy(){const b=battle;if(b.mem&&b.mem[uid]){hidePhone();closeAsk
  toast("파티원이 다른 곳에서 전투 중입니다 · 끝난 뒤에 시작할 수 있습니다");return false}
 async function joinBattle(){if(hospBlock())return;const c=cur(me);let ok=false;await bmut(b=>{if(b.st!=="on"||!bHere(b))return false;ok=true;b.mem[uid]=mkMem(c);lg(b,me.name+" 참전!");lg(b,flavLine(b,b.mem[uid]))});if(ok&&battle){gateJoined.add(battle.t);tmpJoined.add(battle.t)}hidePhone();closeAsk();tab="battle";render(true);if(ok)toast("파티원의 전투에 합류합니다")}
 /* 기술 입력: 누르는 순간 발동 · 공용 대기(1초) 중에 누른 기술은 예약했다가 바로 이어서 발동 */
-let skBuf=null,skBufT=0;
-function skMark(){document.querySelectorAll(".skb").forEach(b=>b.classList.toggle("qd",!!skBuf&&b.dataset.sk===skBuf.sk.id))}
-function skPress(sk,f){const now=Date.now(),w=Math.max(cds._g||0,cds[sk.id]||0)-now;
- if(w>0&&w<=900){skBuf={sk,f};skMark();clearTimeout(skBufT);skBufT=setTimeout(()=>{const q=skBuf;skBuf=null;skMark();if(q)wrap(()=>q.f(q.sk))},w+15);return}
- if(w<=0&&skBuf&&skBuf.sk.id===sk.id){skBuf=null;clearTimeout(skBufT);skMark()}
- wrap(()=>f(sk))}
+let skQ=[],skBufT=0,skBuf=null;/* 예약 줄: 누른 순서대로 최대 3개 */
+function skMark(){document.querySelectorAll(".skb").forEach(b=>{const n=skQ.findIndex(q=>q.sk.id===b.dataset.sk);b.classList.toggle("qd",n>=0);if(n>=0)b.dataset.q=n+1;else delete b.dataset.q})}
+function skWait(sk){const now=Date.now();return Math.max(cds._g||0,cds[sk.id]||0)-now}
+function skPump(){clearTimeout(skBufT);skBuf=skQ[0]||null;if(!skQ.length)return skMark();const q=skQ[0],w=skWait(q.sk);
+ if(w>0){skMark();skBufT=setTimeout(skPump,w+15);return}
+ skQ.shift();skBuf=skQ[0]||null;skMark();wrap(()=>q.f(q.sk));if(skQ.length)skBufT=setTimeout(skPump,Math.max(30,skWait(skQ[0].sk)+15))}
+function skPress(sk,f){const now=Date.now(),own=(cds[sk.id]||0)-now,w=skWait(sk);
+ if(own>SK_GCD+200&&!skQ.length){toast(sk.n+" 재사용 대기 "+(own/1000).toFixed(1)+"초");return}
+ if(w<=0&&!skQ.length){wrap(()=>f(sk));return}
+ if(skQ.some(q=>q.sk.id===sk.id))return;if(skQ.length>=3)skQ.pop();skQ.push({sk,f});skPump()}
+document.addEventListener("keydown",e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey)return;const n="1234".indexOf(e.key);if(n<0)return;const a=document.activeElement;if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;if(typeof tab==="undefined"||tab!=="battle")return;const b=document.querySelectorAll("#view .skb")[n];if(!b||b.disabled)return;e.preventDefault();b.dispatchEvent(new PointerEvent("pointerdown",{bubbles:true,button:0}))});
 const skBtnEv=(sk,f)=>({onpointerdown:e=>{if(e.button)return;e.preventDefault();skPress(sk,f)},onclick:e=>{if(e.detail===0)skPress(sk,f)},oncontextmenu:e=>e.preventDefault()});
 function useSk(sk){
  if(battle&&battle.tut)return tutSk(sk);const now=Date.now();if((cds[sk.id]||0)>now)return;const m0=battle&&battle.mem&&battle.mem[uid];if(!m0||m0.hp<=0)return;
