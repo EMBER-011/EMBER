@@ -144,7 +144,7 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 #pscr .pbody.home.wall{background-size:cover;background-position:center}#pscr .pbody.home.wall .phclk,#pscr .pbody.home.wall .app{text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .app.fold .fi{display:grid!important;grid-template-columns:1fr 1fr;gap:1px;padding:4px}.app.fold .fi svg{width:100%!important;height:100%!important}.app.fold.drop{outline:1px dashed var(--ac)}
 .fbox{border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--sf)}.fbox .fname{width:100%;max-width:150px;padding:3px 6px;font-size:calc(12px*var(--fz,1))}
-#theal{position:absolute;right:12px;bottom:-10px;height:19px;padding:0 8px;border-radius:2px;background:var(--sf);font-size:calc(10.5px*var(--fz,1));font-weight:600;color:var(--ac2);line-height:1;display:flex;align-items:center;z-index:2}
+#top.min #theal{display:none}#theal{position:absolute;right:12px;bottom:-10px;height:19px;padding:0 8px;border-radius:2px;background:var(--sf);font-size:calc(10.5px*var(--fz,1));font-weight:600;color:var(--ac2);line-height:1;display:flex;align-items:center;z-index:2}
 #tgl{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:46px;height:19px;padding:0;border-radius:2px;background:var(--sf);display:flex;align-items:center;justify-content:center}
 #tgl:active:not(:disabled){transform:translateX(-50%)}#tgl svg{width:16px;height:16px;fill:none;stroke:var(--ac2);stroke-width:2;transition:transform .2s}#top.min #tgl svg{transform:rotate(180deg)}
 #view{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 12px}
@@ -708,7 +708,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261127042000";
+const BUILD="20261127045000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -2856,15 +2856,20 @@ async function craftH(id){if(rmpBlock()||hospBlock())return;const r=HRC[id];if(!
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const p=cntAdd(matTake(r.need),"cr"),g=mkGear(IT[id].bd||me.lv,IT[id].fr!=null?IT[id].fr:IT[id].cb?crRoll(IT[id].cb):craftRar(r.r,"smith"),id);jobGain(p,"c","smith",JXP[r.r||0]);addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
 /* [자동회복] 상단 상태창 · 약품만 · HP / 오염도 / 에너지 각각 효과 낮은 것부터 */
 const AH_OK=k=>{const i=IT[k],u=i&&i.use;return !!u&&invCat(k)==="med"&&!u.buf&&!u.mp&&!u.mpPct&&!u.gas&&!u.pack&&(u.hp||u.hpPct||u.en||u.con<0)};
-async function autoHeal(){if(!me)return;if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");
- const inv={...me.inv},c=cur(me),mh=maxHp(me);let hp=c.hp,en=c.en,con=c.con;const used={};
+function ahPlan(){const inv={...me.inv},c=cur(me),mh=maxHp(me);let hp=c.hp,en=c.en,con=c.con;const used={},b={hp,en,con};
  const take=(val,need,gain)=>{const L=Object.keys(inv).filter(k=>inv[k]>0&&AH_OK(k)&&val(IT[k].use)>0).sort((a,b)=>val(IT[a].use)-val(IT[b].use));
   while(need()>0){const k=L.find(x=>inv[x]>0);if(!k)break;inv[k]--;if(!inv[k])delete inv[k];used[k]=(used[k]||0)+1;gain(IT[k].use)}};
- take(u=>uHP(u,mh),()=>mh-hp,u=>{hp=Math.min(mh,hp+uHP(u,mh));en=Math.min(MAXEN,en+(u.en||0));con=Math.max(0,con+(u.con||0))});
- take(u=>-(u.con||0),()=>con,u=>{con=Math.max(0,con+(u.con||0));hp=Math.min(mh,hp+uHP(u,mh));en=Math.min(MAXEN,en+(u.en||0))});
- take(u=>u.en||0,()=>MAXEN-en,u=>{en=Math.min(MAXEN,en+(u.en||0));hp=Math.min(mh,hp+uHP(u,mh));con=Math.max(0,con+(u.con||0))});
- const ks=Object.keys(used);if(!ks.length)return toast(hp>=mh&&con<=0&&en>=MAXEN?"이미 HP · 오염도 · 에너지가 모두 괜찮습니다":"쓸 수 있는 회복약 · 정화제 · 에너지 약품이 없습니다");
- await upd({inv,hp:Math.round(hp),en:Math.round(en),con:Math.round(con*10)/10});toast("자동회복 · "+ks.map(k=>IT[k].n+" ×"+used[k]).join(", "))}
+ const g=u=>{hp=Math.min(mh,hp+uHP(u,mh));en=Math.min(MAXEN,en+(u.en||0));con=Math.max(0,con+(u.con||0))};
+ take(u=>uHP(u,mh),()=>mh-hp,g);take(u=>-(u.con||0),()=>con,g);take(u=>u.en||0,()=>MAXEN-en,g);
+ return {inv,used,b,hp,en,con,mh}}
+async function autoHeal(){if(!me)return;if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");
+ const P=ahPlan(),ks=Object.keys(P.used);if(!ks.length)return toast(P.b.hp>=P.mh&&P.b.con<=0&&P.b.en>=MAXEN?"이미 HP · 오염도 · 에너지가 모두 괜찮습니다":"쓸 수 있는 회복약 · 정화제 · 에너지 약품이 없습니다");
+ const ln=(n,a,z,suf)=>Math.round(a)===Math.round(z)?null:h("div",{c:"sm",t:n+" "+Math.round(a)+suf+" → "+Math.round(z)+suf});
+ openPop(h("div",{c:"h0",t:"자동회복"}),h("p",{c:"xs mt",style:"margin:0 0 6px",t:"아래 아이템을 사용합니다 (효과가 낮은 것부터)"}),
+  h("div",{c:"card",style:"margin:0 0 8px;padding:8px 10px"},...ks.map(k=>h("div",{c:"row sb"},h("span",{c:"sm",t:IT[k].n}),h("b",{c:"sm",t:"×"+P.used[k]+" "}),))),
+  ln("HP",P.b.hp,P.hp,""),ln("오염도",P.b.con,P.con,"%"),ln("에너지",P.b.en,P.en,""),
+  h("p",{c:"sm",style:"margin:10px 0 0",t:"회복하시겠습니까?"}),
+  h("div",{c:"row",style:"gap:6px;margin-top:8px"},btn("회복",()=>wrap(async()=>{if(rmpBlock()||hospBlock())return closePop();if(inB()){closePop();return toast("전투 중에는 사용할 수 없습니다")}const Q=ahPlan(),q=Object.keys(Q.used);closePop();if(!q.length)return;await upd({inv:Q.inv,hp:Math.round(Q.hp),en:Math.round(Q.en),con:Math.round(Q.con*10)/10});toast("자동회복 · "+q.map(k=>IT[k].n+" ×"+Q.used[k]).join(", "))}),"pri grow"),btn("취소",closePop,"grow")))}
 async function useItem(id){if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
  if(u.gas){const v=me.veh;if(!v)return toast("이동수단이 없습니다");const need=vMaxF(v)-(v.fuel||0);if(need<=0)return toast("휘발유가 가득합니다");const q=Math.min(need,(me.inv[id]||0));inv[id]=(me.inv[id]||0)-q;if(!inv[id])delete inv[id];await upd({inv,veh:Object.assign({},v,{fuel:(v.fuel||0)+q})});return toast("휘발유 "+q+" 넣음 · "+((v.fuel||0)+q)+" / "+vMaxF(v))}
  if(u.pack){if(addInv(inv,u.pack,u.q)<u.q)return toast("가방이 가득 찼습니다");await upd({inv});return toast(IT[id].n+"을(를) 풀었습니다 · "+IT[u.pack].n+" ×"+u.q)}
