@@ -73,7 +73,7 @@ h3::before{content:"";width:2px;height:14px;background:var(--ac)}
 }
 /* 두 상자를 한 줄에 (ㅁㅁ) */
 .gbox{display:flex;flex-direction:column;gap:6px;margin:0 0 0 auto;width:max-content;max-width:100%;flex:none}.locbar{flex-wrap:wrap}.lname{min-width:0}.lname b{white-space:nowrap}.lname span{white-space:nowrap}
-.lcrow{flex-basis:100%;display:flex;gap:8px;align-items:stretch;min-width:0}.lcrow>*{align-self:stretch!important;margin-top:0!important;margin-bottom:0!important}.lcrow>.lchat{flex:1;min-width:0;margin:0;height:auto;white-space:normal;line-height:1.3}.lcrow>.gbox{margin:0 0 0 auto}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.gbox button{margin:0;width:100%}
+.lcrow{flex-basis:100%;display:flex;gap:8px;align-items:stretch;min-width:0}.lcrow>*{align-self:stretch!important;margin-top:0!important;margin-bottom:0!important}.lcrow>.lchat{flex:1;min-width:0;margin:0;height:auto;white-space:normal;line-height:1.3}.lcrow>.gbox{margin:0 0 0 auto}.gbox .g3{display:grid;grid-template-columns:repeat(3,minmax(64px,auto));gap:6px}.g3.g4c{grid-template-columns:repeat(4,minmax(52px,auto))}.gbox button{margin:0;width:100%}
 .pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;align-items:start}.pair2>.card{margin:0;min-width:0}
 .pair2.gdn{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:stretch}
 .seg.dlv2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.seg.dlv2 button{margin:0}
@@ -726,7 +726,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261128112000";
+const BUILD="20261129030000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -989,7 +989,7 @@ const RCH="\u0001",RCE="\u0002",rTxt=(e,v)=>{v=String(v);if(v.indexOf(RCH)<0){e.
  rarOf=id=>{const i=IT[id];return i&&i.rar!=null?i.rar:0},iq=(id,q)=>{const n=(IT[id]?IT[id].n:id)+(q!=null?" ×"+q:""),r=rarOf(id);return r>0?RCH+r+n+RCE:n},gq=g=>{const n="["+RAR[g.r].n+"] "+(IT[g.id]?IT[g.id].n:"장비");return g.r>0?RCH+g.r+n+RCE:n};
 function h(t,p,...k){const e=document.createElement(t);if(p)for(const a in p){const v=p[a];if(a==="c")e.className=v;else if(a==="t")rTxt(e,v==null?"":v);else if(a.startsWith("on"))e[a]=v;else if(v!=null&&v!==false)e.setAttribute(a,v===true?"":v)}k.flat().forEach(x=>{if(x!=null&&x!==false)e.append(x)});return e}
 const ap=(el,...k)=>k.flat().forEach(x=>{if(x!=null&&x!==false)el.append(x)});
-let tmr;function toast(t){const e=$("#toast");rTxt(e,t==null?"":t);e.style.display="block";clearTimeout(tmr);tmr=setTimeout(()=>e.style.display="none",3200)}
+let tmr;function toast(t){if(window.__tq){window.__tq.push(String(t==null?"":t));return}const e=$("#toast");rTxt(e,t==null?"":t);e.style.display="block";clearTimeout(tmr);tmr=setTimeout(()=>e.style.display="none",3200)}
 function note(t){const n=$("#notice");n.textContent=t;n.style.display=t?"block":"none"}
 const errT=e=>(e&&(e.message||e.code))||String(e);
 async function wrap(fn){try{await fn()}catch(e){toast("처리 실패: "+errT(e))}}
@@ -1090,7 +1090,7 @@ const wxIco=k=>svgI(WXP[k]||WXP.clear);
 const ROLE={tank:{n:"탱커",base:[2,0,0,0,3,0,0],d:"방어 중심 · 공격을 받아낸다",key:4},dealer:{n:"딜러",base:[2,0,3,0,0,0,0],d:"힘·민첩 중심 · 화력 담당",key:0},healer:{n:"힐러",base:[1,0,2,2,0,0,0],d:"지능 중심 · 아군을 치유",key:3}};
 /* 직업 배율: 방어 탱>>>딜>힐 · 공격 딜>>>탱>힐 · 회복 힐>>>딜>탱 */
 const RMUL={tank:{a:1,d:1.6,h:.5,hp:1.2},dealer:{a:1.3,d:1,h:.7,hp:1},healer:{a:.82,d:.85,h:1.45,hp:.95}},rmul=(c,k)=>((RMUL[c&&c.role]||RMUL.dealer)[k]);
-const ATTR=["빛","어둠","물","불","번개","땅","풀","얼음","바람","강철","독","파동","환영","사령","무속성"],ACOL={빛:"var(--a0)",어둠:"var(--a1)",물:"var(--a2)",불:"var(--a3)",번개:"var(--a4)",땅:"var(--a5)",풀:"var(--a6)",얼음:"var(--a7)",바람:"var(--a8)",강철:"var(--a9)",독:"var(--a10)",파동:"var(--a11)",환영:"var(--a12)",사령:"var(--a13)",무속성:"var(--a14)"};
+const ATTR=["빛","어둠","물","불","번개","땅","풀","얼음","바람","강철","독","파동","환영","사령","무속성"],ACOL={빛:"var(--a0)",어둠:"var(--a1)",물:"var(--a2)",불:"var(--a3)",번개:"var(--a4)",땅:"var(--a5)",풀:"var(--a6)",얼음:"var(--a7)",바람:"var(--a8)",강철:"var(--a9)",독:"var(--a10)",파동:"var(--a11)",환영:"var(--a12)",사령:"var(--a13)",무속성:"var(--a14)",종말:"#c8102e"};
 /* 각성할 때 속성: 무속성은 90명 중 1명 · 나머지 14종은 같은 확률 */
 const rollAttr=()=>rf()<1/90?"무속성":ATTR[ri(14)];
 const BEAT={불:["풀","얼음"],풀:["땅"],땅:["번개","바람"],번개:["물","강철"],물:["불"],빛:["어둠"],어둠:["빛"],얼음:["풀"],바람:["독"],강철:["얼음","독"],독:["풀"],파동:["환영"],환영:["사령"],사령:["파동"]};
@@ -1294,6 +1294,14 @@ const MONT={
  h12:{d:[["공작 의태형","불"],["코모도왕도마뱀 의태형","불"]],n:[["호랑이 의태형","불"],["부엉이 의태형","어둠"]]},
  h13:{d:[["사슴 의태형","풀"],["나비 의태형","빛"]],n:[["고슴도치 의태형","땅"],["반딧불이 의태형","빛"]],w:"f",wm:[["잉어 의태형","물"]]}};
 Object.entries(MONT).forEach(([k,v])=>{const R=REG[k];if(!R)return;R.mon=v.d;R.monN=v.n;R.monW=v.wm||[];R.wt=v.w||null});
+/* 2026-11-29 의태종 속성 재배치 (재배치안 문서): 7종 → 14종 · 새 의태종 6종 (메뚜기 · 불나방 · 대벌레 · 흰올빼미 · 순록 · 바다코끼리) */
+const MON_RE=[["거점 외곽","낮","까치 의태형","번개",0],["거점 외곽","낮","들개 의태형","어둠",0],["거점 외곽","낮","메뚜기 의태형","풀",1],["거점 외곽","밤","들쥐 의태형","독",0],["거점 외곽","밤","너구리 의태형","환영",0],["타버린 숲","낮","불곰 의태형","불",0],["타버린 숲","낮","멧돼지 의태형","땅",0],["타버린 숲","밤","늑대 의태형","바람",0],["타버린 숲","밤","부엉이 의태형","어둠",0],["침수된 운하","낮","왜가리 의태형","풀",0],["침수된 운하","낮","가마우지 의태형","물",0],["침수된 운하","밤","수달 의태형","물",0],["침수된 운하","밤","시궁쥐 의태형","독",0],["침수된 운하","물속","가재 의태형","강철",0],["10번 고속도로","낮","까마귀 의태형","사령",0],["10번 고속도로","낮","황조롱이 의태형","바람",0],["10번 고속도로","밤","족제비 의태형","번개",0],["10번 고속도로","밤","여우 의태형","환영",0],["10번 고속도로","물속","자라 의태형","물",0],["방사 습지","낮","황새 의태형","빛",0],["방사 습지","낮","물뱀 의태형","물",0],["방사 습지","밤","두꺼비 의태형","풀",0],["방사 습지","밤","모기 의태형","파동",0],["방사 습지","물속","거머리 의태형","독",0],["서경 백화점","낮","비둘기 의태형","바람",0],["서경 백화점","낮","갈매기 의태형","빛",0],["서경 백화점","밤","고양이 의태형","어둠",0],["서경 백화점","밤","바퀴벌레 의태형","강철",0],["서경 백화점","밤","불나방 의태형","불",1],["서경 백화점","물속","게 의태형","물",0],["서경역","낮","개미 의태형","땅",0],["서경역","낮","참새 의태형","번개",0],["서경역","밤","박쥐 의태형","파동",0],["서경역","밤","시궁쥐 의태형","독",0],["서경역","물속","전기뱀장어 의태형","번개",0],["유리가루 산","낮","도마뱀 의태형","불",0],["유리가루 산","낮","낙타 의태형","땅",0],["유리가루 산","밤","전갈 의태형","독",0],["유리가루 산","밤","사막여우 의태형","환영",0],["유리가루 산","물속","바다뱀 의태형","물",0],["경월 호수","낮","백조 의태형","빛",0],["경월 호수","낮","북극여우 의태형","얼음",0],["경월 호수","밤","수리부엉이 의태형","파동",0],["경월 호수","밤","담비 의태형","바람",0],["경월 호수","밤","흰올빼미 의태형","얼음",1],["경월 호수","물속","강꼬치고기 의태형","물",0],["붕괴된 연구소","낮","원숭이 의태형","파동",0],["붕괴된 연구소","낮","불개미 의태형","불",0],["붕괴된 연구소","낮","대벌레 의태형","풀",1],["붕괴된 연구소","밤","실험쥐 의태형","독",0],["붕괴된 연구소","밤","주머니쥐 의태형","사령",0],["경월 마을","낮","꿀벌 의태형","풀",0],["경월 마을","낮","독도마뱀 의태형","독",0],["경월 마을","밤","도롱뇽 의태형","불",0],["경월 마을","밤","반딧불이 의태형","빛",0],["지하 도시","낮","두더지 의태형","어둠",0],["지하 도시","낮","미어캣 의태형","번개",0],["지하 도시","밤","아르마딜로 의태형","강철",0],["지하 도시","밤","오소리 의태형","땅",0],["지하 도시","물속","곰치 의태형","물",0],["검은 협곡","낮","산양 의태형","땅",0],["검은 협곡","낮","방울뱀 의태형","독",0],["검은 협곡","밤","퓨마 의태형","바람",0],["검은 협곡","밤","흡혈박쥐 의태형","사령",0],["검은 협곡","물속","물개 의태형","얼음",0],["궤도 승강기 잔해","낮","독수리 의태형","바람",0],["궤도 승강기 잔해","낮","말벌 의태형","독",0],["궤도 승강기 잔해","밤","날다람쥐 의태형","번개",0],["궤도 승강기 잔해","밤","쏙독새 의태형","환영",0],["궤도 승강기 잔해","물속","바다이구아나 의태형","물",0],["검은 바다","낮","갈매기 의태형","빛",0],["검은 바다","낮","펠리컨 의태형","물",0],["검은 바다","밤","갯강구 의태형","강철",0],["검은 바다","밤","해오라기 의태형","어둠",0],["검은 바다","물속","상어 의태형","물",0],["검은 바다","물속","문어 의태형","환영",0],["폭심지","낮","코끼리 의태형","파동",0],["폭심지","낮","코뿔소 의태형","강철",0],["폭심지","밤","사자 의태형","불",0],["폭심지","밤","재칼 의태형","사령",0],["폭심지","물속","독해파리 의태형","독",0],["경월 등대","낮","고릴라 의태형","땅",0],["경월 등대","낮","앵무새 의태형","환영",0],["경월 등대","밤","올빼미 의태형","빛",0],["경월 등대","밤","재규어 의태형","어둠",0],["경월 등대","물속","바다거북 의태형","물",0],["송주 방파제","낮","바다사자 의태형","얼음",0],["송주 방파제","낮","가마우지 의태형","물",0],["송주 방파제","밤","게잡이여우 의태형","어둠",0],["송주 방파제","밤","갯강구 의태형","강철",0],["송주 방파제","물속","범고래 의태형","파동",0],["송주 방파제","물속","바다코끼리 의태형","얼음",1],["철골숲","낮","엘크 의태형","땅",0],["철골숲","낮","사마귀 의태형","풀",0],["철골숲","낮","순록 의태형","얼음",1],["철골숲","밤","스라소니 의태형","얼음",0],["철골숲","밤","부엉이 의태형","어둠",0],["철골숲","물속","투구게 의태형","강철",0],["산성비 평원","낮","들소 의태형","땅",0],["산성비 평원","낮","타조 의태형","바람",0],["산성비 평원","밤","코요테 의태형","환영",0],["산성비 평원","밤","독나방 의태형","독",0],["산성비 평원","물속","민물해파리 의태형","물",0],["빛바랜 대성당","낮","백로 의태형","빛",0],["빛바랜 대성당","낮","까마귀 의태형","사령",0],["빛바랜 대성당","밤","집박쥐 의태형","파동",0],["빛바랜 대성당","밤","가면올빼미 의태형","환영",0],["빛바랜 대성당","물속","갯가재 의태형","파동",0],["송주 등대","낮","갈매기 의태형","빛",0],["송주 등대","낮","부비새 의태형","물",0],["송주 등대","밤","해오라기 의태형","어둠",0],["송주 등대","밤","갯강구 의태형","강철",0],["송주 등대","물속","가오리 의태형","번개",0],["마지막 방어선","낮","매 의태형","빛",0],["마지막 방어선","낮","칼새 의태형","바람",0],["마지막 방어선","밤","표범 의태형","불",0],["마지막 방어선","밤","날다람쥐 의태형","번개",0],["뼈의 산","낮","대머리독수리 의태형","사령",0],["뼈의 산","낮","뿔도마뱀 의태형","불",0],["뼈의 산","밤","지네 의태형","독",0],["뼈의 산","밤","하이에나 의태형","어둠",0],["검은 첨탑","낮","콘도르 의태형","바람",0],["검은 첨탑","낮","큰뿔양 의태형","땅",0],["검은 첨탑","밤","흑표범 의태형","어둠",0],["검은 첨탑","밤","수리부엉이 의태형","파동",0],["버려진 도시","낮","사슴벌레 의태형","강철",0],["버려진 도시","낮","딱따구리 의태형","파동",0],["버려진 도시","밤","거미 의태형","독",0],["버려진 도시","밤","나방 의태형","환영",0],["깊은 균열","낮","검독수리 의태형","빛",0],["깊은 균열","낮","바위너구리 의태형","땅",0],["깊은 균열","밤","눈표범 의태형","얼음",0],["깊은 균열","밤","동굴박쥐 의태형","사령",0],["깊은 균열","물속","아귀 의태형","빛",0],["깊은 균열","물속","대왕오징어 의태형","환영",0],["월산 항구","낮","군함조 의태형","바람",0],["월산 항구","낮","펭귄 의태형","얼음",0],["월산 항구","밤","해오라기 의태형","어둠",0],["월산 항구","밤","갯강구 의태형","강철",0],["월산 항구","물속","고래 의태형","파동",0],["월산 항구","물속","바다악어 의태형","물",0],["재의 공장","낮","공작 의태형","환영",0],["재의 공장","낮","코모도왕도마뱀 의태형","독",0],["재의 공장","밤","호랑이 의태형","불",0],["재의 공장","밤","부엉이 의태형","어둠",0],["땅 끝 정원","낮","사슴 의태형","풀",0],["땅 끝 정원","낮","나비 의태형","풀",0],["땅 끝 정원","밤","고슴도치 의태형","땅",0],["땅 끝 정원","밤","반딧불이 의태형","빛",0],["땅 끝 정원","물속","잉어 의태형","물",0]],MON_RE2=[["바다 낚시","고래 의태형","파동"],["바다 낚시","상어 의태형","물"],["민물 낚시","붕어 의태형","물"],["민물 낚시","메기 의태형","번개"],["민물 낚시","잉어 의태형","물"],["바벨탑 층","석상 의태형","강철"],["바벨탑 층","가고일 의태형","어둠"],["바벨탑 층","종지기 의태형","파동"],["바벨탑 층","사서 의태형","빛"],["바벨탑 층","파수꾼 의태형","불"],["바벨탑 층","거미 의태형","독"],["바벨탑 층","까마귀 의태형","사령"],["바벨탑 층","뱀 의태형","물"],["바벨탑 층","부엉이 의태형","어둠"],["바벨탑 층","박쥐 의태형","바람"]];
+const MON_ATTR={};
+(()=>{const byN={};Object.values(REG).forEach(R=>{byN[R.n]=R});const T={낮:"mon",밤:"monN",물속:"monW"},miss=[];
+ MON_RE.forEach(([rn,t,n,a,nw])=>{const R=byN[rn];if(!R){miss.push(rn);return}const f=T[t];R[f]=(R[f]||[]).slice();const L=R[f],i=L.findIndex(x=>x[0]===n);if(i>=0)L[i]=[n,a];else if(nw)L.push([n,a]);else miss.push(rn+"/"+n)});
+ const C={};MON_RE.forEach(([rn,t,n,a])=>{(C[n]=C[n]||{})[a]=((C[n]||{})[a]||0)+1});Object.entries(C).forEach(([n,o])=>{MON_ATTR[n]=Object.entries(o).sort((x,y)=>y[1]-x[1])[0][0]});
+ MON_RE2.forEach(([w,n,a])=>{MON_ATTR[n]=a});window.__monMiss=miss})();
+
 /* 지금 나오는 의태종 (낮/밤 + 물속) */
 const monOf=R=>((isNight()?R.monN:R.mon)||R.mon||[]).concat(R.monW||[]),pickMon=R=>{const L=monOf(R);return L[ri(L.length)]};
 /* 종말의 섬: Lv60 전까지는 「정보 없음.」 · Lv60이 되면 대륙 전체 해금 */
@@ -1339,19 +1347,29 @@ const SKFX={h4:{},t4:{}};
 /* 이능 (딜러) — 효과 확률 40% · 디버프 2초 · 지속 피해는 최대 HP 0.5%씩 2초마다 10초 동안
    같은 속성이거나 상대가 내 속성에 강하면(불리) 효과 절감: 확률 20% · 시간 절반 */
 const IN_P=1,IN_D=2000,DOT_P=.005,DOT_EVERY=2000,DOT_DUR=10000,ACC_DN=.3,EXP_X=1.3;
-const INEUNG={빛:{t:"acc,eva"},어둠:{t:"acc,eva"},풀:{t:"acc,eva"},파동:{t:"acc,eva"},환영:{t:"acc,eva"},바람:{t:"acc,exp"},사령:{t:"dmg2"},
- 물:{p:1,crit:1,dot:"익사"},불:{p:1,dot:"화상"},번개:{p:1,par:1},땅:{p:1,crit:1,t:"exp"},얼음:{p:1,dot:"동상",slow:1},강철:{p:1,mul:1.9},독:{p:1,dot:"중독",acc2:1},무속성:{p:1,crit:1,mul:1.5}};
-const INEUNG_D={빛:"2초간 명중률 · 회피율 하락",어둠:"2초간 명중률 · 회피율 하락",풀:"2초간 명중률 · 회피율 하락",파동:"2초간 명중률 · 회피율 하락",환영:"2초간 명중률 · 회피율 하락",바람:"2초간 명중률 하락 · 급소 노출",사령:"2초간 모든 공격 피해 2배",
- 물:"치명타 · 익사 (지속 피해)",불:"화상 (지속 피해)",번개:"마비 (한 번 공격 못 함)",땅:"치명타 · 급소 노출",얼음:"동상 (공격 속도 하락 · 지속 피해)",강철:"치명타의 0.5배 피해 추가",독:"중독 (명중률 하락 · 지속 피해)",무속성:"치명타의 1.5배 피해"};
-function inRoll(a,ma){const x=INEUNG[a];if(!x)return null;const red=a===ma||elm(a,ma)<1;return{x,red,on:!x.p||rf()<(red?IN_P/2:IN_P),D:red?IN_D/2:IN_D,DD:red?DOT_DUR/2:DOT_DUR}}
+/* 2026-11-28 개편: 풀=아군 명중률 상승 · 파동=명중률 하락+적 공격 속도 15% 감소 · 환영=명중률 하락+혼란(다음 공격 60% 자해) · 번개=마비+급소 노출 · 강철=추가 피해+쇠독 */
+const GRASS_D=6000,GRASS_MISS=.3,WAVE_FAST=1.15,CONF_P=.6;
+/* 2026-11-28 ② 빛=명중률 하락+광명(자해) · 풀=+결박 · 사령=2초 · 불=+정화 / 파티 짝꿍 속성이 함께 있으면 효과 1.5배 */
+const SYN_X=1.5,SYN={빛:"어둠",어둠:"빛",풀:"물",물:"풀",불:"바람",바람:"불",번개:"강철",강철:"번개",얼음:"땅",땅:"얼음",독:"사령",사령:"독",파동:"환영",환영:"파동"};
+const synOn=(b,m)=>{const pa=SYN[m.attr];return !!pa&&Object.entries(b.mem||{}).some(([k,x])=>x!==m&&x.attr===pa&&x.hp>0)};
+const INEUNG={빛:{t:"acc",conf:1,cn:"광명"},어둠:{t:"acc,eva"},풀:{ally:1,bind:1},파동:{t:"acc",fast:1},환영:{t:"acc",conf:1,cn:"혼란"},바람:{t:"acc,exp"},사령:{t:"dmg2",D:2000},
+ 물:{p:1,crit:1,dot:"익사"},불:{p:1,dot:"화상",purge:1},번개:{p:1,par:1,t:"exp"},땅:{p:1,crit:1,t:"exp"},얼음:{p:1,dot:"동상",slow:1},강철:{p:1,mul:1.9,dot:"쇠독"},독:{p:1,dot:"중독",acc2:1},무속성:{p:1,crit:1,mul:1.5}};
+const INEUNG_D={빛:"2초간 상대 명중률 하락 · 광명 (다음 공격 60% 확률로 자해)",어둠:"2초간 상대 명중률 · 회피율 하락",풀:"6초간 아군 명중률 상승 · 결박 (한 번 공격 못 함)",파동:"2초간 명중률 하락 · 적 공격 속도 15% 감소",환영:"2초간 명중률 하락 · 혼란 (다음 공격 60% 확률로 자해)",바람:"2초간 명중률 하락 · 급소 노출",사령:"2초간 아군 모든 공격 피해 2배",
+ 물:"치명타 · 익사 (지속 피해)",불:"화상 (지속 피해) · 정화 (파티원 한 명의 전투 부상 하나 치료)",번개:"마비 (한 번 공격 못 함) · 급소 노출",땅:"치명타 · 급소 노출",얼음:"동상 (공격 속도 하락 · 지속 피해)",강철:"피해 추가 (×1.9) · 쇠독 (지속 피해)",독:"중독 (명중률 하락 · 지속 피해)",무속성:"치명타의 1.5배 피해 · 파티: 모든 속성과 짝꿍 → 파티 전원 MP 회복 1.5배"};
+function inRoll(a,ma,b,m){const x=INEUNG[a];if(!x)return null;const red=a===ma||elm(a,ma)<1,sy=!!(b&&m&&synOn(b,m)),k=(red?.5:1)*(sy?SYN_X:1),D0=x.D||IN_D;return{x,red,sy,k,on:!x.p||rf()<(red?IN_P/2:IN_P),D:Math.round(D0*k),DD:Math.round(DOT_DUR*k)}}
 function inApply(b,m,R0){if(!R0||!R0.on||b.mon.hp<=0)return;const x=R0.x,t=Date.now(),M=b.mon,ef=[];
  const tt=(x.t||"").split(",").filter(Boolean);tt.forEach(k=>{M[k]=t+R0.D});
  if(tt.includes("acc"))ef.push("명중률 하락");if(tt.includes("eva"))ef.push("회피율 하락");if(tt.includes("exp"))ef.push("급소 노출");if(tt.includes("dmg2"))ef.push("받는 피해 2배");
- if(x.par){M.par=1;ef.push("마비")}
- if(x.dot){M.dots=(M.dots||[]).filter(d=>d.k!==x.dot&&d.until>t);M.dots.push({k:x.dot,by:uid,until:t+R0.DD,last:t});ef.push(x.dot);if(x.slow){M.slow=t+R0.DD;ef.push("공격 속도 하락")}if(x.acc2){M.acc=Math.max(M.acc||0,t+R0.DD);ef.push("명중률 하락")}}
- if(ef.length)lg(b,M.n+" — "+ef.join(" · ")+(R0.red?" (효과 절감)":"")+" ("+(x.dot?R0.DD:R0.D)/1000+"초)")}
+ if(x.par){M.par=Math.max(M.par||0,1);M.parN="마비";ef.push("마비")}
+ if(x.bind){const n=R0.sy?2:1;M.par=Math.max(M.par||0,n);M.parN="결박";ef.push("결박"+(n>1?" "+n+"번":""))}
+ if(x.ally){const D=Math.round(GRASS_D*R0.k);b.accUp=Math.max(b.accUp||0,t+D);lg(b,"아군 — 명중률 상승"+(R0.red?" (효과 절감)":"")+" ("+D/1000+"초)")}
+ if(x.fast){M.fast=t+R0.D;ef.push("공격 속도 15% 감소")}
+ if(x.conf){M.conf=1;M.confN=x.cn||"혼란";M.confX=R0.sy?SYN_X:1;ef.push(M.confN)}
+ if(x.purge){const L=Object.values(b.mem||{}).filter(q=>q.hp>0&&(q.hurt||[]).length);if(L.length){const q=L[ri(L.length)],k=q.hurt[ri(q.hurt.length)];q.hurt=q.hurt.filter(z=>z!==k);lg(b,"정화 — "+q.n+"의 "+(AIL[k]?AIL[k].n:k)+" 치료")}}
+ if(x.dot){M.dots=(M.dots||[]).filter(d=>d.k!==x.dot&&d.until>t);M.dots.push({k:x.dot,by:uid,until:t+R0.DD,last:t,x:R0.sy?SYN_X:1});ef.push(x.dot);if(x.slow){M.slow=t+R0.DD;ef.push("공격 속도 하락")}if(x.acc2){M.acc=Math.max(M.acc||0,t+R0.DD);ef.push("명중률 하락")}}
+ if(ef.length)lg(b,M.n+" — "+ef.join(" · ")+(R0.red?" (효과 절감)":"")+(R0.sy?" (짝꿍 효과 ×1.5)":"")+" ("+(x.dot?R0.DD:R0.D)/1000+"초)")}
 function dotTick(b,now){const M=b.mon;if(!M||!M.dots||!M.dots.length||b.st!=="on")return false;let ch=false;
- M.dots.forEach(d=>{let n=0;while(d.last+DOT_EVERY<=Math.min(now,d.until)){d.last+=DOT_EVERY;n++}if(n){const v=Math.max(1,Math.round(M.max*DOT_P))*n,real=Math.min(v,M.hp);M.hp=Math.max(0,M.hp-v);const w=b.mem&&b.mem[d.by];if(w)w.dmg=(w.dmg||0)+real;lg(b,M.n+" — "+d.k+" 지속 피해 "+v);ch=true}});
+ M.dots.forEach(d=>{let n=0;while(d.last+DOT_EVERY<=Math.min(now,d.until)){d.last+=DOT_EVERY;n++}if(n){const v=Math.max(1,Math.round(M.max*DOT_P*(d.x||1)))*n,real=Math.min(v,M.hp);M.hp=Math.max(0,M.hp-v);const w=b.mem&&b.mem[d.by];if(w)w.dmg=(w.dmg||0)+real;lg(b,M.n+" — "+d.k+" 지속 피해 "+v);ch=true}});
  M.dots=M.dots.filter(d=>d.until>now&&d.last+DOT_EVERY<=d.until);if(M.hp<=0&&b.st==="on"){b.st="won";lg(b,M.n+" 격파!")}return ch}
 const dotDue=(b,now)=>!!(b&&b.mon&&b.mon.dots&&b.mon.dots.some(d=>d.last+DOT_EVERY<=Math.min(now,d.until)));
 function skFx(b,m,sk){const x=(SKFX[sk.id]||{})[m.attr];if(!x||!x.f)return;try{x.f(b,m);if(x.d)lg(b,m.attr+" 속성 — "+x.d)}catch(e){}}
@@ -1396,7 +1414,9 @@ function calcOnline(){const o=new Set(peerSet);try{const g=typeof window.__gmPee
 /* ===== 파생 수치 ===== */
 const gB=(q,k)=>q[k]!=null?q[k]:((IT[q.id]||{})[k]||0);
 const eqStat=(c,k)=>{let s=0;const e=c.eq||{};for(const sl in e){const q=e[sl];if(q&&q.id&&IT[q.id]&&q.dur>0){const x=q.set?ringX(c,q):1;if(k==="atk"||k==="def")s+=gB(q,k)*(1+.15*(q.up||0))*x;s+=((q.opts&&q.opts[k])||0)*x}}return Math.round(s)};
-const rawS=(c,i)=>(c.s[i]||0)+eqStat(c,"s"+i);
+/* 바벨론 정비 음식: 스탯 +5 · 공격력/방어력 +2 (20분) */
+const FBS={rb_a:{s:0,df:2},rb_d:{s:4,pw:2},rb_i:{s:3,df:2}},fbS=c=>{const f=c&&c.fbuf;return f&&f.u>Date.now()&&FBS[f.k]?FBS[f.k]:null};
+const rawS=(c,i)=>{const f=fbS(c);return (c.s[i]||0)+eqStat(c,"s"+i)+(f&&f.s===i?5:0)};
 const ailOn=(c,k)=>{const a=c&&c.ail&&c.ail[k];return !!a&&(!a.u||a.u>Date.now())};
 const ailList=c=>Object.keys(AIL).filter(k=>ailOn(c,k));
 /* 폭주 후유증(S급)과 약물과다(EB-0K14)는 따로 · 폭주 후유증의 이명 · 감각과민은 rmpd(폭주 후유증 기간) 동안만 */const RMP_SYM=["이명","감각과민"],rmpSym=c=>c&&c.rmpd&&c.rmpd.u>Date.now()?RMP_SYM:[];
@@ -1416,9 +1436,9 @@ const ssum=c=>c.s.reduce((a,b)=>a+b,0);
 const maxHp=c=>Math.max(1,Math.round(((60+c.lv*10+es(c,0)*6)*gdef(c)*rmul(c,"hp")+eqStat(c,"hp"))*(c.ail||c.od?eff(c).hp:1))),maxMp=c=>Math.round((30+es(c,3)*5+c.lv*2+eqStat(c,"mp"))*(c.ail||c.od?eff(c).mp:1));
 const mpMult=c=>{let t=0;for(let i=0;i<6;i++)t+=es(c,i);return Math.max(.5,Math.min(1.25,1.25-(es(c,3)/t)*1.5))};
 const mpCost=(c,sk)=>Math.max(1,Math.ceil(sk.mp*mpMult(c)));
-const pw=c=>Math.round((es(c,0)*5+c.lv*2+eqStat(c,"atk"))*gmul(c)*rmul(c,"a")*(c.od?eff(c).atk:1));/* 공격력 = 힘×5 · 직업 배율 */
+const pw=c=>Math.round((es(c,0)*5+c.lv*2+eqStat(c,"atk")+((fbS(c)||{}).pw||0))*gmul(c)*rmul(c,"a")*(c.od?eff(c).atk:1));/* 공격력 = 힘×5 · 직업 배율 */
 const hl=c=>Math.round((es(c,3)*3+c.lv*2+8)*gmul(c)*rmul(c,"h"));
-const df=c=>Math.round((es(c,4)+es(c,0)*.3+c.lv*.5+eqStat(c,"def"))*gdef(c)*rmul(c,"d"));
+const df=c=>Math.round((es(c,4)+es(c,0)*.3+c.lv*.5+eqStat(c,"def")+((fbS(c)||{}).df||0))*gdef(c)*rmul(c,"d"));
 /* 제작 성공률 (손재주) · 실패하면 재료 절반을 잃음 */
 const craftRate=c=>Math.min(1,.75+(c&&c.s?es(c,5):0)*.025+(c&&c===me&&typeof jobEq==="function"?jobEq("cb")+(fbOn("cs")?.1:0):0));
 function craftFail(inv,need){if(rf()<craftRate(me))return false;for(const k in need)inv[k]=(inv[k]||0)-Math.ceil(need[k]/2);return true}
@@ -1686,8 +1706,9 @@ function rMap(v){
  v.append(bar);const lrow=h("div",{c:"lcrow"});if(chatB)lrow.append(chatB);
  if(!me.ag&&!inB()&&!pvpCur()&&!R.safe&&(R.res||fishKind(me.loc))){const g=h("div",{c:"gbox"}),r3=h("div",{c:"g3"});
   Object.keys(GK).forEach(k=>{const has=R.res&&Object.keys(gkRes(R,k)).length;r3.append(btn(GK[k].n,()=>wrap(()=>gather(k)),hasTool(k)&&has?"pri sm":"sm",{disabled:!has,title:has?(hasTool(k)?"":IT[GK[k].tool].n+" 필요"):"여기엔 없어요"}))});
-  r3.append(btn("낚시",()=>wrap(fish),fishKind(me.loc)?"pri sm":"sm",{disabled:!fishKind(me.loc)}));g.append(r3);
+  r3.append(btn("낚시",()=>wrap(fish),fishKind(me.loc)?"pri sm":"sm",{disabled:!fishKind(me.loc)}));r3.append(btn("수렵",()=>wrap(hunt),huntOk(me.loc)&&huntTool()?"pri sm":"sm",{disabled:!huntOk(me.loc),title:huntTool()?"":"사냥용 활 필요"}));r3.classList.add("g4c");g.append(r3);
   if(R.res)g.append(btn("자동 채집",agPop,"sm"));lrow.append(g)}
+ if(!me.ag&&!inB()&&!pvpCur()&&R.raid&&jobOf("g")&&BB_MAT[jobOf("g")]){const g=h("div",{c:"gbox"}),ok=bbOk();g.append(btn(BB_N[jobOf("g")]+" (바벨론)",()=>wrap(bbGather),ok?"pri sm":"sm",{disabled:!ok,title:ok?"":GJOB[jobOf("g")].n+" Lv"+JMAX+" 필요"}));lrow.append(g)}
  if(lrow.childNodes.length)bar.append(lrow);
  if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 "+((GK[a.k]||GK.mine).n)+" 중 · "+d+" / "+a.n+"회"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
  if(R.safe&&!inB()&&!R.home&&!R.raid){const s=h("div",{c:"fac"});(R.arena?ARSP:R.tmpb?TMPSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
@@ -1802,7 +1823,7 @@ let autoBusy=0;function autoTick(){const a=me&&me.auto;if(!a||autoBusy||!a.sd||$
 function agTick(){if(me&&me.ag&&!agBusy&&agDone(me.ag)>=me.ag.n&&$("#pop").style.display!=="flex")agClaim().catch(()=>{})}
 const INV_EN=5,HUNT_MAX=3;/* 조사 · 구역 이동 · 더 탐색: 에너지 5 */
 /* 귀속(2026-11-25): 내 손으로 얻어야 의미가 있는 것 · 관계 반지 · 개인 서류 · 협회 발급품 → 거래소 · 길드 창고 불가 (내 보관함은 가능) */
-const BOUND_K=["pvp_tk","pvp_amp","ring_c","ring_p","ring_m","ringbox_c","ringbox_p","gexp_doc","pair_doc","div_doc","ph_new","sos_tx","lotto","babel_frag","job_reset","lphone","fkr","pure_all"];
+const BOUND_K=["maze_ore","maze_frag","pvp_tk","pvp_amp","ring_c","ring_p","ring_m","ringbox_c","ringbox_p","gexp_doc","pair_doc","div_doc","ph_new","sos_tx","lotto","babel_frag","job_reset","lphone","fkr","pure_all"];
 IT.job_reset={n:"직업 초기화권",rar:2,d:"사용하면 채집 · 제작 직업과 직업 레벨 · 채집·제작 스탯 포인트(손재주 · 행운 · 지식)가 모두 처음으로 돌아가고 직업을 다시 고를 수 있습니다 · 탱커 · 딜러 · 힐러는 그대로 · 계정당 한 번만 살 수 있음"};
 IT.gas={n:"휘발유",use:{gas:1},d:"이동수단 연료 · 1개 = 휘발유 1 · 정비소에서 1개 4환 · 가방에서 누르거나 정비소 「이동수단」에서 넣습니다"};
 IT.en_drink={n:"에너지 음료",use:{en:20},d:"에너지 +20 · 시장 상점 5환"};
@@ -1811,11 +1832,11 @@ Object.assign(IT,{fd_coffee:{n:"인스턴트 커피",use:{en:20},d:"에너지 +2
 function applyBound(){BOUND_K.forEach(k=>{if(IT[k])IT[k].bound=1});
  /* 장비 설명 앞에 착용 직군: [탱커] [딜러] [힐러] [원예가] … [공용] */
  Object.entries(IT).forEach(([k,i])=>{if(!i.slot)return;const tg=gearTag(k);if(tg&&!String(i.d||"").startsWith("["))i.d="["+tg+"] "+(i.d||"")})}
-const JOBN={herb:"원예가",fish:"어부",mine:"광부",smith:"대장장이",cook:"요리사",wood:"목공사",pharm:"약사"};
+const JOBN={herb:"원예가",fish:"어부",mine:"광부",hunt:"사냥꾼",smith:"대장장이",cook:"요리사",wood:"가죽장인",pharm:"약사"};
 function gearTag(k){const i=IT[k];if(!i||!i.slot)return null;if(i.role&&ROLE[i.role])return ROLE[i.role].n;const m=/^nJ_([a-z]+)_/.exec(k);if(m&&JOBN[m[1]])return JOBN[m[1]];if(TOOLJ[k])return JOBN[TOOLJ[k]];if(i.rod)return"어부";return"공용"}
 /* 정비소 구매 탭 분류 */
 const SHOP_CAT={tank:"탱커",dealer:"딜러",healer:"힐러",gat:"채집",cra:"제작",misc:"잡화"};let shopCat=null;
-function shopCatOf(k){const i=IT[k];if(!i)return"misc";if(i.role&&SHOP_CAT[i.role])return i.role;const m=/^nJ_([a-z]+)_/.exec(k);if(m)return["herb","fish","mine"].includes(m[1])?"gat":"cra";if(TOOLJ[k]||i.tool||i.rod)return"gat";return"misc"}
+function shopCatOf(k){const i=IT[k];if(!i)return"misc";if(i.role&&SHOP_CAT[i.role])return i.role;const m=/^nJ_([a-z]+)_/.exec(k);if(m)return["herb","fish","mine","hunt"].includes(m[1])?"gat":"cra";if(TOOLJ[k]||i.tool||i.rod)return"gat";return"misc"}
 async function investigate(){if(hospBlock())return;{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(Date.now()<gcd)return;
  const c=cur(me);if(c.en<INV_EN)return toast("에너지가 부족합니다 ("+INV_EN+" 필요)");gcd=Date.now()+1500;
  const inv={...me.inv},lf=luckF(me);let msg="아무것도 찾지 못했다";
@@ -2144,7 +2165,10 @@ const FRC={fd_ebar:{c_potato:1,c_carrot:1},fd_berrybread:{c_wheat:1,fd_berry:2,s
 const FSHOP=[["bed1",220],["bed2",420],["bedLow",360],["sofa1",140],["sofa2",210],["sofa",280],["sofaC",480],["table",80],["tableR",100],["dining",150],["chairD",35],["desk",130],["laptop",240],
  ["wardrobe",180],["fridge",200],["fridge2",360],["kitchen",400],["induction",90],["vanity",120],["toilet",100],["tub",260],["shower",140],["glass",60],
  ["otable",120],["ochair",45],["parasol",90],["rug",[50,80,120]],["slippers",15],["plant",30],["frame",40],["tv",300],["curtain",60],["window",100],["confTable",500]];
-let furnTo="me",rugSz=1;const FTH={};
+let furnTo="me",rugSz=1,furnCat="all";const FTH={};
+const FCATS=[["all","전체"],["bed","침실"],["liv","거실"],["kit","주방"],["bath","욕실"],["deco","소품"],["yard","마당"],["guild","길드"]],
+ FCAT_OF={bed1:"bed",bed2:"bed",bedLow:"bed",wardrobe:"bed",slippers:"bed",sofa1:"liv",sofa2:"liv",sofa:"liv",sofaC:"liv",table:"liv",tableR:"liv",desk:"liv",laptop:"liv",tv:"liv",rug:"liv",
+  dining:"kit",chairD:"kit",fridge:"kit",fridge2:"kit",kitchen:"kit",induction:"kit",vanity:"bath",toilet:"bath",tub:"bath",shower:"bath",glass:"bath",plant:"deco",frame:"deco",curtain:"deco",window:"deco",otable:"yard",ochair:"yard",parasol:"yard",confTable:"guild"};
 function furnThumb(k){const cs=getComputedStyle(document.body),key=k+"|"+cs.getPropertyValue("--ac")+"|"+cs.getPropertyValue("--bg");if(FTH[key])return h("img",{c:"fthumb",src:FTH[key],alt:""});
  try{const cv=h("canvas",{style:"position:fixed;left:-999px;top:0;width:64px;height:54px"});document.body.append(cv);const K=Room3D.FK[k];
   Room3D.thumb(cv,S=>{S.obj();if(K.win){const it={k,w:0,pos:0};S.box(-.25,-.4,0,0,K.len+.4,K.len>3?5.2:4.4);S.obj();if(K.wf)K.wf(S,K,it);else IsoRoom.F.window(S,0,K.len,2.15,4.75)}else K.f(S,{k,x:0,y:0,r:0,_z:0},false)},K.win?.55:undefined);FTH[key]=cv.toDataURL();cv.remove()}catch(e){return h("span",{c:"fthumb"})}return h("img",{c:"fthumb",src:FTH[key],alt:""})}
@@ -2159,26 +2183,46 @@ function furnShop(box,row){const g=myG(),gb=!!g;if(!gb&&furnTo==="g")furnTo="me"
  box.append(h("p",{c:"xs mt",style:"margin:0 0 6px",t:"산 가구는 가구 보관함으로 갑니다 · 숙소(또는 길드 건물 · 내 주택)에서 「가구 배치」를 누르고 꺼내 놓습니다 · 마당 가구는 내 주택으로만"}));
  const hb=!!myHomeId();if(!hb&&furnTo==="h")furnTo="me";
  if(gb||hb){const s=h("div",{c:"seg",style:"margin-bottom:8px"});[["me","내 방"]].concat(gb?[["g","길드 건물"]]:[],hb?[["h","내 주택"]]:[]).forEach(([k,n])=>s.append(h("button",{c:furnTo===k?"on":"",t:n+"으로 보내기",onclick:()=>{furnTo=k;render(true)}})));box.append(s)}
- FSHOP.forEach(([k,p])=>{if(k==="confTable"&&furnTo!=="g")return;if((Room3D.FK[k]||{}).yard&&furnTo!=="h")return;
+ {const cs=h("div",{c:"seg",style:"margin-bottom:8px;flex-wrap:wrap"});FCATS.forEach(([k,n])=>{if(k==="guild"&&furnTo!=="g")return;if(k==="yard"&&furnTo!=="h")return;cs.append(h("button",{c:furnCat===k?"on":"",t:n,onclick:()=>{furnCat=k;render(true)}}))});box.append(cs)}
+ FSHOP.forEach(([k,p])=>{if(furnCat!=="all"&&(FCAT_OF[k]||"deco")!==furnCat)return;if(k==="confTable"&&furnTo!=="g")return;if((Room3D.FK[k]||{}).yard&&furnTo!=="h")return;
   if(k==="rug"){const ks=["rugS","rugM","rugL"],kk=ks[rugSz],sg=h("div",{c:"seg",style:"margin-top:4px;max-width:150px"});["S","M","L"].forEach((n,i)=>sg.append(h("button",{c:rugSz===i?"on":"",t:n,onclick:()=>{rugSz=i;render(true)}})));
    box.append(row(furnThumb(kk),h("div",{c:"grow"},h("b",{c:"sm",t:"카펫 ("+"SML"[rugSz]+")"}),h("div",{c:"xs mt",t:"같은 무늬 · 크기를 고릅니다"}),sg),h("span",{c:"sm gold",t:p[rugSz]}),btn("구매",()=>furnBuy(kk,p[rugSz]),"sm")));return}
   const K=Room3D.FK[k];if(!K)return;box.append(row(furnThumb(k),h("div",{c:"grow"},h("b",{c:"sm",t:K.n}),h("div",{c:"xs mt",t:FDESC[k]||""})),h("span",{c:"sm gold",t:p}),btn("구매",()=>furnBuy(k,p),"sm")))});
- box.append(h("div",{c:"sm",style:"margin:14px 0 6px;font-weight:600",t:"가구 납품"}));furnDlv(box,row)}
+ }
 const FDESC={bed1:"눕기",bed2:"눕기 · 둘이 같이 누울 수 있습니다",bedLow:"눕기",sofa1:"앉기",sofa2:"앉기",sofa:"앉기",sofaC:"앉기 · ㄱ자",chairD:"앉기",laptop:"책상·테이블 위에 놓기 · 눌러서 켜고 끄기",fridge:"문 열기",fridge2:"문 열기",kitchen:"누르면 요리 창",induction:"누르면 요리 창",vanity:"물 틀기",
  toilet:"앉기",tub:"목욕",shower:"샤워",slippers:"밟고 지나갑니다",plant:"물 주기",frame:"벽에 걸기",tv:"벽에 걸기 · 눌러서 켜고 끄기",curtain:"벽에 걸기 · 눌러서 걷고 치기",window:"눌러서 열고 닫기",confTable:"길드 건물 전용",wardrobe:"수납",desk:"노트북을 올립니다",dining:"식탁 의자와 같이",tableR:"",table:"",glass:"샤워 칸막이",otable:"마당 · 주택 전용",ochair:"마당 · 앉기 · 주택 전용",parasol:"마당 · 주택 전용"};
-function furnDlv(box,row){if(!dlvHead(box,["furn"])){box.append(h("p",{c:"sm mt",t:"가구점에는 가구를 납품합니다. 지금 납품처가 다릅니다."}));return}const L=Object.keys(IT).filter(k=>IT[k].dv&&URC[k]&&(me.inv[k]||0)>0);
- if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 가구가 없습니다. 정비소 제작 탭에서 가구를 만드십시오."}));
+function furnDlv(box,row){if(!dlvHead(box,["furn"])){box.append(h("p",{c:"sm mt",t:"가죽 제품 납품처가 아닙니다."}));return}const L=Object.keys(IT).filter(k=>IT[k].dv&&(URC[k]||/^fu_/.test(k))&&(me.inv[k]||0)>0);
+ if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 가죽 제품이 없습니다. 정비소 제작 탭 「가죽 공예」에서 만드십시오."}));
  L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[k].n+" ×"+me.inv[k]}),h("div",{c:"xs mt",t:"개당 "+won(IT[k].dv)+" 환 · 명성 +2"})),btn("1개",()=>deliverItem(k,1),"sm"),btn("전부",()=>deliverItem(k,me.inv[k]),"sm"))))}
-const URC={fu_chair:{u_plank:4,u_nail:4},fu_bed:{scrap:6,u_nail:6,cloth:2},fu_sofa:{hide:4,u_plank:4,cloth:3},fu_closet:{u_plank:6,u_resin:2,u_nail:4},fu_cabinet:{u_ivory:1,u_resin:2,u_plank:6}};
-const RCW=[["fd_skewer",6],["fd_mstew",4],["fd_honeyball",4],["fd_eggsteam",3],["fd_risotto",1],["fu_chair",6],["fu_bed",4],["fu_sofa",3],["fu_closet",2],["fu_cabinet",1]];
+/* ===== 낚시 · 수렵 재료 · 가죽 공예 (2026-11-28) ===== */
+Object.assign(IT,{
+ f_miyeok:{n:"미역",rar:0,d:"요리 재료 · 바다 낚시"},f_kelp:{n:"다시마",rar:0,d:"요리 재료 · 바다 낚시"},f_clam:{n:"바지락",rar:0,d:"요리 재료 · 바다 낚시"},
+ f_snail:{n:"다슬기",rar:0,d:"요리 재료 · 민물 낚시"},f_minari:{n:"돌미나리",rar:0,d:"요리 재료 · 민물 낚시"},
+fm_monk:{n:"아귀 살",rar:1,d:"요리 재료 · 아귀 의태형"},
+ fm_octo:{n:"문어 다리",rar:1,d:"요리 재료 · 문어 의태형"},
+ fm_squid:{n:"대왕오징어 몸통",rar:2,d:"요리 재료 · 대왕오징어 의태형"},fm_crab:{n:"게살",rar:1,d:"요리 재료 · 게 의태형"},
+ fm_crucian:{n:"붕어 살",rar:0,d:"요리 재료 · 붕어 의태형"},fm_carp:{n:"잉어 살",rar:1,d:"요리 재료 · 잉어 의태형"},fm_cat:{n:"메기 살",rar:1,d:"요리 재료 · 메기 의태형"},
+ fm_cray:{n:"가재 살",rar:1,d:"요리 재료 · 가재 의태형"},fm_pike:{n:"강꼬치고기 살",rar:1,d:"요리 재료 · 강꼬치고기 의태형"},
+ h_tough:{n:"질긴 짐승 가죽",rar:1,d:"가죽 재료 · 수렵"},h_sinew:{n:"짐승 힘줄",rar:0,d:"가죽 재료 · 수렵"},h_bone:{n:"짐승 뼈",rar:0,d:"요리 재료 · 수렵 (육수)"},
+ f_pheasant:{n:"꿩 고기",rar:1,d:"요리 재료 · 수렵"},
+ gm_boar:{n:"멧돼지 고기",rar:1,d:"요리 재료 · 멧돼지 의태형"},gm_deer:{n:"사슴 고기",rar:1,d:"요리 재료 · 사슴 의태형"},gm_bison:{n:"들소 고기",rar:2,d:"요리 재료 · 들소 의태형"},
+ gm_goat:{n:"산양 고기",rar:1,d:"요리 재료 · 산양 의태형"},gm_elk:{n:"엘크 고기",rar:2,d:"요리 재료 · 엘크 의태형"},
+ bow:{n:"사냥용 활",slot:"sub",atk:2,tool:"hunt",d:"보조 장비에 착용하면 수렵할 수 있습니다"},
+ lt_tan:{n:"무두질한 가죽",rar:0,dv:60,d:"가죽 공예 재료 · 가죽 제품 납품"},lt_strap:{n:"가죽끈",rar:0,dv:70,d:"가죽 공예 재료 · 가죽 제품 납품"},
+ lt_pouch:{n:"가죽 주머니",rar:0,dv:220,d:"가죽 제품 · 정비소 납품"},lt_glove:{n:"작업용 가죽 장갑",rar:1,dv:300,d:"가죽 제품 · 정비소 납품"},
+ lt_belt:{n:"사냥꾼 허리띠",rar:1,dv:360,d:"가죽 제품 · 정비소 납품"},lt_boots:{n:"질긴 가죽 부츠",rar:1,dv:520,d:"가죽 제품 · 정비소 납품"},lt_bag:{n:"의태 가죽 망토",rar:2,dv:900,d:"가죽 제품 · 정비소 납품"}});
+["fu_chair","fu_bed","fu_sofa","fu_closet","fu_cabinet"].forEach(k=>{IT[k].d="예전 목공 제작품 · 정비소 「납품」에서 가죽 제품과 같이 납품할 수 있음"});
+/* 가죽 공예 (가죽장인) · 예전 가구 제작(목공사) 대신 */
+const URC={lt_tan:{hide:3,salt:1},lt_strap:{hide:2,h_sinew:1},lt_pouch:{lt_tan:2,lt_strap:1},lt_glove:{lt_tan:2,cloth:2,lt_strap:1},lt_belt:{h_tough:2,lt_strap:2,scrap:1},lt_boots:{h_tough:3,lt_tan:2,u_resin:1},lt_bag:{lt_tan:4,mm_scale:2,cloth:3}};
+const RCW=[["fd_skewer",6],["fd_mstew",4],["fd_honeyball",4],["fd_eggsteam",3],["fd_risotto",1],["lt_glove",4],["lt_belt",3],["lt_boots",2],["lt_bag",1]];
 const MRW=[["gmask",3],["mg_spear",3],["mg_dagger",4],["mg_scalemail",3],["mg_shellhelm",3],["mg_shellboots",3],["mg_nervering",2],["mg_voiceneck",2]];
 /* 납품 */
-const DLV={food:{n:"음식",at:"market",atn:"시장"},furn:{n:"가구",at:"market",atn:"시장"},arms:{n:"무기·장비·악세서리",at:"shop",atn:"정비소"},cert:{n:"임무완수증서",at:"tavern",atn:"주점"}};
+const DLV={food:{n:"음식",at:"market",atn:"시장"},furn:{n:"가죽 제품",at:"shop",atn:"정비소"},arms:{n:"무기·장비·악세서리",at:"shop",atn:"정비소"},cert:{n:"임무완수증서",at:"tavern",atn:"주점"}};
 const myDlv=()=>{const g=myG();return g?(g.dlv||null):(me.dlv||null)};
 const repOf=x=>x&&x.rep!=null?x.rep:100;
 const gearVal=q=>Math.round(150*(1+q.r*1.5)*(1+(q.lv||1)/25));
 async function addRep(n,gn,gx){const p={rep:Math.min(100,repOf(me)+n)};const g=myG();if(g&&gn)await gmut(me.guild,q=>{q.rep=Math.min(100,repOf(q)+gn);q.exp=(q.exp||0)+(gx||0);const W=kweek(Date.now());if(!q.dlw||q.dlw.w!==W)q.dlw={w:W,m:{}};const r=q.dlw.m[uid]||{n:0,r:0};r.n++;r.r+=gn;q.dlw.m[uid]=r});return p}
-async function deliverItem(id,q){if(hospBlock())return;q=Math.floor(q)||0;if(q<1)return;const t=IT[id];if(!t||!t.dv)return;if((me.inv[id]||0)<q)return toast("수량이 부족합니다");const kd=FRC[id]?"food":"furn";if(myDlv()!==kd)return toast("지금 납품처는 "+(myDlv()?DLV[myDlv()].n:"미정")+"입니다");
+async function deliverItem(id,q){if(hospBlock())return;q=Math.floor(q)||0;if(q<1)return;const t=IT[id];if(!t||!t.dv)return;if((me.inv[id]||0)<q)return toast("수량이 부족합니다");const kd=FRC[fqBase(id)]?"food":"furn";if(myDlv()!==kd)return toast("지금 납품처는 "+(myDlv()?DLV[myDlv()].n:"미정")+"입니다");
  const inv={...me.inv};inv[id]-=q;const amt=t.dv*q,pr=await addRep(q*(kd==="food"?1:2),q*(kd==="food"?1:2),Math.round(amt/20));await upd({inv,tan:me.tan+amt,...pr});toast(t.n+" ×"+q+" 납품 · +"+won(amt)+" 환 · 명성 +"+q*(kd==="food"?1:2))}
 async function deliverGear(gid){if(hospBlock())return;const q=(me.gear||[]).find(x=>x.gid===gid);if(!q)return;if(myDlv()!=="arms")return toast("현재 납품처에서 받는 종류가 아닙니다");const amt=gearVal(q),pr=await addRep(3,3,Math.round(amt/20));
  await upd({gear:(me.gear||[]).filter(x=>x.gid!==gid),tan:me.tan+amt,...pr});toast(gName(q)+" 납품 · +"+won(amt)+" 환 · 명성 +3")}
@@ -2211,31 +2255,38 @@ let rqBusy=false;
 /* ===== 최종 장비(바벨의 ○○) 제작 의뢰 (2026-11-27) =====
    제작법을 익히고 재료를 다 모은 헌터가 → 대장장이 Lv30 이상에게 맡김 (주점 의뢰 게시판 · 또는 전화번호로 지정 + 문자 알림)
    맡길 때 재료와 보수가 빠짐 (취소하면 돌려받음) · 대장장이가 수락 → 제작해서 보내기 → 장비는 의뢰인에게 우편 · 보수는 대장장이에게 */
-const crqOk=c=>!!c&&(c.job||{}).c==="smith"&&((c.job||{}).cl||1)>=JREQ[3];
+/* 2026-11-28: 바벨 장비 2단계 제작 · 1차 가죽장인 Lv30 (미완성된 바벨의 ○○) → 2차 대장장이 Lv30 (바벨의 ○○) · 둘 다 의뢰 가능 */
+const crqJ=id=>LRC[id]?"wood":"smith",crqR=id=>LRC[id]||HRC[id],crqKn=id=>knowsR(LRC[id]?LRC[id].fin:id),JNm=j=>CJOB[j||"smith"].n,jIi=j=>j==="wood"?"이나":"나";
+const crqOk=(c,j)=>!!c&&(c.job||{}).c===(j||"smith")&&((c.job||{}).cl||1)>=JREQ[3];
 let crqF={to:"board",num:"",amt:3000};
-function crqPop(id){const r=HRC[id],i=IT[id];if(!r||!knowsR(id))return toast("제작법을 먼저 익히세요");
- const sel=h("select",{onchange:e=>{crqF.to=e.target.value;numW.style.display=crqF.to==="num"?"":"none"}},h("option",{value:"board",t:"주점 의뢰 게시판에 올리기 (아무 대장장이나)"}),h("option",{value:"num",t:"전화번호로 대장장이 지정 (문자로 알림)"}));sel.value=crqF.to;
- const num=h("input",{type:"tel",inputmode:"numeric",maxlength:7,value:crqF.num,placeholder:"대장장이 전화번호 7자리",oninput:e=>{crqF.num=e.target.value.replace(/\D/g,"").slice(0,7)}}),numW=h("div",{style:"margin-top:6px"+(crqF.to==="num"?"":";display:none")},num);
+function crqPop(id){const r=crqR(id),i=IT[id],j=crqJ(id),jn=JNm(j);if(!r||!crqKn(id))return toast("제작법을 먼저 익히세요");
+ const sel=h("select",{onchange:e=>{crqF.to=e.target.value;numW.style.display=crqF.to==="num"?"":"none"}},h("option",{value:"board",t:"주점 의뢰 게시판에 올리기 (아무 "+jn+jIi(j)+")"}),h("option",{value:"num",t:"전화번호로 "+jn+" 지정 (문자로 알림)"}));sel.value=crqF.to;
+ const num=h("input",{type:"tel",inputmode:"numeric",maxlength:7,value:crqF.num,placeholder:jn+" 전화번호 7자리",oninput:e=>{crqF.num=e.target.value.replace(/\D/g,"").slice(0,7)}}),numW=h("div",{style:"margin-top:6px"+(crqF.to==="num"?"":";display:none")},num);
  const amt=h("input",{type:"number",min:0,value:crqF.amt,placeholder:"보수 (환)",oninput:e=>{crqF.amt=e.target.value}});
- openPop(h("div",{c:"h0",t:"제작 의뢰 · "+i.n}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:"대장장이 Lv"+JREQ[3]+" 이상 헌터에게 제작을 맡깁니다 · 맡기는 순간 재료("+Object.entries(r.need).map(([k,q])=>IT[k].n+" "+q).join(" · ")+")와 보수가 빠지고, 아무도 수락하기 전에는 취소해서 돌려받을 수 있습니다 · 완성된 장비는 우편으로 옵니다 (귀속)"}),
-  sel,numW,h("div",{c:"xs mt",style:"margin:8px 0 2px",t:"보수 (환) · 제작한 대장장이에게 갑니다"}),amt,
+ openPop(h("div",{c:"h0",t:(j==="wood"?"1차 제작 의뢰 · ":"제작 의뢰 · ")+i.n}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:jn+" Lv"+JREQ[3]+" 이상 헌터에게 제작을 맡깁니다 · 맡기는 순간 재료("+Object.entries(r.need).map(([k,q])=>IT[k].n+" "+q).join(" · ")+")와 보수가 빠지고, 아무도 수락하기 전에는 취소해서 돌려받을 수 있습니다 · "+(j==="wood"?"완성된 「"+i.n+"」은(는) 우편으로 옵니다 (거래 가능) · 받으면 대장장이에게 2차 제작을 맡기십시오":"완성된 장비는 우편으로 옵니다 (귀속)")}),
+  sel,numW,h("div",{c:"xs mt",style:"margin:8px 0 2px",t:"보수 (환) · 제작한 "+jn+"에게 갑니다"}),amt,
   h("div",{c:"row",style:"margin-top:10px"},btn("맡기기",()=>wrap(()=>postCraftReq(id)),"pri grow"),btn("닫기",closePop,"grow")))}
-async function postCraftReq(id){if(hospBlock())return;const r=HRC[id];if(!knowsR(id))return toast("제작법을 먼저 익히세요");if(!haveAll(r.need))return toast("재료가 부족합니다");
+async function postCraftReq(id){if(hospBlock())return;const r=crqR(id),j=crqJ(id),jn=JNm(j);if(!r||!crqKn(id))return toast("제작법을 먼저 익히세요");if(!haveAll(r.need))return toast("재료가 부족합니다");
  const amt=Math.max(0,Math.floor(+crqF.amt)||0);if(me.tan<amt)return toast("지갑의 환이 부족합니다 (보수 "+won(amt)+")");let to=null,ton="";
- if(crqF.to==="num"){const n=(crqF.num||"").replace(/\D/g,"");if(n.length!==7)return toast("대장장이 전화번호 7자리를 입력하십시오");const e=Object.entries(chars).find(([k,c])=>c.num===n);if(!e)return toast("없는 번호입니다");if(e[0]===uid)return toast("내 번호입니다");if(!crqOk(e[1]))return toast(e[1].name+" 님은 대장장이 Lv"+JREQ[3]+" 이상이 아닙니다");to=e[0];ton=e[1].name}
+ if(crqF.to==="num"){const n=(crqF.num||"").replace(/\D/g,"");if(n.length!==7)return toast(jn+" 전화번호 7자리를 입력하십시오");const e=Object.entries(chars).find(([k,c])=>c.num===n);if(!e)return toast("없는 번호입니다");if(e[0]===uid)return toast("내 번호입니다");if(!crqOk(e[1],j))return toast(e[1].name+" 님은 "+jn+" Lv"+JREQ[3]+" 이상이 아닙니다");to=e[0];ton=e[1].name}
  const p=matTake(r.need);p.tan=me.tan-amt;
- await db.collection("reqs").add({t:Date.now(),by:uid,byn:me.name,kind:"craft",item:id,need:r.need,amt,to,ton,st:"open",gid:me.guild||"",pay:"me",fee:0,qty:0,grade:"S"});await upd(p);closePop();
+ await db.collection("reqs").add({t:Date.now(),by:uid,byn:me.name,kind:"craft",cj:j,item:id,need:r.need,amt,to,ton,st:"open",gid:me.guild||"",pay:"me",fee:0,qty:0,grade:"S"});await upd(p);closePop();
  if(to){try{await postTo("dm:"+to,"[제작 의뢰] 「"+IT[id].n+"」 제작을 맡기고 싶습니다 · 보수 "+won(amt)+"환 · 재료는 맡겨 두었습니다 · 주점 의뢰 게시판에서 수락해 주세요")}catch(e){}}
  toast("제작 의뢰를 올렸습니다"+(to?" · "+ton+" 님에게 문자를 보냈습니다":" · 주점 의뢰 게시판")+" · 재료와 보수 "+won(amt)+"환을 맡겼습니다");try{tavRefresh()}catch(e){}}
-async function cancelCraft(r){let ok=false;await rmut(r.id,d=>{if(d.st!=="open"||d.by!==uid)return false;d.st="cancel";d.cT=Date.now();ok=true});if(!ok)return toast("이미 대장장이가 수락한 의뢰입니다");
+async function cancelCraft(r){let ok=false;await rmut(r.id,d=>{if(d.st!=="open"||d.by!==uid)return false;d.st="cancel";d.cT=Date.now();ok=true});if(!ok)return toast("이미 "+JNm(r.cj)+"가 수락한 의뢰입니다");
  const inv={...me.inv};Object.entries(r.need||{}).forEach(([k,q])=>{inv[k]=(inv[k]||0)+q});await upd({inv,tan:me.tan+(r.amt||0)});toast("제작 의뢰를 취소했습니다 · 재료와 보수를 돌려받았습니다")}
-async function acceptCraft(r){if(hospBlock())return;if(!crqOk(me))return toast("대장장이 Lv"+JREQ[3]+" 이상만 수락할 수 있습니다");if(r.by===uid)return toast("내 의뢰입니다");if(r.to&&r.to!==uid)return toast("다른 대장장이를 지정한 의뢰입니다");
- if(!await rmut(r.id,d=>{if(d.st!=="open")return false;d.st="acc";d.acc=uid;d.accn=me.name;d.accT=Date.now()}))return toast("이미 다른 대장장이가 맡은 의뢰입니다");toast("제작 의뢰를 수락했습니다 · 「맡은 의뢰」에서 제작해서 보내십시오")}
-async function doCraftReq(r){if(hospBlock())return;if(!crqOk(me))return toast("대장장이 Lv"+JREQ[3]+" 이상만 만들 수 있습니다");const it=IT[r.item];if(!it)return toast("알 수 없는 장비입니다");let ok=false;
+async function acceptCraft(r){if(hospBlock())return;const j=r.cj||"smith",jn=JNm(j);if(!crqOk(me,j))return toast(jn+" Lv"+JREQ[3]+" 이상만 수락할 수 있습니다");if(r.by===uid)return toast("내 의뢰입니다");if(r.to&&r.to!==uid)return toast("다른 "+jn+"를 지정한 의뢰입니다");
+ if(!await rmut(r.id,d=>{if(d.st!=="open")return false;d.st="acc";d.acc=uid;d.accn=me.name;d.accT=Date.now()}))return toast("이미 다른 "+jn+"가 맡은 의뢰입니다");toast("제작 의뢰를 수락했습니다 · 「맡은 의뢰」에서 제작해서 보내십시오")}
+async function doCraftReq(r){if(hospBlock())return;const j=r.cj||"smith",jn=JNm(j);if(!crqOk(me,j))return toast(jn+" Lv"+JREQ[3]+" 이상만 만들 수 있습니다");const it=IT[r.item];if(!it)return toast("알 수 없는 장비입니다");let ok=false;
  await rmut(r.id,d=>{if(d.st!=="acc"||d.acc!==uid)return false;d.st="paid";d.doneT=Date.now();d.paidT=Date.now();ok=true});if(!ok)return toast("이미 처리된 의뢰입니다");
- const g=mkGear(it.bd||100,it.fr!=null?it.fr:3,r.item);await db.collection("payouts").add({t:Date.now(),to:r.by,from:uid,amt:0,k:"gear",gear:g,memo:"제작 의뢰 · "+me.name});
- const p=cntAdd({tan:me.tan+(r.amt||0)},"cr");jobGain(p,"c","smith",JXP[3]);await upd(p);try{await postTo("dm:"+r.by,"[제작 완료] 「"+it.n+"」을(를) 만들어 우편으로 보냈습니다")}catch(e){}
+ if(j==="wood")await db.collection("payouts").add({t:Date.now(),to:r.by,from:uid,amt:0,k:"item",item:r.item,qty:1,memo:"1차 제작 의뢰 · "+me.name});
+ else{const g=mkGear(it.bd||100,it.fr!=null?it.fr:3,r.item);await db.collection("payouts").add({t:Date.now(),to:r.by,from:uid,amt:0,k:"gear",gear:g,memo:"제작 의뢰 · "+me.name})}
+ const p=cntAdd({tan:me.tan+(r.amt||0)},"cr");jobGain(p,"c",j,JXP[3]);await upd(p);try{await postTo("dm:"+r.by,"[제작 완료] 「"+it.n+"」을(를) 만들어 우편으로 보냈습니다"+(j==="wood"?" · 대장장이에게 2차 제작을 맡기세요":""))}catch(e){}
  toast("「"+it.n+"」을(를) 만들어 "+r.byn+" 님에게 보냈습니다 · 보수 +"+won(r.amt||0)+" 환")}
+/* 가죽장인 1차 제작 (내가 직접) */
+const lReqMsg=()=>jobOf("c")==="wood"&&jobLv("c")>=JREQ[3]?null:"가죽장인 Lv"+JREQ[3]+" 이상이어야 만들 수 있어요";
+async function craftLB(id){if(rmpBlock()||hospBlock())return;const r=LRC[id];if(!r)return;if(!knowsR(r.fin))return toast("제작법을 먼저 익히세요");{const m=lReqMsg();if(m)return toast(m)}if(!haveAll(r.need))return toast("재료 부족");
+ {const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const p=cntAdd(matTake(r.need),"cr");jobGain(p,"c","wood",JXP[3]);if(addInv(p.inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(IT[id].n+" 완성 · 대장장이에게 2차 제작을 맡기십시오")}
 async function procReqs(){if(!me||rqBusy)return;rqBusy=true;try{const now=Date.now();
  for(const r of reqs){if(r.st==="acc"&&r.acc===uid&&r.kind==="gate"){const hit=Object.entries(gates).some(([id,d])=>(d.st==="clear"||d.st==="stop")&&d.done>r.accT&&(d["c_"+uid]||0)>0&&GRK[d.grade]>=GRK[r.grade]);
    if(hit&&await rmut(r.id,d=>{if(d.st!=="acc")return false;d.st="done";d.doneT=now})){await upd({certs:(me.certs||[]).concat([{rid:r.id,t:now,amt:r.amt,byn:r.byn,ti:reqTitle(r)}])});toast("지원 의뢰 완료 · 임무완수증서 획득")}}
@@ -2343,7 +2394,8 @@ function gateCards(v){const R=REG[me.loc],L=liveGates().filter(g=>g.kind==="w"&&
 
 Object.keys(MRC).forEach(k=>IT["rm_"+k]={n:"제작법: "+IT[k].n,learn:k,bound:1,rar:MRC[k].r,d:(MRC[k].r===2?"희귀":"고급")+" 이상 의태종 장비 「"+IT[k].n+"」 제작법 · 손재주가 높을수록 높은 등급 · 거래 불가 · 만든 장비는 거래소에서 팔 수 있음"});
 Object.keys(FRC).forEach(k=>IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"숙소 부엌 인덕션에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
-Object.keys(URC).forEach(k=>IT["rc_"+k]={n:"가구 도면: "+IT[k].n,learn:k,bound:1,d:"정비소에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
+Object.keys(URC).forEach(k=>IT["rc_"+k]={n:"가죽 도안: "+IT[k].n,learn:k,bound:1,d:"정비소 제작 탭에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"});
+["fu_chair","fu_bed","fu_sofa","fu_closet","fu_cabinet"].forEach(k=>IT["rc_"+k]={n:"예전 가구 도면: "+IT[k].n,bound:1,d:"목공사 직업이 없어져 더 이상 쓰이지 않는 도면 · 상점에 팔 수 있습니다"});
 function gateMarks(E){const sv=survAt();if(sv){const I=survIsle(sv.s),gg=E("g",{class:"gmk sv"});gg.onclick=e=>{e.stopPropagation();survPop()};E("circle",{cx:I.x,cy:I.y,r:2.4},gg);const t=E("text",{x:I.x,y:I.y+.8},gg);t.textContent="生"}
  liveGates().forEach(g=>{const ov=g.st==="ovf";if(g.kind==="w"){const P=mapP(g.reg),x=P.x+3.2,y=P.y-3.4,gg=E("g",{class:"gmk"+(ov?" ov":"")});gg.onclick=e=>{e.stopPropagation();gatePop(g)};
   E("rect",{x:x-1.5,y:y-1.5,width:3,height:3,transform:"rotate(45 "+x+" "+y+")"},gg);const t=E("text",{x,y:y+.72},gg);t.textContent=g.grade}
@@ -2355,7 +2407,7 @@ function cookPop(){if(inHosp())return hospBlock();const box=h("div",{style:"max-
  openPop(h("div",{c:"h0 cookp",t:"부엌 · 요리"}),h("p",{c:"xs mt",style:"margin:4px 0 0",t:"익힌 요리법으로 만듭니다 · 중앙 거점에선 숙소 보관함 재료도 같이 씁니다"}),box,btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
 async function craftFU(id){if(rmpBlock()||hospBlock())return;const need=FRC[id]||URC[id];if(!knowsR(id))return toast("레시피를 먼저 익히세요");if(!haveAll(need))return toast("재료 부족");
  {const f=craftBad(need);if(f){await upd(f);return toast("실패!… 재료 절반을 잃었습니다... (성공률 "+Math.round(craftRate(me)*100)+"%)")}}
- const p=cntAdd(matTake(need),"cr");jobGain(p,"c",crKind(id),JXP[0]);if(addInv(p.inv,id,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(IT[id].n+" 완성")}
+ const p=cntAdd(matTake(need),"cr");jobGain(p,"c",crKind(id),JXP[0]);const oid=FRC[id]?fqRoll(id):id;if(addInv(p.inv,oid,1)<1)return toast("가방이 가득 찼습니다");await upd(p);toast(iq(oid,1)+" 완성"+(oid!==id?" · "+RAR[IT[oid].rar].n+"!":""))}
 const jReqMsg=r=>r>0&&!(jobOf("c")==="smith"&&jobLv("c")>=JREQ[r])?"대장장이 Lv"+JREQ[r]+" 이상이어야 "+RAR[r].n+" 장비를 만들 수 있어요":null;
 async function craftM(id){if(rmpBlock()||hospBlock())return;const r=MRC[id];if(!(me.rcp||[]).includes(id))return toast("제작법을 먼저 학습해야 합니다.");{const jm=jReqMsg(r.r||0);if(jm)return toast(jm)}if(!haveAll(r.need))return toast("재료 부족");
  if((me.gear||[]).length>=MAXGEAR)return toast("장비 칸이 가득 찼습니다");{const f=craftBad(r.need);if(f){await upd(f);return toast(FAILT())}}const g=mkGear(Math.max(5,me.lv),craftRar(r.r,"smith"),id);g.cr=1;const p=cntAdd(matTake(r.need),"cr");jobGain(p,"c","smith",JXP[r.r||0]);addGear(p,g);crCnt(p,g);await upd(p);toastC(g)}
@@ -2364,37 +2416,40 @@ const crMat=need=>Object.entries(need).map(([k,q])=>(k==="egg"?"달걀(괴조 �
 function crPanel(box,row){
  const L=[];/* {sec,id,role,kn,mk} */
  Object.entries(RC).filter(([id])=>!MED_RC[id]).forEach(([id,need])=>L.push({sec:"일반 제작",id,role:IT[id].role||null,kn:1,mk:()=>{const ok=Object.keys(need).every(k=>haveM(k)>=need[k]),i=IT[id];
-  return row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n+(i.slot?" · 등급 랜덤":"")}),h("div",{c:"xs "+(ok?"ok":"mt"),t:crMat(need)+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.d?" · "+i.d:"")})),btn("제작",()=>craft(id),"pri sm",{disabled:!ok}))}}));
+  return row(h("div",{c:"grow"},h("b",{c:"sm",t:i.n+(i.slot?" · 등급 랜덤":"")}),h("div",{c:"xs "+(ok?"ok":"mt"),t:crMat(need)+(i.atk?" · 공격 +"+i.atk:"")+(i.def?" · 방어 +"+i.def:"")+(i.d?" · "+i.d:"")})),h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>craft(id),"pri sm",{disabled:!ok}),btn("×10",()=>craftN(craft,id,()=>need,10),"sm",{disabled:!ok})))}}));
  Object.keys(HRC).forEach(id=>{const i=IT[id];L.push({sec:i.fin?"최종 장비 (Lv100)":"장비 제작 (제작법 필요)",id,role:i.role||null,kn:knowsR(id),mk:()=>{const r=HRC[id],kn=knowsR(id),jm=jReqMsg(r.r||0),ok=kn&&!jm&&haveAll(r.need),b=i.cb,g0=i.fin?3:(b||r.r||0),P=gPrev(id,i.bd||me.lv,g0);
   return row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[g0].c,t:"["+(b?RAR[b].n+" · 확률적으로 "+RAR[b+1].n:RAR[g0].n)+"] "+i.n}),
    h("div",{c:"xs mt",t:(i.role?ROLE[i.role].n+" · ":"")+(CR_SLN[i.slot]||"")+" · Lv"+(i.lv||1)+"부터"+(P.atk?" · 공격력 +"+P.atk:"")+(P.def?" · 방어력 +"+P.def:"")}),
-   h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":"제작법 미습득 · ")+(jm?jm+" · ":"")+crMat(r.need)})),btn(kn?"제작":"잠김",()=>craftH(id),"pri sm",{disabled:!ok}))}})});
+   h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":"제작법 미습득 · ")+(jm?jm+" · ":"")+crMat(r.need)})),i.fin&&kn?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>craftH(id),"pri sm",{disabled:!ok}),btn("×10",()=>craftN(craftH,id,()=>r.need,10),"sm",{disabled:!ok}),btn("제작 의뢰",()=>crqPop(id),"sm",{disabled:!haveAll(r.need)})):kn?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>craftH(id),"pri sm",{disabled:!ok}),btn("×10",()=>craftN(craftH,id,()=>r.need,10),"sm",{disabled:!ok})):btn("잠김",()=>craftH(id),"pri sm",{disabled:true}))}})});
+ Object.keys(LRC).forEach(id=>{const i=IT[id],x=LRC[id],F=IT[x.fin];L.push({sec:"바벨 장비 1차 (가죽장인 Lv30)",id,role:F.role||null,kn:knowsR(x.fin),mk:()=>{const kn=knowsR(x.fin),jm=lReqMsg(),ok=kn&&!jm&&haveAll(x.need);
+  return row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[3].c,t:"[1차] "+i.n}),h("div",{c:"xs mt",t:ROLE[F.role].n+" · "+(CR_SLN[F.slot]||"")+" · 완성하면 대장장이에게 2차 제작 (「"+F.n+"」)"}),
+   h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":"「"+F.n+"」 제작법 미습득 · ")+(jm?jm+" · ":"")+crMat(x.need)})),kn?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>craftLB(id),"pri sm",{disabled:!ok}),btn("×10",()=>craftN(craftLB,id,()=>x.need,10),"sm",{disabled:!ok}),btn("제작 의뢰",()=>crqPop(id),"sm",{disabled:!haveAll(x.need)})):btn("잠김",()=>{},"sm",{disabled:true}))}})});
  Object.keys(MRC).forEach(id=>L.push({sec:"의태종 장비 (제작법 필요)",id,role:IT[id].role||null,kn:knowsR(id),mk:()=>{const t=h("div",{});rcpRows(t,row,{[id]:MRC[id]},craftM,"제작법");return t.firstChild}}));
- Object.keys(URC).forEach(id=>L.push({sec:"가구 (도면 필요)",id,role:null,kn:knowsR(id),mk:()=>{const t=h("div",{});rcpRows(t,row,{[id]:URC[id]},craftFU,"도면");return t.firstChild}}));
- const seg=h("div",{c:"seg crc"});[["all","전체"],["tank","탱커"],["dealer","딜러"],["healer","힐러"],["etc","공용 · 가구"]].forEach(([k,n])=>seg.append(h("button",{c:crF.c===k?"on":"",t:n,onclick:()=>{crF.c=k;seg.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.k===k));fill()},"data-k":k})));
+ Object.keys(URC).forEach(id=>L.push({sec:"가죽 공예 (도안 필요)",id,role:null,kn:knowsR(id),mk:()=>{const t=h("div",{});rcpRows(t,row,{[id]:URC[id]},craftFU,"도안");return t.firstChild}}));
+ const seg=h("div",{c:"seg crc"});[["all","전체"],["tank","탱커"],["dealer","딜러"],["healer","힐러"],["etc","공용 · 가죽"]].forEach(([k,n])=>seg.append(h("button",{c:crF.c===k?"on":"",t:n,onclick:()=>{crF.c=k;seg.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.k===k));fill()},"data-k":k})));
  const q=h("input",{type:"search",c:"crq",placeholder:"이름 · 재료로 찾기",value:crF.q,autocomplete:"off","aria-label":"제작 검색",oninput:e=>{crF.q=e.target.value;fill()}});
  const kc=h("input",{type:"checkbox",onchange:e=>{crF.kn=e.target.checked?1:0;fill()}});kc.checked=!!crF.kn;
  const list=h("div",{c:"crl"}),cnt=h("span",{c:"xs mt"}),cache={};
  function fill(){const w=crF.q.trim().replace(/\s+/g,""),secs={};let n=0;list.textContent="";
   L.forEach(x=>{if(crF.c!=="all"&&(crF.c==="etc"?!!x.role:x.role!==crF.c))return;if(crF.kn&&!x.kn)return;
-   if(w){const i=IT[x.id],need=x.sec==="일반 제작"?RC[x.id]:(HRC[x.id]||MRC[x.id]||{}).need||URC[x.id]||{},t=(i.n+" "+Object.keys(need).map(k=>(IT[k]||{}).n||"").join(" ")+" "+(x.role?ROLE[x.role].n:"")+" "+(CR_SLN[i.slot]||"")).replace(/\s+/g,"");if(!t.includes(w))return}
+   if(w){const i=IT[x.id],need=x.sec==="일반 제작"?RC[x.id]:(HRC[x.id]||MRC[x.id]||LRC[x.id]||{}).need||URC[x.id]||{},t=(i.n+" "+Object.keys(need).map(k=>(IT[k]||{}).n||"").join(" ")+" "+(x.role?ROLE[x.role].n:"")+" "+(CR_SLN[i.slot]||"")).replace(/\s+/g,"");if(!t.includes(w))return}
    (secs[x.sec]=secs[x.sec]||[]).push(x);n++});
   Object.entries(secs).forEach(([sn,X])=>{list.append(h("div",{c:"sm crh",t:sn+" "+X.length}));X.forEach(x=>{const e=cache[x.id]||(cache[x.id]=x.mk());if(e)list.append(e)})});
   cnt.textContent=n+"개";if(!n)list.append(h("p",{c:"xs mt",style:"margin:10px 2px",t:crF.kn?"조건에 맞는 익힌 제작법이 없습니다 · 「익힌 것만」을 끄면 모두 보입니다":"조건에 맞는 제작이 없습니다"}))}
  box.append(h("div",{c:"crtop"},q,h("label",{c:"crkn"},kc,h("span",{t:"익힌 것만"})),cnt),seg,
-  h("p",{c:"xs mt",style:"margin:2px 0 6px",t:"장비 제작법은 게이트 전투에서 드랍됩니다 (상시 게이트 제외 · 의태종 레벨 구간의 제작법) · 최종 장비(바벨의 ○○) 제작법은 바벨론 레이드에서 드랍 · 가구 도면 · 의태종 제작법도 게이트에서 드랍 (상시 게이트 제외)"}),list);fill()}
+  h("p",{c:"xs mt",style:"margin:2px 0 6px",t:"장비 제작법은 게이트 전투에서 드랍됩니다 (상시 게이트 제외 · 의태종 레벨 구간의 제작법) · 최종 장비(바벨의 ○○) 제작법은 바벨론 레이드에서 드랍 · 바벨 장비는 가죽장인 1차(미완성) → 대장장이 2차 · 못 만들면 「제작 의뢰」로 맡길 수 있음 · 가죽 도안 · 의태종 제작법도 게이트에서 드랍 (상시 게이트 제외)"}),list);fill()}
 function rcpRows(box,row,tbl,fn,kind){const onlyKn=tbl===MRC||tbl===HRC;let shown=0;Object.entries(tbl).forEach(([id,x])=>{const need=x.need||x,i=IT[id],kn=knowsR(id),rr=x.r!=null?x.r:null;if(onlyKn&&!kn)return;shown++;const jm=onlyKn?jReqMsg(rr||0):null,ok=kn&&!jm&&Object.keys(need).every(k=>haveM(k)>=need[k]);
- box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:rr!=null?"color:"+RAR[rr].c:"",t:(rr!=null?"["+RAR[rr].n+(rr<3?" 이상":"")+"] ":"")+i.n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":kind+" 미습득 · ")+(jm?jm+" · ":"")+Object.entries(need).map(([k,q])=>(k==="egg"?"달걀(괴조 알도 됨)":IT[k].n)+" "+haveM(k)+"/"+q).join(" · ")+(i.slot?(()=>{const lvC=tbl===HRC?(IT[id].bd||me.lv):tbl===MRC?Math.max(5,me.lv):Math.max(1,me.lv),P=gPrev(id,lvC,rr||0);return(P.atk?" · 공격력 +"+P.atk:"")+(P.def?" · 방어력 +"+P.def:"")+(P.atk||P.def?" (Lv"+lvC+" · 최저 등급 기준 · 추가 옵션 별도)":"")})():(i.atk?" · 공격력 +"+i.atk:"")+(i.def?" · 방어력 +"+i.def:""))+(i.use?" · "+i.d:"")+(i.dv?" · 납품가 "+won(i.dv):"")})),(tbl===HRC&&i.fin&&kn)?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>fn(id),"pri sm",{disabled:!ok}),btn("제작 의뢰",()=>crqPop(id),"sm",{disabled:!Object.keys(need).every(k=>haveM(k)>=need[k])})):btn(kn?"제작":"잠김",()=>fn(id),"pri sm",{disabled:!ok})))});if(onlyKn&&!shown)box.append(h("p",{c:"xs mt",style:"margin:4px 2px 8px",t:"아직 익힌 "+kind+"이 없습니다 · 얻으면 여기에 나옵니다"}))}
+ box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:rr!=null?"color:"+RAR[rr].c:"",t:(rr!=null?"["+RAR[rr].n+(rr<3?" 이상":"")+"] ":"")+i.n}),h("div",{c:"xs "+(ok?"ok":"mt"),t:(kn?"":kind+" 미습득 · ")+(jm?jm+" · ":"")+Object.entries(need).map(([k,q])=>(k==="egg"?"달걀(괴조 알도 됨)":IT[k].n)+" "+haveM(k)+"/"+q).join(" · ")+(i.slot?(()=>{const lvC=tbl===HRC?(IT[id].bd||me.lv):tbl===MRC?Math.max(5,me.lv):Math.max(1,me.lv),P=gPrev(id,lvC,rr||0);return(P.atk?" · 공격력 +"+P.atk:"")+(P.def?" · 방어력 +"+P.def:"")+(P.atk||P.def?" (Lv"+lvC+" · 최저 등급 기준 · 추가 옵션 별도)":"")})():(i.atk?" · 공격력 +"+i.atk:"")+(i.def?" · 방어력 +"+i.def:""))+(i.use?" · "+i.d:"")+(i.dv?" · 납품가 "+won(i.dv):"")})),(tbl===HRC&&i.fin&&kn)?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>fn(id),"pri sm",{disabled:!ok}),btn("제작 의뢰",()=>crqPop(id),"sm",{disabled:!Object.keys(need).every(k=>haveM(k)>=need[k])})):kn&&tbl!==MRC?h("div",{c:"row",style:"gap:4px;flex-wrap:nowrap"},btn("제작",()=>fn(id),"pri sm",{disabled:!ok}),btn("×10",()=>craftN(fn,id,()=>need,10),"sm",{disabled:!ok,title:"재료가 있는 만큼 최대 10번"})):btn(kn?"제작":"잠김",()=>fn(id),"pri sm",{disabled:!ok})))});if(onlyKn&&!shown)box.append(h("p",{c:"xs mt",style:"margin:4px 2px 8px",t:"아직 익힌 "+kind+"이 없습니다 · 얻으면 여기에 나옵니다"}))}
 /* 납품 탭 공통 */
 function dlvHead(box,want){const d=myDlv(),g=myG();box.append(h("div",{c:"sm",style:"margin-bottom:6px"},"내 납품처: ",h("b",{t:d?DLV[d].n+" → "+DLV[d].atn:"정하지 않음"}),h("span",{c:"mt",t:g?" (길드 「"+g.name+"」가 정함)":" (개인 결정)"})),
  h("div",{c:"xs mt",style:"margin-bottom:8px",t:"명성 "+repOf(me)+(g?" · 길드 명성 "+repOf(g):"")+" · 명성은 납품으로만 회복됩니다. "+(g?"길드에 있는 동안은 길드 납품처를 따르고, 탈퇴하면 개인 납품처로 돌아갑니다.":"무소속이면 위에서 납품처를 정합니다. 임무완수증서는 주점에서 제출하면 납품됩니다.")}));
  return want.includes(d)}
 async function setMyDlv(k){if(myG())return toast("소속된 길드의 납품처를 따릅니다");await upd({dlv:k});toast("개인 납품처: "+DLV[k].n)}
 function dlvPick(box){if(myG())return;const s=h("div",{c:"seg"});Object.entries(DLV).forEach(([k,x])=>s.append(h("button",{c:me.dlv===k?"on":"",t:x.n,onclick:()=>wrap(()=>setMyDlv(k))})));box.append(h("div",{c:"sm",style:"margin:4px 0",t:"개인 납품처 정하기"}),s)}
-function marketDlv(box,row){dlvPick(box);if(myDlv()==="furn"){dlvHead(box,["furn"]);box.append(h("p",{c:"sm mt",t:"가구 납품은 정비소 「가구점」 탭에서 합니다."}));return}if(!dlvHead(box,["food"])){box.append(h("p",{c:"sm mt",t:"시장 납품 탭에는 음식을 납품합니다. 지금 납품처가 다릅니다."}));return}const d=myDlv(),L=Object.keys(IT).filter(k=>IT[k].dv&&(d==="food"?FRC[k]:URC[k])&&(me.inv[k]||0)>0);
+function marketDlv(box,row){dlvPick(box);if(myDlv()==="furn"){dlvHead(box,["furn"]);box.append(h("p",{c:"sm mt",t:"가죽 제품 납품은 정비소 「납품」 탭에서 합니다."}));return}if(!dlvHead(box,["food"])){box.append(h("p",{c:"sm mt",t:"시장 납품 탭에는 음식을 납품합니다. 지금 납품처가 다릅니다."}));return}const d=myDlv(),L=Object.keys(IT).filter(k=>IT[k].dv&&(d==="food"?FRC[fqBase(k)]:URC[k])&&(me.inv[k]||0)>0);
  if(!L.length)box.append(h("p",{c:"sm mt",t:"납품할 "+DLV[d].n+"이(가) 없습니다. "+(d==="food"?"숙소 부엌 인덕션에서 요리하십시오.":"정비소 제작 탭에서 가구를 만드세요.")}));
  L.forEach(k=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:IT[k].n+" ×"+me.inv[k]}),h("div",{c:"xs mt",t:"개당 "+won(IT[k].dv)+" 환 · 명성 +"+(d==="food"?1:2)})),btn("1개",()=>deliverItem(k,1),"sm"),btn("전부",()=>deliverItem(k,me.inv[k]),"sm"))))}
-function shopDlv(box,row){dlvPick(box);if(!dlvHead(box,["arms"])){box.append(h("p",{c:"sm mt",t:"정비소에는 무기·장비·악세서리를 납품합니다. 지금 납품처가 다릅니다."}));return}const G=me.gear||[];if(!G.length)box.append(h("p",{c:"sm mt",t:"가방의 장비 칸이 비어 있습니다. 장착 중인 장비는 납품할 수 없습니다."}));
+function shopDlv(box,row){dlvPick(box);if(myDlv()==="furn")return furnDlv(box,row);if(!dlvHead(box,["arms"])){box.append(h("p",{c:"sm mt",t:"정비소에는 무기·장비·악세서리 또는 가죽 제품을 납품합니다. 지금 납품처가 다릅니다."}));return}const G=me.gear||[];if(!G.length)box.append(h("p",{c:"sm mt",t:"가방의 장비 칸이 비어 있습니다. 장착 중인 장비는 납품할 수 없습니다."}));
  G.slice().sort((a,b)=>b.r-a.r).forEach(q=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[q.r].c,t:gName(q)}),h("div",{c:"xs mt",t:RAR[q.r].n+" · Lv"+q.lv+" · 납품가 "+won(gearVal(q))+" 환 · 명성 +3"})),btn("납품",()=>deliverGear(q.gid),"sm"))))}
 /* 주점 */
 const SURV=[["mm_heart",1,2],["mm_lens",1,2]];
@@ -2411,7 +2466,7 @@ function tavernFac(box,subs,row,wal){box.append(wal);const sv=survAt(),t=REG[me.
   my.forEach(r=>box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:reqTitle(r)}),h("div",{c:"xs "+(r.st==="billed"?"bad":"mt"),t:stT[r.st]+(r.accn?" · "+r.accn:"")+" · "+won(r.amt)+" 환"+(r.st==="billed"?" · 기한 "+kfmt(r.billT+864e5):"")+(r.pen?" · 명성 감점":"")})),
    r.st==="open"&&r.by===uid&&r.kind==="craft"?btn("취소",()=>wrap(()=>cancelCraft(r)),"sm"):r.st==="open"&&r.by===uid?btn("취소",()=>rmut(r.id,d=>{if(d.st!=="open")return false;d.st="cancel"}).then(ok=>toast(ok?"의뢰를 취소했습니다":"이미 누군가 맡은 의뢰입니다")),"sm"):r.st==="billed"?btn("지불 "+won(r.amt),()=>payBill(r),"pri sm"):null)))}
  const L=reqs.filter(r=>r.st==="open"&&r.by!==uid&&(r.kind!=="craft"||!r.to||r.to===uid));hd("의뢰 "+L.length+"건");
- L.forEach(r=>{if(r.kind==="craft"){const ok=crqOk(me);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[3].c,t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+" · 보수 "+won(r.amt)+" 환 · 대장장이 Lv"+JREQ[3]+" 이상"+(r.to?" · 나를 지정한 의뢰":"")+" · 재료는 의뢰인이 맡겨 둠"})),btn(ok?"수락":"대장장이 Lv"+JREQ[3]+"↑",()=>wrap(()=>acceptCraft(r)),ok?"pri sm":"sm",{disabled:!ok})));return}const same=me.guild&&r.gid&&r.gid===me.guild;box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+(r.gid&&guilds[r.gid]?" · 「"+guilds[r.gid].name+"」":"")+" · "+won(r.amt)+" 환"})),btn(same?"같은 길드":"맡기",()=>acceptReq(r),"sm",{disabled:same})))});
+ L.forEach(r=>{if(r.kind==="craft"){const ok=crqOk(me,r.cj),jn=JNm(r.cj);box.append(row(h("div",{c:"grow"},h("b",{c:"sm",style:"color:"+RAR[3].c,t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+" · 보수 "+won(r.amt)+" 환 · "+jn+" Lv"+JREQ[3]+" 이상"+(r.to?" · 나를 지정한 의뢰":"")+" · 재료는 의뢰인이 맡겨 둠"})),btn(ok?"수락":jn+" Lv"+JREQ[3]+"↑",()=>wrap(()=>acceptCraft(r)),ok?"pri sm":"sm",{disabled:!ok})));return}const same=me.guild&&r.gid&&r.gid===me.guild;box.append(row(h("div",{c:"grow"},h("b",{c:"sm",t:reqTitle(r)}),h("div",{c:"xs mt",t:r.byn+(r.gid&&guilds[r.gid]?" · 「"+guilds[r.gid].name+"」":"")+" · "+won(r.amt)+" 환"})),btn(same?"같은 길드":"맡기",()=>acceptReq(r),"sm",{disabled:same})))});
  const f=rform,F=h("div",{c:"card",style:"margin:12px 0 0;padding:10px"},h("div",{c:"sm",style:"margin-bottom:6px",t:"의뢰 올리기"}));
  const kind=h("select",{onchange:e=>{f.kind=e.target.value;render(true)}},h("option",{value:"mat",t:"재료 가져다 주기"}),h("option",{value:"gate",t:"게이트 클리어 지원"}));kind.value=f.kind;F.append(kind);
  if(f.kind==="gate"){const gs=h("select",{onchange:e=>f.grade=e.target.value},["F","E","D","C","B","A","S"].map(x=>h("option",{value:x,t:x+"급 이상 게이트"})));gs.value=f.grade;F.append(gs)}
@@ -2435,12 +2490,16 @@ async function bmAll(fns){const ap1=b0=>{let cur=b0,ch=false;fns.forEach(f=>{con
 async function bm(fn){
  if(!bk||(battle&&battle.tut)){if(!battle)return;const b=clone(battle);if(fn(b)===false)return;battle=b;settleCheck();rq();return}
  const ref=db.doc("battles/"+bk),s=await ref.get();if(!s.exists)return;const b=s.data();if(fn(b)===false)return;await ref.set(b)}
-const memMp=m=>Math.min(m.mpMax,m.mp+Math.max(0,Date.now()-(m.mpT||Date.now()))/1000*(m.mpr||1));
+/* 무속성 짝꿍: 파티(공격대)에 무속성 헌터가 있고 살아 있는 사람이 2명 이상이면 전원 MP 회복 1.5배 */
+const NONE_MP=1.5,nbOn=(m,M)=>{if(!M){for(const X of [typeof battle!=="undefined"&&battle&&battle.mem,typeof rdoc!=="undefined"&&rdoc&&rdoc.mem,typeof rdS!=="undefined"&&rdS&&rdS.mem])if(X&&Object.values(X).includes(m)){M=X;break}}if(!M)return false;const A=Object.values(M).filter(x=>x&&x.hp>0);return A.length>=2&&A.some(x=>x.attr==="무속성")};
+const memMp=(m,M)=>Math.min(m.mpMax,m.mp+Math.max(0,Date.now()-(m.mpT||Date.now()))/1000*(m.mpr||1)*(nbOn(m,M)?NONE_MP:1));
 const mkMem=c=>({n:me.name,con:Math.round(c.con||0),role:me.role,hp:Math.max(1,Math.round(c.hp)),max:maxHp(me),mp:Math.round(c.mp),mpMax:maxMp(me),mpT:Date.now(),mpr:Math.round((1+es(me,3)*.08)*100)/100,pw:pw(me),hl:hl(me),def:df(me),luck:es(me,3),agi:es(me,2),attr:me.attr,gr:me.grade,guard:0,...(()=>{const e=eff(me),r=x=>Math.round(x*100)/100;return{miss:r(e.miss),cdm:r(e.cdm),vul:r(e.vul),cf:r(e.cf),sh:r(e.sh),stn:r(e.stn)}})()});
 function monTick(b){
  const now=Date.now();if(b.st!=="on")return false;if(b.tut)return false;const dd=dotTick(b,now);if(b.st!=="on")return true;if(b.mon.nextAt>now)return dd;
  const al=Object.values(b.mem).filter(m=>m.hp>0);if(!al.length){b.st="lost";return true}
- if(b.mon.par){b.mon.par=0;lg(b,b.mon.n+" — 몸이 굳어 공격하지 못했다! (마비)");b.mon.nextAt=now+((b.mon.slow||0)>now?7000:5400);return true}
+ if(b.mon.par){b.mon.par=Math.max(0,(b.mon.par|0)-1);lg(b,b.mon.n+" — "+(b.mon.parN==="결박"?"결박되어":"몸이 굳어")+" 공격하지 못했다! ("+(b.mon.parN||"마비")+")");b.mon.nextAt=now+((b.mon.slow||0)>now?7000:5400);return true}
+ const mI=()=>now+Math.round(((b.mon.slow||0)>now?7000:5400)*((b.mon.fast||0)>now?WAVE_FAST:1));
+ if(b.mon.conf){b.mon.conf=0;const cN=b.mon.confN||"혼란";if(rf()<CONF_P){const d=Math.max(1,Math.round(b.mon.atk*(.85+rf()*.3)*.6*(b.mon.confX||1))),real=Math.min(d,b.mon.hp);b.mon.hp=Math.max(0,b.mon.hp-d);lg(b,b.mon.n+" — "+(cN==="광명"?"빛에 눈이 멀어":"혼란에 빠져")+" 자신을 공격했다! "+d+" 피해");b.mon.nextAt=mI();if(b.mon.hp<=0){b.st="won";lg(b,b.mon.n+" 격파!")}return true}lg(b,b.mon.n+" — "+cN+"을(를) 떨쳐냈다")}
  const tk=al.filter(m=>m.role==="tank"),pool=tk.length?tk:al,m=pool[ri(pool.length)];
  if(rf()<m.agi*.015+((b.mon.acc||0)>now?ACC_DN:0))lg(b,b.mon.n+"의 공격을 "+m.n+"이(가) 회피!");
  else{let d=Math.max(1,Math.round((b.mon.atk*(.85+rf()*.3)-m.def)*(1+(m.vul||0))));if(m.guard>now)d=Math.ceil(d*.4);m.hp=Math.max(0,m.hp-d);lg(b,b.mon.n+" → "+m.n+(m.role==="tank"?" (탱커 우선 공격)":"")+" "+d+" 피해");
@@ -2448,9 +2507,19 @@ function monTick(b){
   if(ma==="불"&&rf()<.07)hz.push("burn");if((ma==="풀"||ma==="어둠")&&rf()<.06)hz.push("poison");if(pc>=.22&&rf()<.03)hz.push("conc");
   hz.forEach(k=>{m.hurt=m.hurt||[];if(!m.hurt.includes(k)){m.hurt.push(k);lg(b,m.n+" — "+AIL[k].n+"!")}})}
  if(rf()<.14){const a2=Object.values(b.mem).filter(x=>x.hp>0);if(a2.length)lg(b,flavLine(b,a2[ri(a2.length)]))}
- b.mon.nextAt=now+((b.mon.slow||0)>now?7000:5400);if(!Object.values(b.mem).some(x=>x.hp>0)){b.st="lost";lg(b,"전원 쓰러졌다…")}return true}
+ b.mon.nextAt=mI();if(!Object.values(b.mem).some(x=>x.hp>0)){b.st="lost";lg(b,"전원 쓰러졌다…")}return true}
 /* ===== 낚시: 비 오는 날 · 바다 인접 지역은 고래·상어 · 호수(평지) 지역은 붕어·메기·잉어 ===== */
-const FISH={sea:{mon:[["고래 의태형","물"],["상어 의태형","물"]]},lake:{mon:[["붕어 의태형","물"],["메기 의태형","번개"],["잉어 의태형","물"]]}};
+const FISH={sea:{mon:[["고래 의태형","물"],["상어 의태형","물"],["아귀 의태형","어둠"],["문어 의태형","어둠"],["가오리 의태형","물"],["곰치 의태형","물"],["대왕오징어 의태형","물"],["게 의태형","물"]]},lake:{mon:[["붕어 의태형","물"],["메기 의태형","번개"],["잉어 의태형","물"],["자라 의태형","물"],["가재 의태형","물"],["강꼬치고기 의태형","물"]]},
+ hunt:{mon:[["멧돼지 의태형","땅"],["사슴 의태형","풀"],["들소 의태형","불"],["산양 의태형","땅"],["엘크 의태형","땅"],["타조 의태형","빛"]]}};
+/* 낚시 · 수렵 (2026-11-28): 생선살은 생선 의태종을 잡아야만 나옴 · 대부분은 재료가 낚이고(잡히고) 가끔 의태종이 걸려 전투 · 낚시대가 좋을수록 의태종이 더 자주 걸림 */
+const FISH_MON=[0,.18,.2,.22,.25,.28],HUNT_MON=.2;
+const FCATCH={sea:[["f_miyeok",24],["f_kelp",14],["f_clam",12],["shell",8],["seaweed",6],["net",5],["drift",5]],lake:[["f_snail",20],["f_minari",14],["fclam",12],["moss",10],["reed",8],["drift",5],["net",3]]},
+ HCATCH=[["f_meat",30],["hide",26],["h_bone",14],["h_sinew",10],["h_tough",8],["f_pheasant",6]];
+/* 의태종 이름 → 식용 재료 (낚시 · 수렵 전투면 75% · 일반 전투면 30% · 행운 반영) */
+const MEAT={아귀:"fm_monk",문어:"fm_octo",대왕오징어:"fm_squid",게:"fm_crab",붕어:"fm_crucian",잉어:"fm_carp",메기:"fm_cat",가재:"fm_cray",강꼬치고기:"fm_pike",
+ 멧돼지:"gm_boar",사슴:"gm_deer",들소:"gm_bison",산양:"gm_goat",엘크:"gm_elk"};
+const meatOf=n=>{if(!n)return null;for(const k in MEAT)if(n.indexOf(k+" ")===0)return MEAT[k];return null};
+
 Object.assign(IT,{fish_meat:{n:"생선살",d:"재료 · 낚시"},fish_scale:{n:"의태 비늘",d:"재료 · 낚시"},whale_oil:{n:"고래 기름",d:"재료 · 바다 낚시 (고래 의태형)"},shark_tooth:{n:"상어 이빨",d:"재료 · 바다 낚시 (상어 의태형)"},fish_fin:{n:"민물 지느러미",d:"재료 · 민물 낚시"}});
 const fishKind=id=>{const T=window.Holo&&Holo.RT[id];if(!T||(REG[id]&&REG[id].safe))return null;if(T.sea)return"sea";if(T.t==="plain")return"lake";return null};
 const fishWx=()=>true;
@@ -2467,16 +2536,32 @@ async function rodMod(){if(rmpBlock()||hospBlock())return;const N=ROD_MOD.need,i
 async function fish(){if(rmpBlock()||hospBlock())return;if(jobOf("g")!=="fish")return toast("어부 직업 전용 채집 · 내 정보 → 직업");{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  const k=fishKind(me.loc);if(!k)return toast("여기서는 낚시할 수 없습니다.");const rt=rodTier();if(!rt)return toast("낚시대 필요 · 시장에서 사거나 물가를 조사하면 획득할 수 있습니다.");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;{const c0=cur(me);if(c0.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+2000;await upd({en:Math.round(c0.en-GATHER_EN)})}
  if(rf()<ROD_MISS[rt])return toast(NOGOT);
+ if(rf()>=FISH_MON[rt])return catchGot("fish",k,rt);
  if(await startBattle(true,null,k)){hidePhone();closeAsk();tab="battle";render(true);toast(k==="sea"?"거대한 그림자가 낚싯줄을 끌어당긴다!":"수면 아래에서 무언가 낚싯줄을 물었다!")}}
+/* 낚시 · 수렵 재료 획득 (전투 없이) */
+async function catchGot(j,k,rt){const lf=luckF(me),T=j==="hunt"?HCATCH:FCATCH[k],inv={...me.inv},got={};let n=1;
+ if(j==="fish"){if(rt>=3&&rf()<.3)n++;if(rt>=5&&rf()<.3)n++}else if(rf()<Math.min(.6,.15*lf))n++;
+ for(let i=0;i<n;i++){const id=pickW(T),q=addInv(inv,id,1);if(q)got[id]=(got[id]||0)+q}
+ if(rf()<Math.min(.08,.02*lf)){const L=j==="hunt"?HUNT_RC:FISH_RC,id="rc_"+L[ri(L.length)];if(addInv(inv,id,1))got[id]=1}
+ const p={inv};jobGain(p,"g",j,GJ_XP);cntAdd(p,j==="hunt"?"hunt":"fish");if(j==="fish"&&rt===5)cntAdd(p,"f5");await upd(p);
+ const L=Object.entries(got).map(([id,q])=>iq(id,q));toast(L.length?(j==="hunt"?"수렵: ":"낚시: ")+L.join(", "):"가방이 가득 찼습니다")}
+const huntOk=id=>{const R=REG[id];return !!R&&!R.safe&&!R.raid&&!R.arena&&!!R.res};
+const huntTool=()=>Object.values((me&&me.eq)||{}).some(q=>q&&(q.id==="bow"||(IT[q.id]&&IT[q.id].tool==="hunt")));
+async function hunt(){if(rmpBlock()||hospBlock())return;if(jobOf("g")!=="hunt")return toast("사냥꾼 직업 전용 채집 · 내 정보 → 직업");{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB())return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
+ if(!huntOk(me.loc))return toast("여기서는 사냥할 수 없습니다.");if(!huntTool())return toast("사냥용 활을 보조 장비에 착용해야 수렵할 수 있습니다 · 정비소에서 구매할 수 있습니다.");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;
+ {const c0=cur(me);if(c0.en<GATHER_EN)return toast("에너지가 부족합니다 ("+GATHER_EN+" 필요)");gcd=Date.now()+2000;await upd({en:Math.round(c0.en-GATHER_EN)})}
+ if(rf()>gRate(me))return toast(NOGOT);
+ if(rf()>=HUNT_MON)return catchGot("hunt",null,0);
+ if(await startBattle(true,null,"hunt")){hidePhone();closeAsk();tab="battle";render(true);toast("덫을 확인하러 간 순간, 덤불 속에서 거대한 짐승이 몸을 일으킨다!")}}
 const MON_HPX=1.2;/* 일반 의태종 체력 배율 */
 async function startBattle(enc,spk,fishK){if(hospBlock())return;
-{const _l=lockMsg();if(_l)return toast(_l)} const R=REG[me.loc];if(R.safe)return toast(R.n+"에서는 의태종이 나타나지 않습니다");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
+{const _l=lockMsg();if(_l)return toast(_l)} const R=REG[me.loc],BBK=fishK==="bbf"||fishK==="bbh";if(R.safe&&!BBK)return toast(R.n+"에서는 의태종이 나타나지 않습니다");if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");if(me.sg)return toast("게이트(섬) 안에 있습니다");
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return bBusy();
  const c=cur(me),H=HSP[spk||spot()]||HSP.out;
  const pt=me.party&&parties[me.party],tk0=pt&&pt.tmp?tmpKey():null,pals=tk0?pt.members.filter(id=>id!==uid&&tmpHere(id,tk0)&&!(battle&&battle.st==="on"&&battle.mem&&battle.mem[id])):[],n=pt?(pt.tmp?1+pals.length:pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length):1;
- const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=mLo(R,H)+ri(mHi(R,H)-mLo(R,H)+1)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round(MON_HPX*(50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
+ const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=BBK?100+ri(6):mLo(R,H)+ri(mHi(R,H)-mLo(R,H)+1)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round(MON_HPX*(50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
  const bt={t:Date.now(),region:me.loc,spot:spk||spot(),st:"on",mon:{n:mo[0],attr:mo[1],lv,hp:max,max,atk:Math.round((6+lv*3)*(rf2?1.2:1)*(R.hard?1.25:1)),nextAt:Date.now()+5000},mem:{[uid]:mkMem(c)},log:[mo[0]+" (Lv"+lv+") 이(가) 나타났다!"].concat(R.hard?["종말의 섬의 의태종은 훨씬 강하다!"]:[]).concat(rf2?["비와 안개 속에서 의태종이 흉포해졌다!"]:[])};
- if(fishK){bt.fish=fishK;bt.rod=rodTier();bt.log.unshift("낚싯줄이 팽팽하게 당겨졌다!");if(fishK==="sea"){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.2)}}
+ if(BBK){bt.bb=fishK;bt.log.unshift(fishK==="bbf"?"탑의 어둠 속 수로가 출렁인다!":"계단 그늘에 숨어 있던 거대한 뱀이 똬리를 푼다!")}else if(fishK==="hunt"){bt.hunt=1;bt.log.unshift("사냥감인 줄 알았던 것이 의태종이었다!")}else if(fishK){bt.fish=fishK;bt.rod=rodTier();bt.log.unshift("낚싯줄이 팽팽하게 당겨졌다!");if(fishK==="sea"){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.2)}}
  if(ovfOn()){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.35);bt.mon.atk=Math.round(bt.mon.atk*1.3);bt.log.push("게이트 폭주의 여파로 의태종이 폭주했다.")}
  if(pals.length&&bk){pals.forEach(id=>{try{bt.mem[id]=mkMemFor(id)}catch(e){}});bt.tmp=1;bt.log.push("근처에 있던 헌터 "+pals.length+"명이 함께 싸운다!")}flavStart(bt);
  if(bk)await db.doc("battles/"+bk).set(bt);else battle=bt;
@@ -2508,7 +2593,7 @@ function useSk(sk){
  if(sk.t==="atk"&&(m0.stunT||0)>now)return toast("이명 — "+Math.ceil((m0.stunT-now)/1000)+"초 동안 공격 불가능");
  const cost=sk.id==="h1"&&m0.snr?0:mpCost(me,sk);if(memMp(m0)<cost)return toast("MP가 부족합니다 ("+cost+" 필요)");
  if((cds._g||0)>now)return;cds[sk.id]=now+Math.round(sk.cd*1000*(1-Math.min(.6,m0.agi*.05))*(m0.cdm||1));cds._g=now+SK_GCD;
- return bmut(b=>{const m=b.mem[uid];if(b.st!=="on"||!m||m.hp<=0)return false;const mp=memMp(m);if(mp<cost)return false;m.mp=Math.round((mp-cost)*10)/10;m.mpT=Date.now();
+ return bmut(b=>{const m=b.mem[uid];if(b.st!=="on"||!m||m.hp<=0)return false;const mp=memMp(m,b.mem);if(mp<cost)return false;m.mp=Math.round((mp-cost)*10)/10;m.mpT=Date.now();
   if(sk.t==="atk"){const cn=m.con||0;
    if(cn>=100&&rf()<.25){const al=Object.values(b.mem).filter(x=>x.hp>0),tg=al[ri(al.length)],dd=Math.max(1,Math.round(m.pw*sk.m*.4));tg.hp=Math.max(0,tg.hp-dd);lg(b,jo(m.n)+" 오염으로 정신을 잃고 "+(tg===m?"자신을":eul(tg.n))+" 공격! "+dd+" 피해");if(!Object.values(b.mem).some(x=>x.hp>0)){b.st="lost";lg(b,"전원 쓰러졌다…")}return}
    const hitX=(tg,why)=>{const dd=Math.max(1,Math.round(m.pw*sk.m*.4));tg.hp=Math.max(0,tg.hp-dd);lg(b,jo(m.n)+" "+why+" "+(tg===m?"자신을":(w=>{const c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3?w+((c-0xAC00)%28?"을":"를"):w+"을(를)"})(tg.n))+" 공격! "+dd+" 피해");if(!Object.values(b.mem).some(x=>x.hp>0)){b.st="lost";lg(b,"전원 쓰러졌다…")}};
@@ -2517,8 +2602,8 @@ function useSk(sk){
    if(m.sh&&rf()<m.sh)return hitX(m,"감각이 폭주해");
    if(m.cf&&rf()<m.cf){const al=Object.values(b.mem).filter(x=>x.hp>0);return hitX(al[ri(al.length)],"환각에 사로잡혀")}
    dotTick(b,Date.now());if(b.st!=="on")return;
-   const cm=cn>=100?.55:cn>=80?.35:0;if(!((b.mon.eva||0)>Date.now())&&rf()<cm+(m.miss||0)){lg(b,m.n+"의 "+sk.n+" — 빗나갔다!"+(cm?" (오염)":""));return}
-   const IR=sk.sp?inRoll(m.attr,b.mon.attr):null,IX=IR&&IR.on?IR.x:{},nw=Date.now(),ITAG=IR&&IR.on&&(IX.crit||IX.mul)?" · "+m.attr+(IX.mul===1.9?" 추가 피해":IX.mul?" 치명타 ×1.5":" 치명타"):"";
+   const cm=cn>=100?.55:cn>=80?.35:0;if(!((b.mon.eva||0)>Date.now())&&rf()<(cm+(m.miss||0))*((b.accUp||0)>Date.now()?GRASS_MISS:1)){lg(b,m.n+"의 "+sk.n+" — 빗나갔다!"+(cm?" (오염)":""));return}
+   const IR=sk.sp?inRoll(m.attr,b.mon.attr,b,m):null,IX=IR&&IR.on?IR.x:{},nw=Date.now(),ITAG=IR&&IR.on&&(IX.crit||IX.mul)?" · "+m.attr+(IX.mul===1.9?" 추가 피해":IX.mul?" 치명타 ×1.5":" 치명타"):"";
    if(sk.sp==="snare"){let d=b.mon.max*SNARE_P*((b.mon.exp||0)>nw?EXP_X:1)*((b.mon.dmg2||0)>nw?2:1);if(IX.crit)d*=1.8;if(IX.mul)d*=IX.mul;d=Math.max(1,Math.round(d));m.dmg=(m.dmg||0)+Math.min(d,b.mon.hp);b.mon.hp=Math.max(0,b.mon.hp-d);m.snr=1;lg(b,m.n+"의 발목잡기! "+d+" 피해"+ITAG+" · 다음 광탄 강화");inApply(b,m,IR);if(b.mon.hp<=0){b.st="won";lg(b,b.mon.n+" 격파!")}return}
    let mul=sk.m,bo=false;if(sk.id==="h1"&&m.snr){mul=SNARE_GX;m.snr=0;bo=true}
    let d=m.pw*mul*elm(m.attr,b.mon.attr)*(.9+rf()*.2)*(b.mon.dt||1)*((b.mon.exp||0)>nw?EXP_X:1)*((b.mon.dmg2||0)>nw?2:1);const crit=!!IX.crit||rf()<.05+m.luck*.015;if(crit)d*=1.8;if(IX.mul)d*=IX.mul;d=Math.max(1,Math.round(d));m.dmg=(m.dmg||0)+Math.min(d,b.mon.hp);b.mon.hp=Math.max(0,b.mon.hp-d);lg(b,m.n+"의 "+sk.n+(bo?" (강화)":"")+"! "+d+" 피해"+(crit&&!ITAG?" (치명타)":"")+ITAG);
@@ -2545,9 +2630,9 @@ async function settle(b){
   const p={ts:Date.now(),lastB:b.t,bdone:bd,en:Math.round(c.en),mp:Math.round(memMp(m)),con:Math.min(100,Math.round((c.con+cg)*10)/10)};
   const eq=clone(me.eq||{});for(const s in eq)if(eq[s]&&eq[s].id)eq[s].dur=Math.max(0,(eq[s].dur||0)-2);p.eq=eq;
   let msg="패배… 중앙 거점 치료소로 후송되었다";
-  if(b.st==="won"){p.mp=maxMp(me);if(b.fish){cntAdd(p,"fish");jobGain(p,"g","fish",GJ_XP);if(b.rod===5)cntAdd(p,"f5")}const inv={...me.inv},got=[];let gx=b.mon.lv*14*(b.mon.lv<me.lv-10?1/3:1)*1.5,exp=me.exp+Math.round(gx),lv=me.lv;if(!me.hqOut)p.hqb=(me.hqb||0)+1;
+  if(b.st==="won"){p.mp=maxMp(me);if(b.fish){cntAdd(p,"fish");jobGain(p,"g","fish",GJ_XP);if(b.rod===5)cntAdd(p,"f5")}if(b.hunt){cntAdd(p,"hunt");jobGain(p,"g","hunt",GJ_XP)}if(b.bb){cntAdd(p,b.bb==="bbf"?"fish":"hunt")}const inv={...me.inv},got=[];let gx=b.mon.lv*14*(b.mon.lv<me.lv-10?1/3:1)*1.5,exp=me.exp+Math.round(gx),lv=me.lv;if(!me.hqOut){p.hqb=(me.hqb||0)+1;p.hqd={d:kday(Date.now()),n:hqToday(),w:hqW()+1}}
    const lf=luckF(me),tan=b.gate&&b.gate.kind!=="p"?gateTan(b):Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?1.3:1)),pend=[],addR=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(iq(id,k))},add=(id,q)=>{if(!b.gate)pend.push([id,q]);else addR(id,q)};if(b.gate&&b.gate.kind==="p"&&rf()<Math.min(.2,.04*lf))add("lotto",1);
-   if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=11&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
+   if(b.bb){}else if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=11&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
     if((R===REG.forest||R===REG.h2)&&rf()<Math.min(.5,.08*lf))add("fd_honeypot",1);
     if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1)}}
    else{/* 게이트: 의태종을 쓰러뜨려 얻는 재료는 0~3개 (손재주 비례) */const gk=b.gate.kind,boss=!!b.gate.boss,pool=[["hide",3],["res",3]];if(R.lv>=11)pool.push(["core",boss?2:1]);if(R.hard)pool.push(["alloy",1],["crystal",.6],["cell",.25]);
@@ -2556,6 +2641,10 @@ async function settle(b){
     {const g0=gateById(b.gate.id);if(g0&&g0.hard&&HMAT[g0.reg]&&rf()<(boss?.06:.02)*lf)add("hm_"+g0.reg,1)}}
    if(b.gate&&["w","s","gm"].includes(b.gate.kind)&&rf()<.04*lf*(b.gate.boss?2:1)){/* 장비 제작법: 의태종 레벨 구간 */let bd=Math.max(10,Math.min(100,Math.floor((b.mon.lv||10)/10)*10));{const g0=b.gate.kind!=="s"?gateById(b.gate.id):null;if(g0&&!g0.hard){if(g0.grade==="D"&&b.gate.boss)bd=30;else if(g0.grade==="C"&&!b.gate.boss)bd=40}}const L=NGEAR.craft[bd]||[];if(L.length)add("rp_"+L[ri(L.length)],1)}
    if(b.fish){const mn=b.mon.n||"",rb=1+.15*((b.rod||1)-1);add("fish_meat",1+ri(2)+((b.rod||1)>=4&&rf()<.5?1:0));if(rf()<Math.min(.95,.45*lf*rb))add("fish_scale",1);if(mn.startsWith("고래")&&rf()<Math.min(.97,.6*lf*rb))add("whale_oil",1+(rf()<.3*rb?1:0));if(mn.startsWith("상어")&&rf()<Math.min(.97,.6*lf*rb))add("shark_tooth",1+(rf()<.3*rb?1:0));if(b.fish==="lake"&&rf()<Math.min(.95,.45*lf*rb))add("fish_fin",1)}
+   if(b.bb==="bbf"){add("bb_scale",1+(rf()<Math.min(.3,.08*lf)?1:0));if(rf()<Math.min(.9,.6*lf))add("bb_shark",1)}else if(b.bb){add("bb_anaconda",1+(rf()<Math.min(.3,.08*lf)?1:0))}
+   if(b.hunt){add("hide",1+ri(2));if(rf()<Math.min(.9,.5*lf))add("h_tough",1+(rf()<.25?1:0));if(rf()<.45)add("h_sinew",1);if(rf()<.4)add("h_bone",1+ri(2))}
+   {const mk=meatOf(b.mon&&b.mon.n),sp=!!(b.fish||b.hunt);if(mk&&rf()<Math.min(.95,(sp?.75:.3)*lf))add(mk,1+(sp&&rf()<.35?1:0))}
+   if((b.fish||b.hunt)&&rf()<Math.min(.2,.05*lf)){const L=b.hunt?HUNT_RC:FISH_RC;add("rc_"+L[ri(L.length)],1)}
    if(rf()<.35)add("f_meat",1);if(isBird(b.mon&&b.mon.n)&&rf()<.15*lf)add("f_egg",1);if(rf()<.1)add("u_nail",1);if(rf()<.02*lf)add("u_ivory",1);if(b.gate&&["w","s","gm"].includes(b.gate.kind)&&rf()<.03*lf)add("rc_"+pickW(RCW),1);
    if(b.gate&&b.gate.kind==="gm"){/* 게이트 안 의태종 */}
    else if(b.gate&&b.gate.boss){const gk=b.gate.kind;if(rf()<(gk==="s"?.15:.07)*lf)add("rm_"+pickW(MRW),1)}
@@ -2598,7 +2687,7 @@ function rBattle(v){
     h("div",{c:"thin foe"},h("i",{id:"nxb"})),h("div",{c:"xs mt"},"다음 공격 ",h("b",{id:"nxt"}))));
   const ml=h("div",{c:"mem"});Object.entries(b.mem).forEach(([id,x])=>ml.append(h("div",{},h("div",{c:"row sb sm"},h("span",{c:"row"},avatar(chars[id],"s"),h("span",{t:x.n+" ("+ROLE[x.role].n+")"+(x.guard>Date.now()?" · 철벽":"")+(x.hp<=0?" · 쓰러짐":"")})),h("span",{t:x.hp+"/"+x.max})),pbar(x.hp,x.max,x.hp/x.max>.3?"ok":"low",""))));
   const mpEl=h("div",{style:"margin-top:6px",id:"bmp"},pbar(memMp(mine),mine.mpMax,"mp","MP")),logEl=h("div",{c:"logbox"},b.log.map(l=>h("div",{t:l})));setTimeout(()=>{logEl.scrollTop=logEl.scrollHeight},0);
-  const dead=mine.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>{const bo=sk.id==="h1"&&mine.snr;g.append(h("button",{c:"skb"+(bo?" boost":""),title:sk.n+" — "+sk.d+(sk.sp&&INEUNG_D[me.attr]?" / "+me.attr+": "+INEUNG_D[me.attr]:""),"data-sk":sk.id,"data-mp":bo?0:mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,mine.agi*.05))*(mine.cdm||1)),"data-dead":dead?"1":"",...skBtnEv(sk,useSk)},h("i",{c:"fill"}),h("b",{t:sk.n}),sk.sp&&AICO[me.attr]?h("i",{c:"skat",style:"color:"+ACOL[me.attr],title:me.attr+" — "+(INEUNG_D[me.attr]||"")},svgI(AICO[me.attr])):null,h("small",{t:sk.d}),sk.sp&&INEUNG_D[me.attr]?h("small",{c:"skfx",t:me.attr+" · "+INEUNG_D[me.attr]}):null,h("small",{c:"mpc",t:"MP "+(bo?0:mpCost(me,sk))}),h("small",{c:"cdt"})))});
+  const dead=mine.hp<=0,g=h("div",{c:"sks"});SK[me.role].forEach(sk=>{const bo=sk.id==="h1"&&mine.snr;g.append(h("button",{c:"skb"+(bo?" boost":""),title:sk.n+" — "+sk.d+(sk.sp&&INEUNG_D[me.attr]?" / "+me.attr+": "+INEUNG_D[me.attr]:""),"data-sk":sk.id,"data-mp":bo?0:mpCost(me,sk),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,mine.agi*.05))*(mine.cdm||1)),"data-dead":dead?"1":"",...skBtnEv(sk,useSk)},h("i",{c:"fill"}),h("b",{t:sk.n}),sk.sp&&AICO[me.attr]?h("i",{c:"skat",style:"color:"+ACOL[me.attr],title:me.attr+" — "+(INEUNG_D[me.attr]||"")},svgI(AICO[me.attr])):null,h("small",{t:sk.d}),sk.sp&&INEUNG_D[me.attr]?h("small",{c:"skfx",t:me.attr+" · "+INEUNG_D[me.attr]+(SYN[me.attr]?" · 짝꿍 "+SYN[me.attr]+" ×1.5":"")}):null,h("small",{c:"mpc",t:"MP "+(bo?0:mpCost(me,sk))}),h("small",{c:"cdt"})))});
   const mpNote=h("div",{c:"xs mt",style:"margin-top:6px",t:"지능 비율이 높을수록 MP 소모가 줄어듭니다 (현재 ×"+mpMult(me).toFixed(2)+")"});
   if(desk){/* PC: 전투 로그 | 공격 버튼 · 아이템 | 파티 채팅 · 후퇴 */
    s.classList.add("bdesk");s.append(h("div",{c:"btop"},monEl,ml));
@@ -2613,8 +2702,14 @@ function rBattle(v){
 /* ===== 레이드: 바벨론 (탑 1~10층 · 4인 공격대 · 탱커 1 · 힐러 1 · 딜러 2) =====
    공격대 문서: parties (raid:1) · 전투 문서: battles/rd_<공격대 id>
    진행: 공격대 안에서 접속 중인 첫 사람(호스트)이 의태종과 피해 계산을 맡음 · 다른 사람은 자기 칸(a_<uid>)에 행동만 적음 */
-const RAID_REG="babel",RAID_LV=100,RAID_NEED={tank:1,healer:1,dealer:2},RAID_FREE=0,RAID_N=4,RAID_HPX=.5,RAID_ATX=.8,RAID_FL=10,RAID_HOT=.02,RAID_HOTMS=10000,RAID_TAUNT=15000,RAID_GONE=20000;
-Object.assign(IT,{babel_frag:{n:"바벨의 파편",d:"재료 · 바벨론 10층 「탑의 주인」을 쓰러뜨리면 아주 드물게 · 최종 장비 제작에 쓰임"}});
+const RAID_REG="babel",RAID_LV=100,RAID_NEED={tank:1,healer:1,dealer:2},RAID_FREE=0,RAID_N=4,RAID_HPX=.5,RAID_ATX=.8,RAID_FL=10,RAID_HOT=.02,RAID_HOTMS=10000,RAID_TAUNT=15000,RAID_GONE=20000,RAID_REST=60000,RAID_ORE=.18,RAID_FRAG=.2;
+Object.assign(IT,{babel_frag:{n:"바벨의 파편",d:"예전 재료 · 접속하면 미로의 조각 2개로 바뀝니다"},
+ maze_ore:{n:"미로의 광석",rar:3,d:"재료 · 바벨론 5층 미로 끝 「37E S7」을 쓰러뜨리면 · 최종 악세서리 제작에 1개"},
+ maze_frag:{n:"미로의 조각",rar:3,d:"재료 · 바벨론 10층 미로 끝 「M70A E0」을 쓰러뜨리면 · 최종 장비(악세서리 제외) 제작에 2개"},
+ fd_rb_a:{n:"무쇠 스테이크",d:"음식 · 20분 동안 힘 +5 · 방어력 +2",use:{buf:"rb_a",bufMin:20}},
+ fd_rb_d:{n:"돌갑옷 수프",d:"음식 · 20분 동안 방어 +5 · 공격력 +2",use:{buf:"rb_d",bufMin:20}},
+ fd_rb_i:{n:"맑은 정신 차",d:"음식 · 20분 동안 지능 +5 · 방어력 +2",use:{buf:"rb_i",bufMin:20}}});
+const RB_FOOD=[["fd_rb_a",450],["fd_rb_d",450],["fd_rb_i",450]];
 const RMOB=[["석상 의태형","땅"],["가고일 의태형","어둠"],["종지기 의태형","번개"],["사서 의태형","빛"],["파수꾼 의태형","불"],["거미 의태형","풀"],["까마귀 의태형","어둠"],["뱀 의태형","물"],["부엉이 의태형","빛"],["박쥐 의태형","어둠"]];
 const RFLN=[0,3,3,4,4,4,5,5,5,5,3];
 /* 레이드 전용 광역 이능 (직업마다 하나) */
@@ -2622,10 +2717,13 @@ const RSK={tank:{id:"t5",n:"광역 도발",d:"의태종 최대 3마리 · 15초 
  dealer:{id:"d5",n:"광역 공격",d:"최대 3마리 · 피해 ×3을 나눠 줌",cd:8,t:"r_aoe",m:3,mp:16,sp:"raid"},
  healer:{id:"h5",n:"광역 힐",d:"전원 최대 HP 40% · 10초 동안 지속 회복",cd:20,t:"r_aheal",mp:28,sp:"raid"}};
 const rdSkills=role=>(SK[role]||[]).concat(RSK[role]?[RSK[role]]:[]);
-function rdSpawn(fl){const r=srng("rdm"+fl+"_"+Date.now()),L=[],hm=Math.pow(1.15,fl-1),am=1+.07*(fl-1),now=Date.now();
- if(fl===RAID_FL){L.push({n:"[탑의 주인] 바벨 의태형",attr:"빛",lv:120,max:2200000,atk:1700,iv:4200,boss:1,aoeAt:now+15000});for(let i=0;i<2;i++)L.push({n:"수문장 의태형",attr:"땅",lv:110,max:200000,atk:900,iv:3600})}
- else for(let i=0;i<RFLN[fl];i++){const m=RMOB[Math.floor(r()*RMOB.length)];L.push({n:m[0],attr:m[1],lv:100+fl,max:Math.round(90000*hm),atk:Math.round(750*am),iv:3400+Math.floor(r()*600)})}
- /* 2026-11-28 4인(탱1 · 힐1 · 딜2)으로 줄어 체력 50% · 공격력 80% */L.forEach(m=>{m.max=Math.round(m.max*RAID_HPX);m.atk=Math.round(m.atk*RAID_ATX)});
+/* 2026-11-28 층마다 미로 입구 · 중심 · 끝 (끝은 더 단단 · 5층/10층 끝은 보스만) */
+const RSTG=["미로 입구","미로 중심","미로 끝"];
+const RBOSS={5:{n:"37E S7",lv:110,max:1500000,atk:1250,iv:3600,bk:"eve"},10:{n:"M70A E0",lv:120,max:2000000,atk:1550,iv:3400,bk:"adam"}};
+const RBSK={eve:[["bite","발목 물기",10],["tempt","선악권유",14],["tongue","간악한 혀",18]],adam:[["drown","물귀신",12],["good","선악",15],["ruin","천지파멸",18]]};
+function rdSpawn(fl,stg){stg=stg||0;const r=srng("rdm"+fl+"_"+stg+"_"+Date.now()),L=[],hm=Math.pow(1.15,fl-1),am=1+.07*(fl-1),now=Date.now(),end=stg===2;
+ if(end&&RBOSS[fl]){const B=RBOSS[fl];L.push({n:B.n,attr:"종말",lv:B.lv,max:B.max,atk:B.atk,iv:B.iv,boss:1,bk:B.bk,sk:{},spN:0,sh:0,shMax:0,stunU:0,skAt:now+6000})}
+ else{const n=end?Math.max(2,RFLN[fl]-1):RFLN[fl];for(let i=0;i<n;i++){const m=RMOB[Math.floor(r()*RMOB.length)];L.push({n:m[0],attr:m[1],lv:100+fl+(end?2:0),end:end?1:0,max:Math.round(90000*hm*(end?1.6:1)*RAID_HPX),atk:Math.round(750*am*(end?1.15:1)*RAID_ATX),iv:3400+Math.floor(r()*600)})}}
  return L.map((m,i)=>Object.assign(m,{i,hp:m.max,nextAt:now+4500+i*450,tg:null,tgU:0}))}
 const rdCh=id=>id===uid?me:chars[id];
 function rdMem(id){const c=rdCh(id),m=mkMemC(c);m.hp=m.max;m.mp=m.mpMax;m.mpT=Date.now();m.mpm=Math.round(mpMult(c)*100)/100;return m}
@@ -2650,7 +2748,7 @@ async function rpLeave(){const id=me.rpid;if(!id)return;if(rdIn())return toast("
 async function rpStart(){if(hospBlock())return;const p=myRP();if(!p)return;if(p.leader!==uid)return toast("공격대장만 도전을 시작할 수 있습니다");const w=rpWhy(p);if(w)return toast(w);
  const old=rdoc&&rdoc.pid===me.rpid?rdoc:null;if(old&&old.st==="on"&&Date.now()-(old.ts||old.t)<RAID_GONE)return toast("이미 도전 중입니다");
  const fl=rpStartFl(p),mem={};p.members.forEach(id=>mem[id]=rdMem(id));
- await db.doc("battles/rd_"+me.rpid).set({raid:1,pid:me.rpid,key:rpKey(p),fl,st:"on",t:Date.now(),ts:Date.now(),order:p.members.slice(),mons:rdSpawn(fl),mem,hot:{},seen:{},log:["바벨론 "+fl+"층 — 탑의 의태종들이 깨어났다!"].concat(fl>1?["저장된 곳에서 이어서 올라갑니다 ("+(fl-1)+"층까지 돌파)"]:[])})}
+ await db.doc("battles/rd_"+me.rpid).set({raid:1,pid:me.rpid,key:rpKey(p),fl,stg:0,fc:0,st:"on",t:Date.now(),ts:Date.now(),order:p.members.slice(),mons:rdSpawn(fl,0),mem,hot:{},seen:{},log:["바벨론 "+fl+"층 미로 입구 — 탑의 의태종들이 깨어났다!"].concat(fl>1?["저장된 곳에서 이어서 올라갑니다 ("+(fl-1)+"층까지 돌파)"]:[])})}
 /* 레이드 전투 문서 */
 let rdoc=null,rdUn=null,rdId=null,rdS=null,rdDirty=false,rdWT=0,rdMine=[],rdTg=0,rdShow=false,rdLastSeen={},rdDone=new Set();
 const rdIn=()=>!!(rdoc&&rdoc.st==="on"&&rdoc.mem&&rdoc.mem[uid]&&!rdoc.mem[uid].out);
@@ -2665,17 +2763,26 @@ const rdHost=d=>d&&(d.order||[]).find(id=>(id===uid||online.has(id))&&d.mem&&d.m
 async function rdAct(k,tg){if(!rdoc||!rdoc.mem||!rdoc.mem[uid])return;const sn=rdoc.seen&&rdoc.seen[uid]||0,s=Math.max(Date.now(),(rdMine.length?rdMine[rdMine.length-1].s:0)+1);
  rdMine=rdMine.filter(a=>a.s>sn).concat([{s,k,tg:tg==null?null:tg}]).slice(-8);await db.doc("battles/"+rdId).update({["a_"+uid]:rdMine}).catch(()=>{})}
 function rdUse(sk){const now=Date.now();if((cds[sk.id]||0)>now)return;const m=rdoc&&rdoc.mem&&rdoc.mem[uid];if(!m||m.hp<=0||rdoc.st!=="on")return;const cost=Math.max(1,Math.ceil(sk.mp*(m.mpm||1)));if(memMp(m)<cost)return toast("MP가 부족합니다 ("+cost+" 필요)");
- cds[sk.id]=now+Math.round(sk.cd*1000*(1-Math.min(.6,m.agi*.05))*(m.cdm||1));return rdAct(sk.id,rdTg)}
+ cds[sk.id]=now+Math.round(sk.cd*1000*(1-Math.min(.6,m.agi*.05))*(m.cdm||1)*(m.slowU>now?1.5:1));return rdAct(sk.id,rdTg)}
 /* ---- 호스트: 행동 처리 · 의태종 공격 · 기록 ---- */
 const rdLg=(S,t)=>{S.log.push(t);if(S.log.length>14)S.log.shift()};
 const rdAlive=S=>S.mons.filter(x=>x.hp>0);
 const rdMate=S=>S.order.filter(id=>S.mem[id]&&S.mem[id].hp>0&&!S.mem[id].out);
-function rdHit(S,m,mo,d,why){d=Math.max(1,Math.round(d));const real=Math.min(d,mo.hp);mo.hp=Math.max(0,mo.hp-d);m.dmg=(m.dmg||0)+real;if(why)rdLg(S,why+" "+d+" 피해");if(mo.hp<=0)rdLg(S,mo.n+" 격파!")}
+function rdHit(S,m,mo,d,why){d=Math.max(1,Math.round(d));const now=Date.now();
+ if(mo.sh>0){const a=Math.min(mo.sh,d);mo.sh-=a;d-=a;if(why)rdLg(S,why+" → 방어막 "+a+" 흡수");if(mo.sh<=0){mo.sh=0;const cut=Math.round(mo.max*.03);mo.hp=Math.max(1,mo.hp-cut);mo.stunU=now+3000;mo.nextAt=Math.max(mo.nextAt,mo.stunU);mo.skAt=Math.max(mo.skAt||0,mo.stunU+1500);rdLg(S,"「칠일창조」 방어막이 깨졌다! "+mo.n+" HP "+cut.toLocaleString()+" 감소 · 3초 동안 움직이지 못한다")}if(d<=0)return;why=null}
+ const real=Math.min(d,mo.hp);mo.hp=Math.max(0,mo.hp-d);m.dmg=(m.dmg||0)+real;if(why)rdLg(S,why+" "+d+" 피해");if(mo.hp<=0)rdLg(S,mo.n+" 격파!")}
+/* 보스가 거는 상태: 둔화(재사용 대기 ×1.5) · 혼란(공격 50% 자해) · 기절(행동 불가) · 지속 피해 */
+function rdDot(S,x,k,pc,ms){const now=Date.now();x.dots=(x.dots||[]).filter(d=>d.k!==k&&d.u>now);x.dots.push({k,p:pc,u:now+ms})}
+function rdBHit(S,mo,x,mul,why){const now=Date.now();let d=mo.atk*mul*(.9+rf()*.2)*(1-x.def/(x.def+300))*(1+(x.vul||0));if(x.guard>now)d*=.4;d=Math.max(1,Math.round(d));x.hp=Math.max(0,x.hp-d);rdLg(S,why+" → "+x.n+" "+d+" 피해"+(x.hp<=0?" · "+x.n+" 쓰러짐!":""));return d}
 function rdApply(S,id,a){const m=S.mem[id],now=Date.now();if(!m)return;
  if(a.k==="leave"){if(!m.out){m.out=1;m.hp=0;rdLg(S,m.n+" — 탑에서 후퇴")}return}
- if(a.k==="next"){if(S.st!=="clear"||id!==S.lead)return;if(S.order.some(x=>!S.mem[x]||S.mem[x].out))return;const fl=S.fl>=RAID_FL?1:S.fl+1;S.fl=fl;S.st="on";S.mons=rdSpawn(fl);S.hot={};S.order.forEach(x=>{const o=S.mem[x],n=rdMem(x);n.dmg=0;S.mem[x]=n});rdLg(S,"바벨론 "+fl+"층 — "+(fl===RAID_FL?"탑의 주인이 기다리고 있다!":"더 강한 의태종들이 길을 막는다!"));return}
- if(S.st!=="on"||m.hp<=0||m.out)return;const sk=rdSkills(m.role).find(x=>x.id===a.k);if(!sk)return;const cost=Math.max(1,Math.ceil(sk.mp*(m.mpm||1))),mp=memMp(m);if(mp<cost)return;m.mp=Math.round((mp-cost)*10)/10;m.mpT=now;
+ if(a.k==="ready"){if(S.st!=="rest"||m.out)return;S.ready=S.ready||{};if(!S.ready[id]){S.ready[id]=1;rdLg(S,m.n+" — 준비 완료")}return}
+ if(a.k==="next"){if(S.st!=="clear"||id!==S.lead)return;if(S.order.some(x=>!S.mem[x]||S.mem[x].out))return;
+  if((S.stg||0)===0){S.stg=1;S.st="on";S.mons=rdSpawn(S.fl,1);rdLg(S,S.fl+"층 미로 중심 — 의태종들이 몰려든다!");return}
+  const fl=S.fl>=RAID_FL?1:S.fl+1;S.fl=fl;S.stg=0;S.fc=0;S.st="on";S.mons=rdSpawn(fl,0);S.hot={};S.order.forEach(x=>{const n=rdMem(x);n.dmg=0;S.mem[x]=n});rdLg(S,"바벨론 "+fl+"층 미로 입구 — "+(RBOSS[fl]?"미로 끝에서 무언가가 기다린다…":"더 강한 의태종들이 길을 막는다!"));return}
+ if(S.st!=="on"||m.hp<=0||m.out)return;const sk=rdSkills(m.role).find(x=>x.id===a.k);if(!sk)return;if(m.stunU>now){rdLg(S,m.n+" — 기절해서 움직일 수 없다!");return}const cost=Math.max(1,Math.ceil(sk.mp*(m.mpm||1))),mp=memMp(m,S.mem);if(mp<cost)return;m.mp=Math.round((mp-cost)*10)/10;m.mpT=now;
  const al=rdAlive(S);if(!al.length)return;const tg=al.find(x=>x.i===a.tg)||al[0];const roll=()=>.9+rf()*.2,cr=()=>rf()<.05+(m.luck||0)*.015;
+ if(m.confU>now&&(sk.t==="atk"||sk.t==="r_aoe")&&rf()<.5){const d=Math.max(1,Math.round(m.max*.15));m.hp=Math.max(0,m.hp-d);rdLg(S,m.n+" — 혼란에 빠져 자신을 공격했다! "+d+" 피해"+(m.hp<=0?" · 쓰러짐!":""));return}
  if(sk.t==="atk"){if(m.con>=80&&rf()<(m.con>=100?.55:.35)+(m.miss||0)){rdLg(S,m.n+"의 "+sk.n+" — 빗나갔다!");return}
   if(sk.sp==="snare"){rdHit(S,m,tg,m.pw*1.2*elm(m.attr,tg.attr)*roll(),m.n+"의 발목잡기 → "+tg.n);m.snr=1;return}
   let mul=sk.m,bo=false;if(sk.id==="h1"&&m.snr){mul=SNARE_GX;m.snr=0;bo=true}let d=m.pw*mul*elm(m.attr,tg.attr)*roll();const c=cr();if(c)d*=1.8;
@@ -2686,11 +2793,25 @@ function rdApply(S,id,a){const m=S.mem[id],now=Date.now();if(!m)return;
  if(sk.t==="r_taunt"){const L=al.slice().sort((p,q)=>((p.tg===id&&p.tgU>now)?1:0)-((q.tg===id&&q.tgU>now)?1:0)||(q.boss?1:0)-(p.boss?1:0)).slice(0,3);L.forEach(x=>{x.tg=id;x.tgU=now+RAID_TAUNT});rdLg(S,m.n+"의 광역 도발! "+L.map(x=>x.n).join(" · ")+" — "+RAID_TAUNT/1000+"초 동안 "+m.n+"만 노린다");return}
  if(sk.t==="r_aoe"){const st=al.indexOf(tg),L=al.slice(st).concat(al.slice(0,st)).slice(0,3),c=cr(),tot=m.pw*sk.m*roll()*(c?1.8:1);L.forEach(x=>rdHit(S,m,x,tot/L.length*elm(m.attr,x.attr)));rdLg(S,m.n+"의 광역 공격! "+L.length+"마리에게 나눠서 "+Math.round(tot)+" 피해"+(c?" (치명타)":""));return}
  if(sk.t==="r_aheal"){rdMate(S).forEach(k=>{const x=S.mem[k];x.hp=Math.min(x.max,x.hp+Math.round(x.max*.4));S.hot[k]=now+RAID_HOTMS});rdLg(S,m.n+"의 광역 힐! 전원 최대 HP 40% 회복 · 10초 동안 지속 회복");return}}
+function rdBoss(S,mo,now){const al=rdMate(S);if(!al.length||mo.stunU>now)return false;const M=k=>S.mem[k],tank=al.find(k=>M(k).role==="tank"),rnd=L=>L[ri(L.length)];let ch=false;
+ /* 체력 기준 특수기 (전투 중 2번만) */
+ const th=mo.bk==="eve"?[.7,.35]:[.6,.3];if((mo.spN||0)<2&&mo.hp<=mo.max*th[mo.spN||0]){mo.spN=(mo.spN||0)+1;
+  if(mo.bk==="eve"){mo.sh=mo.shMax=Math.round(mo.max*.05);rdLg(S,mo.n+" — 「칠일창조」! HP "+mo.sh.toLocaleString()+"만큼 방어막을 두른다 · 깨뜨리면 큰 틈이 생긴다 ("+mo.spN+"/2)")}
+  else{al.forEach(k=>rdBHit(S,mo,M(k),.6,mo.n+"의 「구원회피」"));const k=rnd(al.filter(x=>M(x).hp>0));if(k){rdDot(S,M(k),"타락",.03,10000);rdLg(S,M(k).n+" — 타락 (10초 동안 매초 최대 HP 3%) ("+mo.spN+"/2)")}}
+  mo.skAt=Math.max(mo.skAt||0,now+3500);return true}
+ if(now<(mo.skAt||0))return false;mo.sk=mo.sk||{};const L=RBSK[mo.bk].filter(([k])=>!(mo.sk[k]>now));if(!L.length){mo.skAt=now+1500;return false}
+ const [k,nm,cd]=L[0];mo.sk[k]=now+cd*1000;mo.skAt=now+6500;ch=true;const tgt=mo.tg&&mo.tgU>now&&M(mo.tg)&&M(mo.tg).hp>0?mo.tg:(tank&&M(tank).hp>0?tank:rnd(al));
+ if(k==="bite"){const x=rnd(al);rdBHit(S,mo,M(x),1.2,mo.n+"의 「"+nm+"」");M(x).slowU=now+2000;rdLg(S,M(x).n+" — 2초 동안 재사용 대기 ×1.5")}
+ else if(k==="tempt"||k==="good"){const x=tank&&M(tank).hp>0?tank:tgt;rdBHit(S,mo,M(x),k==="good"?2.4:1.6,mo.n+"의 「"+nm+"」");const p=k==="good"?.025:.02;rdDot(S,M(x),"타락",p,8000);rdLg(S,M(x).n+" — 타락 (8초 동안 매초 최대 HP "+Math.round(p*1000)/10+"%)")}
+ else if(k==="tongue"){al.forEach(x=>rdBHit(S,mo,M(x),.7,mo.n+"의 「"+nm+"」"));const x=rnd(al.filter(z=>M(z).hp>0));if(x){M(x).confU=now+2000;rdLg(S,M(x).n+" — 혼란 2초 (공격하면 절반 확률로 자해)")}}
+ else if(k==="ruin"){al.forEach(x=>rdBHit(S,mo,M(x),.8,mo.n+"의 「"+nm+"」"));const x=rnd(al.filter(z=>M(z).hp>0));if(x){M(x).stunU=now+2000;rdLg(S,M(x).n+" — 기절 2초 (행동 불가)")}}
+ else if(k==="drown"){rdBHit(S,mo,M(tgt),1.0,mo.n+"의 「"+nm+"」");const o=al.filter(z=>z!==tgt&&M(z).hp>0),x=o.length?rnd(o):null;if(x){rdBHit(S,mo,M(x),1.0,mo.n+"의 「"+nm+"」");rdDot(S,M(x),"물귀신",.015,8000);rdLg(S,M(x).n+" — 물귀신에 끌려간다 (8초 동안 매초 최대 HP 1.5%)")}}
+ return ch}
 function rdMonTick(S){const now=Date.now();let ch=false;
+ if(!S.dotT||now-S.dotT>=1000){S.dotT=now;S.order.forEach(k=>{const x=S.mem[k];if(!x||x.hp<=0||x.out||!(x.dots||[]).length)return;x.dots=x.dots.filter(d=>d.u>now);x.dots.forEach(d=>{const v=Math.max(1,Math.round(x.max*d.p));x.hp=Math.max(0,x.hp-v)});if(x.hp<=0)rdLg(S,x.n+" — "+x.dots.map(d=>d.k).join("·")+"에 쓰러짐!");ch=true})}
  if(!S.hotT||now-S.hotT>=1000){S.hotT=now;Object.keys(S.hot||{}).forEach(k=>{const x=S.mem[k];if(S.hot[k]<now){delete S.hot[k];ch=true;return}if(x&&x.hp>0&&!x.out){x.hp=Math.min(x.max,x.hp+Math.round(x.max*RAID_HOT));ch=true}})}
  for(const mo of S.mons){if(mo.hp<=0)continue;
-  if(mo.boss&&!mo.sum&&mo.hp<mo.max*.5){mo.sum=1;for(let i=0;i<2;i++)S.mons.push({i:S.mons.length,n:"수문장 의태형",attr:"땅",lv:110,hp:160000,max:160000,atk:900,iv:3600,nextAt:now+3000+i*700,tg:null,tgU:0});rdLg(S,"탑의 주인이 수문장을 불러냈다!");ch=true}
-  if(mo.boss&&mo.aoeAt&&now>=mo.aoeAt){mo.aoeAt=now+15000;rdMate(S).forEach(k=>{const x=S.mem[k];let d=Math.round(x.max*.18);if(x.guard>now)d=Math.ceil(d*.6);x.hp=Math.max(0,x.hp-d)});rdLg(S,"탑 전체가 울린다 — 「붕괴의 종소리」! 전원 최대 HP 18% 피해");ch=true}
+  if(mo.boss&&mo.bk){if(rdBoss(S,mo,now))ch=true;if(mo.stunU>now)continue}
   if(mo.nextAt>now)continue;const al=rdMate(S);if(!al.length)break;
   let tid=mo.tg&&mo.tgU>now&&S.mem[mo.tg]&&S.mem[mo.tg].hp>0&&!S.mem[mo.tg].out?mo.tg:al[ri(al.length)];const x=S.mem[tid];
   if(rf()<(x.agi||0)*.012)rdLg(S,mo.n+"의 공격을 "+x.n+"이(가) 회피!");
@@ -2698,22 +2819,29 @@ function rdMonTick(S){const now=Date.now();let ch=false;
   mo.nextAt=now+mo.iv;ch=true}
  return ch}
 function rdHostTick(){if(!rdoc||!me||rdHost(rdoc)!==uid)return;const d=rdoc,now=Date.now();
- if(!rdS||rdS.t!==d.t){rdS={t:d.t,pid:d.pid,key:d.key,fl:d.fl,st:d.st,order:(d.order||[]).slice(),mons:clone(d.mons||[]),mem:clone(d.mem||{}),hot:clone(d.hot||{}),seen:clone(d.seen||{}),log:(d.log||[]).slice(),lead:(parties[d.pid]&&parties[d.pid].leader)||d.order[0],clearT:d.clearT||0}}
- const S=rdS;S.lead=(parties[S.pid]&&parties[S.pid].leader)||S.lead;let ch=false;const st0=S.st,fl0=S.fl;
+ if(!rdS||rdS.t!==d.t){rdS={t:d.t,pid:d.pid,key:d.key,fl:d.fl,stg:d.stg||0,restU:d.restU||0,ready:clone(d.ready||{}),fc:d.fc||0,st:d.st,order:(d.order||[]).slice(),mons:clone(d.mons||[]),mem:clone(d.mem||{}),hot:clone(d.hot||{}),seen:clone(d.seen||{}),log:(d.log||[]).slice(),lead:(parties[d.pid]&&parties[d.pid].leader)||d.order[0],clearT:d.clearT||0}}
+ const S=rdS;S.lead=(parties[S.pid]&&parties[S.pid].leader)||S.lead;let ch=false;const st0=S.st,fl0=S.fl,sg0=S.stg;
  S.order.forEach(id=>{const L=d["a_"+id]||[];L.forEach(a=>{if(a.s>(S.seen[id]||0)){S.seen[id]=a.s;rdApply(S,id,a);ch=true}})});
  /* 접속이 끊긴 공격대원 */S.order.forEach(id=>{if(id===uid||online.has(id)){rdLastSeen[id]=now;return}const m=S.mem[id];if(!m||m.out)return;if(!rdLastSeen[id])rdLastSeen[id]=now;if(now-rdLastSeen[id]>RAID_GONE){m.out=1;m.hp=0;rdLg(S,m.n+" — 연결이 끊겨 공격대에서 떨어져 나갔다");ch=true}});
- if(S.st==="on"){if(rdMonTick(S))ch=true;if(!rdAlive(S).length){S.st="clear";S.clearT=now;rdLg(S,S.fl+"층 돌파!"+(S.fl>=RAID_FL?" 바벨론 정상에 올랐다!":" 공격대장이 다음 층으로 이끌 수 있습니다"));ch=true}
+ if(S.st==="rest"){const act=S.order.filter(x=>S.mem[x]&&!S.mem[x].out);if(now>=(S.restU||0)||act.every(x=>(S.ready||{})[x])){S.stg=2;S.st="on";S.mons=rdSpawn(S.fl,2);S.hot={};act.forEach(x=>{const n=rdMem(x);n.dmg=S.mem[x].dmg||0;S.mem[x]=n});rdLg(S,S.fl+"층 미로 끝 — "+(RBOSS[S.fl]?"「"+RBOSS[S.fl].n+"」이(가) 모습을 드러냈다!":"단단한 의태종들이 길을 막는다!"));ch=true}}
+ if(S.st==="on"){if(rdMonTick(S))ch=true;if(!rdAlive(S).length){const g=S.stg||0;S.clearT=now;
+   if(g===0){S.st="clear";rdLg(S,S.fl+"층 미로 입구 돌파! 공격대장이 미로 중심으로 이끌 수 있습니다")}
+   else if(g===1){S.st="rest";S.restU=now+RAID_REST;S.ready={};rdLg(S,S.fl+"층 미로 중심 돌파! 정비 시간 1분 · 모두 [준비 완료]를 누르면 바로 미로 끝으로")}
+   else{S.st="clear";S.fc=1;rdLg(S,S.fl+"층 돌파!"+(S.fl>=RAID_FL?" 바벨론 정상에 올랐다!":" 공격대장이 다음 층으로 이끌 수 있습니다"))}ch=true}
   else if(!rdMate(S).length){S.st="lost";rdLg(S,"공격대 전멸…");ch=true}}
- if(!ch&&!rdDirty&&now-rdWT<5000)return;if(S.st===st0&&S.fl===fl0&&now-rdWT<700){rdDirty=true;return}
- rdWT=now;rdDirty=false;db.doc("battles/"+rdId).update({fl:S.fl,st:S.st,mons:S.mons,mem:S.mem,hot:S.hot,seen:S.seen,log:S.log,clearT:S.clearT||0,ts:now,host:uid}).catch(()=>{})}
+ if(!ch&&!rdDirty&&now-rdWT<5000)return;if(S.st===st0&&S.fl===fl0&&S.stg===sg0&&now-rdWT<700){rdDirty=true;return}
+ rdWT=now;rdDirty=false;db.doc("battles/"+rdId).update({fl:S.fl,stg:S.stg||0,restU:S.restU||0,ready:S.ready||{},fc:S.fc||0,st:S.st,mons:S.mons,mem:S.mem,hot:S.hot,seen:S.seen,log:S.log,clearT:S.clearT||0,ts:now,host:uid}).catch(()=>{})}
 /* ---- 층 정산 (각자 자기 캐릭터) ---- */
 const rdDoneL=()=>{try{return JSON.parse(localStorage.getItem("af_rd_"+uid)||"[]")}catch(e){return[]}};
 function rdSettle(d){const m=d.mem&&d.mem[uid];if(!m)return;let k=null;
- if(d.st==="clear"&&!m.out)k="c:"+d.t+":"+d.fl+":"+(d.clearT||0);else if(d.st==="lost")k="l:"+d.t+":"+d.fl;else if(m.out)k="o:"+d.t;if(!k)return;
+ if(d.st==="clear"&&!m.out&&(d.stg==null||d.stg===2))k="c:"+d.t+":"+d.fl+":"+(d.clearT||0);else if(d.st==="lost")k="l:"+d.t+":"+d.fl;else if(m.out)k="o:"+d.t;if(!k)return;
  const K=d.pid+"|"+k;if(rdDone.has(K)||rdDoneL().includes(K)||(me.rdone||[]).includes(K))return;rdDone.add(K);try{localStorage.setItem("af_rd_"+uid,JSON.stringify(rdDoneL().concat([K]).slice(-40)))}catch(e){}
  const p={rdone:(me.rdone||[]).concat([K]).slice(-30)};
  if(k[0]==="c"){const fl=d.fl,inv={...me.inv},got=[],tan=fl>=RAID_FL?10000:2000+fl*400;p.tan=me.tan+tan;p.rsv={k:d.key,fl:fl>=RAID_FL?0:fl};p.hp=Math.max(1,Math.min(maxHp(me),m.hp));
-  if(fl>=RAID_FL&&rf()<Math.min(.2,.03*luckF(me))){if(addInv(inv,"babel_frag",1))got.push(iq("babel_frag",1))}
+  /* 5층 끝 보스 → 미로의 광석 · 10층 끝 보스 → 미로의 조각 (각자 · 행운 반영) */
+  if(fl===5&&rf()<Math.min(.35,RAID_ORE*luckF(me))){if(addInv(inv,"maze_ore",1))got.push(iq("maze_ore",1))}
+  if(fl>=RAID_FL&&rf()<Math.min(.4,RAID_FRAG*luckF(me))){if(addInv(inv,"maze_frag",1))got.push(iq("maze_frag",1))}
+  if(fl>=RAID_FL){cntAdd(p,"bab");ttlScan(p)}
   /* 최종 장비 제작법: 층마다 1.5% · 10층 6% (행운 반영) · 내 직업 · 아직 안 익히고 가방에도 없는 것 */
   if(rf()<Math.min(.25,(fl>=RAID_FL?.06:.015)*luckF(me))){const L=NGEAR.fin.filter(x=>IT[x].role===me.role&&!knowsR(x)&&!(me.inv["rp_"+x]));if(L.length){const x=L[ri(L.length)];if(addInv(inv,"rp_"+x,1))got.push(iq("rp_"+x))}}
   if(got.length)p.inv=inv;upd(p).then(()=>toast(fl+"층 돌파 · +"+won(tan)+"환"+(got.length?" · "+got.join(", "):"")+(fl>=RAID_FL?" · 바벨론 정복! 다음 도전은 1층부터":" · 진행 저장됨"))).catch(()=>{})}
@@ -2723,34 +2851,49 @@ let c2k=null,c2t=0;function confirm2(k){const now=Date.now();if(c2k===k&&now-c2t
 /* ---- 화면 ---- */
 function rRaid(v){const d=rdoc,m=d.mem[uid],now=Date.now(),lead=myRP()&&myRP().leader===uid;
  v.append(h("div",{c:"row",style:"margin-bottom:10px"},btn("지도로",()=>{tab="map";render(true)},"sm"),h("div",{c:"grow"}),d.st==="on"?btn("후퇴",()=>wrap(rdLeave),"sm"):btn("공격대로 나가기",()=>{rdShow=false;tab="map";render(true)},"sm")));
- const s=h("div",{c:"card rdc"});s.append(h("div",{c:"row sb"},h("b",{t:"바벨론 "+d.fl+"층"+(d.fl>=RAID_FL?" · 정상":"")}),h("span",{c:"xs mt",t:"공격대 "+d.order.length+"명 · 호스트 "+((rdCh(d.host||rdHost(d))||{}).name||"-")})));
- if(d.st==="clear")s.append(h("p",{c:"ok sm",t:d.fl+"층 돌파! 진행이 저장됐습니다."+(d.fl>=RAID_FL?" 바벨론을 정복했습니다.":"")}),lead?btn(d.fl>=RAID_FL?"1층부터 다시 도전":"다음 층으로 ("+(d.fl+1)+"층)",()=>wrap(()=>rdAct("next")),"pri full"):h("p",{c:"xs mt",t:"공격대장이 다음 층으로 이끌 때까지 기다리는 중…"}));
+ const s=h("div",{c:"card rdc"});const stg=d.stg||0;s.append(h("div",{c:"row sb"},h("b",{t:"바벨론 "+d.fl+"층 · "+RSTG[stg]+(d.fl>=RAID_FL&&stg===2?" · 정상":"")}),h("span",{c:"xs mt",t:"공격대 "+d.order.length+"명 · 호스트 "+((rdCh(d.host||rdHost(d))||{}).name||"-")})));
+ if(d.st==="clear"&&stg===0)s.append(h("p",{c:"ok sm",t:d.fl+"층 미로 입구 돌파!"}),lead?btn("미로 중심으로",()=>wrap(()=>rdAct("next")),"pri full"):h("p",{c:"xs mt",t:"공격대장이 미로 중심으로 이끌 때까지 기다리는 중…"}));
+ else if(d.st==="clear")s.append(h("p",{c:"ok sm",t:d.fl+"층 돌파! 진행이 저장됐습니다."+(d.fl>=RAID_FL?" 바벨론을 정복했습니다.":"")}),lead?btn(d.fl>=RAID_FL?"1층부터 다시 도전":"다음 층으로 ("+(d.fl+1)+"층 미로 입구)",()=>wrap(()=>rdAct("next")),"pri full"):h("p",{c:"xs mt",t:"공격대장이 다음 층으로 이끌 때까지 기다리는 중…"}));
+ if(d.st==="rest")s.append(rdRestBox(d));
  if(d.st==="lost")s.append(h("p",{c:"bad sm",t:"공격대 전멸… 바벨론 입구에서 다시 도전할 수 있습니다."}));
  const ml=h("div",{c:"rdmons"});(d.mons||[]).forEach(mo=>{const dead=mo.hp<=0,tk=mo.tg&&mo.tgU>now&&d.mem[mo.tg]?d.mem[mo.tg].n:null;
-  ml.append(h("button",{c:"rdmon"+(dead?" dead":"")+(rdTg===mo.i?" on":""),type:"button",disabled:dead,onclick:()=>{rdTg=mo.i;render(true)}},h("div",{c:"row sb"},h("b",{t:mo.n}),h("span",{c:"xs mt",t:"Lv"+mo.lv+" · "+mo.attr})),pbar(mo.hp,mo.max,"mon",dead?"격파":Math.round(mo.hp).toLocaleString()+" / "+mo.max.toLocaleString()),h("div",{c:"xs "+(tk?"ok":"bad"),t:dead?"":tk?"도발: "+tk:"아무나 노림"})))});
+  ml.append(h("button",{c:"rdmon"+(dead?" dead":"")+(rdTg===mo.i?" on":"")+(mo.boss?" boss":""),type:"button",disabled:dead,onclick:()=>{rdTg=mo.i;render(true)}},h("div",{c:"row sb"},h("b",{t:mo.n+(mo.end?" · 미로 끝":"")}),h("span",{c:"xs mt",style:mo.attr==="종말"?"color:"+ACOL["종말"]:null,t:"Lv"+mo.lv+" · "+mo.attr})),pbar(mo.hp,mo.max,"mon",dead?"격파":Math.round(mo.hp).toLocaleString()+" / "+mo.max.toLocaleString()),
+  mo.sh>0?pbar(mo.sh,mo.shMax,"mp","방어막 "+Math.round(mo.sh).toLocaleString()):null,h("div",{c:"xs "+(tk?"ok":"bad"),t:dead?"":(mo.stunU>now?"움직이지 못함 · ":"")+(tk?"도발: "+tk:"아무나 노림")})))});
  s.append(ml);
- const mm=h("div",{c:"rdmem"});d.order.forEach(id=>{const x=d.mem[id];if(!x)return;mm.append(h("div",{c:"rdm"+(id===uid?" me":"")+(x.hp<=0?" dead":"")},h("div",{c:"row sb xs"},h("span",{t:x.n+" · "+ROLE[x.role].n+(x.out?" · 이탈":x.hp<=0?" · 쓰러짐":x.guard>now?" · 철벽":"")+(d.hot&&d.hot[id]>now?" · 회복 중":"")})),pbar(x.hp,x.max,x.hp/x.max>.3?"ok":"low","")))});
+ const mm=h("div",{c:"rdmem"});d.order.forEach(id=>{const x=d.mem[id];if(!x)return;const st=[x.stunU>now?"기절":null,x.confU>now?"혼란":null,x.slowU>now?"둔화":null].concat((x.dots||[]).filter(q=>q.u>now).map(q=>q.k)).filter(Boolean);
+  mm.append(h("div",{c:"rdm"+(id===uid?" me":"")+(x.hp<=0?" dead":"")},h("div",{c:"row sb xs"},h("span",{t:x.n+" · "+ROLE[x.role].n+(x.out?" · 이탈":x.hp<=0?" · 쓰러짐":x.guard>now?" · 철벽":"")+(d.hot&&d.hot[id]>now?" · 회복 중":"")}),st.length?h("span",{c:"bad",t:st.join(" · ")}):null,d.st==="rest"&&(d.ready||{})[id]?h("span",{c:"ok",t:"준비 완료"}):null),pbar(x.hp,x.max,x.hp/x.max>.3?"ok":"low","")))});
  s.append(mm,h("div",{style:"margin-top:6px",id:"bmp"},pbar(memMp(m),m.mpMax,"mp","MP")));
  if(d.st==="on"){const dead=m.hp<=0,g=h("div",{c:"sks"});rdSkills(me.role).forEach(sk=>g.append(h("button",{c:"skb"+(sk.sp==="raid"?" boost":""),title:sk.n+" — "+sk.d,"data-sk":sk.id,"data-mp":Math.max(1,Math.ceil(sk.mp*(m.mpm||1))),"data-cd":Math.round(sk.cd*1000*(1-Math.min(.6,m.agi*.05))*(m.cdm||1)),"data-dead":dead?"1":"",onclick:()=>wrap(()=>rdUse(sk))},h("i",{c:"fill"}),h("b",{t:sk.n}),h("small",{t:sk.d}),sk.sp==="raid"?h("small",{c:"skfx",t:"이능 · 레이드 전용"}):null,h("small",{c:"mpc",t:"MP "+Math.max(1,Math.ceil(sk.mp*(m.mpm||1)))}),h("small",{c:"cdt"}))));
   s.append(g,dead?h("p",{c:"bad sm",t:"쓰러졌습니다 · 이번 층이 끝날 때까지 지켜볼 수 있습니다."}):null)}
  s.append(h("div",{c:"logbox"},(d.log||[]).map(l=>h("div",{t:l}))));v.append(s)}
+/* 미로 중심 뒤 정비 시간 (1분 · 모두 준비 완료면 바로) */
+function rdRestBox(d){const eq=me.eq||{},fix=Object.values(eq).filter(q=>q&&q.id&&q.dur<100).reduce((a,q)=>a+Math.ceil((100-q.dur)*3)+GM_UP,0),rd=(d.ready||{})[uid],act=(d.order||[]).filter(x=>d.mem[x]&&!d.mem[x].out),nr=act.filter(x=>(d.ready||{})[x]).length,box=h("div",{c:"sprep"});
+ box.append(h("div",{c:"row sb",style:"align-items:center"},h("b",{c:"sm",t:"[정비 시간]"}),h("b",{c:"sprept rdrt","data-u":d.restU||0,t:fmt(Math.max(0,Math.ceil(((d.restU||0)-Date.now())/1000)))})),
+  h("p",{c:"xs mt",style:"margin:2px 0 8px",t:"1분이 지나거나 모두 [준비 완료]를 누르면 미로 끝으로 이동합니다 · 미로 끝에 들어갈 때 HP · MP가 가득 찹니다"}));
+ box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:"장비 전체 수리"}),h("div",{c:"xs mt",t:fix?"장착 장비 내구도 100%로":"수리할 장비가 없습니다"})),fix?h("span",{c:"sm gold",t:fix}):null,btn("수리",()=>wrap(gmFix),"sm",{disabled:!fix})));
+ box.append(h("div",{c:"sub3",style:"margin-top:8px",t:"가방 음식"}));
+ {const F=Object.keys(me.inv||{}).filter(k=>(me.inv[k]||0)>0&&IT[k]&&IT[k].use&&invCat(k)==="food");if(!F.length)box.append(h("p",{c:"xs mt",style:"margin:4px 0",t:"음식이 없습니다."}));
+  F.forEach(id=>{const u=IT[id].use,on=u.buf&&me.fbuf&&me.fbuf.u>Date.now()&&me.fbuf.k===u.buf;box.append(h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:"\u0001"+(IT[id].rar||0)+IT[id].n+"\u0002"+(on?" · 먹는 중":"")}),h("div",{c:"xs mt",t:String(IT[id].d||"").replace("음식 · ","")+" · "+me.inv[id]+"개"})),btn("먹기",()=>wrap(()=>useItem(id)),"pri sm")))})}
+ box.append(h("p",{c:"xs mt",style:"margin:6px 0 0",t:"가방에 챙겨 온 음식만 먹을 수 있습니다 · 버프 음식은 하나만 효과가 있습니다"}),
+  btn(rd?"준비 완료 ✓ ("+nr+"/"+act.length+")":"준비 완료 ("+nr+"/"+act.length+")",()=>wrap(()=>rdAct("ready")),"pri full",{disabled:!!rd,style:"margin-top:10px"}));return box}
 /* 바벨론 입구 (지역 시설) */
-function raidFac(){const box=h("div",{c:"card"},h("h3",{t:"바벨론 — 탑 입구"}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:"하늘을 찌르는 탑. 1층부터 10층까지 의태종이 가득하고, 꼭대기에는 탑의 주인이 있다. 4명의 공격대(탱커 1 · 힐러 1 · 딜러 2)로만 오를 수 있다."}),
-  h("div",{c:"xs mt",t:"Lv"+RAID_LV+"부터 · 층을 돌파할 때마다 저장 (같은 공격대원 4명이 그대로일 때만 이어서) · 10층을 돌파하면 다시 1층부터 · 바벨의 파편은 10층에서만 각자 낮은 확률로"}));
+function raidFac(){const box=h("div",{c:"card"},h("h3",{t:"바벨론 — 탑 입구"}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:"하늘을 찌르는 탑. 층마다 미로 입구 · 중심 · 끝으로 나뉘고, 5층과 10층의 미로 끝에는 탑의 주인들이 기다린다. 4명의 공격대(탱커 1 · 힐러 1 · 딜러 2)로만 오를 수 있다."}),
+  h("div",{c:"xs mt",t:"Lv"+RAID_LV+"부터 · 층을 돌파할 때마다 저장 (같은 공격대원 4명이 그대로일 때만 이어서) · 10층을 돌파하면 다시 1층부터 · 미로 중심 뒤 정비 시간 1분 · 5층 「37E S7」 → 미로의 광석 · 10층 「M70A E0」 → 미로의 조각 (각자 확률)"}));
  const sv=me.rsv&&me.rsv.fl?me.rsv.fl+"층까지 돌파 (그때 공격대원 그대로일 때 이어서)":"없음";box.append(h("div",{c:"xs",style:"margin:6px 0",t:"내 저장: "+sv}));
+
  if((me.lv||1)<RAID_LV){box.append(h("p",{c:"bad sm",t:"Lv"+RAID_LV+"부터 도전할 수 있습니다 (지금 Lv"+me.lv+")"}));return box}
  const p=myRP();
- if(p){const c=rpComp(p),w=rpWhy(p),fl=rpStartFl(p);box.append(h("div",{c:"row sb",style:"margin-top:6px"},h("b",{t:p.name}),h("span",{c:"xs mt",t:"탱커 "+c.tank+"/1 · 힐러 "+c.healer+"/2 · 딜러 "+c.dealer+"/5"})));
+ if(p){const c=rpComp(p),w=rpWhy(p),fl=rpStartFl(p);box.append(h("div",{c:"row sb",style:"margin-top:6px"},h("b",{t:p.name}),h("span",{c:"xs mt",t:"탱커 "+c.tank+"/1 · 힐러 "+c.healer+"/1 · 딜러 "+c.dealer+"/2"})));
   const L=h("div",{c:"rdmem"});p.members.forEach(id=>{const x=rdCh(id);L.append(h("div",{c:"rdm"},h("div",{c:"row sb xs"},h("span",{t:(x?x.name:"?")+" · "+(x?ROLE[x.role].n:"")+(id===p.leader?" · 공격대장":"")}),h("span",{t:x?"Lv"+x.lv+(id===uid||online.has(id)?"":" · 접속 안 함")+(x.loc===RAID_REG?"":" · 다른 지역"):""}))))});box.append(L);
   if(rdoc&&rdoc.mem&&rdoc.mem[uid]&&!rdoc.mem[uid].out&&(rdoc.st==="on"||rdoc.st==="clear"))box.append(btn("탑으로 돌아가기 · "+rdoc.fl+"층",()=>{rdShow=true;tab="battle";render(true)},"pri full"));
   else{box.append(h("div",{c:"xs "+(w?"bad":"ok"),style:"margin:6px 0",t:w||("준비 완료 · "+fl+"층부터 시작")}));if(p.leader===uid)box.append(btn("도전 시작 · "+fl+"층",()=>wrap(rpStart),"pri full",{disabled:!!w}))}
   box.append(h("div",{style:"height:6px"}),btn("공격대 나가기",()=>wrap(rpLeave),"full"))}
  else{const L=rpList().filter(x=>(x.members||[]).length<RAID_N);box.append(h("div",{c:"xs mt",style:"margin:8px 0 4px",t:"모집 중인 공격대"}));if(!L.length)box.append(h("p",{c:"xs mt",t:"아직 없습니다."}));
-  L.forEach(x=>{const c=rpComp(x),full=!rpCan(c,me.role);box.append(h("div",{c:"row sb",style:"margin:4px 0"},h("span",{c:"sm",t:x.name+" · "+x.members.length+"/8 (탱 "+c.tank+" · 힐 "+c.healer+" · 딜 "+c.dealer+")"}),btn(full?ROLE[me.role].n+" 마감":"들어가기",()=>wrap(()=>rpJoin(x.id)),"sm",{disabled:full})))});
+  L.forEach(x=>{const c=rpComp(x),full=!rpCan(c,me.role);box.append(h("div",{c:"row sb",style:"margin:4px 0"},h("span",{c:"sm",t:x.name+" · "+x.members.length+"/"+RAID_N+" (탱 "+c.tank+" · 힐 "+c.healer+" · 딜 "+c.dealer+")"}),btn(full?ROLE[me.role].n+" 마감":"들어가기",()=>wrap(()=>rpJoin(x.id)),"sm",{disabled:full})))});
   box.append(h("div",{style:"height:6px"}),btn("공격대 만들기",()=>wrap(rpCreate),"pri full"))}
  return box}
 
-setInterval(()=>{try{rdHostTick()}catch(e){}},400);
+setInterval(()=>{try{rdHostTick()}catch(e){}try{document.querySelectorAll(".rdrt").forEach(e=>{e.textContent=fmt(Math.max(0,Math.ceil((+e.dataset.u-Date.now())/1000)))})}catch(e){}},400);
 async function pmut(id,fn){const ref=db.doc("parties/"+id),s=await ref.get();if(!s.exists)return false;const p=s.data();if(fn(p)===false)return false;await ref.set(p);return true}
 /* 임시 파티: 사냥 지역의 같은 구역(외곽·중심부·심부)에 있으면 자동으로 묶임 · 자동 전투 · 게이트 안은 제외 */
 let tmpBusy=false,tmpT=0;
@@ -2782,7 +2925,7 @@ function itemSrc(k){if(!srcIdx){const S={},band=lv=>[[1,2],[3,5],[6,9],[10,29],[
   [["hide","전투",A],["core","전투",[3,100]],["f_meat","전투",A],["f_egg","전투",A],["u_nail","채집",A],["u_nail","전투",A],["u_ivory","전투",A],
    ["u_plank","채집",A],["f_honey","채집",A],["fd_berry","채집",A],["u_resin","채집",A],["f_truffle","채집",A],
    ["alloy","채집",H],["alloy","전투",H],["crystal","채집",H],["crystal","전투",H],["cell","전투",H],
-   ["rod1","조사 (물가)",A],["fish_meat","낚시",A],["fish_scale","낚시",A],["whale_oil","낚시",A],["shark_tooth","낚시",A],["fish_fin","낚시",A],["glass","조사",A],["batt","조사",A],["scrap","조사",A],["herb","조사",A],["med_pk","조사",A],["med_gauze","조사",A]].forEach(([id,kd,b])=>{if(kd==="조사"&&S[id]){if(!S[id].k.includes(kd))S[id].k.push(kd)}else add(id,kd,b[0],b[1])});
+   ["rod1","조사 (물가)",A],["f_miyeok","낚시",A],["f_kelp","낚시",A],["f_clam","낚시",A],["f_snail","낚시",A],["f_minari","낚시",A],["h_tough","수렵",A],["h_sinew","수렵",A],["h_bone","수렵",A],["f_pheasant","수렵",A],["fm_monk","낚시",A],["fm_octo","낚시",A],["fm_squid","낚시",A],["fm_crab","낚시",A],["fm_crucian","낚시",A],["fm_carp","낚시",A],["fm_cat","낚시",A],["fm_cray","낚시",A],["fm_pike","낚시",A],["gm_boar","수렵",A],["gm_deer","수렵",A],["gm_bison","수렵",A],["gm_goat","수렵",A],["gm_elk","수렵",A],["fish_meat","낚시",A],["fish_scale","낚시",A],["whale_oil","낚시",A],["shark_tooth","낚시",A],["fish_fin","낚시",A],["glass","조사",A],["batt","조사",A],["scrap","조사",A],["herb","조사",A],["med_pk","조사",A],["med_gauze","조사",A]].forEach(([id,kd,b])=>{if(kd==="조사"&&S[id]){if(!S[id].k.includes(kd))S[id].k.push(kd)}else add(id,kd,b[0],b[1])});
   MM.forEach(([id,t])=>add(id,t>=2?"S~C급 게이트 전투":"D~F급 게이트 전투",1,100));add("rcore","S급 · 폭주 게이트 보상",1,100);add("kit","장비 분해",1,100);MRW.forEach(([id])=>add("rm_"+id,"게이트 전투",1,100));
   RCW.forEach(([id])=>add("rc_"+id,"게이트 전투",1,100));Object.keys(HRC).forEach(id=>{if(IT["rp_"+id])add("rp_"+id,IT[id].fin?"바벨론 레이드 드랍":"게이트 전투 드랍 (상시 게이트 제외)",IT[id].bd||1,100)});
   srcIdx=S}
@@ -2798,7 +2941,7 @@ const INVTAB_N={mm:"의태종"};let invTab=null,stoTab="all";
 /* 가방 · 보관함 칸 순서: 이 기기에 저장 · 새로 들어온 물건은 맨 뒤 · [정리하기]를 누르면 가나다순 */
 function ordKeys(kind,keys){SET.ord=SET.ord||{};let L=(SET.ord[kind]||[]).filter(k=>keys.includes(k));const add=keys.filter(k=>!L.includes(k));if(add.length||L.length!==(SET.ord[kind]||[]).length){L=L.concat(add);SET.ord[kind]=L;saveSet()}return L}
 function ordSort(kind,o){SET.ord=SET.ord||{};SET.ord[kind]=Object.keys(o).filter(k=>o[k]>0&&IT[k]).sort((a,b)=>IT[a].n.localeCompare(IT[b].n,"ko"));saveSet();toast("가나다순으로 정리");render(true)}
-function invCat(k){const i=IT[k];if(!i)return"etc";
+function invCat(k){const i=IT[k];if(!i)return"etc";if(i.qb&&IT[i.qb])return invCat(i.qb);
  if(/^mm_/.test(k)||k==="rcore")return"mm";
 
  if(i.dose)return"etc";
@@ -2935,7 +3078,7 @@ async function autoHeal(){if(!me)return;if(rmpBlock()||hospBlock())return;if(inB
 async function useItem(id){if(rmpBlock()||hospBlock())return;if(inB())return toast("전투 중에는 사용할 수 없습니다");const inv={...me.inv};if(!inv[id])return;inv[id]--;const c=cur(me),u=IT[id].use;
  if(u.gas){const v=me.veh;if(!v)return toast("이동수단이 없습니다");const need=vMaxF(v)-(v.fuel||0);if(need<=0)return toast("휘발유가 가득합니다");const q=Math.min(need,(me.inv[id]||0));inv[id]=(me.inv[id]||0)-q;if(!inv[id])delete inv[id];await upd({inv,veh:Object.assign({},v,{fuel:(v.fuel||0)+q})});return toast("휘발유 "+q+" 넣음 · "+((v.fuel||0)+q)+" / "+vMaxF(v))}
  if(u.pack){if(addInv(inv,u.pack,u.q)<u.q)return toast("가방이 가득 찼습니다");await upd({inv});return toast(IT[id].n+"을(를) 풀었습니다 · "+IT[u.pack].n+" ×"+u.q)}
- if(u.buf){const bp={inv,fbuf:{k:u.buf,u:Date.now()+FBUF_MS}};if(u.en)bp.en=Math.round(Math.min(MAXEN,c.en+u.en));await upd(cntAdd(bp,"food"));return toast(IT[id].n+" · 30분 동안 "+FBUF[u.buf]+(me.fbuf&&me.fbuf.u>Date.now()&&me.fbuf.k!==u.buf?" (먼저 먹은 효과는 사라짐)":""))}
+ if(u.buf){const bp={inv,fbuf:{k:u.buf,u:Date.now()+(u.bufMin?u.bufMin*6e4:FBUF_MS)}};if(u.en)bp.en=Math.round(Math.min(MAXEN,c.en+u.en));await upd(cntAdd(bp,"food"));return toast(IT[id].n+" · "+(u.bufMin||30)+"분 동안 "+FBUF[u.buf]+(me.fbuf&&me.fbuf.u>Date.now()&&me.fbuf.k!==u.buf?" (먼저 먹은 효과는 사라짐)":""))}
  await upd(cntAdd({inv,hp:Math.round(Math.min(maxHp(me),c.hp+uHP(u,maxHp(me)))),en:Math.round(Math.min(MAXEN,c.en+(u.en||0))),mp:Math.round(Math.min(maxMp(me),c.mp+(u.mp||0)+(u.mpPct?maxMp(me)*u.mpPct:0))),con:Math.max(0,Math.round((c.con+(u.con||0))*10)/10)},invCat(id)==="food"?"food":null));toast(IT[id].n+" 사용")}
 async function equipItem(id,slot){const t=IT[id].slot;if(!t)return;{const w=eqWhy(id);if(w)return toast(w)}const eq=clone(me.eq||{}),G=(me.gear||[]).slice();
  if(!slot)slot=t==="acc"?(!eq.acc1?"acc1":!eq.acc2?"acc2":"acc1"):t;
@@ -3711,7 +3854,7 @@ function dexSrc(k){const L=[],i=IT[k];let s0=null;try{s0=itemSrc(k)}catch(e){}if
 function dexPrice(k){const L=[],i=IT[k];dexShops().forEach(([t,n])=>{if(t&&t[k]!=null){const x=n.split(" · ")[0]+" "+won(t[k])+"환";if(!L.includes(x))L.push(x)}});
  if(!L.length)L.push("상점에서는 팔지 않습니다.");if(i.dv)L.push("납품가 "+won(i.dv)+"환");L.push(i.noex||i.bound?"거래소 거래 불가":"거래소 가격은 직접 정하여 올릴 수 있습니다.");return L}
 const dexCho=s=>{const c=(s||"").charCodeAt(0);if(c>=0xAC00&&c<=0xD7A3)return"ㄱㄱㄴㄷㄷㄹㅁㅂㅂㅅㅅㅇㅈㅈㅊㅋㅌㅍㅎ"[Math.floor((c-0xAC00)/588)];return"A–Z"};
-const dexAll=()=>Object.keys(IT).filter(k=>IT[k]&&IT[k].n&&k!=="deco");
+const dexAll=()=>Object.keys(IT).filter(k=>IT[k]&&IT[k].n&&k!=="deco"&&!IT[k].qb);
 function dexScr(B,hd){const K=dexKnown(),all=dexAll(),got=all.filter(k=>K[k]).length;
  hd("도감",h("span",{c:"xs",style:"font-weight:400;color:var(--mt)",t:"수집 "+got+" / "+all.length}));
  const tabs=h("div",{c:"dexc"});DEXC.forEach(([c,n])=>tabs.append(h("button",{type:"button",c:dexTab===c?"on":"",t:n,onclick:()=>{dexTab=c;const q=$("#pmsg");dexQ=q?q.value:dexQ;phRender()}})));
@@ -3787,7 +3930,8 @@ function unreadAll(){if(!me)return 0;return myRooms().filter(k=>k!=="hq"||SET.hq
 let lastUnread=0;
 function setCnt(el,n){if(!el)return;if(n>0){el.style.display="block";el.textContent=n>99?"99+":String(n);el.classList.add("cntb")}else{el.style.display="none";el.textContent=""}}
 /* 협회 상시 임무: 받을 보상 수 (협회 탈퇴면 0) */
-/* 협회 임무 보상: 하루 최대 HQM_DAY번 · 못 받은 보상은 다음 날로 남음 (2026-11-26) */const HQM_DAY=2,hqToday=()=>me&&me.hqd&&me.hqd.d===kday(Date.now())?(me.hqd.n||0):0,hqBank=()=>!me||me.hqOut?0:Math.max(0,Math.floor((me.hqb||0)/HQM_N)-(me.hqc||0));
+/* 2026-11-29: 누적 없음 · 그날 직접 싸운 전투 승리만 세서 하루 최대 2번 · 남은 것은 다음 날로 넘어가지 않음 */
+const HQM_DAY=2,hqDayO=()=>me&&me.hqd&&me.hqd.d===kday(Date.now())?me.hqd:null,hqToday=()=>{const o=hqDayO();return o?(o.n||0):0},hqW=()=>{const o=hqDayO();return o?(o.w||0):0},hqBank=()=>!me||me.hqOut?0:Math.max(0,Math.min(HQM_DAY,Math.floor(hqW()/HQM_N))-hqToday());
 const hqCan=()=>Math.max(0,Math.min(hqBank(),HQM_DAY-hqToday()));
 function updDot(){const d=$("#pdot");if(!d||!me)return;const n=unreadAll(),mc=missed(),fq=frIn().length;setCnt(d,n+mc+fq+(pc.unread?1:0)+(hqCan()?1:0)+honUnread());setCnt($("#rdot"),rMissed());navDots();ntfCheck();lastUnread=n}
 /* 알림음: 내가 들어가 있는 1:1 · 단체방 · 삐삐 채널 · 파티 · 길드 채팅에 남의 새 글이 오면 띡똑 (보고 있는 방 · 종을 끈 방은 조용히) */
@@ -3973,8 +4117,8 @@ function phRender0(){const S=$("#pscr");if(!S||!me)return;S.textContent="";const
   B.append(h("div",{c:"aprof"},h("div",{c:"aph"},me.photo?h("img",{src:me.photo,alt:""}):null),h("div",{style:"min-width:0"},h("b",{t:me.name}),h("small",{t:"등급 "+gradeL(me)+" · 능력 "+me.attr}),h("small",{c:"rowi"},logoEl(mg,15),"소속 길드: "+(mg?mg.name:"미소속")),h("small",{},ROLE[me.role].n+" · Lv"+me.lv+" · ",h("span",{c:me.hqOut?"bad":"ok",t:me.hqOut?"협회 미가입":"협회 가입"})))));
   sec("비상연락망");{const id=iceOf(me);it(id?dName(id)+" · "+fnum(chars[id].num):"지정 안 함","핸드폰을 잃어버렸을 때 주운 사람이 볼 수 있는 번호입니다 · 눌러서 "+(id?"바꾸기":"지정하기"),()=>phGo("ice"))}
   relPhone(B,sec,it,pb);
-  if(!me.hqOut){const done=me.hqb||0,got=me.hqc||0,bank=Math.max(0,Math.floor(done/HQM_N)-got),can=hqCan(),cur_=done-(got+bank)*HQM_N;sec("임무");
-   B.append(h("div",{c:"pit"},h("b",{t:"협회 의뢰 ("+Math.min(hqToday(),HQM_DAY)+"/"+HQM_DAY+")"}),h("small",{t:"조건: 직접 싸운 전투 승리 "+HQM_N+"회마다 보상 1번"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:(bank?"받을 보상 "+bank+"번 · 다음까지 "+Math.min(HQM_N,Math.max(0,cur_))+"/"+HQM_N:"진행 "+Math.max(0,cur_)+"/"+HQM_N+" · 직접 싸운 전투 승리만 세어집니다 (자동 전투 제외)")}),hqToday()>=HQM_DAY?h("small",{c:"bad",t:"오늘 의뢰를 모두 마쳤습니다"+(bank?" · 남은 보상은 내일 받을 수 있습니다":"")}):null));
+  if(!me.hqOut){const w=hqW(),bank=hqBank(),can=hqCan(),full=Math.floor(w/HQM_N)>=HQM_DAY,cur_=w%HQM_N;sec("임무");
+   B.append(h("div",{c:"pit"},h("b",{t:"협회 의뢰 ("+Math.min(hqToday(),HQM_DAY)+"/"+HQM_DAY+")"}),h("small",{t:"조건: 직접 싸운 전투 승리 "+HQM_N+"회마다 보상 1번"}),h("small",{t:"보상: 오염 정화제 "+HQM_PURE+"개 · CHMA영양바 "+HQM_CHMA+"개 · "+HQM_TAN+"환 · 경험치 "+Math.round(HQM_XP*100)+"% (지금 레벨 기준)"}),h("small",{t:full?"오늘 조건 모두 달성 ("+HQM_DAY*HQM_N+"승)"+(bank?" · 받을 보상 "+bank+"번":""):(bank?"받을 보상 "+bank+"번 · ":"")+"오늘 진행 "+cur_+"/"+HQM_N+" · 직접 싸운 전투 승리만 · 하루 "+HQM_DAY+"번까지 · 다음 날로 넘어가지 않음 (밤 12시 초기화)"}),hqToday()>=HQM_DAY?h("small",{c:"bad",t:"오늘 의뢰를 모두 마쳤습니다 · 내일 다시"}):null));
    if(can)B.append(pb("보상 받기 ×"+can,()=>wrap(hqClaim),"pri"))}
   sec("유언장");it(me.will&&me.will.text?"내 유언장 · 작성됨":"내 유언장 · 비어 있음",willToday()?"오늘 이미 썼습니다 · 내일 다시 고칠 수 있습니다.":"하루에 한 번 쓰거나 고칠 수 있습니다.",()=>phGo("willedit"));
   if(p){sec("파티");B.append(h("div",{c:"xs",t:p.name+" ("+p.members.length+"/4)"}));
@@ -5197,10 +5341,10 @@ const ITEM_CD=4000;let itemCd=0;
 const bItems=()=>Object.keys(me.inv||{}).filter(k=>me.inv[k]>0&&IT[k]&&IT[k].use&&(IT[k].use.hp||IT[k].use.hpPct||IT[k].use.mp||IT[k].use.mpPct)).sort((a,b)=>(IT[b].use.mp||(IT[b].use.mpPct?999:0))-(IT[a].use.mp||(IT[a].use.mpPct?999:0)));
 async function useInBattle(k){const now=Date.now();if(now<itemCd)return toast("아이템은 "+Math.ceil((itemCd-now)/1000)+"초 뒤에 다시 쓸 수 있습니다");if(!inBb())return;const m0=battle.mem[uid];if(!m0||m0.hp<=0)return toast("쓰러져서 쓸 수 없습니다");
  const inv={...me.inv};if(!inv[k])return;const u=IT[k].use;itemCd=now+ITEM_CD;inv[k]--;await upd(cntAdd({inv},invCat(k)==="food"?"food":null));
- await bmut(b=>{const m=b.mem[uid];if(!m||m.hp<=0)return false;const hp0=m.hp,mp0=memMp(m);m.hp=Math.min(m.max,m.hp+uHP(u,m.max));m.mp=Math.min(m.mpMax,Math.round((mp0+(u.mp||0)+(u.mpPct?m.mpMax*u.mpPct:0))*10)/10);m.mpT=Date.now();
+ await bmut(b=>{const m=b.mem[uid];if(!m||m.hp<=0)return false;const hp0=m.hp,mp0=memMp(m,b.mem);m.hp=Math.min(m.max,m.hp+uHP(u,m.max));m.mp=Math.min(m.mpMax,Math.round((mp0+(u.mp||0)+(u.mpPct?m.mpMax*u.mpPct:0))*10)/10);m.mpT=Date.now();
   lg(b,me.name+" — "+IT[k].n+" 사용"+(u.hp||u.hpPct?" (HP +"+Math.round(m.hp-hp0)+")":"")+(u.mp||u.mpPct?" (MP +"+Math.round(m.mp-mp0)+")":""))});render(true)}
 function bItemRow(){const L=bItems();if(!L.length)return h("div",{c:"xs mt",style:"margin-top:8px",t:"전투 중에 쓸 회복 아이템이 없습니다 · 각성 앰플(MP)은 시장에서 팝니다"});
- const r=h("div",{c:"bitems"});L.slice(0,8).forEach(k=>{const u=IT[k].use;r.append(h("button",{c:"bit",onclick:()=>wrap(()=>useInBattle(k))},h("b",{t:IT[k].n}),h("small",{t:(u.hp?"HP+"+u.hp+" ":"")+(u.mp?"MP+"+u.mp:u.mpPct?"MP+"+Math.round(u.mpPct*100)+"%":"")+" · ×"+me.inv[k]})))});
+ const r=h("div",{c:"bitems"});L.slice(0,8).forEach(k=>{const u=IT[k].use;r.append(h("button",{c:"bit",onclick:()=>wrap(()=>useInBattle(k))},h("b",{t:IT[k].n}),h("small",{t:(u.hp?"HP+"+u.hp+" ":u.hpPct?"HP+"+Math.round(u.hpPct*100)+"% ":"")+(u.mp?"MP+"+u.mp:u.mpPct?"MP+"+Math.round(u.mpPct*100)+"%":"")+" · ×"+me.inv[k]})))});
  return h("div",{},h("div",{c:"xs mt",style:"margin:8px 0 4px",t:"회복 아이템 (사용 후 "+ITEM_CD/1000+"초 대기)"}),r)}
 /* ===== 게이트 안: 휴대폰 신호 없음 (무전만 가능) ===== */
 function inGateNow(){if(!me)return false;if(me.mis&&lockMsg())return true;if(me.sg&&me.sg!=="sv"&&visitAlive(me.sg))return true;if(inBb()&&battle.gate)return true;return false}
@@ -5219,13 +5363,13 @@ async function ensureRno(){if(!me)return;{const hm=typeof myHomeId==="function"&
 const atBase=()=>me&&me.loc==="base"&&!me.trip&&!lockMsg();
 const atHomeIsl=()=>{if(!me||me.trip||typeof myHomeId!=="function")return false;const id=myHomeId();return!!(id&&hmLot(id)&&hmLot(id).isl===me.loc)&&!lockMsg()},atSto=()=>atBase()||atHomeIsl(),stoWhere=()=>{const id=me&&typeof myHomeId==="function"&&myHomeId();return id?"집("+REG[hmLot(id).isl].n+") · 중앙 거점":"중앙 거점 숙소"};
 /* 제작 재료: 중앙 거점에서는 가방 + 숙소 보관함 (가방 먼저 씀) */
-const RCP0=new Set(["fd_berrybread","fd_gtea","fd_ebar","fd_cornsilk","bread","fd_potsoup","fd_tomsoup","fd_kimchi","fd_ccake"]),knowsR=id=>RCP0.has(id)||(me.rcp||[]).includes(id);
+const RCP0=new Set(["fd_berrybread","fd_gtea","fd_ebar","fd_cornsilk","bread","fd_potsoup","fd_tomsoup","fd_kimchi","fd_ccake","fd_fishgrill","fd_miyeok","fd_kelpball","fd_bonebroth","lt_tan","lt_strap","lt_pouch"]),knowsR=id=>RCP0.has(id)||(me.rcp||[]).includes(id);
 const haveM1=k=>((me.inv||{})[k]||0)+(atSto()?((me.store||{})[k]||0):0),haveM=k=>k==="egg"?haveM1("egg")+haveM1("f_egg"):haveM1(k);
 const haveAll=need=>Object.keys(need).every(k=>haveM(k)>=need[k]);
 function matTake(need,half){const inv={...me.inv},b=atSto(),st=b?{...(me.store||{})}:null;const one=(k,q)=>{const a=Math.min(inv[k]||0,q);inv[k]=(inv[k]||0)-a;q-=a;if(q>0&&st){const c=Math.min(st[k]||0,q);st[k]=(st[k]||0)-c;if(!st[k])delete st[k];q-=c}return q};for(const k in need){let q=half?Math.ceil(need[k]/2):need[k];q=one(k,q);if(q>0&&k==="egg")one("f_egg",q)}for(const k in inv)if(!inv[k])delete inv[k];const p={inv};if(st)p.store=st;return p}
 /* ===== 직업: 채집 직업 1개 + 제작 직업 1개 · 만렙 30 ===== */
-const GJOB={herb:{n:"원예가",k:"wood",tool:"axe",d:"풀과 나무 · 식재료 채집 · 벌목 가능"},fish:{n:"어부",k:"fish",tool:"rod",d:"물에서 나는 것 채집 · 낚시 가능"},mine:{n:"광부",k:"mine",tool:"pickaxe",d:"광물 채집 · 채광 가능"}};
-const CJOB={smith:{n:"대장장이",d:"장비 제작 전문"},cook:{n:"요리사",d:"요리 전문"},wood:{n:"목공사",d:"가구 제작 전문"},pharm:{n:"약사",d:"약물 조제 전문 · 힐러만",role:"healer"}};
+const GJOB={herb:{n:"원예가",k:"wood",tool:"axe",d:"풀과 나무 · 식재료 채집 · 벌목 가능"},fish:{n:"어부",k:"fish",tool:"rod",d:"물에서 나는 것 채집 · 낚시 가능"},mine:{n:"광부",k:"mine",tool:"pickaxe",d:"광물 채집 · 채광 가능"},hunt:{n:"사냥꾼",k:"hunt",tool:"bow",d:"짐승 사냥 · 수렵 가능 (고기 · 가죽 · 가끔 의태종이 걸림)"}};
+const CJOB={smith:{n:"대장장이",d:"장비 제작 전문"},cook:{n:"요리사",d:"요리 전문"},wood:{n:"가죽장인",d:"가죽 가공 · 바벨 장비 1차 제작 (미완성된 바벨의 ○○)"},pharm:{n:"약사",d:"약물 조제 전문 · 힐러만",role:"healer"}};
 /* ===== 장비 개편 (2026-11-22) =====
    · 예전 장비는 모두 「예전 장비」(old) → 접속하면 같은 부위 녹슨 기본 장비로 바뀜 (방독면 · 반지 · 곡괭이 · 도끼는 그대로)
    · 녹슨 기본 장비: 부위 7 × 탱커 · 딜러 · 힐러 · Lv1 · 일반 · 정비소 판매
@@ -5260,22 +5404,30 @@ GSL.forEach(sl=>GRL.forEach(rl=>{const r=GRK2[rl],N=GNOUN[sl][rl];
  GBAND.forEach(([bd,mt])=>{const D=NGEAR.drop[bd]||(NGEAR.drop[bd]=[[],[],[],[]]),C=NGEAR.craft[bd]||(NGEAR.craft[bd]=[]);
   for(let k=0;k<4;k++){const id="nG"+bd+"_"+sl+"_"+r+"_"+k;ngDef(id,{n:mt+" "+N[k],lv:bd,bd,fr:k,d:ROLE[rl].n+" 전용 · Lv"+bd+"부터 · 게이트 전투에서 떨어짐 · "+RAR[k].n+" 고정"},sl,rl,k);D[k].push(id)}
   for(let j=0;j<3;j++){const id="nC"+bd+"_"+sl+"_"+r+"_"+j;ngDef(id,{n:GCRP[j]+" "+mt+" "+N[0],lv:bd,bd,cr:1,d:ROLE[rl].n+" 전용 · Lv"+bd+"부터 · 정비소 고급 제작 (제작법 필요) · 고급 이상 · 손재주가 높을수록 희귀 · 전설"},sl,rl,j+1);C.push(id)}});
- const fid="nF_"+sl+"_"+r;ngDef(fid,{n:"바벨의 "+N[0],lv:100,bd:100,fr:3,cr:1,fin:1,d:ROLE[rl].n+" 전용 최종 장비 · Lv100 · 바벨의 파편과 종말의 섬 게이트 재료로 제작 · 전설 고정"},sl,rl,4);NGEAR.fin.push(fid);IT[fid].bound=1;IT[fid].d+=" · 거래 불가(귀속)";
+ const fid="nF_"+sl+"_"+r;ngDef(fid,{n:"바벨의 "+N[0],lv:100,bd:100,fr:3,cr:1,fin:1,d:ROLE[rl].n+" 전용 최종 장비 · Lv100 · "+(sl==="acc"?"미로의 광석":"미로의 조각")+"과 종말의 섬 게이트 재료로 제작 · 전설 고정"},sl,rl,4);NGEAR.fin.push(fid);IT[fid].bound=1;IT[fid].d+=" · 거래 불가(귀속)";
  IT[fid].atk&&(IT[fid].atk=Math.round(IT[fid].atk*1.25));IT[fid].def&&(IT[fid].def=Math.round(IT[fid].def*1.25))}));
+/* 2026-11-28: 바벨 악세서리 2종 · 바벨의 귀걸이(기존 악세서리) · 바벨의 반지(새로) · 옵션이 다름 */
+const BABA={tank:{e:{op:["hp","s4","s0"],d:3},r:{op:["def","s4","s2"],d:4}},dealer:{e:{op:["s2","s0","hp"],a:2,d:1},r:{op:["atk","s0","s1"],a:4}},healer:{e:{op:["mp","s3","s2"],a:1,d:1},r:{op:["s3","hp","def"],a:2,d:1}}};
+GRL.forEach(rl=>{const r=GRK2[rl],e="nF_acc_"+r,id="nF_acc2_"+r,B=BABA[rl];ngDef(id,{n:"바벨의 반지",lv:100,bd:100,fr:3,cr:1,fin:1,bound:1},"acc",rl,0);IT[e].n="바벨의 귀걸이";IT[e].op=B.e.op;IT[id].op=B.r.op;
+ [[e,B.e],[id,B.r]].forEach(([k,o])=>{const I=IT[k];delete I.atk;delete I.def;if(o.a)I.atk=o.a;if(o.d)I.def=o.d});NGEAR.fin.splice(NGEAR.fin.indexOf(e)+1,0,id)});
 /* 제작 장비 재료: 구간 기본 재료 + 의태종 재료 (부위마다) · 최종 장비: 바벨의 파편 + 지역 재료 */
 const GMAT={10:{scrap:4,wire:2,cloth:2},20:{hide:4,cloth:3,scrap:3},30:{scrap:6,wire:3,batt:2},40:{core:2,hide:4,glass:3},50:{core:3,batt:3,scrap:6},60:{alloy:3,hide:5,wire:4},70:{alloy:4,crystal:1,glass:5},80:{alloy:5,crystal:2,core:3},90:{cell:1,crystal:3,alloy:5},100:{cell:2,crystal:3,alloy:6}};
 const GMM={lo:{head:"mm_fluid",body:"mm_scale",legs:"mm_scale",feet:"mm_fluid",acc:"mm_fang",main:"mm_fang",sub:"mm_fang"},mid:{head:"mm_voice",body:"mm_shell",legs:"mm_shell",feet:"mm_voice",acc:"mm_nerve",main:"mm_nerve",sub:"mm_shell"},hi:{head:"mm_lens",body:"mm_lens",legs:"mm_lens",feet:"mm_heart",acc:"mm_heart",main:"mm_heart",sub:"mm_lens"},top:{head:"mm_gene",body:"mm_crown",legs:"mm_gene",feet:"mm_gene",acc:"mm_crown",main:"mm_crown",sub:"mm_gene"}};
 const GX3=["cloth","hide","glass"];
 GBAND.forEach(([bd])=>NGEAR.craft[bd].forEach(id=>{const i=IT[id],j=+id.slice(-1),t=bd<=20?"lo":bd<=40?"mid":bd<=70?"hi":"top",need=Object.assign({},GMAT[bd]);need[GMM[t][i.slot]]=1+(j===2?1:0);need[GX3[j]]=(need[GX3[j]]||0)+2;
  HRC[id]={r:1,need};IT["rp_"+id]={n:"제작법: "+i.n,learn:id,rar:1,d:"고급 제작법 · 사용하면 「"+i.n+"」 제작법을 익힙니다 · "+ROLE[i.role].n+" 장비 · Lv"+bd+" 구간 · 정비소 고급 제작"}}));
+const CR_SLN0={head:"머리",body:"상의",legs:"하의",feet:"신발",acc:"악세서리",main:"주 장비",sub:"보조 장비"};
 const FMAT={head:"hm_h5",body:"hm_h6",legs:"hm_h2",feet:"hm_h1",acc:"hm_h13",main:"hm_h8",sub:"hm_h7"},FMAT2={tank:"hm_h12",dealer:"hm_h10",healer:"hm_h3"},FMAT3={body:"hm_h11",legs:"hm_h9",main:"hm_h4"};
-NGEAR.fin.forEach(id=>{const i=IT[id],need={babel_frag:1,[FMAT[i.slot]]:2,[FMAT2[i.role]]:1,cell:3};if(FMAT3[i.slot])need[FMAT3[i.slot]]=1;HRC[id]={r:3,need};i.d=ROLE[i.role].n+" 전용 최종 장비 · Lv100 · 제작법 필요 (바벨론 레이드) · 바벨의 파편과 종말의 섬 게이트 재료로 제작 · 전설 고정";IT["rp_"+id]={n:"제작법: "+i.n,learn:id,rar:3,d:"최종 장비 제작법 · 사용하면 「"+i.n+"」 제작법을 익힙니다 · "+ROLE[i.role].n+" 장비 · Lv100 · 바벨론 레이드에서 드물게"}});
+const LRC={};/* 1차: 가죽장인 → 미완성된 바벨의 ○○ */
+NGEAR.fin.forEach(id=>{const i=IT[id],ac=i.slot==="acc",u="u"+id;IT[u]={n:"미완성된 "+i.n,rar:3,d:"바벨 장비 1차 완성품 ("+ROLE[i.role].n+" · "+CR_SLN0[i.slot]+") · 가죽장인 Lv30이 만듦 · 대장장이 Lv30이 "+(ac?"미로의 광석 1개":"미로의 조각 2개")+"를 더해 「"+i.n+"」로 완성 · 거래 가능"};
+ LRC[u]={r:3,fin:id,need:Object.assign(ac?{lt_tan:2,h_tough:2,lt_strap:2}:{lt_tan:4,h_tough:4,lt_strap:3},{[FMAT[i.slot]]:2,[FMAT2[i.role]]:1})};
+ const need={[u]:1,[ac?"maze_ore":"maze_frag"]:ac?1:2,cell:3};if(FMAT3[i.slot])need[FMAT3[i.slot]]=1;HRC[id]={r:3,need};i.d=ROLE[i.role].n+" 전용 최종 장비 · Lv100 · 제작법 필요 (바벨론 레이드) · 1차 가죽장인(미완성된 "+i.n+") → 2차 대장장이 · "+(ac?"미로의 광석 1개":"미로의 조각 2개")+" · 전설 고정";IT["rp_"+id]={n:"제작법: "+i.n,learn:id,rar:3,d:"최종 장비 제작법 · 사용하면 「"+i.n+"」 제작법을 익힙니다 · "+ROLE[i.role].n+" 장비 · Lv100 · 바벨론 레이드에서 드물게"}});
 /* 채집 · 제작 직업 장비 */
 const JGEAR={herb:["밀짚모자","원예 앞치마","흙 묻은 바지","원예 장화","풀잎 팔찌","전지가위","숙련 도끼"],fish:["어부 모자","방수 재킷","방수 바지","갯벌 장화","조개 목걸이","작살","미끼통"],mine:["안전모","광부 작업복","무릎 보호 바지","안전화","광석 팔찌","광부 망치","숙련 곡괭이"],
- smith:["용접 마스크","가죽 앞치마","대장장이 바지","쇠 징 장화","집게 반지","대장장이 망치","줄칼"],cook:["조리모","요리사 재킷","조리 바지","미끄럼 방지 신발","계량 팔찌","요리사의 칼","양념통"],wood:["목공 두건","목공 앞치마","톱밥 바지","목공 장화","줄자 목걸이","목공 망치","대패"],pharm:["약사 모자","약사 가운","실험실 바지","실내화","저울 팔찌","약연","약병 가방"]};
+ smith:["용접 마스크","가죽 앞치마","대장장이 바지","쇠 징 장화","집게 반지","대장장이 망치","줄칼"],cook:["조리모","요리사 재킷","조리 바지","미끄럼 방지 신발","계량 팔찌","요리사의 칼","양념통"],wood:["가죽 두건","무두질 앞치마","가죽 작업 바지","징 박은 장화","가죽 팔찌","가죽 칼","송곳 주머니"],hunt:["사냥꾼 모자","위장 조끼","가죽 각반","사냥 장화","송곳니 목걸이","사냥칼","덫 가방"],pharm:["약사 모자","약사 가운","실험실 바지","실내화","저울 팔찌","약연","약병 가방"]};
 const JGEARS=[];
 Object.entries(JGEAR).forEach(([j,L])=>{const g=!!GJOB[j],X=g?GJOB[j]:CJOB[j];L.forEach((n,i)=>{const sl=GSL[i],id="nJ_"+j+"_"+sl,o={n,slot:sl,lv:1,fr:0,def:1,d:X.n+" 전용 장비 · "+(g?"채집량 · 채집 성공률 조금 오름":"제작 성공률 · 등급 상승 확률 조금 오름")+" · 정비소 판매"};
-  if(g){o.jg=j;o.gb=.04}else{o.jc=j;o.cb=.02}if(g&&sl==="sub"&&j!=="fish"){o.tool=j==="mine"?"mine":"wood";o.d+=" · "+(j==="mine"?"곡괭이":"도끼")+" 대신 쓸 수 있음"}IT[id]=o;JGEARS.push(id)})});
+  if(g){o.jg=j;o.gb=.04}else{o.jc=j;o.cb=.02}if(g&&sl==="sub"&&j!=="fish"){o.tool=j==="mine"?"mine":j==="hunt"?"hunt":"wood";o.d+=" · "+(j==="mine"?"곡괭이":j==="hunt"?"사냥용 활":"도끼")+" 대신 쓸 수 있음"}IT[id]=o;JGEARS.push(id)})});
 /* 정비소: 예전 장비 대신 녹슨 기본 장비 · 직업 장비 */
 OLDG.forEach(k=>delete SHOP[k]);NGEAR.basic.forEach(id=>SHOP[id]=({head:150,body:150,legs:150,feet:120,acc:220,main:180,sub:150})[IT[id].slot]);JGEARS.forEach(id=>SHOP[id]=IT[id].tool?500:300);
 /* 착용 조건 */
@@ -5297,8 +5449,69 @@ Object.assign(IT,{fd_glunch:{n:"든든한 채집 도시락",use:{buf:"gy"},dv:22
  fd_ftea:{n:"집중 홍차",use:{buf:"cs"},dv:200,d:"30분 동안 제작 성공률 +10%"},fd_msoup:{n:"장인의 수프",use:{buf:"cu"},dv:260,d:"30분 동안 제작 등급 상승 확률 +5%"},fd_gcookie:{n:"꿀 생강 쿠키",use:{buf:"cm"},dv:240,d:"30분 동안 제작에 실패해도 재료를 잃지 않음"}});
 Object.assign(FRC,{fd_glunch:{rice:2,f_meat:1,c_carrot:1},fd_bibim:{rice:1,herb:2,mush:1},fd_mskew:{mush:3,salt:1},fd_ftea:{herb:2,sugar:1,water:1},fd_msoup:{c_potato:1,milk:1,f_meat:1,salt:1},fd_gcookie:{c_wheat:2,f_honey:1,sugar:1}});
 ["fd_glunch","fd_bibim","fd_mskew","fd_ftea","fd_msoup","fd_gcookie"].forEach(k=>{IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"숙소 부엌 인덕션에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"};RCW.push([k,3])});
-const FBUF={er:"에너지 회복 1.5배",gy:"채집량 +20%",ge:"채집 에너지 -2",gx:"채집 재료 +1 확률 +10%",cs:"제작 성공률 +10%",cu:"제작 등급 상승 +5%",cm:"제작 실패해도 재료 유지"},FBUF_MS=30*6e4;
+const FBUF={er:"에너지 회복 1.5배",gy:"채집량 +20%",ge:"채집 에너지 -2",gx:"채집 재료 +1 확률 +10%",cs:"제작 성공률 +10%",cu:"제작 등급 상승 +5%",cm:"제작 실패해도 재료 유지",rb_a:"힘 +5 · 방어력 +2",rb_d:"방어 +5 · 공격력 +2",rb_i:"지능 +5 · 방어력 +2"},FBUF_MS=30*6e4;
 const fbOn=k=>!!(me&&me.fbuf&&me.fbuf.k===k&&me.fbuf.u>Date.now());
+/* ===== 낚시 · 수렵 요리 (2026-11-28) · 기본 요리법 5종은 처음부터 앎 · 나머지 요리법은 낚시 · 수렵 · 게이트 전투에서 드랍 ===== */
+Object.assign(IT,{fd_fishgrill:{n:"생선구이",use:{hp:45,en:15},dv:140,d:"HP +45 · 에너지 +15"},fd_miyeok:{n:"미역국",use:{hp:30,en:25},dv:160,d:"HP +30 · 에너지 +25"},fd_kelpball:{n:"다시마 주먹밥",use:{hp:35,en:30},dv:130,d:"HP +35 · 에너지 +30"},fd_clamsoup:{n:"바지락 국수",use:{hp:65,en:30},dv:220,d:"HP +65 · 에너지 +30"},fd_snailsoup:{n:"다슬기국",use:{hp:55,en:35,con:-3},dv:210,d:"HP +55 · 에너지 +35 · 오염도 -3"},fd_crucian:{n:"붕어찜",use:{hp:80,en:20},dv:240,d:"HP +80 · 에너지 +20"},fd_carpsoup:{n:"잉어탕",use:{hp:70,mp:30},dv:260,d:"HP +70 · MP +30"},fd_catstew:{n:"메기탕",use:{hp:90,en:25},dv:280,d:"HP +90 · 에너지 +25"},fd_craystir:{n:"가재 볶음",use:{hp:55,en:30},dv:230,d:"HP +55 · 에너지 +30"},fd_pikefry:{n:"강꼬치고기 튀김",use:{hp:85,en:25},dv:270,d:"HP +85 · 에너지 +25"},fd_monkjjim:{n:"아귀 구이",use:{hp:110,en:30},dv:340,d:"HP +110 · 에너지 +30"},fd_octo:{n:"문어숙회",use:{hp:60,mp:40},dv:300,d:"HP +60 · MP +40"},fd_crabsoup:{n:"꽃게찜",use:{hp:75,en:30},dv:300,d:"HP +75 · 에너지 +30"},fd_squidgrill:{n:"대왕오징어 구이",use:{hp:120,en:20},dv:420,d:"HP +120 · 에너지 +20"},fd_bonebroth:{n:"뼈 육수",use:{hp:40,en:40,mp:20},dv:180,d:"HP +40 · 에너지 +40 · MP +20"},fd_pheasant:{n:"꿩 구이",use:{hp:80,en:30},dv:280,d:"HP +80 · 에너지 +30"},fd_boarbbq:{n:"멧돼지 바비큐",use:{hp:110,en:30},dv:360,d:"HP +110 · 에너지 +30"},fd_venison:{n:"사슴 고기 스테이크",use:{hp:100,mp:40},dv:380,d:"HP +100 · MP +40"},fd_bisonstew:{n:"들소 고기 찜",use:{hp:140,en:40},dv:480,d:"HP +140 · 에너지 +40"},fd_goatsoup:{n:"산양 탕",use:{hp:90,en:50},dv:360,d:"HP +90 · 에너지 +50"},fd_elkjerky:{n:"엘크 육포",use:{hp:70,en:60},dv:420,d:"HP +70 · 에너지 +60"}});
+Object.assign(FRC,{fd_fishgrill:{fish_meat:2,salt:1},fd_miyeok:{f_miyeok:2,water:1,salt:1},fd_kelpball:{rice:2,f_kelp:1},fd_clamsoup:{f_clam:3,c_wheat:2,water:1},fd_snailsoup:{f_snail:3,water:2,salt:1},fd_crucian:{fm_crucian:1,c_potato:1,salt:1},fd_carpsoup:{fm_carp:1,water:2,herb:1},fd_catstew:{fm_cat:1,f_minari:1,water:2},fd_craystir:{fm_cray:2,salt:1},fd_pikefry:{fm_pike:1,c_wheat:1,salt:1},fd_monkjjim:{fm_monk:1,salt:1},fd_octo:{fm_octo:1,salt:1},fd_crabsoup:{fm_crab:2,salt:1,water:1},fd_squidgrill:{fm_squid:1,salt:1},fd_bonebroth:{h_bone:3,water:2,salt:1},fd_pheasant:{f_pheasant:1,salt:1},fd_boarbbq:{gm_boar:1,salt:1},fd_venison:{gm_deer:1,salt:1,herb:1},fd_bisonstew:{gm_bison:1,c_potato:1,c_carrot:1,water:1},fd_goatsoup:{gm_goat:1,water:2,herb:1},fd_elkjerky:{gm_elk:1,salt:2}});
+const FISH_RC=["fd_clamsoup", "fd_snailsoup", "fd_crucian", "fd_carpsoup", "fd_catstew", "fd_craystir", "fd_pikefry", "fd_monkjjim", "fd_octo", "fd_crabsoup", "fd_squidgrill"],HUNT_RC=["fd_pheasant", "fd_boarbbq", "fd_venison", "fd_bisonstew", "fd_goatsoup", "fd_elkjerky"];
+["fd_fishgrill", "fd_miyeok", "fd_kelpball", "fd_clamsoup", "fd_snailsoup", "fd_crucian", "fd_carpsoup", "fd_catstew", "fd_craystir", "fd_pikefry", "fd_monkjjim", "fd_octo", "fd_crabsoup", "fd_squidgrill", "fd_bonebroth", "fd_pheasant", "fd_boarbbq", "fd_venison", "fd_bisonstew", "fd_goatsoup", "fd_elkjerky"].forEach(k=>{IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"숙소 부엌 인덕션에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"};if(!RCP0.has(k))RCW.push([k,2])});
+SHOP.bow=200;
+Object.assign(SELL,{f_miyeok:{g:0,p:6},f_kelp:{g:0,p:6},f_clam:{g:0,p:8},f_snail:{g:0,p:8},f_minari:{g:0,p:5},fm_crucian:{g:0,p:20},h_sinew:{g:0,p:10},h_bone:{g:0,p:8},
+ fm_monk:{g:1,p:50},fm_octo:{g:1,p:50},fm_crab:{g:1,p:45},fm_carp:{g:1,p:40},fm_cat:{g:1,p:40},fm_cray:{g:1,p:40},fm_pike:{g:1,p:45},h_tough:{g:1,p:45},f_pheasant:{g:1,p:40},gm_boar:{g:1,p:60},gm_deer:{g:1,p:60},gm_goat:{g:1,p:60},
+ fm_squid:{g:2,p:120},gm_bison:{g:2,p:120},gm_elk:{g:2,p:120},
+ lt_tan:{g:0,p:25},lt_strap:{g:0,p:25},lt_pouch:{g:0,p:70},lt_glove:{g:1,p:100},lt_belt:{g:1,p:120},lt_boots:{g:1,p:170},lt_bag:{g:2,p:300},bow:{g:0,p:80}});
+["fd_fishgrill", "fd_miyeok", "fd_kelpball", "fd_clamsoup", "fd_snailsoup", "fd_crucian", "fd_carpsoup", "fd_catstew", "fd_craystir", "fd_pikefry", "fd_monkjjim", "fd_octo", "fd_crabsoup", "fd_squidgrill", "fd_bonebroth", "fd_pheasant", "fd_boarbbq", "fd_venison", "fd_bisonstew", "fd_goatsoup", "fd_elkjerky"].forEach(k=>{if(!SELL[k])SELL[k]={g:IT[k].dv>=400?1:0,p:Math.round(IT[k].dv/3)}});
+/* ===== 요리 등급 (2026-11-29): 일반 → 고급 → 희귀 · 이름은 그대로, 색만 다름 · 효과 고급 ×1.2 · 희귀 ×1.4
+   한 등급 오를 확률 = 요리사 레벨 × 1% (요리사일 때) + 지식 × 1.5% (최대 60%) · 고급이 나오면 같은 확률의 절반으로 희귀 */
+const FQ_MUL=[1,1.2,1.4],FQ_DV=[1,1.3,1.6];
+/* 2026-11-29: 낚시 · 수렵 요리는 회복을 %로 (HP는 희귀 ×1.4여도 40% 안 넘게 · 일반 최대 28%) */
+const useD=u=>[u.hp?"HP +"+u.hp:"",u.hpPct?"HP "+Math.round(u.hpPct*100)+"%":"",u.en?"에너지 "+u.en+"%":"",u.mp?"MP +"+u.mp:"",u.mpPct?"MP "+Math.round(u.mpPct*100)+"%":"",u.con?"오염도 "+u.con:""].filter(Boolean).join(" · ");
+/* 2026-11-29 ②: 모든 회복템 · 음식 효과를 %로 · HP = 숫자 ÷ 5 % · MP = 숫자 ÷ 2 % (최대 60%) · 에너지는 최대 100이라 숫자 = % */
+Object.keys(IT).forEach(k=>{const i=IT[k],u=i&&i.use;if(!u||i.qb)return;let ch=false,d=String(i.d||"");
+ if(typeof u.hp==="number"&&u.hp>0){const v=Math.min(.6,Math.round(u.hp/5)/100);if(/^amp3$/.test(k)){}u.hpPct=(u.hpPct||0)+v;delete u.hp;ch=true}
+ if(typeof u.mp==="number"&&u.mp>0){u.mpPct=Math.min(.6,(u.mpPct||0)+Math.round(u.mp/2)/100);delete u.mp;ch=true}
+ if(!ch&&!u.en)return;const P=x=>Math.round(x*100)+"%";
+ d=d.replace(/HP (\d+) · MP (\d+) 회복/,"HP "+(u.hpPct?P(u.hpPct):"")+" · MP "+(u.mpPct?P(u.mpPct):"")+" 회복").replace(/HP \+\d+/,u.hpPct?"HP "+P(u.hpPct):"").replace(/MP \+\d+/,u.mpPct?"MP "+P(u.mpPct):"").replace(/MP \d+ 회복/,u.mpPct?"MP "+P(u.mpPct)+" 회복":"").replace(/에너지 \+(\d+)/,"에너지 $1%");
+ i.d=d});
+const _fx=["fd_fishgrill","fd_miyeok","fd_kelpball","fd_bonebroth","fd_clamsoup","fd_snailsoup","fd_crucian","fd_carpsoup","fd_catstew","fd_craystir","fd_pikefry","fd_monkjjim","fd_octo","fd_crabsoup","fd_squidgrill","fd_pheasant","fd_boarbbq","fd_venison","fd_bisonstew","fd_goatsoup","fd_elkjerky"];_fx.forEach(k=>{if(IT[k])IT[k].d=useD(IT[k].use)});
+const fqBase=k=>(IT[k]&&IT[k].qb)||k;
+Object.keys(FRC).forEach(k=>{const b=IT[k];if(!b||!b.use||b.use.buf||b.rar)return;[1,2].forEach(q=>{const u={};for(const x in b.use)u[x]=typeof b.use[x]==="number"?(x==="con"?b.use[x]:/Pct$/.test(x)?Math.min(x==="hpPct"?.4:1,Math.round(b.use[x]*FQ_MUL[q]*100)/100):Math.round(b.use[x]*FQ_MUL[q])):b.use[x];
+ IT[k+"_q"+q]={n:b.n,rar:q,qb:k,use:u,dv:Math.round((b.dv||0)*FQ_DV[q]),d:useD(u)+" · "+RAR[q].n+" 요리"};
+ if(SELL[k])SELL[k+"_q"+q]={g:Math.min(3,SELL[k].g+q),p:Math.round(SELL[k].p*FQ_DV[q])}})});
+const fqUp=()=>Math.min(.6,(jobOf("c")==="cook"?jobLv("c")*.01:0)+(es(me,6)||0)*.015);
+const fqRoll=k=>{if(!IT[k+"_q1"])return k;const p=fqUp();if(rf()>=p)return k;return rf()<p*.5?k+"_q2":k+"_q1"};
+/* ===== 제작 ×10 (재료가 있는 만큼 최대 10번) ===== */
+async function craftN(fn,id,need,n){n=n||10;if(!haveAll(need()))return toast("재료 부족");let ok=0,bad=0;const L=[];window.__tq=L;
+ try{for(let i=0;i<n;i++){if(!haveAll(need()))break;const k=L.length,m0=me;await fn(id);for(let t=0;t<40&&me===m0;t++)await new Promise(r=>setTimeout(r,50));const m=L.slice(k).join(" ");if(/실패/.test(m))bad++;else if(!m||/부족|가득|먼저|이상이어야|익히세요|없습니다|중입니다|필요/.test(m))break;else ok++}}
+ finally{window.__tq=null}
+ toast((IT[id]?IT[id].n:"제작")+" ×"+(ok+bad)+" · 성공 "+ok+(bad?" · 실패 "+bad:"")+(ok+bad<n&&!haveAll(need())?" · 재료 소진":""));try{render(true)}catch(e){}}
+/* ===== 바벨론 채집 (채집 직업 만렙 · 탑 둘레) ===== */
+/* 원예가 → 선악 씨앗(힐러 무기) · 광부 → 역청(무기) · 어부 → 귀신상어 의태형(전투 · 이기면 귀신상어 비늘(탱커 상하의) · 살) · 사냥꾼 → 매복 사냥 · 아나콘다 의태형(전투 · 이기면 아나콘다 고기) · 모두 전설 */
+Object.assign(IT,{bb_seed:{n:"선악 씨앗",rar:3,d:"바벨론 채집 · 원예가 Lv30 · 탑 둘레 정원에서 얻는 씨앗 · 바벨 힐러 무기(주 장비 · 보조 장비) 2차 제작 재료"},bb_pitch:{n:"역청",rar:3,d:"바벨론 채집 · 광부 Lv30 · 탑의 벽돌을 붙인 검은 역청 · 바벨 무기(주 장비 · 보조 장비) 2차 제작 재료"},
+ bb_shark:{n:"귀신상어 살",rar:3,d:"바벨론 · 어부 Lv30 · 귀신상어 의태형을 잡으면 (60%) · 상어 구이 · 에덴의 만찬 재료"},bb_anaconda:{n:"아나콘다 고기",rar:3,d:"바벨론 · 사냥꾼 Lv30 매복 사냥 · 아나콘다 의태형을 잡으면 · 뱀 구이 · 에덴의 만찬 재료"}});
+const BB_MAT={herb:"bb_seed",fish:"bb_scale",mine:"bb_pitch",hunt:"bb_anaconda"},BB_N={herb:"정원 채집",fish:"귀신상어 낚시",mine:"벽돌 채굴",hunt:"매복 사냥"},BB_BT={fish:"bbf",hunt:"bbh"};
+FISH.bbf={mon:[["귀신상어 의태형","어둠"]]};FISH.bbh={mon:[["아나콘다 의태형","물"]]};
+Object.assign(SELL,{bb_seed:{g:3,p:600},bb_pitch:{g:3,p:600},bb_shark:{g:3,p:600},bb_anaconda:{g:3,p:600}});
+/* 바벨론 요리 (전설 · 처음부터 앎 · 회복은 % · 최대 60%) */
+Object.assign(IT,{bb_scale:{n:"귀신상어 비늘",rar:3,d:"바벨론 · 어부 Lv30 · 귀신상어 의태형을 잡으면 · 바벨 탱커 상의 · 하의(1개씩) · 딜러 주 장비(2개) 2차 제작 재료"},
+ fd_bb_sgrill:{n:"상어 구이",rar:3,use:{hpPct:.5,mpPct:.3},dv:1500,d:"HP 50% · MP 30% 회복"},
+ fd_bb_snake:{n:"뱀 구이",rar:3,use:{hpPct:.4,en:40},dv:1500,d:"HP 40% 회복 · 에너지 40%"},
+ fd_bb_feast:{n:"에덴의 만찬",rar:3,use:{hpPct:.6,mpPct:.6,en:60,con:-20},dv:3000,d:"HP 60% · MP 60% 회복 · 에너지 60% · 오염도 -20"}});
+SELL.bb_scale={g:3,p:600};
+Object.assign(FRC,{fd_bb_sgrill:{bb_shark:1,salt:1},fd_bb_snake:{bb_anaconda:1,salt:1},fd_bb_feast:{bb_shark:1,bb_anaconda:1,rice:2}});
+["fd_bb_sgrill","fd_bb_snake","fd_bb_feast"].forEach(k=>{RCP0.add(k);IT["rc_"+k]={n:"요리법: "+IT[k].n,learn:k,bound:1,d:"숙소 부엌 인덕션에서 「"+IT[k].n+"」을(를) 만들 수 있다 · 거래 불가"};SELL[k]={g:3,p:500}});
+/* 바벨 장비 2차 제작에 바벨론 채집 재료: 역청 → 무기(주 장비 · 보조 장비) 전부 · 선악 씨앗 → 힐러 무기 · 귀신상어 비늘 → 탱커 상의 · 하의 */
+NGEAR.fin.forEach(id=>{const i=IT[id],n=HRC[id].need,add=(k,q)=>{n[k]=q;i.d+=" · "+IT[k].n+" "+q};if(i.slot==="main"||i.slot==="sub"){add("bb_pitch",1);if(i.role==="healer")add("bb_seed",1);if(i.role==="dealer"&&i.slot==="main")add("bb_scale",2)}if(i.role==="tank"&&(i.slot==="body"||i.slot==="legs"))add("bb_scale",1)});
+const bbOk=()=>!!(me&&REG[me.loc]&&REG[me.loc].raid&&jobOf("g")&&BB_MAT[jobOf("g")]&&jobLv("g")>=JMAX);
+async function bbGather(){if(rmpBlock()||hospBlock())return;if(!bbOk())return toast("채집 직업 Lv"+JMAX+"(만렙)만 바벨론에서 채집할 수 있습니다");{const _l=lockMsg();if(_l)return toast(_l)}if(me.trip)return toast("이동 중입니다");if(inB()||(typeof rdIn==="function"&&rdIn()))return toast("전투 중입니다");if(me.ag)return toast("자동 채집 중이에요 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");
+ if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");if(Date.now()<gcd)return;const c0=cur(me);if(c0.en<GATHER_EN*2)return toast("에너지가 부족합니다 ("+GATHER_EN*2+" 필요)");gcd=Date.now()+2000;
+ const j=jobOf("g"),id=BB_MAT[j],inv={...me.inv},p={en:Math.round(c0.en-GATHER_EN*2)};
+ if(BB_BT[j]){await upd(p);if(rf()>=Math.min(.7,.5*gRate(me)))return toast(NOGOT);if(await startBattle(true,null,BB_BT[j])){hidePhone();closeAsk();tab="battle";render(true);toast(j==="fish"?"탑 아래 검은 수로에서 귀신상어 의태형이 낚싯줄을 물었다!":"매복 끝에 아나콘다 의태형이 모습을 드러냈다!")}return}
+ if(rf()<Math.min(.7,.5*gRate(me))){const q=addInv(inv,id,1+(rf()<Math.min(.3,.08*luckF(me))?1:0));if(q){p.inv=inv;jobGain(p,"g",j,GJ_XP)}await upd(p);toast(q?BB_N[j]+": "+iq(id,q):"가방이 가득 찼습니다")}
+ else{await upd(p);toast(NOGOT)}}
+
+
 /* 제작 장비 정리 (2026-11-22): 3종 → 2종 · 「정련된」 고급 제작(확률로 희귀) · 「개조한」 희귀 제작(확률로 전설) · 「강화된」은 더 이상 만들지 않음 (가진 장비는 그대로) */
 GBAND.forEach(([bd])=>{NGEAR.craft[bd]=NGEAR.craft[bd].filter(id=>{const j=+id.slice(-1),i=IT[id],rp=IT["rp_"+id];
  if(j===2){delete HRC[id];i.d=ROLE[i.role].n+" 전용 · Lv"+bd+"부터 · 예전 제작 장비 (이제 만들 수 없음)";if(rp){delete rp.learn;rp.n="예전 제작법: "+i.n;rp.d="이제 쓰이지 않는 제작법 · 상점에 팔 수 있습니다"}return false}
@@ -5309,10 +5522,10 @@ const crUpP=()=>Math.min(.45,.12+(es(me,5)||0)*.006+Math.floor((es(me,6)||0)/5)*
 const crRoll=b=>Math.min(3,b+(rf()<crUpP()?1:0));
 const JMAX=30,jNeed=lv=>10+lv*5,JXP=[6,12,18,24],JREQ=[0,10,20,30],GJ_XP=3;/* 다음 레벨까지 경험치 · 제작 등급별 경험치 · 등급별 필요 레벨 · 채집 1번 성공 경험치 */
 const jobOf=t=>(me&&me.job||{})[t]||null,jobLv=t=>jobOf(t)?((me.job||{})[t+"l"]||1):0;
-const TOOLJ={pickaxe:"mine",axe:"herb",rod2:"fish",rod3:"fish",rod4:"fish"};
+const TOOLJ={pickaxe:"mine",axe:"herb",rod2:"fish",rod3:"fish",rod4:"fish",bow:"hunt"};
 function jobGain(p,t,key,x){const J=Object.assign({},p.job||me.job||{});if(J[t]!==key||!x)return;let lv=J[t+"l"]||1,xp=(J[t+"x"]||0)+x;const n0=lv;while(lv<JMAX&&xp>=jNeed(lv)){xp-=jNeed(lv);lv++}if(lv>=JMAX)xp=0;J[t+"l"]=lv;J[t+"x"]=xp;p.job=J;if(lv>n0)p.sp2=(p.sp2!=null?p.sp2:(me.sp2||0))+(lv-n0);if(lv>n0)setTimeout(()=>toast((t==="g"?GJOB:CJOB)[key].n+" Lv"+lv+" 달성!"),600)}
 const jobBonus=key=>jobOf("c")===key?Math.floor(jobLv("c")/10)*.05:0;/* 제작 직업 레벨 10마다 품질(등급 상승) +5% */
-const gNeedJob=k=>k==="mine"?"mine":k==="wood"?"herb":k==="fish"?"fish":null;
+const gNeedJob=k=>k==="mine"?"mine":k==="wood"?"herb":k==="fish"?"fish":k==="hunt"?"hunt":null;
 async function setJob(t,key){if(inB())return toast("전투 중에는 바꿀 수 없습니다");if((me.job||{})["n"+t])return toast((t==="g"?"채집":"제작")+" 직업을 선택하지 않기로 했습니다 · 위의 「직업 구성」에서 바꿔 주십시오");const T=t==="g"?GJOB:CJOB,X=T[key];if(!X)return;if(X.role&&me.role!==X.role)return toast(X.n+"는 "+ROLE[X.role].n+"만 될 수 있습니다");
  const J=Object.assign({},me.job||{});if(J[t]===key)return;if(J[t])return toast("직업은 한 번 정하면 바꿀 수 없습니다");J[t]=key;J[t+"l"]=1;J[t+"x"]=0;await upd({job:J});toast(X.n+" 직업을 얻었습니다")}
 let jobEd={};
@@ -5606,14 +5819,14 @@ async function openRingBox(k){if(hospBlock())return;const id=IT[k]&&IT[k].rbox;i
 const TTL_C={newbie:"게임 시작 후 튜토리얼 완료",step:"처음으로 다른 지역에 가 보기",wander:"서로 다른 지역 20곳 가 보기",hobby:"종류 상관 없이 제작 10회",water:"낚시로 처음 잡기",meals:"음식 50번 먹기",
  dili:"게이트 제압 10회",life:"실종된 헌터 구조 1회",master:"도감 50개 채우기",pro:"희귀 등급 이상 장비 제작",hosp:"격리실 입원 치료 10회",sea:"강태공용 낚시대로 50번 낚기",
  ret:"S급 게이트 클리어 1회",supp:"폭주 게이트 클리어 5회",top:"전설 등급 장비 제작",who:"개인 모의전투 30승",doc:"도감 전부 채우기",unbeat:"소속 길드의 단체 모의전투 30승",
- zanhwa:"Lv100 달성",senior:"S급 게이트 클리어 10회",guide:"게이트에서 한 번도 실종되지 않고 Lv60 달성",addict:"EB-0K14 100회 투약",
+ zanhwa:"Lv100 달성",maze1:"바벨론 10층 첫 정복",maze5:"바벨론 10층 정복 5회",maze10:"바벨론 10층 정복 10회",senior:"S급 게이트 클리어 10회",guide:"게이트에서 한 번도 실종되지 않고 Lv60 달성",addict:"EB-0K14 100회 투약",
  spring:"연인 생기기",promise:"약혼하기",eternal:"결혼하기",back:"페어 맺기",octo:"연인 3명",octo2:"결혼한 상태에서 다른 헌터와 약혼하기"};
 const TTL_G={com:"흔함",rare:"희귀",leg:"전설",lgd:"레전드",rel:"관계",pink:"관계"};
 /* h = 칭호 목록에 보이는 짧은 힌트 (조건은 유추만 하게) */
 const TTL={newbie:{n:"신입",g:"com",h:"협회에 오신 걸 환영합니다."},step:{n:"한발짝",g:"com",h:"지도 활용"},wander:{n:"떠돌이",g:"com",h:"지도 적극 활용"},hobby:{n:"취미생활",g:"com",h:"제작자 전용 칭호"},water:{n:"물맛",g:"com",h:"어부 전용 칭호"},meals:{n:"삼시세끼",g:"com",h:"밥을 잘 챙겨 먹읍시다."},
  dili:{n:"성실한",g:"rare",h:"게이트 제압"},life:{n:"목숨값",g:"rare",h:"실종자를찾습니다!!!!!!!!!!!!!"},master:{n:"석사",g:"rare",h:"도감작"},pro:{n:"전문가",g:"rare",h:"제작자 전용 칭호"},hosp:{n:"종합병원",g:"rare",h:"입원실 단골 환자"},sea:{n:"바다의",g:"rare",h:"어부 전용 칭호"},
  ret:{n:"귀환자",g:"leg",h:"내가 해냄"},supp:{n:"진압자",g:"leg",h:"폭주 단속반"},top:{n:"원탑",g:"leg",h:"제작자 전용 칭호"},who:{n:"누구인가?",g:"leg",h:"개인 모의전투"},doc:{n:"박사",g:"leg",h:"도감작"},unbeat:{n:"불패",g:"leg",h:"단체 모의전투"},
- zanhwa:{n:"잔화(殘火)",g:"lgd",h:"만렙 달성"},senior:{n:"선배",g:"lgd",h:"내가 또 해냄"},guide:{n:"길잡이",g:"lgd",h:"게이트에서 미아 안되기"},addict:{n:"중독자",g:"lgd",h:"등급만 올릴 수 있다면 뭐라도 함"},
+ zanhwa:{n:"잔화(殘火)",g:"lgd",h:"만렙 달성"},senior:{n:"선배",g:"lgd",h:"내가 또 해냄"},guide:{n:"길잡이",g:"lgd",h:"게이트에서 미아 안되기"},addict:{n:"중독자",g:"lgd",h:"등급만 올릴 수 있다면 뭐라도 함"},maze1:{n:"원죄의 미로",g:"leg",h:"탑 꼭대기에 무엇이 있었나"},maze5:{n:"권능을 탐한",g:"leg",h:"또 올랐다"},maze10:{n:"Icarus",g:"lgd",h:"너무 높이 날았다"},
  spring:{n:"종말의 봄날",g:"rel",h:"사궈? 사궈?"},promise:{n:"시간을 약속한",g:"rel",h:"결혼? 결혼?"},eternal:{n:"영원을 약속한",g:"rel",h:"결혼하죠?"},back:{n:"등을 맞댄",g:"rel",h:"아무래도 헌터물하면 이거죠"},
  octo:{n:"종말의 문어",g:"pink",h:"사궈? 사궈? 사궈?"},octo2:{n:"대중 없는 문어",g:"pink",h:"아이건좀"}};
 const TTL_ON=true;
@@ -5626,7 +5839,7 @@ function ttlScan(p){if(!me||!p||(window.__gmView&&__gmView()))return p;const C=O
  const v=(C.vis||[]).length,ok={newbie:(p.tut!=null?p.tut:me.tut||0)>=1,step:v>=1,wander:v>=20,hobby:n("cr")>=10,water:n("fish")>=1,meals:n("food")>=50,
   dili:n("gate")>=10,life:n("resc")>=1,master:dx>=50,pro:n("crR")>=1,hosp:n("quar")>=10,sea:n("f5")>=50,
   ret:n("sg")>=1,supp:n("ovf")>=5,top:n("crL")>=1,who:n("aw")>=30,doc:dx>=dexAll().length,unbeat:!!G&&(G.gww||0)>=30,
-  zanhwa:lv>=100,senior:n("sg")>=10,guide:lv>=60&&!n("mis"),addict:dose>=100};
+  zanhwa:lv>=100,maze1:n("bab")>=1,maze5:n("bab")>=5,maze10:n("bab")>=10,senior:n("sg")>=10,guide:lv>=60&&!n("mis"),addict:dose>=100};
  const T=Object.assign({},me.ttl||{},p.ttl||{}),nw=Object.keys(ok).filter(k=>ok[k]&&!T[k]);if(nw.length)ttlGive(p,nw);return p}/* 칭호: 다른 등급 칭호와 함께 다시 켤 때까지 숨김 (얻은 기록만 남김) */
 function ttlGive(p,keys){const T=Object.assign({},(me&&me.ttl)||{},p.ttl||{});let ch=false;(keys||[]).forEach(k=>{if(!T[k]){T[k]=Date.now();ch=true;if(TTL_ON)setTimeout(()=>toast("칭호 획득 · 「"+TTL[k].n+"」"),600)}});if(ch)p.ttl=T;return p}
 function titlesOf(c){if(!c)return[];const id=c===me?uid:Object.keys(chars).find(k=>chars[k]===c),L=[],nm=w=>((w===uid?me:chars[w])||{}).name;
@@ -5762,10 +5975,10 @@ async function relBreak(){if(Date.now()-relArm>4000){relArm=Date.now();toast("�
 function convRings(p,rps){const cv=q=>q&&q.id==="ring_p"&&rps.includes(q.set)?{...q,id:"ring_m"}:q,eq=clone(me.eq||{});let n=0;for(const s in eq){const z=cv(eq[s]);if(z!==eq[s]){eq[s]=z;n++}}const G=(me.gear||[]).map(q=>{const z=cv(q);if(z!==q)n++;return z});if(n){p.eq=eq;p.gear=G}}
 /* 협회 임무: 직접 싸운 전투(승리) 10회마다 (자동 전투 제외) 오염 정화제 3 · 500환 · 지금 레벨 경험치의 20% · 상시 · 협회 탈퇴 중엔 안 됨 */
 const HQM_N=10,HQM_TAN=500,HQM_XP=.2,HQM_PURE=3,HQM_CHMA=1;
-async function hqClaim(){if(me.hqOut)return toast("협회를 탈퇴한 상태입니다");const can=hqCan();if(can<1)return toast(hqBank()>0?"협회 보상은 하루에 "+HQM_DAY+"번까지 받을 수 있습니다 · 내일 다시 받으십시오":"받을 보상이 없습니다");
+async function hqClaim(){if(me.hqOut)return toast("협회를 탈퇴한 상태입니다");const can=hqCan();if(can<1)return toast(hqToday()>=HQM_DAY?"협회 보상은 하루에 "+HQM_DAY+"번까지 받을 수 있습니다 · 내일 다시 받으십시오":"받을 보상이 없습니다");
  const inv={...me.inv};if(addInv(inv,"pure_all",can*HQM_PURE)<can*HQM_PURE||addInv(inv,"fd_chma",can*HQM_CHMA)<can*HQM_CHMA)return toast("가방이 가득 찼습니다");let lv=me.lv,exp=me.exp,gain=0,xp=0,up=false;
  for(let i=0;i<can;i++){if(lv>=MAXLV)break;const e=Math.round(xpN(lv)*HQM_XP);exp+=e;xp+=e;while(lv<MAXLV&&exp>=xpN(lv)){exp-=xpN(lv);lv++;gain+=spFor(lv);up=true}}if(lv>=MAXLV)exp=0;
- const p={inv,tan:me.tan+HQM_TAN*can,exp,lv,hqc:(me.hqc||0)+can,hqd:{d:kday(Date.now()),n:hqToday()+can}};if(gain)p.sp=(me.sp||0)+gain;if(up)p.hp=maxHp({...me,lv});await upd(p);
+ const p={inv,tan:me.tan+HQM_TAN*can,exp,lv,hqc:(me.hqc||0)+can,hqd:{d:kday(Date.now()),n:hqToday()+can,w:hqW()}};if(gain)p.sp=(me.sp||0)+gain;if(up)p.hp=maxHp({...me,lv});await upd(p);
  toast("임무 보상 · 오염 정화제 ×"+(can*HQM_PURE)+" · CHMA영양바 ×"+(can*HQM_CHMA)+" · +"+won(HQM_TAN*can)+"환 · +"+won(xp)+" EXP"+(up?" · 레벨 업 Lv"+lv+"!":""));phRender()}
 function relPhone(B,sec,it,pb){sec("연인 "+loversOf(uid).length+"/"+LOVE_MAX);const LV=loversOf(uid);if(!LV.length)it("연인 없음","고백은 커플반지로",null);LV.forEach(x=>{const c=chars[x.w];if(c)it("연인 · "+c.name+" 헌터",fmtD(x.at)+"부터 · 눌러서 프로필",()=>profPop(x.w))});
  sec("약혼 · 결혼");const R=me.rel,P=R&&chars[R.w];
@@ -7465,6 +7678,7 @@ function drawCracks(){const S=$("#crsvg");if(!S)return;const r=S.getBoundingClie
  applySet();drawCracks();let rz,lw=innerWidth;addEventListener("resize",()=>{if(Math.abs(innerWidth-lw)<40)return;lw=innerWidth;clearTimeout(rz);rz=setTimeout(drawCracks,250)})})();
 /* 5분마다: 오래 둔 열상 → 감염 · 약물과다 불시 발작 (24시간 10회 이내) */
 setInterval(()=>{if(!me||!db||!me.s)return;const p={},now=Date.now();
+ /* 2026-11-28 바벨의 파편 → 미로의 조각 2개 */if((me.inv||{}).babel_frag>0){const inv={...me.inv},n=inv.babel_frag;delete inv.babel_frag;inv.maze_frag=(inv.maze_frag||0)+n*2;p.inv=inv;setTimeout(()=>toast("바벨의 파편 "+n+"개가 미로의 조각 "+(n*2)+"개로 바뀌었습니다"),300)}
  if(ailOn(me,"bleed")&&!ailOn(me,"infect")&&now-me.ail.bleed.t>12e5&&rf()<.25){const A=clone(me.ail);A.infect={t:now};p.ail=A;setTimeout(()=>toast("상처가 감염되었습니다 — 고열 (항생제 필요)"),300)}
  if((me.dose||0)>=50&&now-(me.odChk||0)>=18e5){p.odChk=now;if(!Object.values((me.od&&me.od.tmp)||{}).some(t=>t>now)&&rf()<.12)Object.assign(p,odEpisode())}/* 30분마다 12% */
  if(Object.keys(p).length)upd(p).catch(()=>{})},300000);
@@ -7519,7 +7733,10 @@ let sy;function syncSoon(){clearTimeout(sy);sy=setTimeout(()=>{if(!me||!ld.g||!l
  if(Object.keys(p).length)db.doc("chars/"+uid).update(p)},2500)}
 function navDots(){const hb=nav&&nav.querySelector('[data-k="home"]');if(hb)hb.classList.toggle("unr",!!(me&&mails().length));const gb=nav&&nav.querySelector('[data-k="guild"]');if(gb)gb.classList.toggle("unr",!!(me&&myG()&&(unreadOf("g")+unreadOf("owner"))>0&&!(tab==="guild"&&$("#feed"))))}
 function onMsg(){phRefresh();updDot();try{navGMark()}catch(e){}if($("#feed"))updFeed();try{dormFeed()}catch(e){}try{const d=$("#tcdot");if(d&&me){const n=unreadOf("wc")+dmPartners(true).reduce((a,id)=>a+unreadOf("hdm:"+id),0)+myGroups(false,true).reduce((a,id)=>a+unreadOf("hgrp:"+id),0);setCnt(d,chatHub?0:n)}}catch(e){}try{pgUpd()}catch(e){}}
+/* 낚시 · 수렵 · 바벨탑 층 의태종도 같은 동물은 같은 속성으로 */
+(()=>{const fix=L=>L&&L.forEach((m,i)=>{if(MON_ATTR[m[0]])L[i]=[m[0],MON_ATTR[m[0]]]});Object.values(FISH).forEach(F=>fix(F.mon));if(typeof RMOB!=="undefined")fix(RMOB)})();
 (()=>{const P={tank:"선봉의 ",healer:"치유의 ",dealer:"학살의 "};Object.values(IT).forEach(v=>{if(v&&v.slot&&P[v.role]&&typeof v.n==="string"&&!v.n.startsWith(P[v.role]))v.n=P[v.role]+v.n})})();
+Object.entries(LRC).forEach(([u,x])=>{IT[u].n="미완성된 "+IT[x.fin].n;IT[u].d=IT[u].d.replace(/「[^」]*」로 완성/,"「"+IT[x.fin].n+"」로 완성")});
 initRadio();initPager();initBag();dockTabs();
 applyBound();
 (async()=>{await window.__fbReady;
