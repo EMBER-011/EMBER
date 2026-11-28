@@ -460,7 +460,7 @@ html.tear3 #view,html.tear3 #top{animation:tearC 2.2s steps(1) infinite}
 .pvg{margin-bottom:10px}.pvm{display:block;width:100%;text-align:left;padding:6px 6px 4px;margin-top:4px;border:1px solid var(--ln);border-radius:4px;background:transparent;color:inherit;font:inherit}.pvm.sel{border-color:var(--ac);background:rgba(var(--acr),.1)}.pvm.me{border-style:dashed}.pvm.down{opacity:.45}
 .pvres{font-size:calc(26px*var(--fz,1));margin:6px 0 2px;letter-spacing:.1em}.pvres.win{color:var(--gold)}.pvres.lose{color:var(--mt)}
 #pscr{position:relative}
-.edm{font-size:calc(10px*var(--fz,1));color:var(--mt);font-style:normal}.rppick{border:1px solid var(--bd);border-radius:8px;padding:10px;margin-top:8px}.rppick select{flex:1;min-width:0}
+.edm{font-size:calc(10px*var(--fz,1));color:var(--mt);font-style:normal}.rplogt{flex:none;margin-left:auto;font-size:calc(12px*var(--fz,1));font-weight:700;color:var(--ac2);white-space:nowrap}.rppick{border:1px solid var(--bd);border-radius:8px;padding:10px;margin-top:8px}.rppick select{flex:1;min-width:0}
 .rpopt{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;height:38px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--mt);font-size:calc(13px*var(--fz,1));cursor:pointer}.rpopt>i{flex:none;font-style:normal;display:inline-flex!important;box-sizing:border-box;border:1.5px solid var(--mt)!important;align-items:center;justify-content:center;width:16px;height:16px;border:1px solid currentColor;border-radius:4px;font-size:11px;color:transparent}.rpopt.on{border-color:var(--ac);color:var(--tx);background:rgba(var(--acr),.12)}.rpopt.on>i{background:var(--ac);border-color:var(--ac)!important;color:#fff}
 .rptag{flex:none;font-size:calc(10.5px*var(--fz,1));font-weight:700;padding:1px 7px;border-radius:10px;border:1px solid var(--ac2);color:var(--ac2)}.rptag.k-log{border-color:var(--r1);color:var(--r1)}.rptag.k-rp{border-color:var(--r3);color:var(--r3)}.rptag.k-set{border-color:var(--r2);color:var(--r2)}
 .rplog{border:1px solid var(--ln);border-radius:8px;padding:8px 10px;margin:10px 0;background:var(--sf2);font-size:calc(13px*var(--fz,1));line-height:1.55}.rplh{font-size:calc(10.5px*var(--fz,1));letter-spacing:.08em;color:var(--mt);margin-bottom:4px}.rpll{display:flex;gap:8px;padding:2px 0;word-break:break-word}.rpll b{flex:none;color:var(--ac2);max-width:40%}.rpll span{white-space:pre-wrap;min-width:0}
@@ -719,7 +719,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261128103500";
+const BUILD="20261128104500";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -3540,13 +3540,13 @@ function rRpRoom(v){v.className="commv rproom";
  if(!rr.list)return v.append(h("p",{c:"sm mt",t:"불러오는 중…"}));
  const L=rr.list;if(!L.length)return v.append(h("div",{c:"card"},h("p",{c:"sm mt",t:"아직 올라온 글이 없습니다. 첫 글을 남겨 보십시오."})));
  L.forEach(x=>{const c=x.by===uid?me:chars[x.by];v.append(h("button",{type:"button",c:"card bdi rpi",onclick:()=>rrOpen(x.id)},
-  h("div",{c:"row",style:"gap:6px;align-items:center;min-width:0"},(x.log||[]).length?h("span",{c:"rptag k-log",t:"로그"}):null,h("b",{c:"bdti grow",t:x.title||"(제목 없음)"}),x.lock?h("span",{c:"xs mt",t:"🔒 댓글 잠금"}):null),
-  h("div",{c:"xs mt"},c?titleEl(c,1):null,(x.name||"헌터")+" · "+bdT(x.t)+((x.imgs||[]).length?" · 사진 "+x.imgs.length:"")+((x.log||[]).length?" · 로그 "+x.log.length+"줄":"")+(x.nc?" · 댓글 "+x.nc:"")+(x.ed?" · 수정됨":""))))})}
+  h("div",{c:"row",style:"gap:6px;align-items:center;min-width:0"},h("b",{c:"bdti grow",t:x.title||"(제목 없음)"}),x.lock?h("span",{c:"xs mt",style:"flex:none",t:"🔒"}):null,rrIsLog(x)?h("span",{c:"rplogt",t:"• 로그"}):null),
+  h("div",{c:"xs mt"},c?titleEl(c,1):null,(x.name||"헌터")+" · "+bdT(x.t)+((x.imgs||[]).length?" · 사진 "+x.imgs.length:"")+(x.nc?" · 댓글 "+x.nc:"")+(x.ed?" · 수정됨":""))))})}
 function rrPost(v){const x=(rr.list||[]).find(p=>p.id===rr.post);if(!x){v.append(btn("← 목록",()=>{rr.post=null;render(true)},"sm"),h("p",{c:"sm mt",t:"글을 찾을 수 없습니다."}));return}const c=x.by===uid?me:chars[x.by],mine=x.by===uid,adm=isAdm();
  v.append(h("div",{c:"row",style:"gap:6px;margin-bottom:8px;align-items:center"},btn("← 목록",()=>{rr.post=null;rr.cm=null;render(true)},"sm"),h("span",{c:"grow"}),btn("새로고침",()=>rrOpen(x.id),"sm")));
- const card=h("div",{c:"card"},h("div",{c:"row",style:"gap:6px;align-items:center"},(x.log||[]).length?h("span",{c:"rptag k-log",t:"로그"}):null,h("h3",{style:"margin:0",t:x.title||"(제목 없음)"}),x.lock?h("span",{c:"xs mt",style:"margin-left:auto",t:"🔒 댓글 잠금"}):null),
+ const card=h("div",{c:"card"},h("div",{c:"row",style:"gap:6px;align-items:center"},h("h3",{style:"margin:0;min-width:0;flex:1",t:x.title||"(제목 없음)"}),x.lock?h("span",{c:"xs mt",style:"flex:none",t:"🔒 댓글 잠금"}):null,rrIsLog(x)?h("span",{c:"rplogt",t:"• 로그"}):null),
   h("div",{c:"xs mt",style:"cursor:pointer;margin-top:4px",onclick:()=>chars[x.by]&&profPop(x.by)},c?titleEl(c,1):null,(x.name||"헌터")+" · "+bdT(x.t)+(x.ed?" · 수정됨":"")),
-  x.text?h("div",{c:"bdtx",t:x.text}):null,rrLogEl(x.log));
+  x.text?h("div",{c:"bdtx",t:x.text}):null);
  (x.imgs||[]).forEach(id=>card.append(rrImgEl(id)));
  if(mine||adm)card.append(h("div",{c:"row",style:"gap:6px;margin-top:8px;justify-content:flex-end;flex-wrap:wrap"},
   mine?btn("수정",()=>rrForm(x),"sm"):null,
@@ -3569,30 +3569,21 @@ function rrPost(v){const x=(rr.list||[]).find(p=>p.id===rr.post);if(!x){v.append
   h("div",{c:"row",style:"gap:6px;margin-top:6px"},btn(rr.cimg?"사진 바꾸기":"사진 1장",()=>fi.click(),"sm"),btn("등록",()=>wrap(async()=>{const t=ta.value.trim();if(!t&&!rr.cimg)return toast("내용이나 사진을 넣어 주십시오");let img="";if(rr.cimg){const r=await db.collection("hoimg").add({t:Date.now(),by:uid,d:rr.cimg});img=r.id;rrImgC[r.id]=rr.cimg}
    const d={t:Date.now(),by:uid,name:me.name,post:x.id,par:rp?rp.id:"",text:t.slice(0,1000),img,to:rp?rp.by:x.by,pt:(x.title||"").slice(0,40),bd:"rp"};const r=await db.collection("hoc").add(d);rr.cm.push(Object.assign({id:r.id},d));rr.reply=null;rr.cimg=null;await rrNc(x);render(true)}),"pri grow"))))}
 async function rrNc(x){const n=(rr.cm||[]).length;x.nc=n;try{await db.doc("ho/"+x.id).update({nc:n})}catch(e){}}
-/* 로그 불러오기: 내 대화(지역 · 전체 · 1:1 · 단체 · 휴대폰 문자)에서 최근 N줄 */
-function rrLogSrc(){const S=[["rp","지역 채팅 · "+(REG[me.loc]||{n:""}).n],["wc","전체 채팅"]];
- dmPartners(true).forEach(id=>chars[id]&&S.push(["hdm:"+id,"1:1 · "+chars[id].name]));myGroups(false,true).forEach(id=>groups[id]&&S.push(["hgrp:"+id,"단체 · "+groups[id].name]));
- try{dmPartners(false).forEach(id=>chars[id]&&S.push(["dm:"+id,"문자 · "+chars[id].name]))}catch(e){}try{myGroups(false,false).forEach(id=>groups[id]&&S.push(["grp:"+id,"휴대폰 단체 · "+groups[id].name]))}catch(e){}return S}
-const rrLogGet=(k,n)=>roomRows(k).filter(m=>m&&m.text&&m.kind!=="sys"&&!m.del).slice(-n).map(m=>({n:(m.name||(chars[m.uid||m.from]||{}).name||"?").slice(0,20),x:String(m.text).slice(0,400)}));
+const rrIsLog=x=>!!x&&(x.cat==="log"||(x.log||[]).length>0);
 /* 글쓰기: 창을 띄우지 않고 RP ROOM 화면 안에서 (예전 헌터 온라인 게시판처럼) */
-function rrForm(x){rr.form={x,title:x?x.title||"":"",text:x?x.text||"":"",log:x?(x.log||[]).slice():[],useLog:x?!!(x.log||[]).length:false,keep:x?(x.imgs||[]).slice():[],add:[],lock:x?!!x.lock:false,pick:null};render(true);setTimeout(()=>{try{window.scrollTo(0,0);const v=$("#view");if(v)v.scrollTop=0}catch(e){}},0)}
+function rrForm(x){rr.form={x,title:x?x.title||"":"",text:x?x.text||"":"",log:x?(x.log||[]).slice():[],useLog:x?rrIsLog(x):false,keep:x?(x.imgs||[]).slice():[],add:[],lock:x?!!x.lock:false,pick:null};render(true);setTimeout(()=>{try{window.scrollTo(0,0);const v=$("#view");if(v)v.scrollTop=0}catch(e){}},0)}
 function rrFormView(v){const st=rr.form,x=st.x;
  v.append(h("div",{c:"row",style:"gap:6px;margin-bottom:8px;align-items:center"},btn("← "+(x?"글로":"목록"),()=>{rr.form=null;render(true)},"sm"),h("b",{t:x?"글 수정":"글쓰기"})));
  const card=h("div",{c:"card"});v.append(card);
  const ti=h("input",{autocomplete:"off",maxlength:50,placeholder:"제목",value:st.title,oninput:e=>{st.title=e.target.value}}),ta=h("textarea",{autocomplete:"off",rows:10,maxlength:5000,placeholder:"내용",oninput:e=>{st.text=e.target.value}});ta.value=st.text;
- const opt=(k,n)=>h("button",{type:"button",c:"rpopt"+(st[k]?" on":""),onclick:()=>{st[k]=!st[k];if(k==="useLog"&&!st[k])st.pick=null;render(true)}},h("i",{t:"✓"}),n);
+ const opt=(k,n)=>h("button",{type:"button",c:"rpopt"+(st[k]?" on":""),onclick:()=>{st[k]=!st[k];render(true)}},h("i",{t:"✓"}),n);
  card.append(ti,h("div",{style:"height:6px"}),ta,h("div",{c:"row",style:"gap:6px;margin-top:8px"},opt("useLog","로그"),opt("lock","댓글 잠금")));
- if(st.useLog){const b=st.log.length?rrLogEl(st.log):h("div",{c:"rplog"},h("div",{c:"xs mt",t:"아직 붙인 로그가 없습니다."}));b.style.maxHeight="260px";b.style.overflow="auto";card.append(b);
-  if(st.pick){const S=rrLogSrc();if(!S.some(z=>z[0]===st.pick.k))st.pick.k=S[0][0];const sel=h("select",{onchange:e=>{st.pick.k=e.target.value;render(true)}},...S.map(([k,n])=>h("option",{value:k,t:n}))),ns=h("select",{onchange:e=>{st.pick.n=+e.target.value;render(true)}},...[10,20,30,50,100].map(n=>h("option",{value:n,t:"최근 "+n+"줄"})));sel.value=st.pick.k;ns.value=String(st.pick.n);
-   const cur=rrLogGet(st.pick.k,st.pick.n),pv=cur.length?rrLogEl(cur):h("div",{c:"rplog"},h("div",{c:"xs mt",t:"불러올 대화가 없습니다."}));pv.style.maxHeight="220px";pv.style.overflow="auto";
-   card.append(h("div",{c:"rppick"},h("div",{c:"sm",style:"font-weight:600;margin-bottom:6px",t:"로그 불러오기"}),h("div",{c:"row",style:"gap:6px"},sel,ns),pv,h("div",{c:"row",style:"gap:6px;margin-top:6px"},btn("취소",()=>{st.pick=null;render(true)},"grow"),btn("붙이기",()=>{if(!cur.length)return toast("불러올 대화가 없습니다");st.log=st.log.concat(cur).slice(-200);st.pick=null;render(true)},"pri grow",{disabled:!cur.length}))))}
-  else card.append(h("div",{c:"row",style:"gap:6px;justify-content:flex-end;margin-top:4px"},st.log.length?btn("로그 비우기",()=>{st.log=[];render(true)},"sm"):null,btn("로그 불러오기",()=>{st.pick={k:"rp",n:30};render(true)},"pri sm")))}
  const pv=h("div",{c:"bdpv"});st.keep.forEach(id=>pv.append(h("div",{c:"bdth"},rrImgEl(id,""),h("button",{type:"button",t:"×",onclick:()=>{st.keep=st.keep.filter(z=>z!==id);render(true)}}))));st.add.forEach((u,i)=>pv.append(h("div",{c:"bdth"},h("img",{src:u,alt:""}),h("button",{type:"button",t:"×",onclick:()=>{st.add.splice(i,1);render(true)}}))));
  const fi=h("input",{type:"file",accept:"image/*",multiple:true,style:"display:none",onchange:async e=>{for(const f of [...e.target.files]){if(st.keep.length+st.add.length>=4){toast("사진은 4장까지");break}try{st.add.push(await readImgBig(f))}catch(_){toast("사진을 읽지 못했습니다")}}e.target.value="";render(true)}});
  card.append(pv,fi,btn("사진 넣기 (최대 4장)",()=>fi.click(),"full",{style:"margin-top:8px"}),
-  h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",()=>{rr.form=null;render(true)},"grow"),btn(x?"수정하기":"올리기",()=>wrap(async()=>{const tt=st.title.trim(),tx=st.text.trim(),LG=st.useLog?st.log:[];if(!tt)return toast("제목을 적어 주십시오");if(st.useLog&&!LG.length)return toast("로그를 불러오거나 [로그] 선택을 끄십시오");if(!tx&&!LG.length&&!st.keep.length&&!st.add.length)return toast("내용이나 사진을 넣어 주십시오");
+  h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",()=>{rr.form=null;render(true)},"grow"),btn(x?"수정하기":"올리기",()=>wrap(async()=>{const tt=st.title.trim(),tx=st.text.trim();if(!tt)return toast("제목을 적어 주십시오");if(!tx&&!st.keep.length&&!st.add.length)return toast("내용이나 사진을 넣어 주십시오");
    const ids=[];for(const u of st.add){const r=await db.collection("hoimg").add({t:Date.now(),by:uid,d:u});ids.push(r.id);rrImgC[r.id]=u}
-   const base={cat:LG.length?"log":"free",title:tt.slice(0,50),text:tx.slice(0,5000),log:LG.slice(-200),imgs:st.keep.concat(ids),lock:!!st.lock,ut:Date.now()};
+   const base={cat:st.useLog?"log":"free",title:tt.slice(0,50),text:tx.slice(0,5000),log:[],imgs:st.keep.concat(ids),lock:!!st.lock,ut:Date.now()};
    if(x){(x.imgs||[]).filter(i=>!st.keep.includes(i)).forEach(i=>db.doc("hoimg/"+i).delete().catch(()=>{}));const p=Object.assign(base,{ed:Date.now()});await db.doc("ho/"+x.id).update(p);Object.assign(x,p);toast("글을 고쳤습니다")}
    else{const d=Object.assign({t:Date.now(),by:uid,name:me.name,nc:0,bd:"rp"},base);const r=await db.collection("ho").add(d);(rr.list=rr.list||[]).unshift(Object.assign({id:r.id},d));rr.post=r.id;rr.cm=[];toast("글을 올렸습니다")}
    rr.form=null;render(true)}),"pri grow")))}
