@@ -118,6 +118,7 @@ button.slot:hover{background:rgba(var(--acr),.1)}
 .hubl{display:flex;flex-direction:column;gap:8px}.hubpick{max-height:260px;overflow-y:auto;border:1px solid var(--ln);border-radius:6px;padding:4px 6px}.hubpick .pk{display:flex;gap:8px;align-items:center;padding:4px 0}
 .m.pinv,.feed .pinv{display:flex;align-items:center;gap:8px;border:1px dashed var(--ac2);border-radius:8px;padding:6px 8px;margin:6px 0}.m.pinv small{color:var(--ac2);flex:none}.m.pinv span{flex:1;font-size:calc(13px*var(--fz,1))}
 .fcard.fold>*:not(.fhd){display:none!important}.fcard.fold .fhd{margin-bottom:0}.fcard .far{display:inline-block;margin-left:6px;font-style:normal;font-size:.8em;color:var(--mt);transition:transform .2s}.fcard.fold .far{transform:rotate(-90deg)}.fcard.fold{padding-bottom:12px}
+#btab{touch-action:none;user-select:none;-webkit-user-select:none}#btab.free{border-left:1px solid var(--bd);border-radius:12px;width:44px;height:52px;box-shadow:0 2px 10px rgba(0,0,0,.35)}#btab.free.sl{border-left:0;border-radius:0 12px 12px 0;width:40px;height:56px;box-shadow:none}#btab.free.sr{border-left:1px solid var(--bd);border-right:0;border-radius:12px 0 0 12px;width:40px;height:56px;box-shadow:none}#btab.drag{opacity:.75}
 #btab{position:fixed;left:0;top:calc(33% + 204px);width:40px;height:56px;padding:0;border-left:0;border-radius:0 12px 12px 0;background:var(--sf);z-index:8;display:none;align-items:center;justify-content:center}
 #btab svg{width:24px;height:24px;fill:none;stroke:var(--ac2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}#btab.act{background:rgba(var(--acr),.2)}
 @media (min-width:900px){#btab{left:max(0px,calc(50% - 480px))}}
@@ -205,7 +206,8 @@ button.tile:hover{background:rgba(var(--acr),.1)}
 .skb{position:relative;overflow:hidden;display:flex;flex-flow:row wrap;justify-content:center;align-content:center;column-gap:8px;row-gap:0;padding:6px 6px;min-height:0;text-align:center;line-height:1.2}.skb>b,.skb>small:not(.mpc):not(.cdt){flex-basis:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.skb>b{padding:0 18px}
 .skb>*{position:relative}.skb small{font-weight:400;font-size:calc(11px*var(--fz,1));opacity:.8}.skb .mpc{color:var(--ac2);font-weight:700;opacity:1}.skb .fill{position:absolute;left:0;bottom:0;width:100%;height:0;background:rgba(var(--acr),.28)}
 .mem{margin-top:8px}.mem .row{margin-bottom:2px}
-#toast{position:fixed;left:0;right:0;margin:0 auto;top:calc(env(safe-area-inset-top,0px) + 10px);bottom:auto;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.35);width:fit-content;max-width:min(620px,calc(100% - 24px));box-sizing:border-box;background:var(--sf);color:var(--tx);border:1px solid var(--bd);padding:9px 18px;border-radius:2px;font-size:calc(13px*var(--fz,1));font-weight:500;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;display:none;text-align:center;z-index:22}
+#toast,#toast *{pointer-events:none!important}#toast{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#toast{position:fixed;left:0;right:0;margin:0 auto;top:calc(env(safe-area-inset-top,0px) + 10px);bottom:auto;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.35);width:fit-content;max-width:min(620px,calc(100% - 24px));box-sizing:border-box;background:color-mix(in srgb,var(--sf) 72%,transparent);color:var(--tx);border:1px solid var(--bd);padding:9px 18px;border-radius:2px;font-size:calc(13px*var(--fz,1));font-weight:500;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere;display:none;text-align:center;z-index:22}
 #ask{position:fixed;right:14px;bottom:84px;animation:askIn .32s cubic-bezier(.2,.85,.25,1);width:min(300px,calc(100% - 28px));background:var(--sf);border:1px solid var(--bd);border-radius:2px;padding:9px 12px;z-index:20;display:none;line-height:1.3}
 #ask .tr{display:flex;flex-wrap:wrap;gap:4px;margin:1px 0 4px}#ask .tr i{font-style:normal;font-size:calc(11.5px*var(--fz,1));padding:2px 8px;border:1px solid var(--ln);border-radius:10px;color:var(--ac2)}
 #ask .vrow{display:flex;gap:6px;margin:2px 0 5px}#ask .vrow button{flex:1;width:auto;height:auto;min-height:28px;padding:3px 6px;font-size:calc(11.5px*var(--fz,1));font-weight:600;color:var(--mt);line-height:1.25}#ask .vrow button.on{border-color:var(--ac2);color:var(--ac2);background:rgba(var(--acr),.1)}#ask .vrow button:disabled{opacity:.45}
@@ -458,7 +460,10 @@ html.tear3 #view,html.tear3 #top{animation:tearC 2.2s steps(1) infinite}
 .pvg{margin-bottom:10px}.pvm{display:block;width:100%;text-align:left;padding:6px 6px 4px;margin-top:4px;border:1px solid var(--ln);border-radius:4px;background:transparent;color:inherit;font:inherit}.pvm.sel{border-color:var(--ac);background:rgba(var(--acr),.1)}.pvm.me{border-style:dashed}.pvm.down{opacity:.45}
 .pvres{font-size:calc(26px*var(--fz,1));margin:6px 0 2px;letter-spacing:.1em}.pvres.win{color:var(--gold)}.pvres.lose{color:var(--mt)}
 #pscr{position:relative}
-.edm{font-size:calc(10px*var(--fz,1));color:var(--mt);font-style:normal}.bdi{display:block;width:100%;text-align:left;cursor:pointer}.bdi .bdti{display:block;font-size:calc(14px*var(--fz,1));margin-bottom:3px}.bdtx{white-space:pre-wrap;word-break:break-word;font-size:calc(14px*var(--fz,1));line-height:1.6;margin:10px 0}
+.edm{font-size:calc(10px*var(--fz,1));color:var(--mt);font-style:normal}.rptag{flex:none;font-size:calc(10.5px*var(--fz,1));font-weight:700;padding:1px 7px;border-radius:10px;border:1px solid var(--ac2);color:var(--ac2)}.rptag.k-log{border-color:var(--r1);color:var(--r1)}.rptag.k-rp{border-color:var(--r3);color:var(--r3)}.rptag.k-set{border-color:var(--r2);color:var(--r2)}
+.rplog{border:1px solid var(--ln);border-radius:8px;padding:8px 10px;margin:10px 0;background:var(--sf2);font-size:calc(13px*var(--fz,1));line-height:1.55}.rplh{font-size:calc(10.5px*var(--fz,1));letter-spacing:.08em;color:var(--mt);margin-bottom:4px}.rpll{display:flex;gap:8px;padding:2px 0;word-break:break-word}.rpll b{flex:none;color:var(--ac2);max-width:40%}.rpll span{white-space:pre-wrap;min-width:0}
+.rrw{display:flex;flex-direction:column;gap:0;width:100%}.rpi .bdti{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rpcimg{max-width:min(320px,100%)}
+.bdi{display:block;width:100%;text-align:left;cursor:pointer}.bdi .bdti{display:block;font-size:calc(14px*var(--fz,1));margin-bottom:3px}.bdtx{white-space:pre-wrap;word-break:break-word;font-size:calc(14px*var(--fz,1));line-height:1.6;margin:10px 0}
 .bdimg{display:block;max-width:100%;border-radius:8px;margin:8px 0;border:1px solid var(--ln);cursor:zoom-in;min-height:40px;background:var(--sf2)}.bdc{border-top:1px solid var(--ln);padding:8px 0 6px}.bdc.rep{margin-left:18px;border-top:1px dashed var(--ln)}.bdct{white-space:pre-wrap;word-break:break-word;font-size:calc(13px*var(--fz,1));margin:3px 0}
 .bdca{gap:10px}.lnk{border:0;background:transparent;padding:0;font-size:calc(11.5px*var(--fz,1));color:var(--mt);text-decoration:underline;cursor:pointer}.bdpv{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.bdth{position:relative;width:64px;height:64px}.bdth img{width:64px;height:64px;object-fit:cover;border-radius:6px;border:1px solid var(--ln)}.bdth button{position:absolute;top:-6px;right:-6px;width:20px;height:20px;padding:0;border-radius:50%;font-size:calc(12px*var(--fz,1));line-height:18px}
 .sprep{margin-top:10px;border:1px dashed var(--ac2);border-radius:10px;padding:10px}.sprep .sprept{font-size:calc(18px*var(--fz,1));color:var(--ac);font-variant-numeric:tabular-nums}
@@ -671,7 +676,7 @@ canvas.room3{display:block;width:100%;aspect-ratio:1.3;touch-action:pan-y;cursor
 @media (min-width:1100px){.tmrow #tme{flex:0 1 auto;min-width:360px}#tsd{max-width:none;padding-left:16px}#tsd .tst{font-size:calc(12px*var(--fz,1))}#tsd #tloc{font-size:calc(12.5px*var(--fz,1))}}#dtabs{position:fixed!important;left:0;bottom:0;height:auto!important;margin:0!important;padding:0 12px env(safe-area-inset-bottom,0px)!important;gap:4px!important;align-items:flex-end;pointer-events:none;z-index:12!important}
 #dtabs>button{pointer-events:auto;width:50px!important;height:34px!important;border-bottom:0!important;border-radius:9px 9px 0 0!important;background:var(--bg)!important;box-shadow:0 -2px 8px rgba(0,0,0,.45)!important}#dtabs>button.act{background:rgba(var(--acr),.22)!important}#dtabs>button svg{width:21px!important;height:21px!important}
 body.tdock #view{padding-bottom:calc(44px + env(safe-area-inset-bottom,0px))!important}
-body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33% + 92px)}body>#gtab:not(.free){height:70px;top:calc(33% + 172px)}body>#btab{height:70px;top:calc(33% + 252px)}#ptab.free{height:74px}#ptab.free.sl,#ptab.free.sr{height:82px}
+body>#ptab:not(.free){height:82px}body>#rtab:not(.free){height:70px;top:calc(33% + 92px)}body>#gtab:not(.free){height:70px;top:calc(33% + 172px)}body>#btab:not(.free){height:70px;top:calc(33% + 252px)}#ptab.free{height:74px}#ptab.free.sl,#ptab.free.sr{height:82px}
 .mhov>div{background:transparent!important;border:0!important;padding:2px 4px!important;text-shadow:0 1px 1px #000,0 0 1px #000;-webkit-font-smoothing:antialiased;filter:none!important}.mhov .mhwx span{color:var(--tx);font-weight:700}.mhov .mhwx svg{stroke-width:2!important}.mhov b{font-weight:700}.mhov small{color:color-mix(in srgb,var(--tx) 75%,transparent)!important}
 .mhov .mhreg b{font-size:calc(13px*var(--fz,1));color:var(--ac2);letter-spacing:.04em}.mhov small{font-size:calc(10px*var(--fz,1))!important}.mhov .mhwx span{font-size:calc(12px*var(--fz,1))}.mhov .mhwx svg{width:15px!important;height:15px!important}.mhov .mhclk{align-items:flex-end;text-align:right}.mhov .mhclk b{font-size:calc(15px*var(--fz,1))!important}.mhblk{font-size:calc(10.5px*var(--fz,1))!important}
 @media (max-width:1099px){.mainops{padding:9px 12px!important}.mainops h3{font-size:calc(14px*var(--fz,1))!important}.mainops>.row button{padding:3px 10px!important;font-size:calc(12px*var(--fz,1))!important;min-height:0!important}.mainops .mops{padding:3px 0 0!important;margin-top:6px}.mainops .ntb{padding:2px!important}.mainops .ntt{font-size:calc(13.5px*var(--fz,1))!important}}
@@ -712,7 +717,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261128022500";
+const BUILD="20261128083000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -970,9 +975,12 @@ const BUILD="20261128022500";
 const $=s=>document.querySelector(s),NS="http://www.w3.org/2000/svg";
 const rf=()=>crypto.getRandomValues(new Uint32Array(1))[0]/4294967296,ri=n=>Math.floor(rf()*n),clone=o=>JSON.parse(JSON.stringify(o));
 function pickW(p){let t=0;p.forEach(x=>t+=x[1]);let r=rf()*t;for(const x of p){if((r-=x[1])<0)return x[0]}return p[0][0]}
-function h(t,p,...k){const e=document.createElement(t);if(p)for(const a in p){const v=p[a];if(a==="c")e.className=v;else if(a==="t")e.textContent=v;else if(a.startsWith("on"))e[a]=v;else if(v!=null&&v!==false)e.setAttribute(a,v===true?"":v)}k.flat().forEach(x=>{if(x!=null&&x!==false)e.append(x)});return e}
+/* 아이템 등급 색: 글자 안에 \u0001등급번호…\u0002 로 감싸면 그 등급 색으로 칠해 보임 (2026-11-28) */
+const RCH="\u0001",RCE="\u0002",rTxt=(e,v)=>{v=String(v);if(v.indexOf(RCH)<0){e.textContent=v;return}e.textContent="";const re=/\u0001(\d)([^\u0002]*)\u0002/g;let i=0,m;while((m=re.exec(v))){if(m.index>i)e.append(v.slice(i,m.index));const sp=document.createElement("b");sp.className="rarc";sp.style.color="var(--r"+m[1]+")";sp.textContent=m[2];e.append(sp);i=re.lastIndex}if(i<v.length)e.append(v.slice(i))},
+ rarOf=id=>{const i=IT[id];return i&&i.rar!=null?i.rar:0},iq=(id,q)=>{const n=(IT[id]?IT[id].n:id)+(q!=null?" ×"+q:""),r=rarOf(id);return r>0?RCH+r+n+RCE:n},gq=g=>{const n="["+RAR[g.r].n+"] "+(IT[g.id]?IT[g.id].n:"장비");return g.r>0?RCH+g.r+n+RCE:n};
+function h(t,p,...k){const e=document.createElement(t);if(p)for(const a in p){const v=p[a];if(a==="c")e.className=v;else if(a==="t")rTxt(e,v==null?"":v);else if(a.startsWith("on"))e[a]=v;else if(v!=null&&v!==false)e.setAttribute(a,v===true?"":v)}k.flat().forEach(x=>{if(x!=null&&x!==false)e.append(x)});return e}
 const ap=(el,...k)=>k.flat().forEach(x=>{if(x!=null&&x!==false)el.append(x)});
-let tmr;function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(tmr);tmr=setTimeout(()=>e.style.display="none",3200)}
+let tmr;function toast(t){const e=$("#toast");rTxt(e,t==null?"":t);e.style.display="block";clearTimeout(tmr);tmr=setTimeout(()=>e.style.display="none",3200)}
 function note(t){const n=$("#notice");n.textContent=t;n.style.display=t?"block":"none"}
 const errT=e=>(e&&(e.message||e.code))||String(e);
 async function wrap(fn){try{await fn()}catch(e){toast("처리 실패: "+errT(e))}}
@@ -1230,6 +1238,11 @@ CONT.nn={n:"미개방 대륙",seal:1,poly:[[82.7,-27.0],[82.5,-26.6],[82.1,-26.1
 const MAP_Y0=-48,BRX=[[32,12,31.2,-14]];
 const contOf=id=>(REG[id]&&REG[id].c)||"a";
 /* 길: 인접한 지역으로만 이동 · 무너진 땅 ↔ 종말의 섬 다리 2개 · 종말의 섬 두 섬 사이 다리 2개 · 거주 섬 · 바벨론도 다리 (다리는 이동수단으로 건널 수 있음) */
+/* 2026-11-28 일반 대륙(무너진 땅) 레벨 1~60 · 지역마다 5레벨 구간 (시작 레벨 → 시작~시작+4) */
+const LVBAND={ruins:1,forest:6,harbor:6,hwy:11,marsh:11,mall:16,metro:21,desert:21,lake:26,lab:31,reactor:31,undercity:36,canyon:41,elevator:46,blacksea:51,zero:51,ark:56};
+Object.entries(LVBAND).forEach(([k,v])=>{if(REG[k])REG[k].lv=v});
+const mLo=(R,H)=>R.lv+(R.hard||H.blv==null?H.lv:H.blv),mHi=(R,H)=>mLo(R,H)+(R.hard||H.blv==null?2:1);
+const DEEP_BEST=.05,bandEnd=R=>R&&!R.hard&&!R.safe&&R.lv?R.lv+4:0;
 const BRIDGES=[["undercity","home_w"],["home_w","home_e"],["zero","h3"],["blacksea","h1"],["h4","h5"],["h2","h9"],["h13","babel"],["base","home_e"]],isBr=(a,b)=>BRIDGES.some(r=>(r[0]===a&&r[1]===b)||(r[0]===b&&r[1]===a));
 const ROADS=[["undercity","home_w"],["home_w","home_e"],["base","arena"],["base","ruins"],["base","forest"],["base","harbor"],["base","marsh"],["base","hwy"],["base","home_e"],["ruins","metro"],["ruins","lake"],["hwy","lake"],["hwy","mall"],["marsh","desert"],["marsh","mall"],["harbor","lab"],["harbor","desert"],["forest","reactor"],["forest","metro"],["lab","reactor"],["lab","undercity"],["reactor","canyon"],["undercity","canyon"],["canyon","elevator"],["elevator","blacksea"],["blacksea","zero"],["zero","ark"],["blacksea","h1"],["zero","h3"],
  ["h1","h2"],["h1","h3"],["h2","h3"],["h3","h4"],["h4","h5"],["h5","h6"],["h6","h7"],["h6","h8"],["h7","h8"],["h7","tmpA"],["tmpA","h8"],["h8","h9"],["h8","h10"],["h2","h9"],["h9","h10"],["h10","h11"],["h11","h12"],["h7","h12"],["h12","h13"],["h7","h13"],["h13","babel"]];
@@ -1283,7 +1296,7 @@ function findRoute(a,b,ign){const d={},pv={},q=new Set(Object.keys(REG));Object.
 /* 임시 거점 A (종말의 섬 · 검은 첨탑과 뼈의 산 사이): 광장 · 정비소 · 치료소 · 격리실 · 주점(음식만) */
 const TMPSP=[["plaza","광장","종말의 섬에서 숨을 돌리는 곳"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단"],["clinic","치료소","HP 치료 · 부상·질병 진료 · 약품"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","음식"]];
 const BASESP=[["plaza","광장","사람들이 모이는 만남의 장소"],["shop","정비소","장비 구매 · 수리 · 강화 · 제작 · 이동수단 · 가구점"],["clinic","치료소","HP 치료 · 부상·질병 진료 · 약품"],["market","시장","식재료·재료 구입, 유저 거래소"],["quar","격리실","오염도 치료 (100% → 30분)"],["tavern","주점","의뢰 게시판 · 음식"]];
-const HSP={out:{n:"외곽",lv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,enc:.25,con:1,loot:0,d:"의태종을 마주치기 쉽다."},deep:{n:"심부",lv:5,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
+const HSP={out:{n:"외곽",lv:0,blv:0,enc:.15,con:.8,loot:0,d:"비교적 안전한 가장자리"},mid:{n:"중심부",lv:2,blv:2,enc:.25,con:1,loot:0,d:"의태종을 마주치기 쉽다."},deep:{n:"심부",lv:5,blv:3,enc:.35,con:1.4,loot:1,d:"위험하지만 전리품이 많다"},
  rlab:{n:"무너진 연구소",lv:6,enc:.3,con:1.4,loot:1,bld:1,d:"바닷가 절벽 아래 반쯤 무너진 연구소. 깨진 냉장 보관함 사이로 의태종이 드나든다"}};
 /* 무너진 연구소: 월산 항구 심부를 탐색할 때 40% 확률로 발견 · 30분 동안 (그 지역을 떠나면 사라짐) · 의태종 출몰 구역 · 조사하면 행운에 따라 드물게 EB-0K14 */
 const LAB_REG="h11",LAB_P=.4,LAB_MS=18e5,labHas=(c,loc,now)=>!!(c&&c.labF&&c.labF.loc===loc&&c.loc===loc&&!c.trip&&now<c.labF.until),
@@ -1291,10 +1304,10 @@ const LAB_REG="h11",LAB_P=.4,LAB_MS=18e5,labHas=(c,loc,now)=>!!(c&&c.labF&&c.lab
  labOn=loc=>{if(!me||me.loc!==loc)return false;const now=Date.now();if(labHas(me,loc,now))return true;try{for(const id in chars)if(id!==uid&&labHas(chars[id],loc,now))return true}catch(e){}return false};
 const FACI={plaza:"M3 20h18M5 20v-5h14v5M12 15V9M8.5 9h7M10 9V6.5a2 2 0 0 1 4 0V9M7 15v-2M17 15v-2",shop:"M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.5-.5-.5-2.5z",clinic:"M9 4h6v5h5v6h-5v5H9v-5H4V9h5z",market:"M4 9l2-5h12l2 5M4 9h16v1.5a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0A2.7 2.7 0 0 1 4 10.5zM5 12v8h14v-8M10 20v-5h4v5",quar:"M4 4h16v16H4zM4 9h16M9 9v11M15 9v11M12 9v11",tavern:"M5 7h10v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2zM15 9h2.5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H15M7 4c0 1 1 1 1 2M10.5 4c0 1 1 1 1 2M8 11v6M11.5 11v6",rlab:"M2.5 21h19M4.5 21V10l4.5-3.5V21M9 21V6.5l3.5-2 1 2.2L15 5.2V21M15 21v-9.5h4.5V21M11 9.5h1.5M11 13h1.5M11 16.5h1.5M6.3 13h1M6.3 16.5h1M16.8 14.5h1"};
 /* 지역 의태종 레벨 범위 = 지역 Lv + 구역 Lv + 0~2 (외곽 ~ 심부 · 건물) */
-const regRng=id=>{const R=REG[id];if(!R||R.safe)return null;const mx=Math.max(0,...spotsOf(id).map(k=>(HSP[k]||{}).lv||0));return[R.lv,R.lv+mx+2]};
+const regRng=id=>{const R=REG[id];if(!R||R.safe)return null;if(!R.hard)return[R.lv,R.lv+4];const mx=Math.max(0,...spotsOf(id).map(k=>(HSP[k]||{}).lv||0));return[R.lv,R.lv+mx+2]};
 const regLv=id=>{const r=regRng(id);return r?"적정 Lv "+r[0]+"~"+r[1]:""};
 /* 지도 범례: 색 구간마다 그 구간 지역들의 실제 의태종 레벨 범위 */
-const LV_BANDS=[[1,2],[3,5],[6,9],[10,29],[30,59],[60,999]];
+const LV_BANDS=[[1,5],[6,10],[11,30],[31,45],[46,55],[56,999]];
 function lvLegend(dcol){const lg=h("div",{c:"legend"});lg.append(h("span",{},h("i",{style:"background:"+dcol(0)+";border:1px solid "+dcol(0)}),"안전"));
  LV_BANDS.forEach(([a,b])=>{let lo=1e9,hi=0;Object.keys(REG).forEach(id=>{const R=REG[id];if(R.safe||R.lv<a||R.lv>b)return;const r=regRng(id);lo=Math.min(lo,r[0]);hi=Math.max(hi,r[1])});if(!hi)return;
   lg.append(h("span",{},h("i",{style:"background:"+dcol(a)+";border:1px solid "+dcol(a)}),"Lv"+lo+"~"+hi))});
@@ -1304,8 +1317,8 @@ const HOMESP=[["plaza","광장","섬 한가운데 · 집을 눌러서 둘러볼 
 const spotsOf=loc=>REG[loc].raid?["tower"]:REG[loc].home?["plaza"]:REG[loc].arena?ARSP.map(x=>x[0]):REG[loc].tmpb?TMPSP.map(x=>x[0]):REG[loc].safe?BASESP.map(x=>x[0]):["out","mid","deep"].concat(REG[loc].bld&&HSP[REG[loc].bld]?[REG[loc].bld]:[]).concat(labOn(loc)?["rlab"]:[]);
 const spotName=(loc,s)=>REG[loc].raid?"탑 입구":REG[loc].home?"광장":REG[loc].arena?((ARSP.find(x=>x[0]===s)||ARSP[0])[1]):REG[loc].safe?(((REG[loc].tmpb?TMPSP:BASESP).find(x=>x[0]===s)||BASESP[0])[1]):(HSP[s]||HSP.out).n;
 const defSpot=loc=>REG[loc].raid?"tower":REG[loc].arena?"colo":REG[loc].safe?"plaza":"out";
-const dcol=l=>"var(--l"+(l===0?0:l<=2?1:l<=5?2:l<=9?3:l<=29?4:l<=59?5:6)+")";
-const tier=l=>l<=2?1:l<=5?2:l<=9?3:l<=29?4:l<=59?5:6;
+const dcol=l=>"var(--l"+(l===0?0:l<=5?1:l<=10?2:l<=30?3:l<=45?4:l<=55?5:6)+")";
+/* 2026-11-28 일반 대륙 1~60 재배치에 맞춤 (지역별 등급은 예전과 같게) */const tier=l=>l<=5?1:l<=10?2:l<=30?3:l<=45?4:l<=55?5:6;
 /* 스킬: mp=기본 MP 소모 (지능 비율에 따라 감소) */
 const SK_GCD=1000;/* 기술끼리 공용 대기 1초 */
 const SK={tank:[{id:"t1",n:"방패 강타",d:"기본 공격",cd:2,t:"atk",m:1,mp:4},{id:"t2",n:"철벽 태세",d:"피해 -60% · 6초",cd:15,t:"guard",mp:12},{id:"t3",n:"속성 충격",d:"강한 일격 ×2",cd:8,t:"atk",m:2,mp:16},{id:"t4",n:"급소 공격",d:"×1.2 · 2초 기절 · 속성 효과",cd:12,t:"atk",m:1.2,mp:14,sp:"vital"}],
@@ -1357,7 +1370,7 @@ const gName=q=>(IT[q.id]?IT[q.id].n:"?")+(q.up?" +"+q.up:"");
 function gDesc(q){const a=[],at=gB(q,"atk"),de=gB(q,"def");if(IT[q.id]&&IT[q.id].cres)a.push("오염 저항 "+Math.round((CRES[q.r||0]||CRES[0])*100)+"%");const oa=(q.opts&&q.opts.atk)||0,od=(q.opts&&q.opts.def)||0;if(at||oa)a.push("공격력 +"+(Math.round(at*(1+.15*(q.up||0)))+oa));if(de||od)a.push("방어력 +"+(Math.round(de*(1+.15*(q.up||0)))+od));Object.entries(q.opts||{}).filter(([k])=>k!=="atk"&&k!=="def").forEach(([k,v])=>a.push(optName(k)+" +"+v));return a.join(" · ")}
 /* 제작하면 나올 기본 수치 (지금 레벨 · 최저 등급 기준) — mkGear 와 같은 식 */
 const gPrev=(id,lv,r)=>{const b=IT[id]||{},sc=(1+lv/15)*(1+.2*(r||0));return{atk:b.atk?Math.round(b.atk*sc):0,def:b.def?Math.round(b.def*sc):0}};
-function toastG(g){toast("장비 획득. ["+RAR[g.r].n+"] "+IT[g.id].n);const t=$("#toast");t.style.borderColor=RAR[g.r].c;t.style.color=RAR[g.r].c;setTimeout(()=>{t.style.borderColor="";t.style.color=""},3300)}
+function toastG(g){toast("장비 획득. "+gq(g));const t=$("#toast");t.style.borderColor=RAR[g.r].c;t.style.color=RAR[g.r].c;setTimeout(()=>{t.style.borderColor="";t.style.color=""},3300)}
 const addGear=(pp,g)=>{if(g&&(me.gear||[]).length<MAXGEAR){pp.gear=(me.gear||[]).concat([g]);return true}return false};
 
 /* ===== 상태 ===== */
@@ -1446,7 +1459,7 @@ function updTop(){if(!me)return;const c=cur(me);let hp=c.hp,mp=c.mp;const mh=max
  {const tm=$("#tmini");tm.textContent="";const it=(k,v,cl)=>h("span",{c:cl},h("i",{t:k}),v);tm.append(h("span",{c:"tmn"},h("b",{t:me.name}),h("em",{t:"Lv"+me.lv})),it("HP",Math.round(hp)+"/"+mh,"tmhp"),it("MP",Math.round(mp)+"/"+mm,"tmmp"),it("에너지",Math.round(c.en)+"/"+MAXEN,"tmen"),it("오염",c.con.toFixed(0)+"%","tmcon"),h("span",{c:"tmbr"}))}}
 const nav=$("#nav");nav.append(h("div",{c:"nvhd"},h("div",{},h("b",{t:"殘火 :: Ember"}),h("small",{c:"nvver",t:"버전 "+BUILD.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2}).*/,(x,y,mo,d,hh,mi)=>{const t=new Date(Date.UTC(+y,+mo-1,+d,+hh,+mi)+9*36e5);return (t.getUTCMonth()+1)+"/"+t.getUTCDate()+" "+String(t.getUTCHours()).padStart(2,"0")+":"+String(t.getUTCMinutes()).padStart(2,"0")})})),h("button",{c:"nvx",type:"button","aria-label":"메뉴 닫기",onclick:()=>navOpen(false)},svgI("M6 6l12 12M18 6L6 18"))));
 /* 길드 · 커뮤니티는 누르면 하위 메뉴가 열림 (길드: 내 길드 · 길드 목록 / 커뮤니티: 개인 · 단체 · 전체 · 지역) */
-const NSUB={guild:[["mine","내 길드"],["list","길드 목록"]],comm:[["dm","개인"],["grp","단체"],["wc","전체"],["rp","지역"]],me:[["set","설정"],["ops","운영게시판"]]};
+const NSUB={guild:[["mine","내 길드"],["list","길드 목록"]],comm:[["dm","개인"],["grp","단체"],["wc","전체"],["rp","지역"],["rproom","RP ROOM"]],me:[["set","설정"],["ops","운영게시판"]]};
 let navG=false,navC=false,navS=false,gview="mine";
 const navGo=(k,gv)=>{if(k==="me"&&gv==="ops"){tab="me";navOpen(false);closeAsk();openBoard("ops");navGMark();return}tab=k;if(gv){if(k==="guild")gview=gv;if(k==="comm"){hubTab=gv;hubDm=null;hubGrp=null;hubNew=false}}boardV=null;chatHub=false;ocOn=false;plazaChat=false;navOpen(false);closeAsk();render(true)};
 TABS.forEach(([k,n])=>{const sub=NSUB[k];nav.append(h("button",{"data-k":k,c:"nvb"+(sub?" nvg":""),onclick:()=>{if(k==="guild"){navG=!navG;navGMark();return}if(k==="comm"){navC=!navC;navGMark();return}if(k==="me"){navS=!navS;navGMark();return}navGo(k)}},svgI(TAB_IC[k]||TAB_IC.main),h("span",{t:n}),sub?h("i",{c:"nvar",t:"▾"}):null));
@@ -1649,14 +1662,14 @@ function rMap(v){
  v.className="mapv";
  if(!selReg||!REG[selReg])selReg=me.loc;
  NOTICES.filter(n=>n.top&&Date.now()<n.top).forEach(n=>v.append(h("div",{c:"card wide ntc ntop"},h("span",{c:"xs"},h("b",{c:"ntk",t:"공지"})),h("b",{c:"ntt",t:n.title}),h("div",{c:"ntx",style:"margin-top:6px",t:n.text}))));
- v.append(mapBox(selReg));if(ovfOn())v.append(h("div",{c:"ovfb",t:"게이트 폭주 중 — 모든 지역 의태종 출몰 ×1.5 · 의태종 폭주 상태 · 헌터 오염도 상승"}));{const B=blocks(),K=Object.keys(B);if(K.length)v.append(h("div",{c:"ovfb",t:"봉쇄 중 — "+K.map(k=>REG[k].n+" ("+kfmt(B[k])+"까지)").join(" · ")+" · 걸어서는 들어갈 수 없음"+(me.veh?(blkFree(me.veh.k)?" · 오토바이는 벌금 없이 지나갈 수 있음":" · 이동수단으로는 벌금 "+won(BLK_FINE)+"환 내고 지나갈 수 있음"):"")}))}
+ v.append(mapBox(selReg));if(ovfOn())v.append(h("div",{c:"ovfb",t:"게이트 폭주 중 — 모든 지역 의태종 출몰 ×1.5 · 의태종 폭주 상태 · 헌터 오염도 상승"}));{const B=blocks(),K=Object.keys(B);if(K.length)v.append(h("div",{c:"ovfb",t:"봉쇄 중 — "+K.map(k=>REG[k].n+" ("+kfmt(B[k])+"까지)").join(" · ")}))}
  if(!me.trip&&me.sg&&sgPanel(v))return;
  if(!me.trip&&!inB())openGates(v);
  const chatB=!me.trip&&!REG[me.loc].safe?btn("지역 채팅 · "+REG[me.loc].n+(unreadOf("rp")?" · 새 "+unreadOf("rp"):""),()=>openHub("rp"),"lchat"):null;
 
  const R=REG[me.loc],sp=spot(),bar=h("div",{c:"locbar"});
  if(me.trip){bar.append(h("span",{c:"gold sm grow"},"이동 중 → "+REG[me.trip.to].n+" · ",h("b",{"data-u":me.trip.at,t:""})));v.append(bar);return}
- bar.append(h("div",{c:"grow lname"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("span",{c:"xs",style:"color:var(--ac2)",t:" · "+regTraits(me.loc).filter(x=>!(REG[me.loc].safe&&/안전/.test(x))).join(" · ")}),h("span",{c:"xs mt",t:" · "+(blkUntil(me.loc)?"봉쇄 중 · "+kfmt(blkUntil(me.loc))+"까지 · ":"")+(R.raid?"레이드 · 8인 공격대 전용 · Lv"+RAID_LV+"부터":R.arena?"의태종 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc))})));
+ bar.append(h("div",{c:"grow lname"},h("b",{t:R.n+" · "+spotName(me.loc,sp)}),h("span",{c:"xs",style:"color:var(--ac2)",t:" · "+regTraits(me.loc).filter(x=>!(REG[me.loc].safe&&/안전/.test(x))).join(" · ")}),h("span",{c:"xs mt",t:" · "+(blkUntil(me.loc)?"봉쇄 중 · "+kfmt(blkUntil(me.loc))+"까지 · ":"")+(R.raid?"레이드 · 4인 공격대 전용 · Lv"+RAID_LV+"부터":R.arena?"의태종 출몰·채집 없음 · 결투 전용 지역":R.safe?"안전 지대":regLv(me.loc))})));
  if(rdIn())bar.append(btn("탑으로 · "+rdoc.fl+"층",()=>{rdShow=true;tab="battle";render(true)},"pri"));
  else if(inB()||pvpCur())bar.append(btn(pvpCur()?"결투로":"전투 복귀",()=>{tab="battle";render(true)},"pri"));
  else{if(battle&&battle.st==="on"&&bHere(battle))bar.append(btn("파티 전투",()=>{tab="battle";render(true)},canJ(battle)?"pri":""));
@@ -1669,15 +1682,15 @@ function rMap(v){
  if(lrow.childNodes.length)bar.append(lrow);
  if(me.ag){const a=me.ag,d=agDone(a);v.append(h("div",{c:"card agc"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("div",{c:"grow"},h("b",{c:"sm",t:"자동 "+((GK[a.k]||GK.mine).n)+" 중 · "+d+" / "+a.n+"회"}),h("div",{c:"xs mt"},(REG[a.reg]||{}).n+" · 끝까지 ",h("b",{"data-u":a.t0+a.n*AG_IV,t:""}))),btn(d>=a.n?"결과 받기":"그만두기",()=>wrap(agClaim),"sm")),pbar(d,a.n,"en","")))}
  if(R.safe&&!inB()&&!R.home&&!R.raid){const s=h("div",{c:"fac"});(R.arena?ARSP:R.tmpb?TMPSP:BASESP).forEach(([k,n,d])=>s.append(h("button",{c:"facb"+(k===sp?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:n}),h("small",{t:d}))));v.append(s)}
- else if(!inB()&&!R.home&&!R.raid){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 의태종 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
+ else if(!inB()&&!R.home&&!R.raid){const s=h("div",{c:"spotl"}),fb=h("div",{c:"fac"});spotsOf(me.loc).forEach(k=>{const H=HSP[k],on=k===sp;if(H.bld){fb.append(h("button",{c:"facb"+(on?" on":""),onclick:()=>wrap(()=>moveSpot(k))},svgI(FACI[k]),h("b",{t:H.n}),h("small",{t:on?"현재 위치 · 눌러서 더 탐색":"건물"})));return}s.append(h("button",{c:on?"on here":"",onclick:()=>wrap(()=>moveSpot(k))},h("span",{c:"grow"},h("b",{t:H.n+(on?" · 현재 위치":"")}),h("small",{t:H.d+" · 의태종 Lv "+mLo(R,H)+"~"+mHi(R,H)})),h("em",{t:(on?"더 탐색 · ":"")+"출몰 "+Math.round(encRate(H.enc)*100)+"%"})))});v.append(s);if(fb.childNodes.length)v.append(fb)}
  if(R.home){if(!inB())v.append(homeFac(me.loc))}
  else if(R.raid)v.append(raidFac());
  else if(R.safe)v.append(R.arena?arenaFac(sp):facility(sp));
  else if(HSP[sp]&&HSP[sp].bld){const H=HSP[sp];v.append(h("div",{c:"card"},h("h3",{t:H.n}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:H.d+". 깨진 유리와 녹슨 장비 사이로 무언가 남아 있을지도 모른다."}),
-  h("div",{c:"sm mt",t:"의태종 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 높음"}),h("div",{style:"height:8px"}),
+  h("div",{c:"sm mt",t:"의태종 Lv "+mLo(R,H)+"~"+mHi(R,H)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 높음"}),h("div",{style:"height:8px"}),
   btn("조사하기",investigate,"pri full"),h("p",{c:"xs mt",style:"margin:6px 0 0",t:"조사할 때도 의태종이 나타날 수 있습니다. 수상한 앰플은 아주 드물게 발견된다는 소문이 있다."})))}
  else{const H=HSP[sp];v.append(h("div",{c:"card"},h("h3",{t:H.n+" — "+H.d}),
-  h("div",{c:"sm mt",t:"의태종 Lv "+(R.lv+H.lv)+"~"+(R.lv+H.lv+2)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 "+(H.con<1?"낮음":H.con>1?"높음":"보통")+(H.loot?" · 전리품 증가":"")}),
+  h("div",{c:"sm mt",t:"의태종 Lv "+mLo(R,H)+"~"+mHi(R,H)+" · 출몰 "+Math.round(encRate(H.enc)*100)+"% · 오염 "+(H.con<1?"낮음":H.con>1?"높음":"보통")+(H.loot?" · 전리품 증가":"")}),
   h("div",{style:"margin-top:6px"},h("span",{c:"xs mt",style:"margin-right:4px",t:isNight()?"밤 의태종":"낮 의태종"}),((isNight()?R.monN:R.mon)||[]).map(m=>h("span",{c:"chip",style:"border-color:"+ACOL[m[1]],t:m[0]})),(R.monW||[]).length?h("span",{c:"xs mt",style:"margin:0 4px 0 6px",t:R.wt==="f"?"민물":"바다"}):null,(R.monW||[]).map(m=>h("span",{c:"chip",style:"border-color:"+ACOL[m[1]],t:m[0]}))),
   h("div",{c:"sm mt",style:"margin-top:6px",t:"지역 특색 "+regTraits(me.loc).join(" · ")+" · "+(Object.keys(GK).map(k=>{const o=gkRes(R,k);return Object.keys(o).length?GK[k].n+": "+Object.keys(o).map(x=>IT[x].n).join(", "):null}).filter(Boolean).join(" · ")||"채집할 것 없음")+" · 성공률 "+Math.round(gRate(me)*100)+"% · 1회 에너지 "+GATHER_EN}),
   conBlocked()?h("p",{c:"bad sm",t:"오염도 100% — 이곳에서는 활동할 수 없습니다. 중앙 거점 격리실에서 치료하십시오."}):null))}
@@ -1745,7 +1758,7 @@ async function gather(k){k=k||gKind;if(!GK[k])k="mine";gKind=k;if(rmpBlock()||ho
  if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
  const c=cur(me),GEN=Math.max(1,GATHER_EN-(fbOn("ge")?2:0));if(c.en<GEN)return toast("에너지가 부족합니다 ("+GEN+" 필요)");gcd=Date.now()+1500;
  const H=HSP[spot()],inv={...me.inv},gc={},ok=gRoll(inv,gc,R,H,k);
- const got=Object.entries(gc).map(([id,q])=>IT[id].n+" ×"+q);
+ const got=Object.entries(gc).map(([id,q])=>iq(id,q));
  {const p={inv,en:Math.round(c.en-GEN)};if(ok)jobGain(p,"g",gNeedJob(k),GJ_XP);await upd(p)}
  toast(!ok?NOGOT:got.length?GK[k].n+": "+got.join(", "):"가방이 가득 찼습니다");
  if(rf()<encRate(H.enc+.1))await encounter()}
@@ -1771,7 +1784,7 @@ async function agStart(n,k){if(rmpBlock())return;if(rmpD())return toast(RMP_MSG(
 const agDone=a=>Math.max(0,Math.min(a.n,Math.floor((Date.now()-a.t0)/AG_IV)));
 async function agClaim(){const a=me.ag;if(!a||agBusy)return;agBusy=1;try{const k=agDone(a),R=REG[a.reg]||REG[me.loc],H=HSP[a.spot]||HSP.out,inv={...me.inv},gc={};let ok=0;
   if(R&&R.res)for(let i=0;i<k;i++)if(gRoll(inv,gc,R,H,a.k))ok++;const back=a.n-k,c=cur(me);
-  {const p={ag:null,inv,en:Math.round(Math.min(MAXEN,c.en+back*GATHER_EN))};if(ok)jobGain(p,"g",gNeedJob(a.k),GJ_XP*ok);await upd(p)}const got=Object.entries(gc).map(([id,q])=>IT[id].n+" ×"+q);
+  {const p={ag:null,inv,en:Math.round(Math.min(MAXEN,c.en+back*GATHER_EN))};if(ok)jobGain(p,"g",gNeedJob(a.k),GJ_XP*ok);await upd(p)}const got=Object.entries(gc).map(([id,q])=>iq(id,q));
   openPop(h("div",{c:"h0",t:"자동 "+((GK[a.k]||GK.mine).n)+" 결과"}),h("p",{c:"sm mt",t:(R?R.n:"")+" · "+k+"회 중 "+ok+"회 성공"+(back?" · 에너지 "+back*GATHER_EN+" 돌려받음":"")}),h("p",{c:"sm",t:got.length?"얻은 것: "+got.join(", "):NOGOT}),btn("확인",closePop,"pri full"));render(true)}
  finally{agBusy=0}}
 /* 자동 전투가 회복 아이템 없이 HP 40% 이하가 되는 시점이 지나면 저절로 끝내고 정산 */
@@ -2244,7 +2257,7 @@ function simAuto(a,mins){let z=(a.sd>>>0)||1;const rr=()=>{z^=z<<13;z>>>=0;z^=z>
  return{wins,dead,lv,exp:lv>=MAXLV?0:Math.round(exp),gx:Math.round(gx),tan:Math.round(tan),inv,got,used,hp:Math.max(1,Math.round(hp)),sp,stop,dm}}
 async function claimAuto(){const a=me.auto;if(!a)return;const m0=Math.min(a.dur,(Date.now()-a.t0)/6e4),r=simAuto(a,m0),mins=r.stop!=null?r.stop:r.dm!=null?Math.min(m0,r.dm):m0,p={auto:null,inv:r.inv,tan:me.tan+r.tan,exp:r.exp,lv:r.lv,hp:r.hp},acg=0;/* 자동 전투는 오염도가 오르지 않음 */if(acg>0)p.con=Math.min(100,Math.round((cur(me).con+acg)*10)/10);if(r.sp)p.sp=(me.sp||0)+r.sp;
  /* 협회 임무: 자동 전투 승리는 세지 않음 (2026-11-26) */if(r.dead){p.hp=Math.round(maxHp(me)*.3);p.loc="base";p.spot="clinic";p.trip=null}await upd(p);/* 자동 전투로는 핸드폰을 잃어버리지 않음 (2026-11-25) */
- const nm=o=>Object.entries(o).map(([k,q])=>IT[k].n+" ×"+q).join(", ");
+ const nm=o=>Object.entries(o).map(([k,q])=>iq(k,q)).join(", ");
  openPop(h("div",{c:"h0",t:"자동 전투 결과"}),h("p",{c:"sm mt",t:REG[a.reg].n+" 상시 게이트 · "+Math.round(mins)+"분"}),
   h("p",{c:"sm",t:"승리 "+r.wins+"회 · +"+won(r.gx)+" EXP · +"+won(r.tan)+" 환"+(r.lv>me.lv?" · 레벨 업 Lv"+r.lv:"")}),
   h("p",{c:"sm",t:"획득: "+(nm(r.got)||"없음")}),h("p",{c:"sm mt",t:"사용한 회복 아이템: "+(nm(r.used)||"없음")+(acg>0?" · 오염도 +"+acg+"%":"")}),
@@ -2452,7 +2465,7 @@ async function startBattle(enc,spk,fishK){if(hospBlock())return;
  if(battle&&battle.st==="on"&&battle.mem&&Object.keys(battle.mem).length&&!(battle.mem[uid]&&Date.now()-battle.t>900000))return bBusy();
  const c=cur(me),H=HSP[spk||spot()]||HSP.out;
  const pt=me.party&&parties[me.party],tk0=pt&&pt.tmp?tmpKey():null,pals=tk0?pt.members.filter(id=>id!==uid&&tmpHere(id,tk0)&&!(battle&&battle.st==="on"&&battle.mem&&battle.mem[id])):[],n=pt?(pt.tmp?1+pals.length:pt.members.filter(id=>chars[id]&&chars[id].loc===me.loc&&!chars[id].trip).length):1;
- const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=R.lv+H.lv+ri(3)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round(MON_HPX*(50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
+ const FS=fishK?FISH[fishK]:null,mo=FS?FS.mon[ri(FS.mon.length)]:pickMon(R),lv=mLo(R,H)+ri(mHi(R,H)-mLo(R,H)+1)+(fishK==="sea"?2:0),rf2=RF(),hm=R.hard?1.4:1,max=Math.round(MON_HPX*(50+lv*28)*(1+.5*(Math.max(1,n)-1))*(rf2?1.25:1)*hm);
  const bt={t:Date.now(),region:me.loc,spot:spk||spot(),st:"on",mon:{n:mo[0],attr:mo[1],lv,hp:max,max,atk:Math.round((6+lv*3)*(rf2?1.2:1)*(R.hard?1.25:1)),nextAt:Date.now()+5000},mem:{[uid]:mkMem(c)},log:[mo[0]+" (Lv"+lv+") 이(가) 나타났다!"].concat(R.hard?["종말의 섬의 의태종은 훨씬 강하다!"]:[]).concat(rf2?["비와 안개 속에서 의태종이 흉포해졌다!"]:[])};
  if(fishK){bt.fish=fishK;bt.rod=rodTier();bt.log.unshift("낚싯줄이 팽팽하게 당겨졌다!");if(fishK==="sea"){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.2)}}
  if(ovfOn()){bt.mon.hp=bt.mon.max=Math.round(bt.mon.max*1.35);bt.mon.atk=Math.round(bt.mon.atk*1.3);bt.log.push("게이트 폭주의 여파로 의태종이 폭주했다.")}
@@ -2524,11 +2537,11 @@ async function settle(b){
   const eq=clone(me.eq||{});for(const s in eq)if(eq[s]&&eq[s].id)eq[s].dur=Math.max(0,(eq[s].dur||0)-2);p.eq=eq;
   let msg="패배… 중앙 거점 치료소로 후송되었다";
   if(b.st==="won"){p.mp=maxMp(me);if(b.fish){cntAdd(p,"fish");jobGain(p,"g","fish",GJ_XP);if(b.rod===5)cntAdd(p,"f5")}const inv={...me.inv},got=[];let gx=b.mon.lv*14*(b.mon.lv<me.lv-10?1/3:1)*1.5,exp=me.exp+Math.round(gx),lv=me.lv;if(!me.hqOut)p.hqb=(me.hqb||0)+1;
-   const lf=luckF(me),tan=b.gate&&b.gate.kind!=="p"?gateTan(b):Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?1.3:1)),pend=[],addR=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(IT[id].n+" ×"+k)},add=(id,q)=>{if(!b.gate)pend.push([id,q]);else addR(id,q)};if(b.gate&&b.gate.kind==="p"&&rf()<Math.min(.2,.04*lf))add("lotto",1);
-   if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=3&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
+   const lf=luckF(me),tan=b.gate&&b.gate.kind!=="p"?gateTan(b):Math.round((100+ri(51))*(1+.03*baseLv())*(R.hard?1.8:1)*(b.gate?1.3:1)),pend=[],addR=(id,q)=>{const k=addInv(inv,id,q);if(k)got.push(iq(id,k))},add=(id,q)=>{if(!b.gate)pend.push([id,q]);else addR(id,q)};if(b.gate&&b.gate.kind==="p"&&rf()<Math.min(.2,.04*lf))add("lotto",1);
+   if(!b.gate){if(rf()<Math.min(.95,.55*lf))add("hide",1+ri(2));if(R.lv>=11&&rf()<Math.min(.9,(.12+H.loot*.1)*lf))add("core",1);add(pickW(medW(R.res)),1+ri(2)+H.loot+(rf()<Math.min(.9,.06*lf)?1:0));
     if((R===REG.forest||R===REG.h2)&&rf()<Math.min(.5,.08*lf))add("fd_honeypot",1);
     if(R.hard){const lb=H.loot?1.3:1;if(rf()<.10*lf*lb)add("alloy",1+(rf()<.3?1:0));if(rf()<.06*lf*lb)add("crystal",1);if(rf()<.025*lf*lb)add("cell",1)}}
-   else{/* 게이트: 의태종을 쓰러뜨려 얻는 재료는 0~3개 (손재주 비례) */const gk=b.gate.kind,boss=!!b.gate.boss,pool=[["hide",3],["res",3]];if(R.lv>=3)pool.push(["core",boss?2:1]);if(R.hard)pool.push(["alloy",1],["crystal",.6],["cell",.25]);
+   else{/* 게이트: 의태종을 쓰러뜨려 얻는 재료는 0~3개 (손재주 비례) */const gk=b.gate.kind,boss=!!b.gate.boss,pool=[["hide",3],["res",3]];if(R.lv>=11)pool.push(["core",boss?2:1]);if(R.hard)pool.push(["alloy",1],["crystal",.6],["cell",.25]);
     const n=gMatN();for(let i=0;i<n;i++){const k=pickW(pool);add(k==="res"?(R.res?pickW(medW(R.res)):"scrap"):k,1)}
     {const id=mmDrop(b.gate,boss,lf);if(id)add(id,1+(rf()<Math.min(.5,.12*lf)?1:0))}
     {const g0=gateById(b.gate.id);if(g0&&g0.hard&&HMAT[g0.reg]&&rf()<(boss?.06:.02)*lf)add("hm_"+g0.reg,1)}}
@@ -2539,7 +2552,10 @@ async function settle(b){
    else if(b.gate&&b.gate.boss){const gk=b.gate.kind;if(rf()<(gk==="s"?.15:.07)*lf)add("rm_"+pickW(MRW),1)}
    else if(b.gate){const gk=b.gate.kind;if(gk==="w"&&rf()<.05*lf)add("rm_"+pickW(MRW),1)}
    /* 사냥 지역 전투 전리품: 합계 최대 3개 (무작위로 남김) */if(pend.length){const U=[];pend.forEach(([id,q])=>{for(let i=0;i<q;i++)U.push(id)});for(let i=U.length-1;i>0;i--){const j=ri(i+1);[U[i],U[j]]=[U[j],U[i]]}const C={};U.slice(0,HUNT_MAX).forEach(id=>C[id]=(C[id]||0)+1);Object.entries(C).forEach(([id,q])=>addR(id,q))}
-   /* 장비는 게이트 전투에서만 */if(b.gate){const gd=maybeDrop(.12+tier(R.lv)*.03+H.loot*.05,b.mon.lv,R.hard);if(addGear(p,gd))got.push("["+RAR[gd.r].n+"] "+IT[gd.id].n)}
+   /* 장비는 게이트 전투에서만 */if(b.gate){const gd=maybeDrop(.12+tier(R.lv)*.03+H.loot*.05,b.mon.lv,R.hard);if(addGear(p,gd))got.push(gq(gd))}
+    /* 2026-11-28 끝자리 0 구간(…~10 · ~20 … ~60) 지역의 심부: 그 레벨대 최강 장비(전설) · 내 직업 · 부위마다 1개 · 이미 가진 건 안 나옴 */
+    if(!b.gate&&b.spot==="deep"&&!R.hard){const bd=bandEnd(R);if(bd&&bd%10===0){const rk=(me.role||"d")[0],own=ownedG(),L=["head","body","legs","feet","acc","main","sub"].map(sl=>"nG"+bd+"_"+sl+"_"+rk+"_3").filter(id=>IT[id]&&!own.has(id));
+     if(L.length&&rf()<Math.min(.1,DEEP_BEST*luckF(me))){const id=L[ri(L.length)],g=mkGear(IT[id].bd||bd,3,id);if(addGear(p,g))got.push(gq(g))}}}
    p.inv=inv;p.tan=me.tan+tan;p.hp=Math.max(1,m.hp);let up=false,gain=0;while(lv<MAXLV&&exp>=xpN(lv)){exp-=xpN(lv);lv++;gain+=spFor(lv);up=true}if(lv>=MAXLV)exp=0;p.exp=exp;p.lv=lv;if(gain)p.sp=(me.sp||0)+gain;
    if(up)p.hp=maxHp({...me,lv});msg="승리! +"+Math.round(gx)+" EXP · +"+tan+" 환"+(got.length?" · "+got.join(", "):"")+(up?" · 레벨 업 Lv"+lv+"! 스탯 포인트 +"+gain:"")+" · 오염 +"+cg+"%"}
   else if(b.st==="lost"){p.hp=Math.round(maxHp(me)*.3);p.tan=Math.floor(me.tan*.9);
@@ -2585,10 +2601,10 @@ function rBattle(v){
  v.append(s);
  if(on&&mine&&me.party&&parties[me.party])v.append(ptChatCard());
 }
-/* ===== 레이드: 바벨론 (탑 1~10층 · 8인 공격대 · 탱커 1 · 힐러 2 · 딜러 4 · 자유 1) =====
+/* ===== 레이드: 바벨론 (탑 1~10층 · 4인 공격대 · 탱커 1 · 힐러 1 · 딜러 2) =====
    공격대 문서: parties (raid:1) · 전투 문서: battles/rd_<공격대 id>
    진행: 공격대 안에서 접속 중인 첫 사람(호스트)이 의태종과 피해 계산을 맡음 · 다른 사람은 자기 칸(a_<uid>)에 행동만 적음 */
-const RAID_REG="babel",RAID_LV=100,RAID_NEED={tank:1,healer:2,dealer:4},RAID_FREE=1,RAID_N=8,RAID_FL=10,RAID_HOT=.02,RAID_HOTMS=10000,RAID_TAUNT=15000,RAID_GONE=20000;
+const RAID_REG="babel",RAID_LV=100,RAID_NEED={tank:1,healer:1,dealer:2},RAID_FREE=0,RAID_N=4,RAID_HPX=.5,RAID_ATX=.8,RAID_FL=10,RAID_HOT=.02,RAID_HOTMS=10000,RAID_TAUNT=15000,RAID_GONE=20000;
 Object.assign(IT,{babel_frag:{n:"바벨의 파편",d:"재료 · 바벨론 10층 「탑의 주인」을 쓰러뜨리면 아주 드물게 · 최종 장비 제작에 쓰임"}});
 const RMOB=[["석상 의태형","땅"],["가고일 의태형","어둠"],["종지기 의태형","번개"],["사서 의태형","빛"],["파수꾼 의태형","불"],["거미 의태형","풀"],["까마귀 의태형","어둠"],["뱀 의태형","물"],["부엉이 의태형","빛"],["박쥐 의태형","어둠"]];
 const RFLN=[0,3,3,4,4,4,5,5,5,5,3];
@@ -2600,6 +2616,7 @@ const rdSkills=role=>(SK[role]||[]).concat(RSK[role]?[RSK[role]]:[]);
 function rdSpawn(fl){const r=srng("rdm"+fl+"_"+Date.now()),L=[],hm=Math.pow(1.15,fl-1),am=1+.07*(fl-1),now=Date.now();
  if(fl===RAID_FL){L.push({n:"[탑의 주인] 바벨 의태형",attr:"빛",lv:120,max:2200000,atk:1700,iv:4200,boss:1,aoeAt:now+15000});for(let i=0;i<2;i++)L.push({n:"수문장 의태형",attr:"땅",lv:110,max:200000,atk:900,iv:3600})}
  else for(let i=0;i<RFLN[fl];i++){const m=RMOB[Math.floor(r()*RMOB.length)];L.push({n:m[0],attr:m[1],lv:100+fl,max:Math.round(90000*hm),atk:Math.round(750*am),iv:3400+Math.floor(r()*600)})}
+ /* 2026-11-28 4인(탱1 · 힐1 · 딜2)으로 줄어 체력 50% · 공격력 80% */L.forEach(m=>{m.max=Math.round(m.max*RAID_HPX);m.atk=Math.round(m.atk*RAID_ATX)});
  return L.map((m,i)=>Object.assign(m,{i,hp:m.max,nextAt:now+4500+i*450,tg:null,tgU:0}))}
 const rdCh=id=>id===uid?me:chars[id];
 function rdMem(id){const c=rdCh(id),m=mkMemC(c);m.hp=m.max;m.mp=m.mpMax;m.mpT=Date.now();m.mpm=Math.round(mpMult(c)*100)/100;return m}
@@ -2612,12 +2629,12 @@ const rpKey=p=>(p.members||[]).slice().sort().join(",");
 const rpExtra=c=>Object.keys(RAID_NEED).reduce((a,k)=>a+Math.max(0,(c[k]||0)-RAID_NEED[k]),0),rpCan=(c,r)=>(c[r]||0)<RAID_NEED[r]||rpExtra(c)<RAID_FREE;
 const rpOk=p=>{const c=rpComp(p);return Object.keys(RAID_NEED).every(k=>(c[k]||0)>=RAID_NEED[k])&&rpExtra(c)<=RAID_FREE&&(p.members||[]).length===RAID_N};
 function rpStartFl(p){const k=rpKey(p),L=(p.members||[]).map(rdCh);if(L.length===RAID_N&&L.every(c=>c&&c.rsv&&c.rsv.k===k)){const f=L[0].rsv.fl||0;if(f>0&&f<RAID_FL&&L.every(c=>c.rsv.fl===f))return f+1}return 1}
-function rpWhy(p){const L=p.members||[],c=rpComp(p);if(L.length<RAID_N||!rpOk(p))return"탱커 "+Math.min(c.tank,1)+"/1 · 힐러 "+Math.min(c.healer,2)+"/2 · 딜러 "+Math.min(c.dealer,4)+"/4 · 자유 "+rpExtra(c)+"/1";
+function rpWhy(p){const L=p.members||[],c=rpComp(p);if(L.length<RAID_N||!rpOk(p))return"탱커 "+Math.min(c.tank,1)+"/1 · 힐러 "+Math.min(c.healer,1)+"/1 · 딜러 "+Math.min(c.dealer,2)+"/2";
  for(const id of L){const x=rdCh(id);if(!x)return"공격대원 정보를 불러오는 중입니다";if((x.lv||1)<RAID_LV)return x.name+" — Lv"+RAID_LV+"부터 도전할 수 있습니다";if(x.loc!==RAID_REG||x.trip)return x.name+" — 바벨론에 있어야 합니다";if(id!==uid&&!online.has(id))return x.name+" — 접속 중이 아닙니다";if(lockMsg(x))return x.name+" — 지금은 도전할 수 없는 상태입니다"}return null}
 async function rpCreate(){if(hospBlock())return;if((me.lv||1)<RAID_LV)return toast("Lv"+RAID_LV+"부터 공격대에 들어갈 수 있습니다");if(me.loc!==RAID_REG)return toast("바벨론에서만 공격대를 만들 수 있습니다");if(myRP())return toast("이미 공격대에 있습니다");
- const r=await db.collection("parties").add({raid:1,name:me.name+"의 공격대",leader:uid,members:[uid],t:Date.now()});await upd({rpid:r.id});toast("공격대를 만들었습니다 · 탱커 1 · 힐러 2 · 딜러 4 · 자유 1가 모이면 도전할 수 있습니다")}
+ const r=await db.collection("parties").add({raid:1,name:me.name+"의 공격대",leader:uid,members:[uid],t:Date.now()});await upd({rpid:r.id});toast("공격대를 만들었습니다 · 탱커 1 · 힐러 1 · 딜러 2가 모이면 도전할 수 있습니다")}
 async function rpJoin(id){if(hospBlock())return;if((me.lv||1)<RAID_LV)return toast("Lv"+RAID_LV+"부터 공격대에 들어갈 수 있습니다");if(me.loc!==RAID_REG)return toast("바벨론에 있어야 합니다");if(myRP())return toast("이미 공격대에 있습니다");
- let why=null;const ok=await pmut(id,p=>{if(!p.raid)return false;const c=rpComp(p);if(p.members.length>=RAID_N){why="공격대가 가득 찼습니다";return false}if(!rpCan(c,me.role)){why=ROLE[me.role].n+" 자리와 자유 자리가 이미 찼습니다";return false}if(!p.members.includes(uid))p.members.push(uid)});
+ let why=null;const ok=await pmut(id,p=>{if(!p.raid)return false;const c=rpComp(p);if(p.members.length>=RAID_N){why="공격대가 가득 찼습니다";return false}if(!rpCan(c,me.role)){why=ROLE[me.role].n+" 자리가 이미 찼습니다";return false}if(!p.members.includes(uid))p.members.push(uid)});
  if(!ok)return toast(why||"들어갈 수 없는 공격대입니다");await upd({rpid:id});toast("공격대에 들어갔습니다")}
 async function rpLeave(){const id=me.rpid;if(!id)return;if(rdIn())return toast("탑 안에서는 공격대를 나갈 수 없습니다 · 먼저 후퇴하십시오");await pmut(id,p=>{p.members=(p.members||[]).filter(x=>x!==uid);if(p.leader===uid&&p.members.length)p.leader=p.members[0]}).catch(()=>{});
  const p=parties[id];if(!p||!(p.members||[]).filter(x=>x!==uid).length)await db.doc("parties/"+id).delete().catch(()=>{});await upd({rpid:null});toast("공격대에서 나왔습니다")}
@@ -2687,9 +2704,9 @@ function rdSettle(d){const m=d.mem&&d.mem[uid];if(!m)return;let k=null;
  const K=d.pid+"|"+k;if(rdDone.has(K)||rdDoneL().includes(K)||(me.rdone||[]).includes(K))return;rdDone.add(K);try{localStorage.setItem("af_rd_"+uid,JSON.stringify(rdDoneL().concat([K]).slice(-40)))}catch(e){}
  const p={rdone:(me.rdone||[]).concat([K]).slice(-30)};
  if(k[0]==="c"){const fl=d.fl,inv={...me.inv},got=[],tan=fl>=RAID_FL?10000:2000+fl*400;p.tan=me.tan+tan;p.rsv={k:d.key,fl:fl>=RAID_FL?0:fl};p.hp=Math.max(1,Math.min(maxHp(me),m.hp));
-  if(fl>=RAID_FL&&rf()<Math.min(.2,.03*luckF(me))){if(addInv(inv,"babel_frag",1))got.push(IT.babel_frag.n+" ×1")}
+  if(fl>=RAID_FL&&rf()<Math.min(.2,.03*luckF(me))){if(addInv(inv,"babel_frag",1))got.push(iq("babel_frag",1))}
   /* 최종 장비 제작법: 층마다 1.5% · 10층 6% (행운 반영) · 내 직업 · 아직 안 익히고 가방에도 없는 것 */
-  if(rf()<Math.min(.25,(fl>=RAID_FL?.06:.015)*luckF(me))){const L=NGEAR.fin.filter(x=>IT[x].role===me.role&&!knowsR(x)&&!(me.inv["rp_"+x]));if(L.length){const x=L[ri(L.length)];if(addInv(inv,"rp_"+x,1))got.push(IT["rp_"+x].n)}}
+  if(rf()<Math.min(.25,(fl>=RAID_FL?.06:.015)*luckF(me))){const L=NGEAR.fin.filter(x=>IT[x].role===me.role&&!knowsR(x)&&!(me.inv["rp_"+x]));if(L.length){const x=L[ri(L.length)];if(addInv(inv,"rp_"+x,1))got.push(iq("rp_"+x))}}
   if(got.length)p.inv=inv;upd(p).then(()=>toast(fl+"층 돌파 · +"+won(tan)+"환"+(got.length?" · "+got.join(", "):"")+(fl>=RAID_FL?" · 바벨론 정복! 다음 도전은 1층부터":" · 진행 저장됨"))).catch(()=>{})}
  else{p.hp=Math.max(1,Math.round(maxHp(me)*(k[0]==="l"?.3:Math.max(.05,(m.hp||0)/(m.max||1)))));upd(p).then(()=>toast(k[0]==="l"?"공격대 전멸… 저장된 층에서 다시 도전할 수 있습니다":"탑에서 후퇴했습니다")).catch(()=>{});if(k[0]==="o"){rdShow=false;if(tab==="battle"){tab="map";render(true)}}}}
 async function rdLeave(){if(!rdoc||!rdoc.mem||!rdoc.mem[uid])return;if(rdoc.st==="on"&&!confirm2("rdl"))return toast("한 번 더 누르면 후퇴합니다 · 이번 층 보상은 받지 못합니다");await rdAct("leave");rdShow=false;tab="map";render(true)}
@@ -2709,8 +2726,8 @@ function rRaid(v){const d=rdoc,m=d.mem[uid],now=Date.now(),lead=myRP()&&myRP().l
   s.append(g,dead?h("p",{c:"bad sm",t:"쓰러졌습니다 · 이번 층이 끝날 때까지 지켜볼 수 있습니다."}):null)}
  s.append(h("div",{c:"logbox"},(d.log||[]).map(l=>h("div",{t:l}))));v.append(s)}
 /* 바벨론 입구 (지역 시설) */
-function raidFac(){const box=h("div",{c:"card"},h("h3",{t:"바벨론 — 탑 입구"}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:"하늘을 찌르는 탑. 1층부터 10층까지 의태종이 가득하고, 꼭대기에는 탑의 주인이 있다. 8명의 공격대(탱커 1 · 힐러 2 · 딜러 4 · 자유 1)로만 오를 수 있다."}),
-  h("div",{c:"xs mt",t:"Lv"+RAID_LV+"부터 · 층을 돌파할 때마다 저장 (같은 공격대원 8명이 그대로일 때만 이어서) · 10층을 돌파하면 다시 1층부터 · 바벨의 파편은 10층에서만 각자 낮은 확률로"}));
+function raidFac(){const box=h("div",{c:"card"},h("h3",{t:"바벨론 — 탑 입구"}),h("p",{c:"sm mt",style:"margin:-4px 0 8px",t:"하늘을 찌르는 탑. 1층부터 10층까지 의태종이 가득하고, 꼭대기에는 탑의 주인이 있다. 4명의 공격대(탱커 1 · 힐러 1 · 딜러 2)로만 오를 수 있다."}),
+  h("div",{c:"xs mt",t:"Lv"+RAID_LV+"부터 · 층을 돌파할 때마다 저장 (같은 공격대원 4명이 그대로일 때만 이어서) · 10층을 돌파하면 다시 1층부터 · 바벨의 파편은 10층에서만 각자 낮은 확률로"}));
  const sv=me.rsv&&me.rsv.fl?me.rsv.fl+"층까지 돌파 (그때 공격대원 그대로일 때 이어서)":"없음";box.append(h("div",{c:"xs",style:"margin:6px 0",t:"내 저장: "+sv}));
  if((me.lv||1)<RAID_LV){box.append(h("p",{c:"bad sm",t:"Lv"+RAID_LV+"부터 도전할 수 있습니다 (지금 Lv"+me.lv+")"}));return box}
  const p=myRP();
@@ -2806,7 +2823,15 @@ let bagOn=false;
 let bagY=0;function bagFill(){const b=$("#popb");if(!b.__bs){b.__bs=1;b.addEventListener("scroll",()=>{if(b.querySelector(".bagpop"))bagY=b.scrollTop},{passive:true})}const y=b.querySelector(".bagpop")?b.scrollTop:bagY;b.textContent="";ap(b,[h("div",{c:"bagpop"},h("div",{c:"row sb",style:"align-items:center;margin-bottom:6px"},h("div",{c:"h0",style:"margin:0",t:"가방"}),btn("닫기",closeBag,"sm")),...invBoxes(bagFill))]);b.scrollTop=y}
 function closeBag(){bagOn=false;const t=$("#btab");if(t)t.classList.remove("act");closePop()}
 function openBag(){if(!me)return;if(bagOn&&$("#pop").style.display==="flex")return closeBag();bagOn=true;bagY=0;$("#pop").style.display="flex";bagFill();const t=$("#btab");if(t)t.classList.add("act")}
-function initBag(){if($("#btab"))return;const t=h("button",{id:"btab",type:"button","aria-label":"가방",onclick:openBag},svgI("M8 8V6.5a4 4 0 0 1 8 0V8M5.5 8h13l-1 12.2a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3zM9 12h6M5.8 12.5h2M16.2 12.5h2"));document.body.append(t)}
+function initBag(){if($("#btab"))return;const t=h("button",{id:"btab",type:"button","aria-label":"가방",onclick:()=>{if(Date.now()-btEnd<250)return;openBag()}},svgI("M8 8V6.5a4 4 0 0 1 8 0V8M5.5 8h13l-1 12.2a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3zM9 12h6M5.8 12.5h2M16.2 12.5h2"));document.body.append(t)
+ /* PC: 끌어서 옮기기 (삐삐 탭과 같은 방식 · 위치 기억) */let st=null,moved=false;try{btPos=JSON.parse(localStorage.getItem("af_btab")||"null")}catch(_){}
+ t.addEventListener("pointerdown",e=>{if(TAB_DOCK)return;const r=t.getBoundingClientRect();st={x:e.clientX,y:e.clientY,l:r.left,tp:r.top};moved=false;try{t.setPointerCapture(e.pointerId)}catch(_){}});
+ t.addEventListener("pointermove",e=>{if(!st||TAB_DOCK)return;const dx=e.clientX-st.x,dy=e.clientY-st.y;if(!moved&&Math.hypot(dx,dy)<8)return;if(!moved){moved=true;t.classList.add("drag")}btPos={x:(st.l+dx)/innerWidth,y:(st.tp+dy)/innerHeight,side:null};applyBtab()});
+ const end=()=>{t.classList.remove("drag");if(st&&moved){btEnd=Date.now();const r=t.getBoundingClientRect();if(r.left<40||r.right>innerWidth-40){btPos.side=r.left+r.width/2<innerWidth/2?"l":"r";applyBtab()}try{localStorage.setItem("af_btab",JSON.stringify(btPos))}catch(_){}}st=null};
+ t.addEventListener("pointerup",end);t.addEventListener("pointercancel",end);addEventListener("resize",applyBtab);applyBtab()}
+let btPos=null,btEnd=0;
+function applyBtab(){const t=$("#btab");if(!t)return;if(TAB_DOCK||!btPos){t.classList.remove("free","sl","sr");t.style.left=t.style.top="";return}t.classList.add("free");t.classList.toggle("sl",btPos.side==="l");t.classList.toggle("sr",btPos.side==="r");
+ const W=innerWidth,H=innerHeight,w=t.offsetWidth||44,hh=t.offsetHeight||60;t.style.left=(btPos.side==="l"?0:btPos.side==="r"?W-w:Math.round(Math.max(2,Math.min(W-w-2,btPos.x*W))))+"px";t.style.top=Math.round(Math.max(2,Math.min(H-hh-2,btPos.y*H)))+"px"}
 function eqpPop(){openPop(h("div",{c:"h0",t:"장비 프리셋"}),h("p",{c:"xs mt",style:"margin:0 0 8px",t:"지금 입은 장비를 저장해 두고 한 번에 갈아입습니다 · 채집·제작할 때는 「채집·제작」에 도구와 장비를 저장해 두십시오"}),
  ...EQP_N.map((n,i)=>{const P=(me.eqp||[])[i],cnt=P?Object.keys(P.eq||{}).length:0;return h("div",{c:"lrow"},h("div",{c:"grow"},h("b",{c:"sm",t:n+" 프리셋"}),h("div",{c:"xs mt",t:P?"장비 "+cnt+"개 · "+Object.values(P.eq||{}).map(x=>IT[x.id]?IT[x.id].n:"?").slice(0,4).join(", ")+(cnt>4?" …":""):"비어 있음"})),btn("저장",()=>wrap(async()=>{await eqpSave(i);eqpPop()}),"sm"),btn("착용",()=>wrap(async()=>{await eqpUse(i);eqpPop()}),"pri sm",{disabled:!P}))}),
  btn("닫기",closePop,"full",{style:"margin-top:10px"}))}
@@ -3002,7 +3027,6 @@ function rGuild(v){needWar();
   dv.append(h("p",{c:"sm mt",t:"납품처 "+DLV[g.dlv].n+" → "+DLV[g.dlv].atn+" · 길드 명성 "+repOf(g)+" / 100"}),h("div",{c:"sm",style:"margin:8px 0 4px;font-weight:700",t:"이번 주 납품 지원 명단 · "+done.length+"/"+g.members.length+"명"}));
   const lst=h("div",{c:"dlwl"});done.sort((a,b)=>(D[b].n||0)-(D[a].n||0)).forEach(id=>{const c=id===uid?me:chars[id];lst.append(h("div",{c:"row sb sm",style:"padding:2px 0"},h("span",{t:(c?c.name:"?")+(id===uid?" (나)":"")}),h("span",{c:"gold",t:"납품 "+(D[id].n||0)+"회 · 명성 +"+(D[id].r||0)})))});
   if(!done.length)lst.append(h("p",{c:"xs mt",t:"이번 주에 아직 납품한 길드원이 없습니다."}));dv.append(lst);
-  if(yet.length)dv.append(h("p",{c:"xs mt",style:"margin:6px 0 0",t:"아직: "+yet.map(id=>(id===uid?me:chars[id]||{}).name||"?").join(", ")}));
   dv.append(h("p",{c:"xs mt",style:"margin:6px 0 0",t:"매주 월요일 0시에 새로 셉니다 · 명성은 납품으로만 회복됩니다"}))}
  {const p=h("div",{c:"pair2 gdn"});p.append(dv,trainBox(g));v.append(p)}
  v.append(gMemCard(g));
@@ -3442,7 +3466,7 @@ function openBoard(k){if(k==="ho")return openPhone("hon");boardV=k;bd={k,list:nu
 function bdRe(){if(bd&&bd.ph){if(phoneOn&&ph.scr==="hon")phRender()}else render(true)}
 function honOpen(post){bd={k:"ho",list:null,post:null,cm:null,reply:null,img:{},ph:1};honSeen();bdLoad().then(()=>{if(post)bdOpen(post)})}
 async function bdLoad(){const k=bd.k;try{if(k==="ops"){const q=await db.collection("fbk").where("pub","==",true).get();bd.list=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>(b.rt||b.t)-(a.rt||a.t))}
- else{const q=await db.collection("ho").orderBy("t","desc").limit(80).get();bd.list=q.docs.map(d=>Object.assign({id:d.id},d.data()))}}catch(e){bd.list=bd.list||[];toast("게시판을 불러오지 못했습니다")}if(boardV===k||bd.ph)bdRe()}
+ else{const q=await db.collection("ho").orderBy("t","desc").limit(120).get();bd.list=q.docs.map(d=>Object.assign({id:d.id},d.data())).filter(x=>x.bd!=="rp").slice(0,80)}}catch(e){bd.list=bd.list||[];toast("게시판을 불러오지 못했습니다")}if(boardV===k||bd.ph)bdRe()}
 async function bdOpen(id){bd.post=id;bd.cm=null;bd.reply=null;bdRe();try{const q=await db.collection("hoc").where("post","==",id).get();bd.cm=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>a.t-b.t)}catch(e){bd.cm=[]}if((boardV==="ho"||bd.ph)&&bd.post===id)bdRe()}
 function bdImg(id){if(bd.img[id]!==undefined)return bd.img[id];bd.img[id]=null;db.doc("hoimg/"+id).get().then(d=>{bd.img[id]=d.exists?d.data().d:"";const e=document.querySelector('[data-hoimg="'+id+'"]');if(e&&bd.img[id])e.src=bd.img[id]}).catch(()=>{bd.img[id]=""});return null}
 function readImgBig(f){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const M=1080,k=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);
@@ -3492,6 +3516,85 @@ function hoForm(x){const ti=h("input",{autocomplete:"off",maxlength:40,placehold
    if(x){(x.imgs||[]).filter(i=>!keep.includes(i)).forEach(i=>db.doc("hoimg/"+i).delete().catch(()=>{}));const p={title:tt.slice(0,40),text:tx.slice(0,2000),imgs:keep.concat(ids),ed:Date.now()};await db.doc("ho/"+x.id).update(p);Object.assign(x,p);toast("글을 고쳤어요")}
    else{const d={t:Date.now(),by:uid,name:me.name,title:tt.slice(0,40),text:tx.slice(0,2000),imgs:ids,nc:0};const r=await db.collection("ho").add(d);(bd.list=bd.list||[]).unshift(Object.assign({id:r.id},d));toast("글을 올렸습니다")}
    hoClose()}),"pri grow"))];if(bd.ph){bd.form=FORM;return bdRe()}openPop(...FORM)}
+/* ===== 커뮤니티 · RP ROOM (2026-11-28): 로그 · 역극 · 캐릭터 설정 · 자유글 / 댓글 · 답글 · 사진 · 댓글 막기
+   저장: 헌터 온라인과 같은 컬렉션(ho · hoc · hoimg)에 bd:"rp" 표시로 따로 모음 → 보안 규칙 그대로 ===== */
+const RPK=[["free","자유"],["log","로그"],["rp","역극"],["set","캐릭터 설정"]],rpkN=k=>(RPK.find(x=>x[0]===k)||RPK[0])[1];
+let rr={list:null,post:null,cm:null,reply:null,cat:"all",arm:null,ed:null,form:null,cimg:null,busy:0};
+const rrSeenK=()=>"af_rrseen_"+uid,rrSeen=()=>{try{return +localStorage.getItem(rrSeenK())||0}catch(e){return 0}};
+let rrNt=[];const rrNew=()=>{const s=rrSeen();return rrNt.filter(x=>x.t>s).length};
+async function rrLoad(){try{const q=await db.collection("ho").where("bd","==","rp").limit(150).get();rr.list=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>(b.ut||b.t)-(a.ut||a.t))}catch(e){rr.list=rr.list||[];toast("RP ROOM을 불러오지 못했습니다")}if(tab==="comm"&&hubTab==="rproom")render(true)}
+async function rrOpen(id){rr.post=id;rr.cm=null;rr.reply=null;rr.cimg=null;render(true);try{const q=await db.collection("hoc").where("post","==",id).get();rr.cm=q.docs.map(d=>Object.assign({id:d.id},d.data())).sort((a,b)=>a.t-b.t)}catch(e){rr.cm=[]}if(rr.post===id)render(true)}
+const rrImgEl=(id,cls)=>{const u=bdImg2(id);return h("img",{c:cls||"bdimg","data-hoimg":id,src:u||"data:image/gif;base64,R0lGODlhAQABAAAAACw=",alt:"",onclick:e=>{const s=e.target.src;if(s.length>200)openPop(h("img",{src:s,style:"width:100%;border-radius:6px"}),btn("닫기",closePop,"full",{style:"margin-top:8px"}))}})};
+const rrImgC={};function bdImg2(id){if(bd&&bd.img&&bd.img[id])return bd.img[id];if(rrImgC[id]!==undefined)return rrImgC[id];rrImgC[id]=null;db.doc("hoimg/"+id).get().then(d=>{rrImgC[id]=d.exists?d.data().d:"";document.querySelectorAll('[data-hoimg="'+id+'"]').forEach(e=>{if(rrImgC[id])e.src=rrImgC[id]})}).catch(()=>{rrImgC[id]=""});return null}
+function rrLogEl(L){if(!L||!L.length)return null;const b=h("div",{c:"rplog"},h("div",{c:"rplh",t:"LOG · "+L.length+"줄"}));L.forEach(m=>b.append(h("div",{c:"rpll"},h("b",{t:m.n||"?"}),h("span",{t:m.x||""}))));return b}
+function rRpRoom(v){v.className="commv rproom";
+ if(rr.list===null){rr.list=undefined;rrLoad()}
+ try{localStorage.setItem(rrSeenK(),String(Date.now()))}catch(e){}
+ if(rr.post)return rrPost(v);
+ const top=h("div",{c:"card"},h("div",{c:"row sb",style:"align-items:center;gap:8px"},h("h3",{style:"margin:0",t:"RP ROOM"}),h("span",{c:"row",style:"gap:6px"},btn("새로고침",()=>{rr.list=undefined;rrLoad();render(true)},"sm"),btn("글쓰기",()=>rrForm(null),"pri sm"))),
+  h("p",{c:"xs mt",style:"margin:6px 0 8px",t:"로그 · 역극 · 캐릭터 설정을 올리고 댓글 · 답글로 함께 노는 곳입니다 · 사진은 글에 4장, 댓글에 1장까지"}));
+ const sg=h("div",{c:"seg"});[["all","전체"]].concat(RPK).forEach(([k,n])=>sg.append(h("button",{c:rr.cat===k?"on":"",t:n,onclick:()=>{rr.cat=k;render(true)}})));top.append(sg);v.append(top);
+ if(!rr.list)return v.append(h("p",{c:"sm mt",t:"불러오는 중…"}));
+ const L=rr.list.filter(x=>rr.cat==="all"||(x.cat||"free")===rr.cat);if(!L.length)return v.append(h("div",{c:"card"},h("p",{c:"sm mt",t:"아직 올라온 글이 없습니다. 첫 글을 남겨 보십시오."})));
+ L.forEach(x=>{const c=x.by===uid?me:chars[x.by];v.append(h("button",{type:"button",c:"card bdi rpi",onclick:()=>rrOpen(x.id)},
+  h("div",{c:"row",style:"gap:6px;align-items:center;min-width:0"},h("span",{c:"rptag k-"+(x.cat||"free"),t:rpkN(x.cat)}),h("b",{c:"bdti grow",t:x.title||"(제목 없음)"}),x.lock?h("span",{c:"xs mt",t:"댓글 막힘"}):null),
+  h("div",{c:"xs mt"},c?titleEl(c,1):null,(x.name||"헌터")+" · "+bdT(x.t)+((x.imgs||[]).length?" · 사진 "+x.imgs.length:"")+((x.log||[]).length?" · 로그 "+x.log.length+"줄":"")+(x.nc?" · 댓글 "+x.nc:"")+(x.ed?" · 수정됨":""))))})}
+function rrPost(v){const x=(rr.list||[]).find(p=>p.id===rr.post);if(!x){v.append(btn("← 목록",()=>{rr.post=null;render(true)},"sm"),h("p",{c:"sm mt",t:"글을 찾을 수 없습니다."}));return}const c=x.by===uid?me:chars[x.by],mine=x.by===uid,adm=isAdm();
+ v.append(h("div",{c:"row",style:"gap:6px;margin-bottom:8px;align-items:center"},btn("← 목록",()=>{rr.post=null;rr.cm=null;render(true)},"sm"),h("span",{c:"grow"}),btn("새로고침",()=>rrOpen(x.id),"sm")));
+ const card=h("div",{c:"card"},h("div",{c:"row",style:"gap:6px;align-items:center"},h("span",{c:"rptag k-"+(x.cat||"free"),t:rpkN(x.cat)}),h("h3",{style:"margin:0",t:x.title||"(제목 없음)"})),
+  h("div",{c:"xs mt",style:"cursor:pointer;margin-top:4px",onclick:()=>chars[x.by]&&profPop(x.by)},c?titleEl(c,1):null,(x.name||"헌터")+" · "+bdT(x.t)+(x.ed?" · 수정됨":"")),
+  x.text?h("div",{c:"bdtx",t:x.text}):null,rrLogEl(x.log));
+ (x.imgs||[]).forEach(id=>card.append(rrImgEl(id)));
+ if(mine||adm)card.append(h("div",{c:"row",style:"gap:6px;margin-top:8px;justify-content:flex-end;flex-wrap:wrap"},
+  mine?btn(x.lock?"댓글 막기 풀기":"댓글 막기",()=>wrap(async()=>{const lk=!x.lock;await db.doc("ho/"+x.id).update({lock:lk});x.lock=lk;toast(lk?"이 글에 댓글을 달 수 없게 했습니다":"댓글을 다시 달 수 있습니다");render(true)}),"sm"):null,
+  mine?btn("수정",()=>rrForm(x),"sm"):null,
+  btn(rr.arm==="p"+x.id?"정말 삭제":"삭제",()=>wrap(async()=>{if(rr.arm!=="p"+x.id){rr.arm="p"+x.id;return render(true)}await db.doc("ho/"+x.id).delete();(x.imgs||[]).forEach(i=>db.doc("hoimg/"+i).delete().catch(()=>{}));(rr.cm||[]).forEach(q=>{db.doc("hoc/"+q.id).delete().catch(()=>{});if(q.img)db.doc("hoimg/"+q.img).delete().catch(()=>{})});rr.list=rr.list.filter(p=>p.id!==x.id);rr.post=null;rr.arm=null;toast("글을 삭제했습니다");render(true)}),"sm")));
+ v.append(card);
+ const cm=h("div",{c:"card"},h("h3",{t:"댓글 "+(rr.cm?rr.cm.length:"")}));v.append(cm);
+ if(rr.cm===null){cm.append(h("p",{c:"sm mt",t:"불러오는 중…"}));return}
+ const sub=p=>rr.cm.filter(q=>q.par===p),desc=id=>{const o=[];sub(id).forEach(z=>{o.push(z);o.push(...desc(z.id))});return o};
+ const one=(q,dep)=>{const rep=dep>0,cc=q.by===uid?me:chars[q.by],pq=rep?rr.cm.find(z=>z.id===q.par):null,el=h("div",{c:"bdc"+(rep?" rep":""),style:rep?"margin-left:"+(Math.min(dep,4)*14)+"px":null},h("div",{c:"xs"},cc?titleEl(cc,1):null,h("b",{style:"cursor:pointer",t:q.name||"헌터",onclick:()=>chars[q.by]&&profPop(q.by)}),h("span",{c:"mt",t:(dep>1&&pq?" ↳ "+(pq.name||"헌터"):"")+" · "+bdT(q.t)+(q.ed?" · 수정됨":"")})));
+  if(rr.ed==="c"+q.id){const ta=h("textarea",{autocomplete:"off",rows:2,maxlength:1000});ta.value=q.text||"";el.append(ta,h("div",{c:"row",style:"gap:6px;margin-top:4px;justify-content:flex-end"},btn("취소",()=>{rr.ed=null;render(true)},"sm"),btn("저장",()=>wrap(async()=>{const t=ta.value.trim();if(!t&&!q.img)return;await db.doc("hoc/"+q.id).update({text:t.slice(0,1000),ed:Date.now()});q.text=t;q.ed=Date.now();rr.ed=null;render(true)}),"pri sm")));return el}
+  el.append(q.text?h("div",{c:"bdct",t:q.text}):null,q.img?rrImgEl(q.img,"bdimg rpcimg"):null,h("div",{c:"row bdca"},x.lock?null:h("button",{type:"button",c:"lnk",t:"답글",onclick:()=>{rr.reply=q.id;render(true);setTimeout(()=>{const i=$("#rrcin");if(i)i.focus()},50)}}),q.by===uid?h("button",{type:"button",c:"lnk",t:"수정",onclick:()=>{rr.ed="c"+q.id;render(true)}}):null,
+   (q.by===uid||adm||mine)&&(q.by===uid||adm)?h("button",{type:"button",c:"lnk",t:rr.arm==="c"+q.id?"정말 삭제":"삭제",onclick:()=>wrap(async()=>{if(rr.arm!=="c"+q.id){rr.arm="c"+q.id;return render(true)}const D=desc(q.id);await db.doc("hoc/"+q.id).delete();if(q.img)db.doc("hoimg/"+q.img).delete().catch(()=>{});D.forEach(z=>{db.doc("hoc/"+z.id).delete().catch(()=>{});if(z.img)db.doc("hoimg/"+z.img).delete().catch(()=>{})});const del=new Set([q.id,...D.map(z=>z.id)]);rr.cm=rr.cm.filter(z=>!del.has(z.id));await rrNc(x);render(true)})}):null));return el};
+ const tops=rr.cm.filter(q=>!q.par);if(!tops.length)cm.append(h("p",{c:"sm mt",t:x.lock?"댓글이 없습니다.":"첫 댓글을 남겨 보십시오."}));
+ const tree=(q,d)=>{cm.append(one(q,d));sub(q.id).forEach(r=>tree(r,d+1))};tops.forEach(q=>tree(q,0));
+ if(x.lock){cm.append(h("p",{c:"xs mt",style:"margin-top:10px",t:"🔒 글쓴이가 댓글을 막아 둔 글입니다."}));return}
+ const rp=rr.reply&&rr.cm.find(q=>q.id===rr.reply),ta=h("textarea",{autocomplete:"off",id:"rrcin",rows:2,maxlength:1000,placeholder:rp?(rp.name||"헌터")+"에게 답글":"댓글 달기"});
+ const pv=h("div",{c:"bdpv"});if(rr.cimg)pv.append(h("div",{c:"bdth"},h("img",{src:rr.cimg,alt:""}),h("button",{type:"button",t:"×",onclick:()=>{rr.cimg=null;render(true)}})));
+ const fi=h("input",{type:"file",accept:"image/*",style:"display:none",onchange:async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;const keep=ta.value;try{rr.cimg=await readImgBig(f)}catch(_){toast("사진을 읽지 못했습니다")}render(true);setTimeout(()=>{const i=$("#rrcin");if(i)i.value=keep},0)}});
+ cm.append(h("div",{style:"margin-top:8px"},rp?h("div",{c:"xs mt",style:"margin-bottom:3px"},"↳ "+(rp.name||"헌터")+"에게 답글 · ",h("button",{type:"button",c:"lnk",t:"취소",onclick:()=>{rr.reply=null;render(true)}})):null,ta,pv,fi,
+  h("div",{c:"row",style:"gap:6px;margin-top:6px"},btn(rr.cimg?"사진 바꾸기":"사진 1장",()=>fi.click(),"sm"),btn("등록",()=>wrap(async()=>{const t=ta.value.trim();if(!t&&!rr.cimg)return toast("내용이나 사진을 넣어 주십시오");let img="";if(rr.cimg){const r=await db.collection("hoimg").add({t:Date.now(),by:uid,d:rr.cimg});img=r.id;rrImgC[r.id]=rr.cimg}
+   const d={t:Date.now(),by:uid,name:me.name,post:x.id,par:rp?rp.id:"",text:t.slice(0,1000),img,to:rp?rp.by:x.by,pt:(x.title||"").slice(0,40),bd:"rp"};const r=await db.collection("hoc").add(d);rr.cm.push(Object.assign({id:r.id},d));rr.reply=null;rr.cimg=null;await rrNc(x);render(true)}),"pri grow"))))}
+async function rrNc(x){const n=(rr.cm||[]).length;x.nc=n;try{await db.doc("ho/"+x.id).update({nc:n})}catch(e){}}
+/* 로그 불러오기: 내 대화(지역 · 전체 · 1:1 · 단체 · 휴대폰 문자)에서 최근 N줄 */
+function rrLogSrc(){const S=[["rp","지역 채팅 · "+(REG[me.loc]||{n:""}).n],["wc","전체 채팅"]];
+ dmPartners(true).forEach(id=>chars[id]&&S.push(["hdm:"+id,"1:1 · "+chars[id].name]));myGroups(false,true).forEach(id=>groups[id]&&S.push(["hgrp:"+id,"단체 · "+groups[id].name]));
+ try{dmPartners(false).forEach(id=>chars[id]&&S.push(["dm:"+id,"문자 · "+chars[id].name]))}catch(e){}try{myGroups(false,false).forEach(id=>groups[id]&&S.push(["grp:"+id,"휴대폰 단체 · "+groups[id].name]))}catch(e){}return S}
+function rrLogPick(cb){const S=rrLogSrc(),sel=h("select",{},...S.map(([k,n])=>h("option",{value:k,t:n}))),ns=h("select",{},...[10,20,30,50,100].map(n=>h("option",{value:n,t:"최근 "+n+"줄"})));ns.value="30";
+ const pv=h("div",{c:"rplog",style:"max-height:240px;overflow:auto;margin-top:8px"});let cur=[];
+ const draw=()=>{const rws=roomRows(sel.value).filter(m=>m&&m.text&&m.kind!=="sys"&&!m.del);cur=rws.slice(-(+ns.value)).map(m=>({n:(m.name||(chars[m.uid||m.from]||{}).name||"?").slice(0,20),x:String(m.text).slice(0,400)}));pv.textContent="";if(!cur.length)pv.append(h("div",{c:"xs mt",t:"불러올 대화가 없습니다."}));cur.forEach(m=>pv.append(h("div",{c:"rpll"},h("b",{t:m.n}),h("span",{t:m.x}))))};
+ sel.onchange=draw;ns.onchange=draw;draw();
+ openPop(h("div",{c:"h0",t:"로그 불러오기"}),h("p",{c:"xs mt",style:"margin:0 0 6px",t:"내가 볼 수 있는 대화에서 최근 줄을 가져와 글에 붙입니다 · 붙인 뒤 글쓰기 화면에서 지울 수 있습니다"}),sel,h("div",{style:"height:6px"}),ns,pv,
+  h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",()=>{closePop();cb(null)},"grow"),btn("붙이기",()=>{closePop();cb(cur)},"pri grow")))}
+function rrForm(x){const st=rr.form&&rr.form.x===x?rr.form:{x,cat:x?x.cat||"free":(rr.cat!=="all"?rr.cat:"free"),title:x?x.title||"":"",text:x?x.text||"":"",log:x?(x.log||[]).slice():[],keep:x?(x.imgs||[]).slice():[],add:[],lock:x?!!x.lock:false};rr.form=st;
+ const ti=h("input",{autocomplete:"off",maxlength:50,placeholder:"제목",value:st.title,oninput:e=>{st.title=e.target.value}}),ta=h("textarea",{autocomplete:"off",rows:8,maxlength:5000,placeholder:"내용 (역극 · 설정 · 이야기)",oninput:e=>{st.text=e.target.value}});ta.value=st.text;
+ const cs=h("div",{c:"seg"});RPK.forEach(([k,n])=>cs.append(h("button",{c:st.cat===k?"on":"",t:n,onclick:()=>{st.cat=k;[...cs.children].forEach((b,i)=>b.classList.toggle("on",RPK[i][0]===k))}})));
+ const lg=h("div",{}),pv=h("div",{c:"bdpv"});
+ const drawLog=()=>{lg.textContent="";if(!st.log.length)return;const b=rrLogEl(st.log);b.style.maxHeight="200px";b.style.overflow="auto";lg.append(b,h("div",{c:"row",style:"justify-content:flex-end;margin-top:4px"},btn("로그 지우기",()=>{st.log=[];drawLog()},"sm")))};
+ const drawImg=()=>{pv.textContent="";st.keep.forEach(id=>pv.append(h("div",{c:"bdth"},rrImgEl(id,""),h("button",{type:"button",t:"×",onclick:()=>{st.keep=st.keep.filter(z=>z!==id);drawImg()}}))));st.add.forEach((u,i)=>pv.append(h("div",{c:"bdth"},h("img",{src:u,alt:""}),h("button",{type:"button",t:"×",onclick:()=>{st.add.splice(i,1);drawImg()}}))))};drawLog();drawImg();
+ const fi=h("input",{type:"file",accept:"image/*",multiple:true,style:"display:none",onchange:async e=>{for(const f of [...e.target.files]){if(st.keep.length+st.add.length>=4){toast("사진은 4장까지");break}try{st.add.push(await readImgBig(f))}catch(_){toast("사진을 읽지 못했습니다")}}e.target.value="";drawImg()}});
+ const lk=h("input",{type:"checkbox",style:"width:18px;height:18px;flex:none;margin:0",onchange:e=>{st.lock=e.target.checked}});lk.checked=st.lock;
+ const close=()=>{rr.form=null;closePop()};
+ openPop(h("div",{c:"h0",t:x?"글 수정":"RP ROOM 글쓰기"}),cs,h("div",{style:"height:6px"}),ti,h("div",{style:"height:6px"}),ta,lg,pv,fi,
+  h("div",{c:"row",style:"gap:6px;margin-top:6px;flex-wrap:wrap"},btn("로그 불러오기",()=>{st.title=ti.value;st.text=ta.value;rrLogPick(L=>{if(L&&L.length){st.log=st.log.concat(L).slice(-200);if(st.cat==="free")st.cat="log"}rrForm(x)})},"grow"),btn("사진 넣기 (4장)",()=>fi.click(),"grow")),
+  h("label",{style:"display:flex;gap:8px;align-items:center;margin-top:10px;cursor:pointer"},lk,h("span",{c:"sm",style:"flex:1;min-width:0;text-align:left",t:"댓글 막기 (다른 사람이 댓글을 달 수 없음)"})),
+  h("div",{c:"row",style:"gap:6px;margin-top:10px"},btn("취소",close,"grow"),btn(x?"수정하기":"올리기",()=>wrap(async()=>{const tt=ti.value.trim(),tx=ta.value.trim();if(!tt)return toast("제목을 적어 주십시오");if(!tx&&!st.log.length&&!st.keep.length&&!st.add.length)return toast("내용 · 로그 · 사진 중 하나는 넣어 주십시오");
+   const ids=[];for(const u of st.add){const r=await db.collection("hoimg").add({t:Date.now(),by:uid,d:u});ids.push(r.id);rrImgC[r.id]=u}
+   const base={cat:st.cat,title:tt.slice(0,50),text:tx.slice(0,5000),log:st.log.slice(-200),imgs:st.keep.concat(ids),lock:!!st.lock,ut:Date.now()};
+   if(x){(x.imgs||[]).filter(i=>!st.keep.includes(i)).forEach(i=>db.doc("hoimg/"+i).delete().catch(()=>{}));const p=Object.assign(base,{ed:Date.now()});await db.doc("ho/"+x.id).update(p);Object.assign(x,p);toast("글을 고쳤습니다")}
+   else{const d=Object.assign({t:Date.now(),by:uid,name:me.name,nc:0,bd:"rp"},base);const r=await db.collection("ho").add(d);(rr.list=rr.list||[]).unshift(Object.assign({id:r.id},d));toast("글을 올렸습니다")}
+   close();render(true)}),"pri grow")))}
 function hoClose(){if(bd.ph){bd.form=null;bdRe()}else{closePop();render(true)}}
 /* ===== 채팅 수정: 내 글을 꾹 누르면 [수정하기] ===== */
 const MCOL={rpo:"rp",hdmo:"dm",hgrpo:"gmsg",rp:"rp",wc:"wchat",oc:"ochat",pwc:"wchat",poc:"ochat",g:"gchat",owner:"gchat",pt:"pchat",grp:"gmsg",hgrp:"gmsg",dm:"dm",hdm:"dm"};
@@ -5029,7 +5132,7 @@ async function gateStep(){if(hospBlock())return;const id=me.sg,g=gateById(id);if
  if(d>GX_STEPS){await upd(p);toast("게이트 심부에 도착했다… 거대한 기척이 다가온다");return startGateBattle({id,kind:g.kind,boss:1})}
  let msg="심부로 나아갔다 ("+d+"/"+GX_STEPS+")";if(rf()<GX_FIND*luckF(me)){const inv={...me.inv},it=rf()<.5?"will":"relic",w0=it==="will"?willsOf():null,wn=it==="will"?newWill():0;if(addInv(inv,it,1)){p.inv=inv;if(it==="will")p.wills=w0.concat([wn]);msg+=" · "+(it==="will"?"쓰러진 헌터 곁에서 낡은 유언장을 발견했다":"쓰러진 헌터의 유품을 발견했다")}}
  if(d===2){const R0=REG[g.reg||nearReg(g.x,g.y)],res=R0&&R0.res?medW(R0.res):[["scrap",3],["wire",2],["cloth",2],["glass",2],["herb",2]],inv=p.inv||{...me.inv},got={};
-  const gn=gMatN();for(let i=0;i<gn;i++){const it=pickW(res),q=addInv(inv,it,1);if(q)got[it]=(got[it]||0)+q}p.inv=inv;const gs=Object.entries(got).map(([k,q])=>IT[k].n+" ×"+q).join(", ");msg+=gs?" · 무너진 틈에서 "+gs+"을(를) 주웠다":gn?" · 가방이 가득 차 아무것도 줍지 못했다":" · 무너진 틈을 뒤졌지만 쓸 만한 건 없었다"}
+  const gn=gMatN();for(let i=0;i<gn;i++){const it=pickW(res),q=addInv(inv,it,1);if(q)got[it]=(got[it]||0)+q}p.inv=inv;const gs=Object.entries(got).map(([k,q])=>iq(k,q)).join(", ");msg+=gs?" · 무너진 틈에서 "+gs+"을(를) 주웠다":gn?" · 가방이 가득 차 아무것도 줍지 못했다":" · 무너진 틈을 뒤졌지만 쓸 만한 건 없었다"}
  await upd(p);toast(msg);if(d===1||d===fb){setTimeout(()=>{if(!inB())startGateBattle({id,kind:g.kind,mob:1})},500)}else render(true)}
 /* ===== 유언장 · 유품 ===== */
 IT.will={n:"이름 모를 헌터의 유언장",d:"게이트 안에서 발견한 접힌 종이. 읽어 볼 수 있고, 협회에 납품하면 명성 +10 · 보상금 1,500환을 받습니다. (숙소 → 우편함 → 보내기)"};
@@ -5235,7 +5338,7 @@ const craftBad=need=>rf()<craftRate(me)?null:(fbOn("cm")?{}:matTake(need,1));
 const craftW=c=>{const s=c&&c.s?es(c,5):0;return[[0,100],[1,12+s*.8],[2,2+s*.25],[3,.3+s*.06]]};
 function craftRar(f,key){let r=Math.max(f||0,pickW(craftW(me)));const up=Math.floor((es(me,6)||0)/5)*.03+jobBonus(key||"smith")+jobEq("cb")+(fbOn("cu")?.05:0);if(r<3&&rf()<up)r++;return r}/* 지식 5포인트마다 +3% · 제작 직업 레벨 10마다 +5% 확률로 한 등급 위 */
 const crCnt=(p,g)=>{if(g.r>=2)cntAdd(p,"crR");if(g.r>=3)cntAdd(p,"crL");return p};
-function toastC(g){toast("제작 완료! ["+RAR[g.r].n+"] "+IT[g.id].n);const t=$("#toast");t.style.borderColor=RAR[g.r].c;t.style.color=RAR[g.r].c;setTimeout(()=>{t.style.borderColor="";t.style.color=""},3300)}
+function toastC(g){toast("제작 완료! "+gq(g));const t=$("#toast");t.style.borderColor=RAR[g.r].c;t.style.color=RAR[g.r].c;setTimeout(()=>{t.style.borderColor="";t.style.color=""},3300)}
 const FAILT=()=>"제작 실패… 재료 절반을 잃었습니다 (성공률 "+Math.round(craftRate(me)*100)+"%)";
 async function stoMove(id,n,put){if(!atSto())return toast("보관함은 "+stoWhere()+"에서만 쓸 수 있습니다");const inv={...me.inv},st={...(me.store||{})},from=put?inv:st,to=put?st:inv;n=Math.min(n,from[id]||0);if(n<=0)return;
  const k=put?addTo(to,id,n,stoCap(),1e9):addTo(to,id,n,cap());if(k<=0)return toast(put?"보관함이 가득 찼습니다":"가방이 가득 찼습니다");from[id]-=k;if(!from[id])delete from[id];
@@ -7312,8 +7415,9 @@ function hubPanel(force){let P=$("#hubp");document.body.classList.toggle("hubo",
  const ov=$("#hubp #msg"),pv=ov?ov.value:"",pk=P.dataset.k||"";P.style.display="flex";P.textContent="";const inn=h("div",{c:"hubin"});P.append(inn);rChatHub(inn);inn.classList.add("hubin");P.dataset.k=curK();const nm=$("#hubp #msg");if(nm&&pv&&pk===P.dataset.k)nm.value=pv}
 /* ===== 커뮤니티 (메뉴): 개인(1:1) · 단체 · 전체 · 지역 — 휴대폰 문자 · 단체방과는 별개 ===== */
 function rComm(v){v.classList.add("commv");rChatHub(v)}
-function rChatHub(v){v.className="chat commv";const sg=h("div",{c:"seg",style:"margin-bottom:8px"});[["wc","전체"],["rp","지역"],["dm","1:1"],["grp","단체"]].forEach(([k,n])=>{const u=k==="wc"?unreadOf("wc"):k==="rp"?unreadOf("rp"):k==="dm"?dmPartners(true).reduce((a,id)=>a+unreadOf("hdm:"+id),0):myGroups(false,true).reduce((a,id)=>a+unreadOf("hgrp:"+id),0);sg.append(h("button",{c:hubTab===k?"on":"",t:n+(u&&hubTab!==k?" "+u:""),onclick:()=>{hubTab=k;hubDm=null;hubGrp=null;hubNew=false;ocOn=false;render(true)}}))});
- v.append(h("div",{c:"row",style:"margin-bottom:8px;gap:8px;align-items:center"},h("b",{t:"커뮤니티 · "+({dm:"개인",grp:"단체",wc:"전체",rp:"지역"}[hubTab]||"")}),h("span",{c:"grow"}),h("span",{c:"xs mt",t:"접속 "+online.size+"명 · 휴대폰 문자와는 별개"})));
+function rChatHub(v){v.className="chat commv";const sg=h("div",{c:"seg",style:"margin-bottom:8px"});[["wc","전체"],["rp","지역"],["dm","1:1"],["grp","단체"],["rproom","RP ROOM"]].forEach(([k,n])=>{const u=k==="rproom"?rrNew():k==="wc"?unreadOf("wc"):k==="rp"?unreadOf("rp"):k==="dm"?dmPartners(true).reduce((a,id)=>a+unreadOf("hdm:"+id),0):myGroups(false,true).reduce((a,id)=>a+unreadOf("hgrp:"+id),0);sg.append(h("button",{c:hubTab===k?"on":"",t:n+(u&&hubTab!==k?" "+u:""),onclick:()=>{hubTab=k;hubDm=null;hubGrp=null;hubNew=false;ocOn=false;render(true)}}))});
+ v.append(h("div",{c:"row",style:"margin-bottom:8px;gap:8px;align-items:center"},h("b",{t:"커뮤니티 · "+({dm:"개인",grp:"단체",wc:"전체",rp:"지역",rproom:"RP ROOM"}[hubTab]||"")}),h("span",{c:"grow"}),h("span",{c:"xs mt",t:"접속 "+online.size+"명 · 휴대폰 문자와는 별개"})));
+ if(hubTab==="rproom"){const w=h("div",{c:"rrw"});v.append(w);rRpRoom(w);v.className="commv";return}
  const list=(arr)=>{const box=h("div",{c:"hubl"});arr.forEach(x=>box.append(x));v.className="commv";v.append(box)};
  if(hubTab==="wc"||hubTab==="rp"){room=hubTab;dmWith=null;grpId=null;chatBox(v);markSeen(hubTab,Date.now());return}
  if(hubTab==="dm"){if(hubDm&&chars[hubDm]){v.append(btn("← 목록",()=>{hubDm=null;ocOn=false;render(true)},"sm",{style:"align-self:flex-start;margin-bottom:6px"}));room="hdm";dmWith=hubDm;grpId=null;chatBox(v);markSeen("hdm:"+hubDm,Date.now());return}
@@ -7453,7 +7557,7 @@ applyBound();
    lst("gchat",150,a=>{gchat=a;onMsg()},true);lst("dm",200,a=>{dms=a;onMsg()},true);lst("gmsg",300,a=>{gmsgs=a;onMsg()},true);lst("pchat",150,a=>{pchats=a;onMsg();ptFeedUpd()},true);
    lst("payouts",100,a=>{payouts=a;claimPayouts();navDots();if(tab==="home")render(true)},true);lst("freq",200,a=>{freqs=a;procFreq().catch(()=>{});fqInit=true;updDot()},true);lst("calls",100,a=>{calls=a;updDot()});return}
   mySub("dm",uid,ft("dm"),a=>{dms=a.slice(-400);onMsg()});
-  mySub("hoc",uid,[db.collection("hoc").where("to","==",uid)],a=>{hoNt=a.filter(x=>x.by!==uid);honNotify()});
+  mySub("hoc",uid,[db.collection("hoc").where("to","==",uid)],a=>{hoNt=a.filter(x=>x.by!==uid&&x.bd!=="rp");rrNt=a.filter(x=>x.by!==uid&&x.bd==="rp");honNotify()});
   mySub("calls",uid,ft("calls"),a=>{calls=a.slice(-100);if(phoneOn&&(ph.scr==="dial"||ph.scr==="home"))phRender();updDot()});
   mySub("freq",uid,ft("freq"),a=>{freqs=a.slice(-200);procFreq().catch(()=>{});fqInit=true;if(phoneOn&&["contacts","person","home","newgrp"].includes(ph.scr)&&!(document.activeElement&&document.activeElement.id==="pmsg"))phRender();updDot()});
   mySub("payouts",uid,ft("payouts"),a=>{payouts=a;claimPayouts();navDots();if(tab==="home")render(true)});
