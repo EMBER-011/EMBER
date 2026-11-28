@@ -753,7 +753,7 @@ const APPCHECK_KEY="";
 const ID_DOMAIN="@ember.local";
 
 /* ===== 새 버전 알림: 몇 분마다 서버의 파일을 확인해서, 새로 올라왔으면 새로고침 버튼을 띄움 ===== */
-const BUILD="20261129071000";
+const BUILD="20261129081000";
 (function(){
  try{const u=new URL(location.href);if(u.searchParams.has("v")&&!u.searchParams.has("invite")){u.searchParams.delete("v");history.replaceState(null,"",u.pathname+(u.search||"")+u.hash)}}catch(e){}
  let shown=false,busy=false;
@@ -4831,8 +4831,8 @@ function resOf(mid,mt){const d=gates[resId(mid,mt)];return d||null}
 const resBusy=d=>d&&(d.st==="run"||d.st==="found")&&Date.now()-(d.u||d.t)<12*6e4;
 function misRows(box){const L=misList();if(!L.length)return;box.append(h("div",{c:"missh",t:"실종된 헌터 "+L.length}));
  L.forEach(({id,c,m})=>{const d=resOf(id,m.t),mine=id===uid,left=m.t+MIS_MS;
-  box.append(h("div",{c:"lrow misr"},h("div",{c:"grow"},h("b",{c:"sm",t:c.name+(mine?" (나)":"")}),h("div",{c:"xs mt",t:m.lab+"에서 실종"}),Date.now()<left?h("div",{c:"xs bad"},"협회 구조 신호까지 ",h("b",{"data-u":left,t:fmt(Math.ceil((left-Date.now())/1000))})):h("div",{c:"xs bad",t:"실종 10분 넘음 · 아직 구조할 수 있습니다"})),
-   mine?h("span",{c:"xs mt",t:resBusy(d)?"구조대가 오는 중":"구조 대기"}):resBusy(d)?h("span",{c:"xs gold",t:(chars[d.by]?chars[d.by].name:"누군가")+" 팀 구조 중"}):btn("게이트 열기",()=>askRescue(id),"pri sm")))})}
+  box.append(h("div",{c:"lrow misr"},h("div",{c:"grow"},h("b",{c:"sm",t:c.name+(mine?" (나)":"")}),h("div",{c:"xs mt",t:m.lab+"에서 실종"}),Date.now()<left?h("div",{c:"xs bad"},"협회 구조 신호까지 ",h("b",{"data-u":left,t:fmt(Math.ceil((left-Date.now())/1000))})):h("div",{c:"xs bad",t:"실종 10분 넘음 · 협회 구조 대기 중"})),
+   mine?h("span",{c:"xs mt",t:resBusy(d)?"구조대가 오는 중":"구조 대기"}):resBusy(d)?(d.by===uid?btn("이어서 구조하기",()=>wrap(()=>resumeRescue(id)),"pri sm"):h("span",{c:"xs gold",t:(chars[d.by]?chars[d.by].name:"누군가")+" 팀 구조 중"})):Date.now()>=left?h("span",{c:"xs mt",t:"협회 구조 대기"}):btn("게이트 열기",()=>askRescue(id),"pri sm")))})}
 function askRescue(mid){const c=chars[mid];if(!c||!c.mis)return;const pt=me.party&&parties[me.party],n=pt?pt.members.filter(id=>id===uid||chars[id]&&online.has(id)&&!chars[id].auto&&!chars[id].trip&&!lockMsg(chars[id])).length:1;
  openPop(h("div",{c:"h0",t:"닫힌 게이트 열기"}),h("p",{c:"sm",t:c.name+" 헌터가 "+c.mis.lab+" 안에 갇혀 있습니다. 게이트 주변의 의태종과 세 번 싸워 이기면 닫힌 게이트를 억지로 열 수 있습니다."}),
   h("p",{c:"xs mt",t:"혼자서도, 파티(최대 4명)로도 갈 수 있습니다. 접속 중인 파티원이 함께 들어갑니다 · 지금 "+n+"명"}),
@@ -4842,14 +4842,21 @@ async function startRescue(mid){if(hospBlock())return;const lk=lockMsg();if(lk)r
  if(s.exists&&resBusy(s.data())&&s.data().by!==uid)return toast("다른 팀이 구조 중입니다");if(s.exists&&(s.data().st==="esc"||s.data().st==="clear"))return toast("이미 구조됐습니다");
  await ref.set({t:Date.now(),u:Date.now(),kind:"res",mid,mt:m.t,by:uid,byn:me.name,st:"run",stage:0});
  return startGateBattle({id,kind:"r",grade:m.grade||"D",mid,stage:1})}
+/* 구조하던 사람이 창을 닫아 버렸을 때 이어서 진행 */
+async function resumeRescue(mid){if(hospBlock())return;const lk=lockMsg();if(lk)return toast(lk);if(me.trip)return toast("이동 중입니다");if(me.ag)return toast("자동 채집 중입니다 · 행동을 중단하십시오.");if(me.auto)return toast("자동 전투 중입니다");if(inB())return toast("전투 중입니다");if(conBlocked())return toast("오염도 100% — 격리실 치료가 필요합니다");
+ const c=chars[mid],m=c&&c.mis;if(!m||Date.now()>=m.t+MIS_MAX)return toast("이미 협회가 회수했습니다");const id=resId(mid,m.t),ref=db.doc("gates/"+id),s=await ref.get();if(!s.exists)return toast("구조 기록을 찾을 수 없습니다");const d=s.data();
+ if(d.by!==uid)return toast("다른 팀이 구조 중입니다");if(d.st==="esc"||d.st==="clear")return toast("이미 구조됐습니다");if(d.st==="fail")return toast("이미 끝난 구조입니다");
+ const g={id,kind:"r",grade:m.grade||"D",mid};await ref.update({u:Date.now()});
+ if(d.st==="found")return rescueAfter({st:"won",gate:{...g,stage:RES_ST}},1);
+ return startGateBattle({...g,stage:Math.min(RES_ST,(d.stage||0)+1)})}
 function resMon(gt){const m=chars[gt.mid]&&chars[gt.mid].mis;if(!m)return null;const R=REG[m.reg]&&REG[m.reg].mon?REG[m.reg]:REG[me.loc].mon?REG[me.loc]:REG.ruins,base=GLV[m.grade]||R.lv,rk=Object.keys(REG).find(k=>REG[k]===R);
  if(gt.stage<=RES_ST){const x=pickMon(R);return{reg:rk,mo:{n:x[0],at:x[1]},lv:Math.max(1,base-3+ri(3)),hp:1,at:1,lab:"닫힌 게이트 수색 "+gt.stage+"/"+RES_ST}}
  return{reg:rk,mo:gSpec({id:m.gid||("m"+m.t)}),lv:base+ri(3),hp:1.25,at:1.15,lab:m.lab+" 최심부 (닫힌 게이트)"}}
 /* 전투 정산 뒤 (구조대 리더가 진행) */
-async function rescueAfter(b){const g=b.gate,ref=db.doc("gates/"+g.id);let s;try{s=await ref.get()}catch(e){return}if(!s.exists)return;const d=s.data(),now=Date.now();
+async function rescueAfter(b,resume){const g=b.gate,ref=db.doc("gates/"+g.id);let s;try{s=await ref.get()}catch(e){return}if(!s.exists)return;const d=s.data(),now=Date.now();
  if(d.st==="esc"||d.st==="clear"||d.st==="fail")return;
  if(b.st!=="won"){if(d.by===uid){await ref.update({st:"fail",u:now});toast("구조 실패… 실종자를 데려오지 못했다")}return}
- try{await krFindChk(g)}catch(e){}
+ if(!resume)try{await krFindChk(g)}catch(e){}
  if(d.by!==uid)return;
  if(g.stage<RES_ST){await ref.update({stage:g.stage,u:now});setTimeout(()=>openPop(h("div",{c:"h0",t:"수색 "+g.stage+" / "+RES_ST}),h("p",{c:"sm",t:"게이트의 파장이 조금씩 흔들린다. 계속 나아갈까?"}),
    h("div",{c:"row",style:"margin-top:12px"},btn("다음 전투",async()=>{closePop();await startGateBattle({...g,stage:g.stage+1})},"pri grow"),btn("포기하고 나가기",async()=>{closePop();await ref.update({st:"fail",u:Date.now()});toast("구조를 포기했다")},"grow"))),1000)}
